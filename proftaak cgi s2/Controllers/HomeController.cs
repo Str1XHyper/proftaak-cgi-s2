@@ -26,5 +26,12 @@ namespace proftaak_cgi_s2.Controllers
 
             return View();
         }
+
+        public ActionResult LoginPage()
+        {
+            ViewBag.Message = "Log-in to Stand-By Planner App!";
+
+            return View();
+        }
     }
 }
