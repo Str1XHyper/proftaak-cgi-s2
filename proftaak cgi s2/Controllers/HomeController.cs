@@ -33,5 +33,11 @@ namespace proftaak_cgi_s2.Controllers
 
             return View();
         }
+
+        public ActionResult ShiftView()
+        {
+            ViewBag.Message = "test";
+            return View();
+        }
     }
 }
