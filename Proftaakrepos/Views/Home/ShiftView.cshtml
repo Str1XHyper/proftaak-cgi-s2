@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "ShiftView";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string currentId = "1";
 }
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 
@@ -33,18 +34,18 @@
         }
         catch (Exception ex)
         {
-            return new string[] { "Can not open connection ! " + ex.Message.ToString()};
+            return new string[] { "Can not open connection ! " + ex.Message.ToString() };
         }
     }
 
-    private int Entries()
+    private int EntryCount()
     {
         MySqlConnection cnn;
         string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
         cnn = new MySqlConnection(connetionString);
         MySqlCommand cmd = new MySqlCommand();
         cmd.Connection = cnn;
-        cmd.CommandText = $"Select count(UserIdIssuer) From TradeRequest";
+        cmd.CommandText = $"Select count(TradeId) From TradeRequest";
         try
         {
             var someValue = new object();
@@ -52,7 +53,7 @@
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                someValue = reader["count(UserIdIssuer)"];
+                someValue = reader["count(TradeId)"];
                 // Do something with someValue
             }
             cnn.Close();
@@ -74,7 +75,7 @@
         cmd.CommandText = $"Select * From TradeRequest Where TradeId = {TradeID}";
         try
         {
-            string[] returnStrings = new string[6];
+            string[] returnStrings = new string[7];
             cnn.Open();
             var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -105,16 +106,35 @@
     <div class="RequestsRecieved">
         @{
 
-            for (int i = 0; i < Entries(); i++)
+            for (int i = 0; i < EntryCount(); i++)
             {
                 string[] requestOutput = GetRequest(i);
-                string[] userIDDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
+                string[] disabledIds = requestOutput[6].Split(" ");
+                string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
 
-                <div class="exampleRequest">
-                    <span class="requestText"> @requestOutput[2] to @requestOutput[3] <span>- @userIDDetails[1] @userIDDetails[2] @userIDDetails[3]</span></span>
-                    <img src="~/img/check-solid.svg" alt="No" class="add">
-                    <img src="~/img/ban-solid.svg" alt="No" class="block">
-                </div>
+                string date = requestOutput[2].Split(" ")[0];
+                string startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
+                string endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+
+                bool printRequest = true;
+                foreach (string id in disabledIds)
+                {
+                    if (currentId == id || @requestOutput[1].ToLower() == "true")
+                    {
+                        printRequest = false;
+                    }
+                }
+
+                if (printRequest)
+                {
+                    <div class="exampleRequest">
+                        <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
+                        <a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post">
+                            <img src="~/img/check-solid.svg" alt="No" class="add">
+                        </a>
+                        <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post"><img src="~/img/ban-solid.svg" alt="No" class="block"></a>
+                    </div>
+                }
             }
         }
     </div>
