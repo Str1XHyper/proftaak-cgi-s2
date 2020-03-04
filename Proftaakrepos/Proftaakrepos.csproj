@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Models\NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\img\img_avatar.png" />
   </ItemGroup>
 
