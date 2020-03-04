@@ -1,0 +1,30 @@
+﻿@model AddEmployeeModel
+@{
+    ViewData["Title"] = "AddEmployee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AddEmployee</h1>
+
+<form method="post" asp-controller="Authentication" asp-action="AddEmployee">
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="GebruikersNaam"></label>
+        <input asp-for="GebruikersNaam" />
+        <span asp-validation-for="GebruikersNaam"></span>
+    </div>
+    <div>
+        <label asp-for="Wachtwoord"></label>
+        <input asp-for="Wachtwoord" />
+        <span asp-validation-for="Wachtwoord"></span>
+    </div>
+    <div>
+        <label asp-for="BevestigWachtwoord"></label>
+        <input asp-for="BevestigWachtwoord" />
+        <span asp-validation-for="BevestigWachtwoord"></span>
+    </div>
+    <div>
+        <input type="submit" value="AddEmployee" />
+    </div>
+</form>
