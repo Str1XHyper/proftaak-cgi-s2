@@ -1,4 +1,5 @@
 ﻿@using MySql.Data.MySqlClient;
+
 @{
     ViewData["Title"] = "ShiftView";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,30 +7,33 @@
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 
 @functions {
-    private string Username(int UserID)
+    private string[] GetNameByUID(int UserID)
     {
         MySqlConnection cnn;
         string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
         cnn = new MySqlConnection(connetionString);
         MySqlCommand cmd = new MySqlCommand();
         cmd.Connection = cnn;
-        cmd.CommandText = $"Select Username From Login Where UserId = {UserID}";
+        cmd.CommandText = $"Select * From Werknemers Where UserId = {UserID}";
         try
         {
-            var someValue = new object();
+            string[] returnStrings = new string[10];
             cnn.Open();
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                someValue = reader["Username"];
-                // Do something with someValue
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                }
+                break;
             }
             cnn.Close();
-            return someValue.ToString();
+            return returnStrings;
         }
         catch (Exception ex)
         {
-            return "Can not open connection ! " + ex.Message.ToString();
+            return new string[] { "Can not open connection ! " + ex.Message.ToString()};
         }
     }
 
@@ -59,6 +63,37 @@
             return -1;
         }
     }
+
+    private string[] GetRequest(int TradeID)
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select * From TradeRequest Where TradeId = {TradeID}";
+        try
+        {
+            string[] returnStrings = new string[6];
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                }
+                break;
+            }
+            cnn.Close();
+            return returnStrings;
+        }
+        catch (Exception ex)
+        {
+            //"Can not open connection ! " + ex.Message.ToString()
+            return null;
+        }
+    }
 }
 
 <div class="window">
@@ -69,11 +104,14 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            
+
             for (int i = 0; i < Entries(); i++)
             {
+                string[] requestOutput = GetRequest(i);
+                string[] userIDDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
+
                 <div class="exampleRequest">
-                    <span class="requestText">Example request <span>- @Username(i+1)</span></span>
+                    <span class="requestText"> @requestOutput[2] to @requestOutput[3] <span>- @userIDDetails[1] @userIDDetails[2] @userIDDetails[3]</span></span>
                     <img src="~/img/check-solid.svg" alt="No" class="add">
                     <img src="~/img/ban-solid.svg" alt="No" class="block">
                 </div>
