@@ -9,6 +9,12 @@
     width: 100%;
 }
 
+.incommingH1,
+.createH1 {
+    margin-left: 30px;
+    font-size: 32px;
+}
+
 .RequestsRecieved,
 .CreateRequest {
     position: relative;
