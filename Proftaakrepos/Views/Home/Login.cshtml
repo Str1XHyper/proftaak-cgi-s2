@@ -1,4 +1,4 @@
-﻿
+﻿@model LoginModel
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_NoNavLayout.cshtml";
@@ -7,20 +7,35 @@
 <center>
     <div class="login-page">
         <div class="form">
-            <form class="register-form">
-                <input type="text" placeholder="name" />
-                <input type="password" placeholder="password" />
-                <input type="text" placeholder="email address" />
-                <button>create</button>
-                <p class="message">Already registered? <a href="index.cshtml">Sign In</a></p>
+            @*<form class="login-form" method="post" asp-action="Login" asp-controller="Authentication">
+                <div asp-validation-summary="All"></div>*@
+                    <img class="avatar" draggable="false" src="~/img/img_avatar.png" />
+                    @*<input type="text" placeholder="E-mail" />
+                    <input type="password" placeholder="Wachtwoord" />*@
+                    <button type="button" onclick="location.href='@Url.Action("ShiftView", "Home")'" class="FormButton">Login</button>
+            @*</form>*@
+
+
+            <form class="login-form" method="post" asp-action="Login" asp-controller="Authentication">
+                <div asp-validation-summary="All"></div>
+                <div>
+                    <input asp-for="Username" placeholder="E-mail"/>
+                    <span asp-validation-for="Username"></span>
+                </div>
+                <div>
+                    <input asp-for="Password" placeholder="Wachtwoord"/>
+                    <span asp-validation-for="Password"></span>
+                </div>
+
+                <div>
+                    <input type="submit" value="Log in" />
+                </div>
             </form>
-            <form class="login-form">
-                <img class="avatar" draggable="false" src="~/img/img_avatar.png"/>
-                <input type="text" placeholder="username" />
-                <input type="password" placeholder="password" />
-                <button type="button" onclick="location.href='@Url.Action("ShiftView", "Home")'" class="FormButton">Login</button>
-                <p class="message">Not registered? <a href="">Create an account</a></p>
-            </form>
+
+
+
+
+
         </div>
     </div>
 </center>
