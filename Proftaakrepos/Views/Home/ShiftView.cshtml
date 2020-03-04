@@ -1,37 +1,12 @@
-﻿@using MySql.Data.MySqlClient;
+﻿
 @{
     ViewData["Title"] = "ShiftView";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 
-@functions {
-    private string Username(int UserID)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select Username From Login Where UserId = {UserID}";
-        try
-        {
-            var someValue = new object();
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                someValue = reader["Username"];
-                // Do something with someValue
-            }
-            cnn.Close();
-            return someValue.ToString();
-        }
-        catch (Exception ex)
-        {
-            return "Can not open connection ! " + ex.Message.ToString();
-        }
-    }
+@{ 
+
 }
 
 <div class="window">
@@ -41,16 +16,41 @@
     <h1 class="incommingH1">Incomming requests</h1>
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
-        @{
-            for (int i = 1; i < 4; i++)
-            {
-                <div class="exampleRequest">
-                    <span class="requestText">Example request <span>- @Username(i)</span></span>
-                    <img src="~/img/check-solid.svg" alt="No" class="add">
-                    <img src="~/img/ban-solid.svg" alt="No" class="block">
-                </div>
-            }
-        }
+        <div class="exampleRequest">
+            <span class="requestText">Example request <span>- user</span></span>
+            <img src="~/img/check-solid.svg" alt="No" class="add">
+            <img src="~/img/ban-solid.svg" alt="No" class="block">
+        </div>
+        <div class="exampleRequest">
+            <span class="requestText">Example request <span>- user</span></span>
+            <img src="~/img/check-solid.svg" alt="No" class="add">
+            <img src="~/img/ban-solid.svg" alt="No" class="block">
+        </div>
+        <div class="exampleRequest">
+            <span class="requestText">Example request <span>- user</span></span>
+            <img src="~/img/check-solid.svg" alt="No" class="add">
+            <img src="~/img/ban-solid.svg" alt="No" class="block">
+        </div>
+        <div class="exampleRequest">
+            <span class="requestText">Example request <span>- user</span></span>
+            <img src="~/img/check-solid.svg" alt="No" class="add">
+            <img src="~/img/ban-solid.svg" alt="No" class="block">
+        </div>
+        <div class="exampleRequest">
+            <span class="requestText">Example request <span>- user</span></span>
+            <img src="~/img/check-solid.svg" alt="No" class="add">
+            <img src="~/img/ban-solid.svg" alt="No" class="block">
+        </div>
+        <div class="exampleRequest">
+            <span class="requestText">Example request <span>- user</span></span>
+            <img src="~/img/check-solid.svg" alt="No" class="add">
+            <img src="~/img/ban-solid.svg" alt="No" class="block">
+        </div>
+        <div class="exampleRequest">
+            <span class="requestText">Example request <span>- user</span></span>
+            <img src="~/img/check-solid.svg" alt="No" class="add">
+            <img src="~/img/ban-solid.svg" alt="No" class="block">
+        </div>
     </div>
     <div class="bottomSpacer1"></div>
 
