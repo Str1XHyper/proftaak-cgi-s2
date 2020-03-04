@@ -1,10 +1,65 @@
-﻿@page
-@model Proftaakrepos.Views.Home.Index1Model
+﻿@using MySql.Data.MySqlClient;
 @{
-//Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "ShiftView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 
+@functions {
+    private string Username(int UserID)
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select Username From Login Where UserId = {UserID}";
+        try
+        {
+            var someValue = new object();
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                someValue = reader["Username"];
+                // Do something with someValue
+            }
+            cnn.Close();
+            return someValue.ToString();
+        }
+        catch (Exception ex)
+        {
+            return "Can not open connection ! " + ex.Message.ToString();
+        }
+    }
+
+    private int Entries()
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select count(UserIdIssuer) From TradeRequest";
+        try
+        {
+            var someValue = new object();
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                someValue = reader["count(UserIdIssuer)"];
+                // Do something with someValue
+            }
+            cnn.Close();
+            return Convert.ToInt32(someValue);
+        }
+        catch (Exception ex)
+        {
+            return -1;
+        }
+    }
+}
 
 <div class="window">
     <h1>ShiftView</h1>
@@ -13,11 +68,17 @@
     <h1 class="incommingH1">Incomming requests</h1>
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
-        <div class="exampleRequest">
-            <span class="requestText">Example request <span>- user</span></span>
-            <a><img src="~/img/check-solid.svg" alt="No" class="add"></a>
-            <a><img src="~/img/ban-solid.svg" alt="No" class="block"></a>
-        </div>
+        @{
+            
+            for (int i = 0; i < Entries(); i++)
+            {
+                <div class="exampleRequest">
+                    <span class="requestText">Example request <span>- @Username(i+1)</span></span>
+                    <img src="~/img/check-solid.svg" alt="No" class="add">
+                    <img src="~/img/ban-solid.svg" alt="No" class="block">
+                </div>
+            }
+        }
     </div>
     <div class="bottomSpacer1"></div>
 
