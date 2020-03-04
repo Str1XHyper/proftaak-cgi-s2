@@ -9,3 +9,60 @@
     width: 100%;
 }
 
+.RequestsRecieved,
+.CreateRequest {
+    position: relative;
+    background-color: #c4c4c4;
+    width: 1050px;
+    height: 350px;
+    margin: 0 auto;
+    padding-top: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.topSpacer1 {
+    position: relative;
+    top: 10px;
+    width: 1000px;
+    height: 10px;
+    margin: 0 auto;
+    background-color: #c4c4c4;
+    z-index: 1;
+}
+
+.bottomSpacer1 {
+    position: relative;
+    top: -10px;
+    width: 1000px;
+    height: 10px;
+    margin: 0 auto;
+    background-color: #c4c4c4;
+}
+
+.exampleRequest {
+    display:grid;
+    grid-template-columns: 90% 5% 5%;
+    width: 950px;
+    height: 80px;
+    margin: 0px auto;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+.requestText {
+    font-size: 24px;
+    font-family: sans-serif;
+    line-height: 80px;
+    padding-left: 10px;
+}
+
+.requestText span {
+    color: #a3a3a3
+}
+
+.exampleRequest img {
+    width: 20px;
+    height: 20px;
+    margin:auto;
+}
