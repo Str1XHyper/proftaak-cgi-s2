@@ -32,6 +32,33 @@
             return "Can not open connection ! " + ex.Message.ToString();
         }
     }
+
+    private int Entries()
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select count(UserIdIssuer) From TradeRequest";
+        try
+        {
+            var someValue = new object();
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                someValue = reader["count(UserIdIssuer)"];
+                // Do something with someValue
+            }
+            cnn.Close();
+            return Convert.ToInt32(someValue);
+        }
+        catch (Exception ex)
+        {
+            return -1;
+        }
+    }
 }
 
 <div class="window">
@@ -42,10 +69,11 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            for (int i = 1; i < 4; i++)
+            
+            for (int i = 0; i < Entries(); i++)
             {
                 <div class="exampleRequest">
-                    <span class="requestText">Example request <span>- @Username(i)</span></span>
+                    <span class="requestText">Example request <span>- @Username(i+1)</span></span>
                     <img src="~/img/check-solid.svg" alt="No" class="add">
                     <img src="~/img/ban-solid.svg" alt="No" class="block">
                 </div>
