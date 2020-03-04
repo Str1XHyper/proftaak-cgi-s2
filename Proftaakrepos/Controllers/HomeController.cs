@@ -20,7 +20,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Index()
         {
-            return View("Login");
+            return View();
         }
 
         public IActionResult Privacy()
@@ -41,6 +41,13 @@ namespace Proftaakrepos.Controllers
         {
             return View();
         }
+
+        public IActionResult Planner()
+        {
+            return View("~/Views/Home/Planner/Index.cshtml");
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
