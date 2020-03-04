@@ -38,9 +38,9 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
-        public IActionResult Planner()
+        public IActionResult Employees()
         {
-            return View("~/Views/Home/Planner/Index.cshtml");
+            return View();
         }
 
 
