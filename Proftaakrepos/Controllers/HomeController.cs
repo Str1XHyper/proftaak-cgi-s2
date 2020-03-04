@@ -42,9 +42,9 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
-        public IActionResult Planner()
+        public IActionResult Employees()
         {
-            return View("~/Views/Home/Planner/Index.cshtml");
+            return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
