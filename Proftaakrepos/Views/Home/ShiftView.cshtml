@@ -105,16 +105,29 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-
             for (int i = 0; i < EntryCount(); i++)
             {
                 string[] requestOutput = GetRequest(i);
                 string[] disabledIds = requestOutput[6].Split(" ");
                 string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
 
-                string date = requestOutput[2].Split(" ")[0];
-                string startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
-                string endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+                string date = "Error";
+                string startTime = "Error";
+                string endTime = "Error";
+
+
+                if (requestOutput[2].Contains("AM") || requestOutput[2].Contains("PM"))
+                {
+                    date = requestOutput[2].Split(" ")[0];
+                    startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
+                    endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+                }
+                else
+                {
+                    date = requestOutput[2].Split(" ")[0];
+                    startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1];
+                    endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1];
+                }
 
                 bool printRequest = true;
                 foreach (string id in disabledIds)
