@@ -2,7 +2,7 @@
 
 namespace Proftaakrepos.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser
     {
         public int ID { get; set; }
         public string name { get; set; }
