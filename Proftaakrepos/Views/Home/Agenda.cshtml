@@ -1,4 +1,6 @@
-﻿@{
+﻿@Model Proftaakrepos.Models.EventModel
+
+@{
     ViewData["Title"] = "Agenda";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -18,25 +20,50 @@
     @*<script src="~/js/myCalendar.js"></script>*@
     <script>
 
+        ///////////////////////////////////////////////
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['timeGrid'],
                 defaultView: 'timeGridWeek',
                 nowIndicator: 'true',
                 minTime: "06:00:00",
                 maxTime: "22:00:00",
-                height: 'auto'
+                height: 'auto',
+                header: {
+                    center: 'addEventButton'
+                },
+                customButtons: {
+                    addEventButton: {
+                        text: 'add event...',
+                        click: function () {
+                            var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                            var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+
+                            if (!isNaN(date.valueOf())) { // valid?
+                                calendar.addEvent({
+                                    title: 'dynamic event',
+                                    start: date,
+                                    allDay: true
+                                });
+                                alert('Great. Now, update your database...');
+                            } else {
+                                alert('Invalid date.');
+                            }
+                        }
+                    }
+                }
             });
+
             calendar.render();
         });
     </script>
 </head>
 
 <body>
-
     <h2>Agenda</h2>
-    <button type="button" class="fc-today-button fc-button">Add event</button>
+    <button type="button" class="fc-today-button fc-button AddEventButton">Add event</button>
     <div id="calendar"></div>
 </body>
 
