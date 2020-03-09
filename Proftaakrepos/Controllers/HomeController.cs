@@ -135,6 +135,8 @@ namespace Proftaakrepos.Controllers
             string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             MySqlCommand cmd = new MySqlCommand();
+            MySqlCommand cmd2 = new MySqlCommand();
+            cmd2.Connection = cnn;
             cmd.Connection = cnn;
             cmd.CommandText = $"Select * from Rooster where EventId = 1";
             try
@@ -150,26 +152,24 @@ namespace Proftaakrepos.Controllers
                     break;
                 }
                 cnn.Close();
-            }
-            catch (Exception ex)
-            {
-                //"Can not open connection ! " + ex.Message.ToString()
-                return null;
-            }
+                string[] startDates = returnStrings[4].Split(" ")[0].Split("/");
+                string startTime = returnStrings[4].Split(" ")[1];
+                string[] endDates = returnStrings[5].Split(" ")[0].Split("/");
+                string endTime = returnStrings[5].Split(" ")[1];
+                Trace.WriteLine($"{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}");
+                cmd2.CommandText = $"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', -1, 0)";
 
-            cmd.CommandText = $"Insert into TradeRequest(`UserIdIssuer`, Status, Start, End, UserIdAcceptor) values({UserID}, 0, `{returnStrings[4]}`, `{returnStrings[5]}`, -1)";
-            try
-            {
                 cnn.Open();
-                var reader = cmd.ExecuteReader();
-                reader.Read();
+                var reader2 = cmd2.ExecuteNonQuery();
                 cnn.Close();
             }
             catch (Exception ex)
             {
                 //"Can not open connection ! " + ex.Message.ToString()
-
+                Trace.WriteLine(ex);
+                return null;
             }
+            
             return RedirectToAction("ShiftView", "Home");
         }
     }
