@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proftaakrepos", "Proftaakre
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{055D8B1C-907B-4F15-8C0E-7C6ECE511DAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data Library", "Data Library\Data Library.csproj", "{D75191CC-7416-4135-8C83-D0744375D6EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "Data Library\DataLibrary.csproj", "{D75191CC-7416-4135-8C83-D0744375D6EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
