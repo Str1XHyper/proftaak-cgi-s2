@@ -12,6 +12,7 @@ namespace Proftaakrepos.Controllers
 {
     public class HomeController : Controller
     {
+        List<EventModel> mockEvents = new List<EventModel>();
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -40,7 +41,11 @@ namespace Proftaakrepos.Controllers
         }
         public IActionResult Agenda()
         {
-            return View();
+            EventModel em = new EventModel("Outcoming", "is mooi", 0);
+            EventModel em2 = new EventModel("Danillo's outcoming", "is semi-mooi", 1);
+            mockEvents.Add(em);
+            mockEvents.Add(em2);
+            return View(mockEvents);
         }
 
         public IActionResult Employees()
