@@ -8,6 +8,37 @@
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 
 @functions {
+    private string[] GetDiensten(int UserID)
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select * From Rooster Where UserId = {UserID}";
+        try
+        {
+            string[] returnStrings = new string[8];
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                }
+                break;
+            }
+            cnn.Close();
+            return returnStrings;
+        }
+        catch (Exception ex)
+        {
+            return new string[] { "Can not open connection ! " + ex.Message.ToString() };
+        }
+    }
+
+
     private string[] GetNameByUID(int UserID)
     {
         MySqlConnection cnn;
@@ -15,7 +46,7 @@
         cnn = new MySqlConnection(connetionString);
         MySqlCommand cmd = new MySqlCommand();
         cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From Werknemers Where UserId = 1";
+        cmd.CommandText = $"Select * From Werknemers Where UserId = {UserID}";
         try
         {
             string[] returnStrings = new string[12];
@@ -156,6 +187,6 @@
     @* Create a request - box *@
     <h1 class="createH1">Create a request</h1>
     <div class="CreateRequest">
-
+        @
     </div>
 </div>
