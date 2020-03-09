@@ -141,7 +141,7 @@
             {
                 string[] requestOutput = GetRequests(i);
                 string[] disabledIds = requestOutput[6].Split(" ");
-                string[] issuerDetails = Model.GetNameByUID(Convert.ToInt32(1));
+                string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
 
                 string date = "Error";
                 string startTime = "Error";
