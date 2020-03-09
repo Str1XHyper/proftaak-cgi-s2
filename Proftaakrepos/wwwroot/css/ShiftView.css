@@ -67,8 +67,15 @@
     color: #a3a3a3
 }
 
-.exampleRequest img {
-    width: 20px;
-    height: 20px;
+.button{
     margin:auto;
+    height: 100%;
+    width: 100%;
+}
+
+.button img{
+    height: inherit;
+    width: inherit;
+    margin: 0 auto;
+    padding: 10px;
 }

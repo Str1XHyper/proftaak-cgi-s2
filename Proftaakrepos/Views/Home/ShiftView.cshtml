@@ -141,7 +141,7 @@
             {
                 string[] requestOutput = GetRequests(i);
                 string[] disabledIds = requestOutput[6].Split(" ");
-                string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
+                string[] issuerDetails = GetNameByUIDs(Convert.ToInt32(requestOutput[0]));
 
                 string date = "Error";
                 string startTime = "Error";
@@ -174,10 +174,12 @@
                 {
                     <div class="exampleRequest">
                         <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
-                        <a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post">
-                            <img src="~/img/check-solid.svg" alt="No" class="add">
+                        <a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
+                            <img src="~/img/check-solid.svg" alt="No">
                         </a>
-                        <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post"><img src="~/img/ban-solid.svg" alt="No" class="block"></a>
+                        <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">
+                            <img src="~/img/ban-solid.svg" alt="No">
+                        </a>
                     </div>
                 }
             }
