@@ -1,0 +1,15 @@
+﻿@model Proftaakrepos.Models.LoginModel
+
+@{
+    ViewData["Title"] = "LoginUser";
+    Layout = "~/Views/Shared/_NoNavLayout.cshtml";
+}
+
+<h1>LoginUser</h1>
+
+@using (Html.BeginForm())
+{
+    <div style="color: red;">@Html.ValidationSummary(true)</div>
+    @Html.EditorFor(m => m);
+    <input type="submit" value="Save" class="submit" />
+}

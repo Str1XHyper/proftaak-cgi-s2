@@ -1,66 +1,73 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MySql.Data.MySqlClient;
 using Proftaakrepos.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
     {
-        //private readonly UserManager<IdentityUser> _userManager;
-        //private readonly SignInManager<IdentityUser> _signInManager;
-
-        //public AuthenticationController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
-        //{
-        //    _userManager = userManager;
-        //    _signInManager = signInManager;
-        //}
-        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
-
-        //[HttpPost]
-        //public IActionResult Login(LoginModel lm)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-
-        //    }
-        //    return View(lm);
-        //}
         [HttpGet]
+        public IActionResult LoginUser()
+        {
+            return View();
+        }
         public IActionResult AddEmployee()
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult LoginUser(LoginModel model)
+        {
+            int i = 0;
+            string connStr = "server=185.182.56.248;user=bartvur381_NGF;database=bartvur381_NGF;password=Bartbart!9";
+            MySqlConnection conn = new MySqlConnection(connStr);
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddEmployee(AddEmployeeModel addEmployeeModel)
-        //{
-            //if (ModelState.IsValid)
-            //{
+            try
+            {
+                conn.Open();
 
-            //    var user = new ApplicationUser { UserName = addEmployeeModel.GebruikersNaam };
-            //    var result = await _userManager.CreateAsync(user, addEmployeeModel.Wachtwoord);
+                string sql = $"SELECT `USERNAME`, AES_DECRYPT(PASSWORD,'CGIKey')  FROM `INLOG` WHERE USERNAME='{model.Username.ToLower()}'";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
 
-            //    if (result.Succeeded)
-            //    {
-            //        await _signInManager.SignInAsync(user, false);
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //    else
-            //    {
-            //        foreach (var error in result.Errors)
-            //        {
-            //            ModelState.AddModelError("", error.Description);
-            //        }
-            //    }
-            //}
-            //return View(addEmployeeModel);
+                while (rdr.Read())
+                {
+                    i++;
+                    if (rdr.GetString(1) == model.Password)
+                    {
+                        return RedirectToAction("Login");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Wrong e-mail or password");
+                        return View(model);
+                    }
+                }
+                rdr.Close();
+                if(i == 0)
+                {
+                    ModelState.AddModelError("", "Wrong e-mail or password");
+                }else if(i != 1)
+                {
+                    ModelState.AddModelError("", "Multiple emails found, please contact a system administrator.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
-        //}
+            conn.Close();
+
+            return View(model);
+        }
 
     }
 }
