@@ -19,7 +19,7 @@
         cmd.CommandText = $"Select * From Rooster Where UserId = {UserID} and EventId = {EventId}";
         try
         {
-            string[] returnStrings = new string[8];
+            string[] returnStrings = new string[9];
             cnn.Open();
             var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -200,7 +200,10 @@
 
                         if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
                         {
-                            <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                            if (dienstInfo[8].ToLower() == "false")
+                            {
+                                <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                            }
                         }
                     }
                 }
