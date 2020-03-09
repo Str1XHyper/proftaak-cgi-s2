@@ -130,13 +130,15 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult CreateRequest(string EventID, string UserID)
         {
-            string[] returnStrings = new string[8];
+            string[] returnStrings = new string[9];
             MySqlConnection cnn;
             string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             MySqlCommand cmd = new MySqlCommand();
             MySqlCommand cmd2 = new MySqlCommand();
+            MySqlCommand cmd3 = new MySqlCommand();
             cmd2.Connection = cnn;
+            cmd3.Connection = cnn;
             cmd.Connection = cnn;
             cmd.CommandText = $"Select * from Rooster where EventId = 1";
             try
@@ -162,6 +164,11 @@ namespace Proftaakrepos.Controllers
                 cnn.Open();
                 var reader2 = cmd2.ExecuteNonQuery();
                 cnn.Close();
+                cmd3.CommandText = $"Update Rooster Set IsPending = 1 where EventId = 2";
+                cnn.Open();
+                cmd3.ExecuteNonQuery();
+                cnn.Close();
+
             }
             catch (Exception ex)
             {
