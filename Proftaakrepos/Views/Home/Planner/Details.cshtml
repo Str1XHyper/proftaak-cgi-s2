@@ -1,0 +1,74 @@
+﻿@page
+@model Proftaakrepos.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>AddEmployee</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.tussenvoegsel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.tussenvoegsel)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.achternaam)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.achternaam)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.eMail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.eMail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.phoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.phoneNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.straatName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.straatName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.huisNummer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.huisNummer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.postcode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.postcode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddEmployee.woonplaats)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddEmployee.woonplaats)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.AddEmployee.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

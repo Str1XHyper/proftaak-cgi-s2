@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "ShiftView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/ShiftView.css" />
+
+
+<div class="window">
+    <h1>ShiftView</h1>
+
+    @* Incomming request box *@
+    <h1 class="incommingH1">Incomming requests</h1>
+    <div class="topSpacer1"></div>
+    <div class="RequestsRecieved">
+        <div class="exampleRequest">
+            <span class="requestText">Example request <span>- user</span></span>
+            <a><img src="~/img/check-solid.svg" alt="No" class="add"></a>
+            <a><img src="~/img/ban-solid.svg" alt="No" class="block"></a>
+        </div>
+    </div>
+    <div class="bottomSpacer1"></div>
+
+    @* Create a request - box *@
+    <h1 class="createH1">Create a request</h1>
+    <div class="CreateRequest">
+
+    </div>
+</div>

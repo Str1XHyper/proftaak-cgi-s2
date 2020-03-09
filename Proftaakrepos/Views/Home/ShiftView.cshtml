@@ -1,0 +1,161 @@
+﻿@using MySql.Data.MySqlClient;
+
+@{
+    ViewData["Title"] = "ShiftView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string currentId = "1";
+}
+<link rel="stylesheet" href="~/css/ShiftView.css" />
+
+@functions {
+    private string[] GetNameByUID(int UserID)
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select * From Werknemers Where UserId = {UserID}";
+        try
+        {
+            string[] returnStrings = new string[10];
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                }
+                break;
+            }
+            cnn.Close();
+            return returnStrings;
+        }
+        catch (Exception ex)
+        {
+            return new string[] { "Can not open connection ! " + ex.Message.ToString() };
+        }
+    }
+
+    private int EntryCount()
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select count(TradeId) From TradeRequest";
+        try
+        {
+            var someValue = new object();
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                someValue = reader["count(TradeId)"];
+                // Do something with someValue
+            }
+            cnn.Close();
+            return Convert.ToInt32(someValue);
+        }
+        catch (Exception ex)
+        {
+            return -1;
+        }
+    }
+
+    private string[] GetRequest(int TradeID)
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select * From TradeRequest Where TradeId = {TradeID}";
+        try
+        {
+            string[] returnStrings = new string[7];
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                }
+                break;
+            }
+            cnn.Close();
+            return returnStrings;
+        }
+        catch (Exception ex)
+        {
+            //"Can not open connection ! " + ex.Message.ToString()
+            return null;
+        }
+    }
+}
+
+<div class="window">
+    <h1>ShiftView</h1>
+
+    @* Incomming request box *@
+    <h1 class="incommingH1">Incoming requests</h1>
+    <div class="topSpacer1"></div>
+    <div class="RequestsRecieved">
+        @{
+            for (int i = 0; i < EntryCount(); i++)
+            {
+                string[] requestOutput = GetRequest(i);
+                string[] disabledIds = requestOutput[6].Split(" ");
+                string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
+
+                string date = "Error";
+                string startTime = "Error";
+                string endTime = "Error";
+
+
+                if (requestOutput[2].Contains("AM") || requestOutput[2].Contains("PM"))
+                {
+                    date = requestOutput[2].Split(" ")[0];
+                    startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
+                    endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+                }
+                else
+                {
+                    date = requestOutput[2].Split(" ")[0];
+                    startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1];
+                    endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1];
+                }
+
+                bool printRequest = true;
+                foreach (string id in disabledIds)
+                {
+                    if (currentId == id || @requestOutput[1].ToLower() == "true")
+                    {
+                        printRequest = false;
+                    }
+                }
+
+                if (printRequest)
+                {
+                    <div class="exampleRequest">
+                        <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
+                        <a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post">
+                            <img src="~/img/check-solid.svg" alt="No" class="add">
+                        </a>
+                        <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post"><img src="~/img/ban-solid.svg" alt="No" class="block"></a>
+                    </div>
+                }
+            }
+        }
+    </div>
+    <div class="bottomSpacer1"></div>
+
+    @* Create a request - box *@
+    <h1 class="createH1">Create a request</h1>
+    <div class="CreateRequest">
+
+    </div>
+</div>
