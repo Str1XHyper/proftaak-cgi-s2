@@ -1,4 +1,4 @@
-﻿@model LoginModel
+﻿@model Proftaakrepos.Models.LoginModel
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_NoNavLayout.cshtml";
@@ -12,7 +12,7 @@
                     <img class="avatar" draggable="false" src="~/img/img_avatar.png" />
                     @*<input type="text" placeholder="E-mail" />
                     <input type="password" placeholder="Wachtwoord" />*@
-                    <button type="button" onclick="location.href='@Url.Action("ShiftView", "Home")'" class="FormButton">Login</button>
+                    @*<button type="button" onclick="location.href='@Url.Action("ShiftView", "Home")'" class="FormButton">Login</button>*@
             @*</form>*@
 
 
@@ -28,7 +28,8 @@
                 </div>
 
                 <div>
-                    @*<input type="submit" value="Log in" />*@
+                    <input type="submit" value="Log in" />
+                    <button onclick="Login()" type="button"></button>
                 </div>
             </form>
 
