@@ -1,4 +1,5 @@
 ﻿@using MySql.Data.MySqlClient;
+@model ShiftView;
 
 @{
     ViewData["Title"] = "ShiftView";
@@ -25,7 +26,7 @@
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                    returnStrings[i] = reader[i].ToString();
                 }
                 break;
             }
@@ -39,7 +40,7 @@
     }
 
 
-    private string[] GetNameByUID(int UserID)
+    private string[] GetNameByUIDs(int UserID)
     {
         MySqlConnection cnn;
         string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
@@ -56,8 +57,8 @@
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
-                }
+                    returnStrings[i] = reader[i].ToString();
+                        }
                 break;
             }
             cnn.Close();
@@ -96,7 +97,7 @@
         }
     }
 
-    private string[] GetRequest(int TradeID)
+    private string[] GetRequests(int TradeID)
     {
         MySqlConnection cnn;
         string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
@@ -113,7 +114,7 @@
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                    returnStrings[i] = reader[i].ToString();
                 }
                 break;
             }
@@ -131,15 +132,14 @@
 <div class="window">
     <h1>ShiftView</h1>
 
-    @* Incomming request box *@
+    @* Incoming request box *@
     <h1 class="incommingH1">Incoming requests</h1>
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            for (int i = 0; i < EntryCount("TradeID", "TradeRequest"); i++)
+            for (int i = 1; i <= EntryCount("TradeID", "TradeRequest"); i++)
             {
-                string[] requestOutput = GetRequest(i + 1);
-
+                string[] requestOutput = GetRequests(i);
                 string[] disabledIds = requestOutput[6].Split(" ");
                 string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
 
