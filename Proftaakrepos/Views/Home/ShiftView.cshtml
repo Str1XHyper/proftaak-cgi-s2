@@ -8,14 +8,14 @@
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 
 @functions {
-    private string[] GetDiensten(int UserID)
+    private string[] GetDiensten(int UserID, int EventId)
     {
         MySqlConnection cnn;
         string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
         cnn = new MySqlConnection(connetionString);
         MySqlCommand cmd = new MySqlCommand();
         cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From Rooster Where UserId = {UserID}";
+        cmd.CommandText = $"Select * From Rooster Where UserId = {UserID} and EventId = {EventId}";
         try
         {
             string[] returnStrings = new string[8];
@@ -136,9 +136,9 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            for (int i = 0; i < EntryCount("TradeID","TradeRequest"); i++)
+            for (int i = 0; i < EntryCount("TradeID", "TradeRequest"); i++)
             {
-                string[] requestOutput = GetRequest(i);
+                string[] requestOutput = GetRequest(i + 1);
                 string[] disabledIds = requestOutput[6].Split(" ");
                 string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
 
@@ -187,8 +187,22 @@
     @* Create a request - box *@
     <h1 class="createH1">Create a request</h1>
     <div class="CreateRequest">
-        @{ 
+        <form asp-action="CreateRequest" asp-controller="Home" method="post">
+            <input type="hidden" value="@currentId" name="UserID"/>
+            <select name="dienst" id="dienst">
+                @{
+                    for (int i = 0; i < EntryCount("EventId", "Rooster"); i++)
+                    {
+                        string[] dienstInfo = GetDiensten(Convert.ToInt32(currentId), i + 1);
 
-        }
+                        if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
+                        {
+                            <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                        }
+                    }
+                }
+            </select>
+            <input type="submit" />
+        </form>
     </div>
 </div>
