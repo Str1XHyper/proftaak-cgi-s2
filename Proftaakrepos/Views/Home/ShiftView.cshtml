@@ -15,10 +15,10 @@
         cnn = new MySqlConnection(connetionString);
         MySqlCommand cmd = new MySqlCommand();
         cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From Werknemers Where UserId = {UserID}";
+        cmd.CommandText = $"Select * From Werknemers Where UserId = 1";
         try
         {
-            string[] returnStrings = new string[10];
+            string[] returnStrings = new string[12];
             cnn.Open();
             var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -38,14 +38,14 @@
         }
     }
 
-    private int EntryCount()
+    private int EntryCount(string column, string table)
     {
         MySqlConnection cnn;
         string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
         cnn = new MySqlConnection(connetionString);
         MySqlCommand cmd = new MySqlCommand();
         cmd.Connection = cnn;
-        cmd.CommandText = $"Select count(TradeId) From TradeRequest";
+        cmd.CommandText = $"Select count({column}) From {table}";
         try
         {
             var someValue = new object();
@@ -53,7 +53,7 @@
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                someValue = reader["count(TradeId)"];
+                someValue = reader[$"count({column})"];
                 // Do something with someValue
             }
             cnn.Close();
@@ -101,20 +101,33 @@
     <h1>ShiftView</h1>
 
     @* Incomming request box *@
-    <h1 class="incommingH1">Incomming requests</h1>
+    <h1 class="incommingH1">Incoming requests</h1>
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-
-            for (int i = 0; i < EntryCount(); i++)
+            for (int i = 0; i < EntryCount("TradeID","TradeRequest"); i++)
             {
                 string[] requestOutput = GetRequest(i);
                 string[] disabledIds = requestOutput[6].Split(" ");
                 string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
 
-                string date = requestOutput[2].Split(" ")[0];
-                string startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
-                string endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+                string date = "Error";
+                string startTime = "Error";
+                string endTime = "Error";
+
+
+                if (requestOutput[2].Contains("AM") || requestOutput[2].Contains("PM"))
+                {
+                    date = requestOutput[2].Split(" ")[0];
+                    startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
+                    endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+                }
+                else
+                {
+                    date = requestOutput[2].Split(" ")[0];
+                    startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1];
+                    endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1];
+                }
 
                 bool printRequest = true;
                 foreach (string id in disabledIds)
