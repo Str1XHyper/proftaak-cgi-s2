@@ -126,5 +126,51 @@ namespace Proftaakrepos.Controllers
 
             return RedirectToAction("ShiftView", "Home");
         }
+
+        [HttpPost]
+        public IActionResult CreateRequest(string EventID, string UserID)
+        {
+            string[] returnStrings = new string[8];
+            MySqlConnection cnn;
+            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+            cnn = new MySqlConnection(connetionString);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = cnn;
+            cmd.CommandText = $"Select * from Rooster where EventId = 1";
+            try
+            {
+                cnn.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                    }
+                    break;
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+                //"Can not open connection ! " + ex.Message.ToString()
+                return null;
+            }
+
+            cmd.CommandText = $"Insert into TradeRequest(`UserIdIssuer`, Status, Start, End, UserIdAcceptor) values({UserID}, 0, `{returnStrings[4]}`, `{returnStrings[5]}`, -1)";
+            try
+            {
+                cnn.Open();
+                var reader = cmd.ExecuteReader();
+                reader.Read();
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+                //"Can not open connection ! " + ex.Message.ToString()
+
+            }
+            return RedirectToAction("ShiftView", "Home");
+        }
     }
 }
