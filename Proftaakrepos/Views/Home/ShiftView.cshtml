@@ -1,4 +1,5 @@
 ﻿@using MySql.Data.MySqlClient;
+@model ShiftView;
 
 @{
     ViewData["Title"] = "ShiftView";
@@ -8,14 +9,45 @@
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 
 @functions {
-    private string[] GetNameByUID(int UserID)
+    private string[] GetDiensten(int UserID, int EventId)
     {
         MySqlConnection cnn;
         string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
         cnn = new MySqlConnection(connetionString);
         MySqlCommand cmd = new MySqlCommand();
         cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From Werknemers Where UserId = 1";
+        cmd.CommandText = $"Select * From Rooster Where UserId = {UserID} and EventId = {EventId}";
+        try
+        {
+            string[] returnStrings = new string[8];
+            cnn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    returnStrings[i] = reader[i].ToString();
+                }
+                break;
+            }
+            cnn.Close();
+            return returnStrings;
+        }
+        catch (Exception ex)
+        {
+            return new string[] { "Can not open connection ! " + ex.Message.ToString() };
+        }
+    }
+
+
+    private string[] GetNameByUIDs(int UserID)
+    {
+        MySqlConnection cnn;
+        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+        cnn = new MySqlConnection(connetionString);
+        MySqlCommand cmd = new MySqlCommand();
+        cmd.Connection = cnn;
+        cmd.CommandText = $"Select * From Werknemers Where UserId = {UserID}";
         try
         {
             string[] returnStrings = new string[12];
@@ -25,8 +57,8 @@
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
-                }
+                    returnStrings[i] = reader[i].ToString();
+                        }
                 break;
             }
             cnn.Close();
@@ -65,7 +97,7 @@
         }
     }
 
-    private string[] GetRequest(int TradeID)
+    private string[] GetRequests(int TradeID)
     {
         MySqlConnection cnn;
         string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
@@ -82,7 +114,7 @@
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
+                    returnStrings[i] = reader[i].ToString();
                 }
                 break;
             }
@@ -100,16 +132,16 @@
 <div class="window">
     <h1>ShiftView</h1>
 
-    @* Incomming request box *@
+    @* Incoming request box *@
     <h1 class="incommingH1">Incoming requests</h1>
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            for (int i = 0; i < EntryCount("TradeID","TradeRequest"); i++)
+            for (int i = 1; i <= EntryCount("TradeID", "TradeRequest"); i++)
             {
-                string[] requestOutput = GetRequest(i);
+                string[] requestOutput = GetRequests(i);
                 string[] disabledIds = requestOutput[6].Split(" ");
-                string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
+                string[] issuerDetails = GetNameByUIDs(Convert.ToInt32(requestOutput[0]));
 
                 string date = "Error";
                 string startTime = "Error";
@@ -142,10 +174,12 @@
                 {
                     <div class="exampleRequest">
                         <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
-                        <a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post">
-                            <img src="~/img/check-solid.svg" alt="No" class="add">
+                        <a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
+                            <img src="~/img/check-solid.svg" alt="No">
                         </a>
-                        <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post"><img src="~/img/ban-solid.svg" alt="No" class="block"></a>
+                        <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">
+                            <img src="~/img/ban-solid.svg" alt="No">
+                        </a>
                     </div>
                 }
             }
@@ -156,6 +190,22 @@
     @* Create a request - box *@
     <h1 class="createH1">Create a request</h1>
     <div class="CreateRequest">
+        <form asp-action="CreateRequest" asp-controller="Home" method="post">
+            <input type="hidden" value="@currentId" name="UserID"/>
+            <select name="dienst" id="dienst">
+                @{
+                    for (int i = 0; i < EntryCount("EventId", "Rooster"); i++)
+                    {
+                        string[] dienstInfo = GetDiensten(Convert.ToInt32(currentId), i + 1);
 
+                        if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
+                        {
+                            <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                        }
+                    }
+                }
+            </select>
+            <input type="submit" />
+        </form>
     </div>
 </div>

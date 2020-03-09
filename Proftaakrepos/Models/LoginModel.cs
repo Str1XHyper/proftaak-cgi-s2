@@ -12,5 +12,11 @@ namespace Proftaakrepos.Models
         [DataType(DataType.Password)]
         public string Password{ get; set; }
 
+        public object Login()
+        {
+            return null;
+        }
+
+
     }
 }
