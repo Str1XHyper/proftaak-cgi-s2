@@ -113,8 +113,8 @@
                 string[] issuerDetails = GetNameByUID(Convert.ToInt32(requestOutput[0]));
 
                 string date = requestOutput[2].Split(" ")[0];
-                string startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
-                string endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+                string startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " ";
+                string endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " ";
 
                 bool printRequest = true;
                 foreach (string id in disabledIds)
