@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using Proftaakrepos.Data;
 using ClassLibrary;
 using ClassLibrary.Classes;
+using Microsoft.AspNetCore.Http;
+
 
 namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
     {
+
         private CreateLoginCookie createLoginCookie = new CreateLoginCookie();
         [HttpGet]
         public IActionResult Login()
@@ -27,11 +30,13 @@ namespace Proftaakrepos.Controllers
             switch (response)
             {
                 case "redirectHome":
-                    createLoginCookie.CreateCookie(model.Username);
+                    //createLoginCookie.CreateCookie(model.Username);
+                    string authCode = createLoginCookie.getAuthToken(model.Username);
+                    HttpContext.Session.SetString("UserInfo", authCode);
                     return RedirectToAction("Index", "Home");
                     break;
                 case "wrongEntry":
-                    ModelState.AddModelError("", "Wrong e-mail or password");
+                    ModelState.AddModelError("", "Wrong e-mail or password.");
                     break;
                 case "multipleEntries":
                     ModelState.AddModelError("", "Multiple emails found, please contact a system administrator.");
@@ -46,6 +51,8 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult AddEmployee()
         {
+            string authCode = "738465773";
+            HttpContext.Session.SetString("UserInfo", authCode);
             return View();
         }
 

@@ -1,13 +1,12 @@
-﻿
+﻿@using Microsoft.AspNetCore.Session;
+@using Microsoft.AspNetCore.Http;
 @{
     ViewData["Title"] = "Home Page";
 }
-@using RestSharp;
-@using Microsoft.AspNetCore.Http.Features;
-@{      
-}
+
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>@Cookie.Value</p>
+    <div style="color: red;">@Html.ValidationSummary(true)</div>
 </div>

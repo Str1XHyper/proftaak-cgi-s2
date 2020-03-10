@@ -6,6 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TagHelpers\**" />
+    <Compile Remove="Views\Employees\**" />
+    <Content Remove="TagHelpers\**" />
+    <Content Remove="Views\Employees\**" />
+    <EmbeddedResource Remove="TagHelpers\**" />
+    <EmbeddedResource Remove="Views\Employees\**" />
+    <None Remove="TagHelpers\**" />
+    <None Remove="Views\Employees\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Models\NewFile.txt" />
   </ItemGroup>
 
@@ -37,11 +48,6 @@
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\..\..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.19\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TagHelpers\" />
-    <Folder Include="Views\Employees\" />
   </ItemGroup>
 
   <ItemGroup>

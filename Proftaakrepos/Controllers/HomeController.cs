@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proftaakrepos.Models;
 using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.Http;
 
 namespace Proftaakrepos.Controllers
 {
@@ -22,6 +23,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Index()
         {
+            ModelState.AddModelError("", HttpContext.Session.GetString("UserInfo"));
             return View();
         }
 
@@ -37,6 +39,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult ShiftView()
         {
+            ViewData["msg"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
 

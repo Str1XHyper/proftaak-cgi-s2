@@ -1,10 +1,14 @@
 ﻿@using MySql.Data.MySqlClient;
+@using Microsoft.AspNetCore.Http;
+@using ClassLibrary.Classes;
 @model ShiftView;
 
 @{
     ViewData["Title"] = "ShiftView";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string currentId = "1";
+    string authCode = ViewData["msg"].ToString();
+    SQLConnection sQLConnection = new SQLConnection();
+    string currentId = sQLConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];
 }
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 
@@ -58,7 +62,7 @@
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
                     returnStrings[i] = reader[i].ToString();
-                        }
+                }
                 break;
             }
             cnn.Close();
@@ -170,6 +174,11 @@
                     }
                 }
 
+                if (currentId == requestOutput[0])
+                {
+                    printRequest = false;
+                }
+
                 if (printRequest)
                 {
                     <div class="exampleRequest">
@@ -188,10 +197,10 @@
     <div class="bottomSpacer1"></div>
 
     @* Create a request - box *@
-    <h1 class="createH1">Create a request</h1>
+    <h1 class="createH1">Create a request | @authCode</h1>
     <div class="CreateRequest">
         <form asp-action="CreateRequest" asp-controller="Home" method="post">
-            <input type="hidden" value="@currentId" name="UserID"/>
+            <input type="hidden" value="@currentId" name="UserID" />
             <select name="dienst" id="dienst">
                 @{
                     for (int i = 0; i < EntryCount("EventId", "Rooster"); i++)

@@ -22,7 +22,12 @@ namespace Proftaakrepos
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddSession();
+
+            services.AddDistributedMemoryCache();
             services.AddControllersWithViews();
+            //MvcOptions.EnableEndpointRouting = false;
 
             services.AddDbContext<ProftaakreposContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("ProftaakreposContext")));
@@ -33,6 +38,16 @@ namespace Proftaakrepos
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // IMPORTANT: This session call MUST go before UseMvc()
+            app.UseSession();
+
+            // Add MVC to the request pipeline.
+            //app.UseMvc(routes =>
+            //  {
+            //      routes.MapRoute(
+            //          name: "default",
+            //          template: "{controller=Authentication}/{action=Login}/{id?}");
+            //  });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -49,6 +64,7 @@ namespace Proftaakrepos
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

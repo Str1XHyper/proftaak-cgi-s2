@@ -2,7 +2,8 @@
 //using RestSharp;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Session;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ClassLibrary.Classes
 {
@@ -11,26 +12,11 @@ namespace ClassLibrary.Classes
         private string authCode;
         private SQLConnection sqlConnection = new SQLConnection();
         private string userID;
-        public void CreateCookie(string username)
+        public string getAuthToken(string username)
         {
             userID = GetUserID(username);
             authCode = GetAuthCode(userID);
-
-            
-
-
-            //ResponseCookiesFeature responseCookiesFeature = new ResponseCookiesFeature(keyValuePairs);
-            //responseCookiesFeature.Cookies.Append("Authentication", authCode);
-            //CookieOptions option = new CookieOptions();
-            //ResponseCookiesFeature.Cookies.Append("UserAuth", authCode, option);
-            //IRequestCookieCollection pairs = new IRequestCookieCollection();
-            
-            
-
-            //HttpCookie cookie = new HttpCookie();
-            //cookie.Name = "UserInfo";
-            //cookie.Value = authCode;
-            //cookie.Domain = "https://www.cgi.com";
+            return authCode;
         }
 
         private string GetAuthCode(string UserID)
