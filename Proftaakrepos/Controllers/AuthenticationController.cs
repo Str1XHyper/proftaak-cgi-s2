@@ -10,7 +10,6 @@ namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
     {
-        public Proftaakrepos.Classes.Class c = new Proftaakrepos.Classes.Class();
         [HttpGet]
         public IActionResult Login()
         {
