@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <Folder Include="TagHelpers\" />
+    <Folder Include="Views\Employees\" />
   </ItemGroup>
 
 </Project>
