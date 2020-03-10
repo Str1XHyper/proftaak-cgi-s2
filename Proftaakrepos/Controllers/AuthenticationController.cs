@@ -5,7 +5,6 @@ using Proftaakrepos.Models;
 using System;
 using System.Threading.Tasks;
 
-
 namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller

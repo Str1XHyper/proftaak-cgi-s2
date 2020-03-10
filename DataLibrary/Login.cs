@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DataLibrary.Models;
+using System.Configuration;
 
 namespace DataLibrary
 {
-    class Login
+    public static class Login
     {
         private static string connStr = "server=185.182.57.161;user=tijnvcd415_Proftaak; database=tijnvcd415_Proftaak;password=Proftaak";
         private enum responses {redirectHome, wrongEntry, multipleEntries, massiveError};
-        public Enum LoginUserFunction(LoginModel model)
+        public static Enum LoginUserFunction(LoginModel model)
         {
             int i = 0;
             MySqlConnection conn = new MySqlConnection(connStr);
@@ -55,4 +56,4 @@ namespace DataLibrary
         }
 
     }
-    }
+}
