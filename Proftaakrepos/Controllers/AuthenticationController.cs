@@ -10,7 +10,6 @@ namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
     {
-
         public Proftaakrepos.Classes.Class c = new Proftaakrepos.Classes.Class();
         [HttpGet]
         public IActionResult Login()
@@ -21,7 +20,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            Proftaakrepos.Data.LoginClass.Test();
+            //Proftaakrepos.Data.LoginClass.Test();
             int i = 0;
             string connStr = "server=185.182.57.161;user=tijnvcd415_Proftaak; database=tijnvcd415_Proftaak;password=Proftaak";
             MySqlConnection conn = new MySqlConnection(connStr);

@@ -7,5 +7,9 @@ namespace Proftaakrepos.Classes
 {
     public class Class
     {
+        public string test()
+        {
+            return "It works";
+        }
     }
 }
