@@ -1,22 +1,13 @@
 ﻿using MySql.Data.MySqlClient;
-using RestSharp;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http.Authentication;
-using Microsoft.AspNetCore.Builder;
+//using RestSharp;
 using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using System;
-using Microsoft.Net;
-using Microsoft.AspNetCore.Http.Features.Authentication;
-using System.Web;
+using Microsoft.AspNetCore.Session;
+
 
 namespace ClassLibrary.Classes
 {
     public class CreateLoginCookie
     {
-        IFeatureCollection keyValuePairs;
         private string authCode;
         private SQLConnection sqlConnection = new SQLConnection();
         private string userID;
@@ -25,13 +16,7 @@ namespace ClassLibrary.Classes
             userID = GetUserID(username);
             authCode = GetAuthCode(userID);
 
-            HttpCookie newCookie = new HttpCookie("UserInfo");
-            newCookie.Domain = "cgi.com";
-            newCookie.Expires = DateTime.Now.AddDays(1);
-            newCookie.Name = "UserInfo";
-            newCookie.Path = "/";
-            newCookie.Secure = false;
-            newCookie.Value = authCode;
+            
 
 
             //ResponseCookiesFeature responseCookiesFeature = new ResponseCookiesFeature(keyValuePairs);
