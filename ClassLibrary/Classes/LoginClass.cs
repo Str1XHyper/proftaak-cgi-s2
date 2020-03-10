@@ -6,12 +6,11 @@ namespace ClassLibrary
     public static class LoginClass
     {
         private static string connStr = "server=185.182.57.161;user=tijnvcd415_Proftaak; database=tijnvcd415_Proftaak;password=Proftaak";
-        private enum responses { redirectHome, wrongEntry, multipleEntries, massiveError };
+        private enum responses { redirectHome, wrongEntry, multipleEntries, massiveError};
         public static Enum LoginUserFunction(string userName, string password)
         {
             int i = 0;
             MySqlConnection conn = new MySqlConnection(connStr);
-
             try
             {
                 conn.Open();

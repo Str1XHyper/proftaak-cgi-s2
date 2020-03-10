@@ -39,7 +39,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult ShiftView()
         {
-            ViewData["msg"] = HttpContext.Session.GetString("UserInfo");
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
 

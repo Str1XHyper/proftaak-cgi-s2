@@ -6,7 +6,7 @@
 @{
     ViewData["Title"] = "ShiftView";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string authCode = ViewData["msg"].ToString();
+    string authCode = ViewData["UserInfo"].ToString();
     SQLConnection sQLConnection = new SQLConnection();
     string currentId = sQLConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];
 }
