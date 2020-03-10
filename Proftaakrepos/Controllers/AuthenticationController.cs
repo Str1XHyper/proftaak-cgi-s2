@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using Proftaakrepos.Models;
 using System;
 using System.Threading.Tasks;
+using Proftaakrepos.Data;
 
 namespace Proftaakrepos.Controllers
 {
@@ -18,6 +19,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
+            Proftaakrepos.Data.LoginClass.Test();
             int i = 0;
             string connStr = "server=185.182.57.161;user=tijnvcd415_Proftaak; database=tijnvcd415_Proftaak;password=Proftaak";
             MySqlConnection conn = new MySqlConnection(connStr);

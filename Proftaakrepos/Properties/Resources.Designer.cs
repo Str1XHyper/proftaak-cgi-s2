@@ -59,15 +59,5 @@ namespace Proftaakrepos.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] DataLibrary {
-            get {
-                object obj = ResourceManager.GetObject("DataLibrary", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }
