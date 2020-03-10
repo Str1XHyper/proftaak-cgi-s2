@@ -5,6 +5,7 @@ using Proftaakrepos.Models;
 using System;
 using System.Threading.Tasks;
 
+
 namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
@@ -19,7 +20,6 @@ namespace Proftaakrepos.Controllers
         public IActionResult Login(LoginModel model)
         {
             int i = 0;
-            string connStr2 = "server=185.182.56.248;user=bartvur381_NGF;database=bartvur381_NGF;password=Bartbart!9";
             string connStr = "server=185.182.57.161;user=tijnvcd415_Proftaak; database=tijnvcd415_Proftaak;password=Proftaak";
             MySqlConnection conn = new MySqlConnection(connStr);
 
