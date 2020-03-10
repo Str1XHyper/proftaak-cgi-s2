@@ -39,6 +39,7 @@ namespace Proftaakrepos.Controllers
         {
             return View();
         }
+
         public IActionResult Agenda()
         {
             EventModel em = new EventModel("Outcoming", "is mooi", 0);

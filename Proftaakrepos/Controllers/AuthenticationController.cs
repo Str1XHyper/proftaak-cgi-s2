@@ -116,5 +116,10 @@ namespace Proftaakrepos.Controllers
             return View(model);
         }
 
+        public IActionResult AddEmployee()
+        {
+            return View();
+        }
+
     }
 }
