@@ -1,0 +1,14 @@
+﻿.page {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+}
+
+.left {
+    grid-column: 1;
+    height: 100vh;
+}
+
+.right {
+    grid-column: 2;
+    height: 100vh;
+}
