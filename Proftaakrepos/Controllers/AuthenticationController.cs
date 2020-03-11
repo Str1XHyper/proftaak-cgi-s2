@@ -17,6 +17,7 @@ namespace Proftaakrepos.Controllers
         private LoginClass loginClass = new LoginClass();
         private CreateLoginCookie createLoginCookie = new CreateLoginCookie();
         private SQLConnection sQLConnection = new SQLConnection();
+        private ChangeSettings changeSettings = new ChangeSettings();
         [HttpGet]
         public IActionResult Login()
         {
@@ -51,7 +52,8 @@ namespace Proftaakrepos.Controllers
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
             string authToken = GenerateAuthToken.GetUniqueKey(10);
-            sQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{addEmployeeModel.eMail}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
+            sQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{addEmployeeModel.eMail.ToLower()}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
+            changeSettings.InitSettings(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting);
             return View(addEmployeeModel);
         }
 

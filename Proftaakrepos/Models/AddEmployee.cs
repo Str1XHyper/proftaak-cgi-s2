@@ -24,5 +24,8 @@ namespace Proftaakrepos.Models
             Medewerker
         }
 
+        public string emailsetting { get; set; }
+        public string smssetting { get; set; }
+
     }
 }

@@ -5,15 +5,17 @@
 }
 
 <h1>AddEmployee</h1>
-
+<link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <div class="form">
     <div style="color: red;">@ViewData["Error"]</div>
 
     <form action="/authentication/AddEmployee" method="post" class="login-form">
         <div style="color: red;"></div>
+        <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="naam" name="naam" type="text" placeholder="Voornaam"> <span class="field-validation-valid" data-valmsg-for="naam" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="tussenvoegsel" name="tussenvoegsel" type="text" placeholder="Tussenvoegsel"> <span class="field-validation-valid" data-valmsg-for="tussenvoegsel" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="achternaam" name="achternaam" type="text" placeholder="Achternaam"> <span class="field-validation-valid" data-valmsg-for="achternaam" data-valmsg-replace="true"></span></div>
+        <div class="banner"><center><h5 style="color: white">CONTACT INFORMATIE</h5></center></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" data-val-email="The field is not a valid e-mail address." data-val-required="The E-mail field is required." id="Email" name="Email" type="email" placeholder="E-mail"> <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="phoneNumber" name="phoneNumber" type="text" placeholder="Telefoonnummer"> <span class="field-validation-valid" data-valmsg-for="telefoonnummer" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="straatnaam" name="straatnaam" type="text" placeholder="Straatnaam"> <span class="field-validation-valid" data-valmsg-for="straatnaam" data-valmsg-replace="true"></span></div>
@@ -23,6 +25,17 @@
         @Html.DropDownListFor(m => m.role,
                     new SelectList(Enum.GetValues(typeof(AddEmployee.Roles))),
                     "Selecteer rol")
-        <input type="submit" value="Login" style="background-color: #c03; color: white;">
+        <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
+        <p>Email notificatie</p>
+        <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
+        <input type="radio" name="emailsetting" value="Nee" />
+        <label>Nee</label>
+        <p>SMS notificatie</p>
+        <input type="radio" name="smssetting" value="Ja" />
+        <label>Ja</label>
+        <input type="radio" name="smssetting" value="Nee" />
+        <label>Nee</label>
+        <br>
+        <input type="submit" value="Voeg toe">
     </form>
 </div>
