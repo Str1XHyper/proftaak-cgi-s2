@@ -60,12 +60,12 @@ namespace Proftaakrepos.Controllers
             return View();
         }
         [HttpPost] 
-        public ActionResult CreateEvent([FromBody]EventModel e)
+        public ActionResult CreateEvent(EventModel e)
         {
             if (ModelState.IsValid)
             {
                 HandleEventRequest(e);
-                return RedirectToAction("Index");
+                return RedirectToAction("Agenda");
             }
             else
             {
@@ -74,24 +74,34 @@ namespace Proftaakrepos.Controllers
         }
         public IActionResult HandleEventRequest(EventModel emdb)
         {
-            MySqlConnection cnn;
             string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-            cnn = new MySqlConnection(connetionString);
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandText = $"INSERT INTO `Rooster`(`EventId`, `UserId`, `Subject`, `Description`, `Start`, `End`, `ThemeColor`, `IsFullDay`) VALUES (5, {emdb.userId}, '{emdb.title}', '{emdb.description}', {emdb.startDate}, {emdb.endDate}, null, 1)";
+
             try
             {
-                cnn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (MySqlConnection connection = new MySqlConnection(connetionString))
                 {
+                    //INSERT INTO, UPDATE AND DELETE
+                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES (@UserId,@Subject,@Description,@Start,@End,@ThemeColor,@IsFullDay,@IsPending)", connection))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", emdb.userId);
+                        cmd.Parameters.AddWithValue("@Subject", emdb.title);
+                        cmd.Parameters.AddWithValue("@Description", emdb.description);
+                        cmd.Parameters.AddWithValue("@Start", emdb.startDate);
+                        cmd.Parameters.AddWithValue("@End", emdb.endDate);
+                        cmd.Parameters.AddWithValue("@ThemeColor", emdb.themeColor);
+                        cmd.Parameters.AddWithValue("@IsFullDay", emdb.isFullDay);
+                        cmd.Parameters.AddWithValue("@IsPending", emdb.isPending);
+                        connection.Open();
+                        cmd.ExecuteNonQuery();
+                        connection.Close();
+                    }
                 }
-                cnn.Close();
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
+            
             return RedirectToAction("CreateEvent", "Home");
         }
         public IActionResult Employees()

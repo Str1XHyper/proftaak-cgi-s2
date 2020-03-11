@@ -38,11 +38,23 @@
                 <span asp-validation-for="endDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-
-                <input type="submit" value="Create" class="btn btn-primary" formmethod="post" />
+                <label asp-for="themeColor" class="control-label"></label>
+                <input asp-for="themeColor" class="form-control" />
+                <span asp-validation-for="themeColor" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="isFullDay" class="control-label"></label>
+                <input asp-for="isFullDay" class="form-control" />
+                <span asp-validation-for="isFullDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isPending" class="control-label"></label>
+                <input asp-for="isPending" class="form-control" />
+                <span asp-validation-for="isPending" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Create" class="btn btn-primary" formmethod="post" />
         </form>
-    </div>
+</div>
 </div>
 
 <div>
