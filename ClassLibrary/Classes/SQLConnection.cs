@@ -25,15 +25,12 @@ namespace ClassLibrary.Classes
             cmd.Connection = cnn;
             cnn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
-            int rows = 0;
             while (reader.Read())
             {
-                //values = new string[reader.FieldCount];
                 for(int i = 0; i < reader.FieldCount; i++)
                 {
-                    values[rows * reader.FieldCount + i] = reader[i].ToString();
+                    values.Add(reader[i].ToString());
                 }
-                rows++;
             }
             cnn.Close();
             return values;
@@ -48,26 +45,6 @@ namespace ClassLibrary.Classes
             cnn.Open();
             cmd.ExecuteNonQuery();
             cnn.Close();
-        }
-
-        public string[] ExecuteGetStringQuery(string query)
-        {
-            MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.CommandText = query;
-            cmd.Connection = cnn;
-            cnn.Open();
-            MySqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                values = new string[reader.FieldCount];
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    values[i] = reader.GetString(i);
-                }
-            }
-            cnn.Close();
-            return values;
         }
     }
 }

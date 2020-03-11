@@ -1,137 +1,17 @@
 ﻿@using MySql.Data.MySqlClient;
 @using Microsoft.AspNetCore.Http;
 @using ClassLibrary.Classes;
-@model ShiftView;
+@model ShiftViewModel;
 
 @{
     ViewData["Title"] = "ShiftView";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string authCode = ViewData["UserInfo"].ToString();
     SQLConnection sQLConnection = new SQLConnection();
-    string currentId = sQLConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];
+    ShiftView shiftView = new ShiftView();
+    string currentId = shiftView.GetLoggedInUserId(authCode);
 }
 <link rel="stylesheet" href="~/css/ShiftView.css" />
-
-@functions {
-    private string[] GetDiensten(int UserID, int EventId)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From Rooster Where UserId = {UserID} and EventId = {EventId}";
-        try
-        {
-            string[] returnStrings = new string[9];
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    returnStrings[i] = reader[i].ToString();
-                }
-                break;
-            }
-            cnn.Close();
-            return returnStrings;
-        }
-        catch (Exception ex)
-        {
-            return new string[] { "Can not open connection ! " + ex.Message.ToString() };
-        }
-    }
-
-
-    private string[] GetNameByUIDs(int UserID)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From Werknemers Where UserId = {UserID}";
-        try
-        {
-            string[] returnStrings = new string[12];
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    returnStrings[i] = reader[i].ToString();
-                }
-                break;
-            }
-            cnn.Close();
-            return returnStrings;
-        }
-        catch (Exception ex)
-        {
-            return new string[] { "Can not open connection ! " + ex.Message.ToString() };
-        }
-    }
-
-    private int EntryCount(string column, string table)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select count({column}) From {table}";
-        try
-        {
-            var someValue = new object();
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                someValue = reader[$"count({column})"];
-                // Do something with someValue
-            }
-            cnn.Close();
-            return Convert.ToInt32(someValue);
-        }
-        catch (Exception ex)
-        {
-            return -1;
-        }
-    }
-
-    private string[] GetRequests(int TradeID)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From TradeRequest Where TradeId = {TradeID}";
-        try
-        {
-            string[] returnStrings = new string[7];
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    returnStrings[i] = reader[i].ToString();
-                }
-                break;
-            }
-            cnn.Close();
-            return returnStrings;
-        }
-        catch (Exception ex)
-        {
-            //"Can not open connection ! " + ex.Message.ToString()
-            return null;
-        }
-    }
-}
 
 <div class="window">
     <h1>ShiftView</h1>
@@ -141,11 +21,11 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            for (int i = 1; i <= EntryCount("TradeID", "TradeRequest"); i++)
+            for (int i = 1; i <= shiftView.EntryCount("TradeID", "TradeRequest"); i++)
             {
-                string[] requestOutput = GetRequests(i);
+                string[] requestOutput = shiftView.GetRequests(i);
                 string[] disabledIds = requestOutput[6].Split(" ");
-                string[] issuerDetails = GetNameByUIDs(Convert.ToInt32(requestOutput[0]));
+                string[] issuerDetails = shiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0]));
 
                 string date = "Error";
                 string startTime = "Error";
@@ -203,15 +83,18 @@
             <input type="hidden" value="@currentId" name="UserID" />
             <select name="dienst" id="dienst">
                 @{
-                    for (int i = 0; i < EntryCount("EventId", "Rooster"); i++)
+                    for (int i = 1; i <= shiftView.EntryCount("EventId", "Rooster"); i++)
                     {
-                        string[] dienstInfo = GetDiensten(Convert.ToInt32(currentId), i + 1);
-
-                        if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
+                        string[] dienstInfo = shiftView.GetDiensten(Convert.ToInt32(currentId), i);
+                        if (shiftView.HasCorrectInfo(dienstInfo))
                         {
-                            if (dienstInfo[8].ToLower() == "false")
+
+                            if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
                             {
-                                <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                                if (dienstInfo[8].ToLower() == "false")
+                                {
+                                    <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                                }
                             }
                         }
                     }
@@ -219,5 +102,9 @@
             </select>
             <input type="submit" />
         </form>
+        <span>Your Active re</span>
+        <div>
+            
+        </div>
     </div>
 </div>
