@@ -23,9 +23,9 @@
         @{
             for (int i = 1; i <= shiftView.EntryCount("TradeID", "TradeRequest"); i++)
             {
-                List<string> requestOutput = shiftView.GetRequests(i);
+                string[] requestOutput = shiftView.GetRequests(i).ToArray();
                 string[] disabledIds = requestOutput[6].Split(" ");
-                List<string> issuerDetails = shiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0]));
+                string[] issuerDetails = shiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
 
                 string date = "Error";
                 string startTime = "Error";
@@ -102,7 +102,7 @@
             </select>
             <input type="submit" />
         </form>
-        <span>Your Active re</span>
+        <span>Your Active requests</span>
         <div>
             
         </div>
