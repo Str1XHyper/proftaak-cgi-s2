@@ -37,10 +37,10 @@ namespace Proftaakrepos.Controllers
                     HttpContext.Session.SetString("UserInfo", authCode);
                     return RedirectToAction("Index", "Home");
                 case "wrongEntry":
-                    ViewData["Error"] = "Wrong e-mail or password.";
+                    ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
                     break;
                 case "multipleEntries":
-                    ViewData["Error"] = "Multiple emails found, please contact a system administrator.";
+                    ViewData["Error"] = "Meerdere accounts gevonden met dit e-mail.";
                     break;
                 case "massiveError":
                     ViewData["Error"] = "Godverdomme Bart, hoe moeilijk is het?";
@@ -65,6 +65,19 @@ namespace Proftaakrepos.Controllers
                 return View();
             }
             return RedirectToAction("NoAccessIndex", "Home");
+        }
+
+        public IActionResult Employees()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult GetEmployeeInfo(string employee)
+        {
+            string[] data = sQLConnection.ExecuteSearchQuery($"Select * from `Werknemers` where UserId = {employee}").ToArray();
+            ViewData["EmployeeInfo"] = data;
+            return View("Employees");
         }
 
     }
