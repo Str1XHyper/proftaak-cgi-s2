@@ -24,8 +24,14 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Index()
         {
-            ModelState.AddModelError("", HttpContext.Session.GetString("UserInfo"));
+            //ModelState.AddModelError("", HttpContext.Session.GetString("UserInfo"));
             return View();
+        }
+
+        public IActionResult NoAccessIndex()
+        {
+            ModelState.AddModelError("", "U heeft niet de rechten om deze pagina te bezoeken.");
+            return View("Index");
         }
 
         public IActionResult Privacy()

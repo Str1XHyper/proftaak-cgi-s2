@@ -18,6 +18,7 @@ namespace Proftaakrepos.Controllers
         private CreateLoginCookie createLoginCookie = new CreateLoginCookie();
         private SQLConnection sQLConnection = new SQLConnection();
         private ChangeSettings changeSettings = new ChangeSettings();
+        private GetRole getRole = new GetRole();
         [HttpGet]
         public IActionResult Login()
         {
@@ -59,7 +60,11 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult AddEmployee()
         {
-            return View();
+            if(getRole.RoleNameAuth(HttpContext.Session.GetString("UserInfo")).ToLower() == "roostermaker")
+            {
+                return View();
+            }
+            return RedirectToAction("NoAccessIndex", "Home");
         }
 
     }
