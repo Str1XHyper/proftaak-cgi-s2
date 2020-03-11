@@ -15,9 +15,9 @@ namespace ClassLibrary.Classes
             return sqlConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];
         }
 
-        public bool HasCorrectInfo(string[] QueryResult)
+        public bool HasCorrectInfo(List<string> QueryResult)
         {
-            return QueryResult.Length > 1;
+            return QueryResult.Count > 1;
         }
 
         public List<string> GetDiensten(int UserID, int EventId)
