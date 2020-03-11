@@ -162,11 +162,20 @@ namespace Proftaakrepos.Controllers
         {
             SQLConnection sql = new SQLConnection();
             string[] roosterData = sql.ExecuteSearchQuery($"Select * from Rooster where EventId = {EventID}").ToArray();
-
-            string[] startDates = roosterData[4].Split(" ")[0].Split("/");
-            string startTime = roosterData[4].Split(" ")[1];
-            string[] endDates = roosterData[5].Split(" ")[0].Split("/");
-            string endTime = roosterData[5].Split(" ")[1];
+            
+            if(roosterData[4].Split(" ")[0].Contains("/")
+            {
+                string[] startDates = roosterData[4].Split(" ")[0].Split("/");
+                string startTime = roosterData[4].Split(" ")[1];
+                string[] endDates = roosterData[5].Split(" ")[0].Split("/");
+                string endTime = roosterData[5].Split(" ")[1];
+            } else
+            {
+                string[] startDates = roosterData[4].Split(" ")[0].Split("-");
+                string startTime = roosterData[4].Split(" ")[1];
+                string[] endDates = roosterData[5].Split(" ")[0].Split("-");
+                string endTime = roosterData[5].Split(" ")[1];
+            }
 
             sql.ExecuteNonSearchQuery($"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', -1, 0)");
             sql.ExecuteNonSearchQuery($"Update Rooster Set IsPending = 1 where EventId = {EventID}");
