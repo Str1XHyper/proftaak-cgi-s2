@@ -17,7 +17,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\api.cshtml" />
+    <Content Remove="wwwroot\js\Employees.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Models\NewFile.txt" />
+    <None Remove="Views\NewFile.txt" />
   </ItemGroup>
 
   <ItemGroup>
