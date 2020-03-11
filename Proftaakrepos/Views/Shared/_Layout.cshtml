@@ -7,25 +7,26 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css//navbar.css" />
+    <link rel="stylesheet" href="~/css/navbargrid.css" />
 </head>
 <body>
-    <header>
-        <div class="sidenav">
+    <div class="page">
+        <div class="sidenav left" style="z-index: 100; position: absolute;">
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
                 <li>@Html.ActionLink("Privacy", "Privacy", "Home")</li>
                 <li>@Html.ActionLink("Your shift", "ShiftView", "Home")</li>
                 <li>@Html.ActionLink("Werknemers", "Employees", "Home")</li>
+                <li>@Html.ActionLink("Werknemer Toevoegen", "AddEmployee", "Authentication")</li>
                 <li>@Html.ActionLink("Schedule", "Agenda", "Home")</li>
             </ul>
         </div>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="container right">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - CGI.com - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

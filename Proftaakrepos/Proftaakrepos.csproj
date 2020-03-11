@@ -2,7 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="TagHelpers\**" />
+    <Compile Remove="Views\Employees\**" />
+    <Content Remove="TagHelpers\**" />
+    <Content Remove="Views\Employees\**" />
+    <EmbeddedResource Remove="TagHelpers\**" />
+    <EmbeddedResource Remove="Views\Employees\**" />
+    <None Remove="TagHelpers\**" />
+    <None Remove="Views\Employees\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Models\NewFile.txt" />
@@ -13,10 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClassLibrary" Version="1.0.0" />
     <PackageReference Include="fullcalendar" Version="3.9.0" />
     <PackageReference Include="FullCalendar.MVC5" Version="1.0.7" />
     <PackageReference Include="jQuery" Version="3.4.1" />
     <PackageReference Include="jQuery.Fullcalendar" Version="3.9.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0-preview1.19506.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0-preview1.19506.2">
@@ -37,7 +51,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TagHelpers\" />
+    <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

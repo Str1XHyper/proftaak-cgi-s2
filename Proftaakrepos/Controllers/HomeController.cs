@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proftaakrepos.Models;
 using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.Http;
 
 namespace Proftaakrepos.Controllers
 {
@@ -22,6 +23,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Index()
         {
+            ModelState.AddModelError("", HttpContext.Session.GetString("UserInfo"));
             return View();
         }
 
@@ -37,17 +39,44 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult ShiftView()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
+
         public IActionResult Agenda()
         {
             EventModel em = new EventModel("Outcoming", "is mooi", 0);
             EventModel em2 = new EventModel("Danillo's outcoming", "is semi-mooi", 1);
             mockEvents.Add(em);
             mockEvents.Add(em2);
-            return View(mockEvents);
+            return View(em);
         }
-
+        public IActionResult CreateEvent()
+        {
+            return View();
+        }
+        public IActionResult HandleEventRequest()
+        {
+            MySqlConnection cnn;
+            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+            cnn = new MySqlConnection(connetionString);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = cnn;
+            cmd.CommandText = $"INSERT INTO `Rooster`(`EventId`, `UserId`, `Subject`, `Description`, `Start`, `End`, `ThemeColor`, `IsFullDay`) VALUES (5, 3, 'suicide', 'jump off cliff', 2020-10-03, 2020-10-04, null, 1)";
+            try
+            {
+                cnn.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+            }
+            return RedirectToAction("CreateEvent", "Home");
+        }
         public IActionResult Employees()
         {
             return View();
@@ -130,13 +159,15 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult CreateRequest(string EventID, string UserID)
         {
-            string[] returnStrings = new string[8];
+            string[] returnStrings = new string[9];
             MySqlConnection cnn;
             string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             MySqlCommand cmd = new MySqlCommand();
             MySqlCommand cmd2 = new MySqlCommand();
+            MySqlCommand cmd3 = new MySqlCommand();
             cmd2.Connection = cnn;
+            cmd3.Connection = cnn;
             cmd.Connection = cnn;
             cmd.CommandText = $"Select * from Rooster where EventId = 1";
             try
@@ -162,6 +193,11 @@ namespace Proftaakrepos.Controllers
                 cnn.Open();
                 var reader2 = cmd2.ExecuteNonQuery();
                 cnn.Close();
+                cmd3.CommandText = $"Update Rooster Set IsPending = 1 where EventId = 2";
+                cnn.Open();
+                cmd3.ExecuteNonQuery();
+                cnn.Close();
+
             }
             catch (Exception ex)
             {
