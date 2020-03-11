@@ -12,6 +12,8 @@
     string currentId = shiftView.GetLoggedInUserId(authCode);
 }
 <link rel="stylesheet" href="~/css/ShiftView.css" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="~/js/ShiftView.js"></script>
 
 <div class="window">
     <h1>ShiftView</h1>
@@ -79,32 +81,84 @@
     @* Create a request - box *@
     <h1 class="createH1">Create a request | @authCode</h1>
     <div class="CreateRequest">
-        <form asp-action="CreateRequest" asp-controller="Home" method="post">
-            <input type="hidden" value="@currentId" name="UserID" />
-            <select name="dienst" id="dienst">
-                @{
-                    for (int i = 1; i <= shiftView.EntryCount("EventId", "Rooster"); i++)
-                    {
-                        List<string> dienstInfo = shiftView.GetDiensten(Convert.ToInt32(currentId), i);
-                        if (shiftView.HasCorrectInfo(dienstInfo))
+        <div class="position-static">
+            <form asp-action="CreateRequest" asp-controller="Home" method="post">
+                <input type="hidden" value="@currentId" name="UserID" />
+                <select name="dienst" id="dienst">
+                    @{
+                        for (int i = 1; i <= shiftView.EntryCount("EventId", "Rooster"); i++)
                         {
-
-                            if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
+                            List<string> dienstInfo = shiftView.GetDiensten(Convert.ToInt32(currentId), i);
+                            if (shiftView.HasCorrectInfo(dienstInfo))
                             {
-                                if (dienstInfo[8].ToLower() == "false")
+
+                                if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
                                 {
-                                    <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                                    if (dienstInfo[8].ToLower() == "false")
+                                    {
+                                        <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                                    }
                                 }
                             }
                         }
                     }
+                </select>
+                <input type="submit" />
+            </form>
+            <div class="activeRequests">
+                <h2>Your requests</h2>
+                <div class="w3-bar">
+                    <button class="w3-bar-item w3-button tablink w3-red" onclick="openCity(event,'Active')">Active</button>
+                    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Expired')">Expired</button>
+                </div>
+            </div>
+            <h2 id="status">Active</h2>
+        </div>
+        <div id="Active" class="w3-container w3-border city requests">
+            @{
+                for (int i = 1; i <= shiftView.EntryCount("TradeID", "TradeRequest"); i++)
+                {
+                    string[] requestOutput = shiftView.GetRequests(i).ToArray();
+                    string[] disabledIds = requestOutput[6].Split(" ");
+                    string[] issuerDetails = shiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
+
+                    string date = "Error";
+                    string startTime = "Error";
+                    string endTime = "Error";
+
+
+                    if (requestOutput[2].Contains("AM") || requestOutput[2].Contains("PM"))
+                    {
+                        date = requestOutput[2].Split(" ")[0];
+                        startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
+                        endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+                    }
+                    else
+                    {
+                        date = requestOutput[2].Split(" ")[0];
+                        startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1];
+                        endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1];
+                    }
+
+                    if (requestOutput[0] == currentId)
+                    {
+                        <div class="exampleRequest">
+                            <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
+                            @*<a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
+                                <img src="~/img/check-solid.svg" alt="No">
+                            </a>
+                            <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">
+                                <img src="~/img/ban-solid.svg" alt="No">
+                            </a>*@
+                        </div>
+                    }
                 }
-            </select>
-            <input type="submit" />
-        </form>
-        <span>Your Active requests</span>
-        <div>
-            
+            }
+        </div>
+        <div id="Expired" class="w3-container w3-border city" style="display:none">
+            <p>Expired request will show here.</p>
         </div>
     </div>
+</div>
+</div>
 </div>

@@ -15,8 +15,17 @@
     font-size: 32px;
 }
 
-.RequestsRecieved,
 .CreateRequest {
+    position: relative;
+    background-color: #c4c4c4;
+    width: 1050px;
+    height: 500px;
+    margin: 0 auto;
+    padding-top: 10px;
+    overflow-x: hidden;
+}
+
+.RequestsRecieved{
     position: relative;
     background-color: #c4c4c4;
     width: 1050px;
@@ -78,4 +87,16 @@
     width: inherit;
     margin: 0 auto;
     padding: 10px;
+}
+
+.position-static{
+    position: absolute;
+    height: 35%;
+    width: 100%;
+}
+
+.requests {
+    overflow-y: auto;
+    height: 65%;
+    width: 100%;
 }
