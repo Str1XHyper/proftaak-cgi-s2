@@ -25,6 +25,7 @@ namespace ClassLibrary.Classes
             cmd.Connection = cnn;
             cnn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
+            values.Clear();
             while (reader.Read())
             {
                 for(int i = 0; i < reader.FieldCount; i++)
