@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AddEmployee[0].name)
+                @Html.DisplayNameFor(model => model.AddEmployee[0].naam)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AddEmployee[0].tussenvoegsel)
@@ -46,7 +46,7 @@
 @foreach (var item in Model.AddEmployee) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.name)
+                @Html.DisplayFor(modelItem => item.naam)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.tussenvoegsel)
@@ -73,9 +73,6 @@
                 @Html.DisplayFor(modelItem => item.woonplaats)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }

@@ -16,6 +16,7 @@ namespace Proftaakrepos.Controllers
     {
         private LoginClass loginClass = new LoginClass();
         private CreateLoginCookie createLoginCookie = new CreateLoginCookie();
+        private SQLConnection sQLConnection = new SQLConnection();
         [HttpGet]
         public IActionResult Login()
         {
@@ -46,11 +47,16 @@ namespace Proftaakrepos.Controllers
             }
             return View(model);
         }
+        [HttpPost]
+        public IActionResult AddEmployee(AddEmployee addEmployeeModel)
+        {
+            string authToken = GenerateAuthToken.GetUniqueKey(10);
+            sQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{addEmployeeModel.eMail}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
+            return View(addEmployeeModel);
+        }
 
         public IActionResult AddEmployee()
         {
-            string authCode = "738465773";
-            HttpContext.Session.SetString("UserInfo", authCode);
             return View();
         }
 
