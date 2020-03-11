@@ -1,0 +1,31 @@
+﻿body {
+}
+
+.banner{
+    background-color: grey;
+    height: 25px;
+    width: 100%;
+    margin-top: 20px;
+}
+#naam,
+#tussenvoegsel,
+#achternaam,
+#Email,
+#phoneNumber,
+#straatnaam,
+#huisnummer,
+#postcode,
+#woonplaats {
+    border: 0;
+    border-bottom: 1px solid #000000;
+    width: 60%;
+    margin-top: 10px;
+}
+
+#role {
+    border: 1px solid #000000;
+    margin: 10px;
+    margin-left: 0px;
+    margin-bottom: 50px;
+    width: 60%;
+}
