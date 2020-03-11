@@ -19,6 +19,7 @@ namespace ClassLibrary.Classes
 
         public List<string> ExecuteSearchQuery(string query)
         {
+            values.Clear();
             MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
