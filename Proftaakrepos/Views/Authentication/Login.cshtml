@@ -7,32 +7,8 @@
 <center>
     <div class="login-page">
         <div class="form">
-            @*
-            <form class="login-form" method="post" asp-action="Login" asp-controller="Authentication">
-        <div asp-validation-summary="All"></div>*@
             <img class="avatar" draggable="false" src="~/img/img_avatar.png" />
-            @*<input type="text" placeholder="E-mail" />
-            <input type="password" placeholder="Wachtwoord" />*@
-            @*<button type="button" onclick="location.href='@Url.Action("ShiftView", "Home")'" class="FormButton">Login</button>*@
-            @*</form>*@
-
-
-            @*<form class="login-form" method="post" asp-action="Login" asp-controller="Authentication">
-                <div asp-validation-summary="All"></div>
-                <div>
-                    <input asp-for="Username" placeholder="E-mail" />
-                    <span asp-validation-for="Username"></span>
-                </div>
-                <div>
-                    <input asp-for="Password" placeholder="Wachtwoord" />
-                    <span asp-validation-for="Password"></span>
-                </div>
-
-                <div>
-                    <input type="submit" value="Log in" />
-                </div>
-            </form>*@
-            <div style="color: red;">@Html.ValidationSummary(true)</div>
+            <div style="color: red;">@ViewData["Error"]</div>
 
             <form action="/authentication/Login" method="post" class="login-form">
                 <div style="color: red;"></div>
