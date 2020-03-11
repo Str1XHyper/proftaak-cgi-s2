@@ -7,7 +7,7 @@ namespace ClassLibrary.Classes
 {
     public class SQLConnection
     {
-        private string[] values;
+        private List<string> values;
         private MySqlDataReader reader;
         private MySqlConnection CreateConnection(string IP, string Database, string UserName, string Password)
         {
@@ -17,7 +17,7 @@ namespace ClassLibrary.Classes
             return cnn;
         }
 
-        public string[] ExecuteSearchQuery(string query)
+        public List<string> ExecuteSearchQuery(string query)
         {
             MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
             MySqlCommand cmd = new MySqlCommand();
@@ -27,10 +27,9 @@ namespace ClassLibrary.Classes
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                values = new string[reader.FieldCount];
                 for(int i = 0; i < reader.FieldCount; i++)
                 {
-                    values[i] = reader[i].ToString();
+                    values.Add(reader[i].ToString());
                 }
             }
             cnn.Close();

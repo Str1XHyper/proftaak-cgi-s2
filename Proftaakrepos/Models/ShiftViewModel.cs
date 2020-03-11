@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Proftaakrepos.Models
 {
-    public class ShiftView
+    public class ShiftViewModel
     {
         public string[] GetNameByUID(int UserID)
         {
