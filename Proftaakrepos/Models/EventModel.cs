@@ -11,13 +11,15 @@ namespace Proftaakrepos.Models
         public int userId { get; set; }
         public string title { get; set; }
         public string description { get; set; }
-        public DateTime date { get; set; }
-        public DateTime time { get; set; }
-        public EventModel(string _title, string _description, int _userId)
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
+        public EventModel(int _userId, string _title, string _description, DateTime _startDate, DateTime _endDate)
         {
-            title = _title;
-            description = _description;
-            userId = _userId;
+            this.title = _title;
+            this.description = _description;
+            this.userId = _userId;
+            this.startDate = _startDate;
+            this.endDate = _endDate;
         }
     }
 }
