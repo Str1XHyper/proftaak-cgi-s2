@@ -49,24 +49,34 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Agenda()
         {
-            EventModel em = new EventModel("Outcoming", "is mooi", 0);
-            EventModel em2 = new EventModel("Danillo's outcoming", "is semi-mooi", 1);
-            mockEvents.Add(em);
-            mockEvents.Add(em2);
-            return View(em);
+            return View();
         }
-        public IActionResult CreateEvent()
+        [HttpGet]
+        public ActionResult CreateEvent()
         {
             return View();
         }
-        public IActionResult HandleEventRequest()
+        [HttpPost] 
+        public ActionResult CreateEvent([FromBody]EventModel e)
+        {
+            if (ModelState.IsValid)
+            {
+                HandleEventRequest(e);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(e);
+            }
+        }
+        public IActionResult HandleEventRequest(EventModel emdb)
         {
             MySqlConnection cnn;
             string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = cnn;
-            cmd.CommandText = $"INSERT INTO `Rooster`(`EventId`, `UserId`, `Subject`, `Description`, `Start`, `End`, `ThemeColor`, `IsFullDay`) VALUES (5, 3, 'suicide', 'jump off cliff', 2020-10-03, 2020-10-04, null, 1)";
+            cmd.CommandText = $"INSERT INTO `Rooster`(`EventId`, `UserId`, `Subject`, `Description`, `Start`, `End`, `ThemeColor`, `IsFullDay`) VALUES (5, {emdb.userId}, '{emdb.title}', '{emdb.description}', {emdb.startDate}, {emdb.endDate}, null, 1)";
             try
             {
                 cnn.Open();
