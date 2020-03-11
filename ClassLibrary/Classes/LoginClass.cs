@@ -16,12 +16,11 @@ namespace ClassLibrary
         {
             sql = $"SELECT `Username` FROM `Login` WHERE Username='{userName.ToLower()}'";
             usernames = sqlConnection.ExecuteSearchQuery(sql);
-            sql = $"SELECT `Username`, AES_DECRYPT(Password,'CGIKey')  FROM `Login` WHERE Username='{userName.ToLower()}'";
+            sql = $"SELECT AES_DECRYPT(Password,'CGIKey')  FROM `Login` WHERE Username='{userName.ToLower()}'";
             passwords = sqlConnection.ExecuteGetStringQuery(sql);
-            if(passwords.Count == 2)
+            if(usernames.Count == 1)
             {
-                string retrievedPassword = passwords[1];
-                string retrieved = passwords[0];
+                string retrievedPassword = passwords[0];
                 if(password == retrievedPassword)
                 {
                     return responses.redirectHome;
@@ -30,11 +29,11 @@ namespace ClassLibrary
                 {
                     return responses.wrongEntry;
                 }
-            }else if(passwords.Count < 2)
+            }else if(usernames.Count != 2)
             {
                 return responses.wrongEntry;
             }
-            else if(passwords.Count > 2)
+            else if(usernames.Count == 2)
             {
                 return responses.multipleEntries;
             }
