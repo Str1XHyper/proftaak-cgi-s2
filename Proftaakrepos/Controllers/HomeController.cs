@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Proftaakrepos.Models;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Http;
+using ClassLibrary.Classes;
 
 namespace Proftaakrepos.Controllers
 {
@@ -159,52 +160,16 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult CreateRequest(string EventID, string UserID)
         {
-            string[] returnStrings = new string[9];
-            MySqlConnection cnn;
-            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-            cnn = new MySqlConnection(connetionString);
-            MySqlCommand cmd = new MySqlCommand();
-            MySqlCommand cmd2 = new MySqlCommand();
-            MySqlCommand cmd3 = new MySqlCommand();
-            cmd2.Connection = cnn;
-            cmd3.Connection = cnn;
-            cmd.Connection = cnn;
-            cmd.CommandText = $"Select * from Rooster where EventId = 1";
-            try
-            {
-                cnn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
-                    }
-                    break;
-                }
-                cnn.Close();
-                string[] startDates = returnStrings[4].Split(" ")[0].Split("/");
-                string startTime = returnStrings[4].Split(" ")[1];
-                string[] endDates = returnStrings[5].Split(" ")[0].Split("/");
-                string endTime = returnStrings[5].Split(" ")[1];
-                Trace.WriteLine($"{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}");
-                cmd2.CommandText = $"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', -1, 0)";
+            SQLConnection sql = new SQLConnection();
+            string[] roosterData = sql.ExecuteSearchQuery($"Select * from Rooster where EventId = {EventID}").ToArray();
 
-                cnn.Open();
-                var reader2 = cmd2.ExecuteNonQuery();
-                cnn.Close();
-                cmd3.CommandText = $"Update Rooster Set IsPending = 1 where EventId = 2";
-                cnn.Open();
-                cmd3.ExecuteNonQuery();
-                cnn.Close();
+            string[] startDates = roosterData[4].Split(" ")[0].Split("/");
+            string startTime = roosterData[4].Split(" ")[1];
+            string[] endDates = roosterData[5].Split(" ")[0].Split("/");
+            string endTime = roosterData[5].Split(" ")[1];
 
-            }
-            catch (Exception ex)
-            {
-                //"Can not open connection ! " + ex.Message.ToString()
-                Trace.WriteLine(ex);
-                return null;
-            }
+            sql.ExecuteNonSearchQuery($"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', -1, 0)");
+            sql.ExecuteNonSearchQuery($"Update Rooster Set IsPending = 1 where EventId = {EventID}");
             
             return RedirectToAction("ShiftView", "Home");
         }

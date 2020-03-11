@@ -84,7 +84,7 @@
         <div class="position-static">
             <form asp-action="CreateRequest" asp-controller="Home" method="post">
                 <input type="hidden" value="@currentId" name="UserID" />
-                <select name="dienst" id="dienst">
+                <select name="EventID" id="EventID">
                     @{
                         for (int i = 1; i <= shiftView.EntryCount("EventId", "Rooster"); i++)
                         {
