@@ -9,6 +9,7 @@ namespace ClassLibrary.Classes
     public class ShiftView
     {
         private SQLConnection sqlConnection = new SQLConnection();
+        List<string> returns;
         public string GetLoggedInUserId(string authCode)
         {
             return sqlConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];
@@ -19,7 +20,7 @@ namespace ClassLibrary.Classes
             return QueryResult.Length > 1;
         }
 
-        public string[] GetDiensten(int UserID, int EventId)
+        public List<string> GetDiensten(int UserID, int EventId)
         {
             try
             {
@@ -27,12 +28,12 @@ namespace ClassLibrary.Classes
             }
             catch (Exception ex)
             {
-                return new string[] { "Can not open connection ! " + ex.Message.ToString() };
+                return returns;//new string[] { "Can not open connection ! " + ex.Message.ToString() };
             }
         }
 
 
-        public string[] GetNameByUIDs(int UserID)
+        public List<string> GetNameByUIDs(int UserID)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace ClassLibrary.Classes
             }
             catch (Exception ex)
             {
-                return new string[] { "Can not open connection ! " + ex.Message.ToString() };
+                return returns;//{ "Can not open connection ! " + ex.Message.ToString() };
             }
         }
 
@@ -56,7 +57,7 @@ namespace ClassLibrary.Classes
             }
         }
 
-        public string[] GetRequests(int TradeID)
+        public List<string> GetRequests(int TradeID)
         {
             try
             {
@@ -64,7 +65,7 @@ namespace ClassLibrary.Classes
             }
             catch (Exception ex)
             {
-                return new string[] { "Can not open connection ! " + ex.Message.ToString() };
+                return returns;//new string[] { "Can not open connection ! " + ex.Message.ToString() };
             }
         }
     }

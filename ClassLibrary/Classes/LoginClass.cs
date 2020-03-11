@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ClassLibrary.Classes;
 using MySql.Data.MySqlClient;
 
@@ -8,8 +9,8 @@ namespace ClassLibrary
     {
         private SQLConnection sqlConnection = new SQLConnection();
         private string sql;
-        private string[] passwords;
-        private string[] usernames;
+        private List<string> passwords;
+        private List<string> usernames;
         private enum responses { redirectHome, wrongEntry, multipleEntries, massiveError};
         public Enum LoginUserFunction(string userName, string password)
         {
@@ -17,7 +18,7 @@ namespace ClassLibrary
             usernames = sqlConnection.ExecuteSearchQuery(sql);
             sql = $"SELECT `Username`, AES_DECRYPT(Password,'CGIKey')  FROM `Login` WHERE Username='{userName.ToLower()}'";
             passwords = sqlConnection.ExecuteGetStringQuery(sql);
-            if(passwords.Length == 2)
+            if(passwords.Count == 2)
             {
                 string retrievedPassword = passwords[1];
                 string retrieved = passwords[0];
@@ -29,11 +30,11 @@ namespace ClassLibrary
                 {
                     return responses.wrongEntry;
                 }
-            }else if(passwords.Length < 2)
+            }else if(passwords.Count < 2)
             {
                 return responses.wrongEntry;
             }
-            else if(passwords.Length > 2)
+            else if(passwords.Count > 2)
             {
                 return responses.multipleEntries;
             }

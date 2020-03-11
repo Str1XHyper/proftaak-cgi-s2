@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Session;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Collections.Generic;
 
 namespace ClassLibrary.Classes
 {
@@ -21,13 +22,13 @@ namespace ClassLibrary.Classes
 
         private string GetAuthCode(string UserID)
         {
-            string[] authCode = sqlConnection.ExecuteSearchQuery($"SELECT AuthCode FROM `Werknemers` WHERE UserId = '{UserID}'");
+            List<string> authCode = sqlConnection.ExecuteSearchQuery($"SELECT AuthCode FROM `Werknemers` WHERE UserId = '{UserID}'");
             return authCode[0];
         }
 
         private string GetUserID(string userName)
         {
-            string[] userID = sqlConnection.ExecuteSearchQuery($"SELECT UserId FROM `Login` WHERE Username = '{userName}'");
+            List<string> userID = sqlConnection.ExecuteSearchQuery($"SELECT UserId FROM `Login` WHERE Username = '{userName}'");
             return userID[0];
         }
     }
