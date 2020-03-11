@@ -7,7 +7,7 @@ namespace ClassLibrary.Classes
 {
     public class SQLConnection
     {
-        private string[] values;
+        private List<string> values;
         private MySqlDataReader reader;
         private MySqlConnection CreateConnection(string IP, string Database, string UserName, string Password)
         {
@@ -17,7 +17,7 @@ namespace ClassLibrary.Classes
             return cnn;
         }
 
-        public string[] ExecuteSearchQuery(string query)
+        public List<string> ExecuteSearchQuery(string query)
         {
             MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
             MySqlCommand cmd = new MySqlCommand();
@@ -25,13 +25,15 @@ namespace ClassLibrary.Classes
             cmd.Connection = cnn;
             cnn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
+            int rows = 0;
             while (reader.Read())
             {
-                values = new string[reader.FieldCount];
+                //values = new string[reader.FieldCount];
                 for(int i = 0; i < reader.FieldCount; i++)
                 {
-                    values[i] = reader[i].ToString();
+                    values[rows * reader.FieldCount + i] = reader[i].ToString();
                 }
+                rows++;
             }
             cnn.Close();
             return values;
@@ -46,6 +48,26 @@ namespace ClassLibrary.Classes
             cnn.Open();
             cmd.ExecuteNonQuery();
             cnn.Close();
+        }
+
+        public string[] ExecuteGetStringQuery(string query)
+        {
+            MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.CommandText = query;
+            cmd.Connection = cnn;
+            cnn.Open();
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                values = new string[reader.FieldCount];
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values[i] = reader.GetString(i);
+                }
+            }
+            cnn.Close();
+            return values;
         }
     }
 }

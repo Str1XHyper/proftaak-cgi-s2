@@ -1,52 +1,43 @@
 ﻿using System;
+using ClassLibrary.Classes;
 using MySql.Data.MySqlClient;
 
 namespace ClassLibrary
 {
-    public static class LoginClass
+    public class LoginClass
     {
-        private static string connStr = "server=185.182.57.161;user=tijnvcd415_Proftaak; database=tijnvcd415_Proftaak;password=Proftaak";
+        private SQLConnection sqlConnection = new SQLConnection();
+        private string sql;
+        private string[] passwords;
+        private string[] usernames;
         private enum responses { redirectHome, wrongEntry, multipleEntries, massiveError};
-        public static Enum LoginUserFunction(string userName, string password)
+        public Enum LoginUserFunction(string userName, string password)
         {
-            int i = 0;
-            MySqlConnection conn = new MySqlConnection(connStr);
-            try
+            sql = $"SELECT `Username` FROM `Login` WHERE Username='{userName.ToLower()}'";
+            usernames = sqlConnection.ExecuteSearchQuery(sql);
+            sql = $"SELECT `Username`, AES_DECRYPT(Password,'CGIKey')  FROM `Login` WHERE Username='{userName.ToLower()}'";
+            passwords = sqlConnection.ExecuteGetStringQuery(sql);
+            if(passwords.Length == 2)
             {
-                conn.Open();
-
-                string sql = $"SELECT `Username`, AES_DECRYPT(Password,'CGIKey')  FROM `Login` WHERE Username='{userName.ToLower()}'";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-
-                while (rdr.Read())
+                string retrievedPassword = passwords[1];
+                string retrieved = passwords[0];
+                if(password == retrievedPassword)
                 {
-                    i++;
-                    if (rdr.GetString(1) == password)
-                    {
-                        return responses.redirectHome; //redirect to next page
-                    }
-                    else
-                    {
-                        return responses.wrongEntry;
-                    }
+                    return responses.redirectHome;
                 }
-                rdr.Close();
-                if (i == 0)
+                else
                 {
                     return responses.wrongEntry;
                 }
-                else if (i != 1)
-                {
-                    return responses.multipleEntries;
-                }
-            }
-            catch (Exception ex)
+            }else if(passwords.Length < 2)
             {
-                Console.WriteLine(ex.ToString());
+                return responses.wrongEntry;
             }
-
-            conn.Close();
+            else if(passwords.Length > 2)
+            {
+                return responses.multipleEntries;
+            }
+            
             return responses.massiveError;
         }
     }

@@ -14,7 +14,7 @@ namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
     {
-
+        private LoginClass loginClass = new LoginClass();
         private CreateLoginCookie createLoginCookie = new CreateLoginCookie();
         [HttpGet]
         public IActionResult Login()
@@ -25,12 +25,11 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            string response =  LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
+            string response =  loginClass.LoginUserFunction(model.Username, model.Password).ToString();
 
             switch (response)
             {
                 case "redirectHome":
-                    //createLoginCookie.CreateCookie(model.Username);
                     string authCode = createLoginCookie.getAuthToken(model.Username);
                     HttpContext.Session.SetString("UserInfo", authCode);
                     return RedirectToAction("Index", "Home");
