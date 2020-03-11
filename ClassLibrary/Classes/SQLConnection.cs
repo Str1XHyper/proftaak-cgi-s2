@@ -55,12 +55,13 @@ namespace ClassLibrary.Classes
             cmd.Connection = cnn;
             cnn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
+            values.Clear();
             while (reader.Read())
             {
-                //values = new string[reader.FieldCount];
+                
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    values[i] = reader.GetString(i);
+                    values.Add(reader.GetString(i));
                 }
             }
             cnn.Close();
