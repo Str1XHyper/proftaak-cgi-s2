@@ -33,15 +33,14 @@ namespace Proftaakrepos.Controllers
                     string authCode = createLoginCookie.getAuthToken(model.Username);
                     HttpContext.Session.SetString("UserInfo", authCode);
                     return RedirectToAction("Index", "Home");
-                    break;
                 case "wrongEntry":
-                    ModelState.AddModelError("", "Wrong e-mail or password.");
+                    ViewData["Error"] = "Wrong e-mail or password.";
                     break;
                 case "multipleEntries":
-                    ModelState.AddModelError("", "Multiple emails found, please contact a system administrator.");
+                    ViewData["Error"] = "Multiple emails found, please contact a system administrator.";
                     break;
                 case "massiveError":
-                    ModelState.AddModelError("", "Godverdomme Bart, hoe moeilijk is het?");
+                    ViewData["Error"] = "Godverdomme Bart, hoe moeilijk is het?";
                     break;
 
             }
