@@ -100,3 +100,16 @@
     height: 65%;
     width: 100%;
 }
+
+.CreateRequestForm {
+    position: relative;
+}
+
+.RoosterDropDown{
+    position:relative;
+    min-width: 40%;
+}
+
+.SubmitButton {
+
+}

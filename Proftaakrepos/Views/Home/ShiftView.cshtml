@@ -82,9 +82,9 @@
     <h1 class="createH1">Create a request | @authCode</h1>
     <div class="CreateRequest">
         <div class="position-static">
-            <form asp-action="CreateRequest" asp-controller="Home" method="post">
+            <form asp-action="CreateRequest" asp-controller="Home" method="post" class="CreateRequestForm">
                 <input type="hidden" value="@currentId" name="UserID" />
-                <select name="EventID" id="EventID">
+                <select name="EventID" id="EventID" class="RoosterDropDown">
                     @{
                         for (int i = 1; i <= shiftView.EntryCount("EventId", "Rooster"); i++)
                         {
@@ -103,18 +103,18 @@
                         }
                     }
                 </select>
-                <input type="submit" />
+                <input type="submit" value="Vraag ruilverzoek aan" class="SubmitButton"/>
             </form>
             <div class="activeRequests">
                 <h2>Your requests</h2>
                 <div class="w3-bar">
-                    <button class="w3-bar-item w3-button tablink w3-red" onclick="openCity(event,'Active')">Active</button>
-                    <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Expired')">Expired</button>
+                    <button class="w3-bar-item w3-button w3-hover-white tablink w3-black" onclick="openTab(event,'Active')">Active</button>
+                    <button class="w3-bar-item w3-button w3-hover-white tablink" onclick="openTab(event,'Expired')">Expired</button>
                 </div>
             </div>
             <h2 id="status">Active</h2>
         </div>
-        <div id="Active" class="w3-container w3-border city requests">
+        <div id="Active" class="w3-container w3-border tab requests">
             @{
                 for (int i = 1; i <= shiftView.EntryCount("TradeID", "TradeRequest"); i++)
                 {
@@ -155,7 +155,7 @@
                 }
             }
         </div>
-        <div id="Expired" class="w3-container w3-border city" style="display:none">
+        <div id="Expired" class="w3-container w3-border tab" style="display:none">
             <p>Expired request will show here.</p>
         </div>
     </div>
