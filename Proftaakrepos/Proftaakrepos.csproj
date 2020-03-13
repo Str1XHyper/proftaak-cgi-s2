@@ -40,4 +40,9 @@
     <Folder Include="TagHelpers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data Library\Data Library.csproj" />
+    <ProjectReference Include="..\Data Library\DataLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
