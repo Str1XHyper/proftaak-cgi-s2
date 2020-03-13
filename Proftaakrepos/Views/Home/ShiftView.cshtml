@@ -1,133 +1,19 @@
 ﻿@using MySql.Data.MySqlClient;
-@model ShiftView;
+@using Microsoft.AspNetCore.Http;
+@using ClassLibrary.Classes;
+@model ShiftViewModel;
 
 @{
     ViewData["Title"] = "ShiftView";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string currentId = "1";
+    string authCode = ViewData["UserInfo"].ToString();
+    SQLConnection sQLConnection = new SQLConnection();
+    ShiftView shiftView = new ShiftView();
+    string currentId = shiftView.GetLoggedInUserId(authCode);
 }
 <link rel="stylesheet" href="~/css/ShiftView.css" />
-
-@functions {
-    private string[] GetDiensten(int UserID, int EventId)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From Rooster Where UserId = {UserID} and EventId = {EventId}";
-        try
-        {
-            string[] returnStrings = new string[8];
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    returnStrings[i] = reader[i].ToString();
-                }
-                break;
-            }
-            cnn.Close();
-            return returnStrings;
-        }
-        catch (Exception ex)
-        {
-            return new string[] { "Can not open connection ! " + ex.Message.ToString() };
-        }
-    }
-
-
-    private string[] GetNameByUIDs(int UserID)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From Werknemers Where UserId = {UserID}";
-        try
-        {
-            string[] returnStrings = new string[12];
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    returnStrings[i] = reader[i].ToString();
-                        }
-                break;
-            }
-            cnn.Close();
-            return returnStrings;
-        }
-        catch (Exception ex)
-        {
-            return new string[] { "Can not open connection ! " + ex.Message.ToString() };
-        }
-    }
-
-    private int EntryCount(string column, string table)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select count({column}) From {table}";
-        try
-        {
-            var someValue = new object();
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                someValue = reader[$"count({column})"];
-                // Do something with someValue
-            }
-            cnn.Close();
-            return Convert.ToInt32(someValue);
-        }
-        catch (Exception ex)
-        {
-            return -1;
-        }
-    }
-
-    private string[] GetRequests(int TradeID)
-    {
-        MySqlConnection cnn;
-        string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-        cnn = new MySqlConnection(connetionString);
-        MySqlCommand cmd = new MySqlCommand();
-        cmd.Connection = cnn;
-        cmd.CommandText = $"Select * From TradeRequest Where TradeId = {TradeID}";
-        try
-        {
-            string[] returnStrings = new string[7];
-            cnn.Open();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                for (int i = 0; i < reader.FieldCount; i++)
-                {
-                    returnStrings[i] = reader[i].ToString();
-                }
-                break;
-            }
-            cnn.Close();
-            return returnStrings;
-        }
-        catch (Exception ex)
-        {
-            //"Can not open connection ! " + ex.Message.ToString()
-            return null;
-        }
-    }
-}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="~/js/ShiftView.js"></script>
 
 <div class="window">
     <h1>ShiftView</h1>
@@ -137,11 +23,11 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            for (int i = 1; i <= EntryCount("TradeID", "TradeRequest"); i++)
+            for (int i = 1; i <= shiftView.EntryCount("TradeID", "TradeRequest"); i++)
             {
-                string[] requestOutput = GetRequests(i);
+                string[] requestOutput = shiftView.GetRequests(i).ToArray();
                 string[] disabledIds = requestOutput[6].Split(" ");
-                string[] issuerDetails = GetNameByUIDs(Convert.ToInt32(requestOutput[0]));
+                string[] issuerDetails = shiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
 
                 string date = "Error";
                 string startTime = "Error";
@@ -170,6 +56,11 @@
                     }
                 }
 
+                if (currentId == requestOutput[0])
+                {
+                    printRequest = false;
+                }
+
                 if (printRequest)
                 {
                     <div class="exampleRequest">
@@ -188,24 +79,86 @@
     <div class="bottomSpacer1"></div>
 
     @* Create a request - box *@
-    <h1 class="createH1">Create a request</h1>
+    <h1 class="createH1">Create a request | @authCode</h1>
     <div class="CreateRequest">
-        <form asp-action="CreateRequest" asp-controller="Home" method="post">
-            <input type="hidden" value="@currentId" name="UserID"/>
-            <select name="dienst" id="dienst">
-                @{
-                    for (int i = 0; i < EntryCount("EventId", "Rooster"); i++)
-                    {
-                        string[] dienstInfo = GetDiensten(Convert.ToInt32(currentId), i + 1);
-
-                        if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
+        <div class="position-static">
+            <form asp-action="CreateRequest" asp-controller="Home" method="post" class="CreateRequestForm">
+                <input type="hidden" value="@currentId" name="UserID" />
+                <select name="EventID" id="EventID" class="RoosterDropDown">
+                    @{
+                        for (int i = 1; i <= shiftView.EntryCount("EventId", "Rooster"); i++)
                         {
-                            <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                            List<string> dienstInfo = shiftView.GetDiensten(Convert.ToInt32(currentId), i);
+                            if (shiftView.HasCorrectInfo(dienstInfo))
+                            {
+
+                                if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
+                                {
+                                    if (dienstInfo[8].ToLower() == "false")
+                                    {
+                                        <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                                    }
+                                }
+                            }
                         }
                     }
+                </select>
+                <input type="submit" value="Vraag ruilverzoek aan" class="SubmitButton"/>
+            </form>
+            <div class="activeRequests">
+                <h2>Your requests</h2>
+                <div class="w3-bar">
+                    <button class="w3-bar-item w3-button w3-hover-white tablink w3-black" onclick="openTab(event,'Active')">Active</button>
+                    <button class="w3-bar-item w3-button w3-hover-white tablink" onclick="openTab(event,'Expired')">Expired</button>
+                </div>
+            </div>
+            <h2 id="status">Active</h2>
+        </div>
+        <div id="Active" class="w3-container w3-border tab requests">
+            @{
+                for (int i = 1; i <= shiftView.EntryCount("TradeID", "TradeRequest"); i++)
+                {
+                    string[] requestOutput = shiftView.GetRequests(i).ToArray();
+                    string[] disabledIds = requestOutput[6].Split(" ");
+                    string[] issuerDetails = shiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
+
+                    string date = "Error";
+                    string startTime = "Error";
+                    string endTime = "Error";
+
+
+                    if (requestOutput[2].Contains("AM") || requestOutput[2].Contains("PM"))
+                    {
+                        date = requestOutput[2].Split(" ")[0];
+                        startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1] + " " + requestOutput[2].Split(" ")[2];
+                        endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1] + " " + requestOutput[3].Split(" ")[2];
+                    }
+                    else
+                    {
+                        date = requestOutput[2].Split(" ")[0];
+                        startTime = requestOutput[2].Split(" ")[1].Split(":")[0] + ":" + requestOutput[2].Split(" ")[1].Split(":")[1];
+                        endTime = requestOutput[3].Split(" ")[1].Split(":")[0] + ":" + requestOutput[3].Split(" ")[1].Split(":")[1];
+                    }
+
+                    if (requestOutput[0] == currentId)
+                    {
+                        <div class="exampleRequest">
+                            <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
+                            @*<a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
+                                <img src="~/img/check-solid.svg" alt="No">
+                            </a>
+                            <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">
+                                <img src="~/img/ban-solid.svg" alt="No">
+                            </a>*@
+                        </div>
+                    }
                 }
-            </select>
-            <input type="submit" />
-        </form>
+            }
+        </div>
+        <div id="Expired" class="w3-container w3-border tab" style="display:none">
+            <p>Expired request will show here.</p>
+        </div>
     </div>
+</div>
+</div>
 </div>

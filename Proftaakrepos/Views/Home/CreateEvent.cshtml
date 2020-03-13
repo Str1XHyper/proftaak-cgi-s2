@@ -1,0 +1,63 @@
+﻿@model Proftaakrepos.Models.EventModel
+
+@{
+    ViewData["Title"] = "CreateEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create Event</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateEvent">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="userId" class="control-label"></label>
+                <input asp-for="userId" class="form-control" />
+                <span asp-validation-for="userId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="title" class="control-label"></label>
+                <input asp-for="title" class="form-control" />
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="description" class="control-label"></label>
+                <input asp-for="description" class="form-control" />
+                <span asp-validation-for="description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="startDate" class="control-label"></label>
+                <input asp-for="startDate" class="form-control" />
+                <span asp-validation-for="startDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="endDate" class="control-label"></label>
+                <input asp-for="endDate" class="form-control" />
+                <span asp-validation-for="endDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="themeColor" class="control-label"></label>
+                <input asp-for="themeColor" class="form-control" />
+                <span asp-validation-for="themeColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isFullDay" class="control-label"></label>
+                <input asp-for="isFullDay" class="form-control" />
+                <span asp-validation-for="isFullDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isPending" class="control-label"></label>
+                <input asp-for="isPending" class="form-control" />
+                <span asp-validation-for="isPending" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Create" class="btn btn-primary" formmethod="post" />
+        </form>
+</div>
+</div>
+
+<div>
+    <a asp-action="Agenda">Back to List</a>
+</div>
+

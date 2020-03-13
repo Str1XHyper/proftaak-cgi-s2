@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proftaakrepos.Models;
 using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.Http;
+using ClassLibrary.Classes;
 
 namespace Proftaakrepos.Controllers
 {
@@ -25,6 +25,12 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
+        public IActionResult NoAccessIndex()
+        {
+            ModelState.AddModelError("", "U heeft niet de rechten om deze pagina te bezoeken.");
+            return View("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -37,17 +43,64 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult ShiftView()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
+
         public IActionResult Agenda()
         {
-            EventModel em = new EventModel("Outcoming", "is mooi", 0);
-            EventModel em2 = new EventModel("Danillo's outcoming", "is semi-mooi", 1);
-            mockEvents.Add(em);
-            mockEvents.Add(em2);
-            return View(mockEvents);
+            return View();
         }
+        [HttpGet]
+        public ActionResult CreateEvent()
+        {
+            return View();
+        }
+        [HttpPost] 
+        public ActionResult CreateEvent(EventModel e)
+        {
+            if (ModelState.IsValid)
+            {
+                HandleEventRequest(e);
+                return RedirectToAction("Agenda");
+            }
+            else
+            {
+                return View(e);
+            }
+        }
+        public IActionResult HandleEventRequest(EventModel emdb)
+        {
+            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
 
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connetionString))
+                {
+                    //INSERT INTO, UPDATE AND DELETE
+                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES (@UserId,@Subject,@Description,@Start,@End,@ThemeColor,@IsFullDay,@IsPending)", connection))
+                    {
+                        cmd.Parameters.AddWithValue("@UserId", emdb.userId);
+                        cmd.Parameters.AddWithValue("@Subject", emdb.title);
+                        cmd.Parameters.AddWithValue("@Description", emdb.description);
+                        cmd.Parameters.AddWithValue("@Start", emdb.startDate);
+                        cmd.Parameters.AddWithValue("@End", emdb.endDate);
+                        cmd.Parameters.AddWithValue("@ThemeColor", emdb.themeColor);
+                        cmd.Parameters.AddWithValue("@IsFullDay", emdb.isFullDay);
+                        cmd.Parameters.AddWithValue("@IsPending", emdb.isPending);
+                        connection.Open();
+                        cmd.ExecuteNonQuery();
+                        connection.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+            return RedirectToAction("CreateEvent", "Home");
+        }
         public IActionResult Employees()
         {
             return View();
@@ -130,45 +183,30 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult CreateRequest(string EventID, string UserID)
         {
-            string[] returnStrings = new string[8];
-            MySqlConnection cnn;
-            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-            cnn = new MySqlConnection(connetionString);
-            MySqlCommand cmd = new MySqlCommand();
-            MySqlCommand cmd2 = new MySqlCommand();
-            cmd2.Connection = cnn;
-            cmd.Connection = cnn;
-            cmd.CommandText = $"Select * from Rooster where EventId = 1";
-            try
-            {
-                cnn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        returnStrings[i] = reader[i].ToString(); //I only used array as an example but you may use built in collections.
-                    }
-                    break;
-                }
-                cnn.Close();
-                string[] startDates = returnStrings[4].Split(" ")[0].Split("/");
-                string startTime = returnStrings[4].Split(" ")[1];
-                string[] endDates = returnStrings[5].Split(" ")[0].Split("/");
-                string endTime = returnStrings[5].Split(" ")[1];
-                Trace.WriteLine($"{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}");
-                cmd2.CommandText = $"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', -1, 0)";
+            SQLConnection sql = new SQLConnection();
+            string[] roosterData = sql.ExecuteSearchQuery($"Select * from Rooster where EventId = {EventID}").ToArray();
 
-                cnn.Open();
-                var reader2 = cmd2.ExecuteNonQuery();
-                cnn.Close();
-            }
-            catch (Exception ex)
+            string[] startDates = new string[3];
+            string startTime;
+            string[] endDates = new string[3];
+            string endTime;
+
+            if (roosterData[4].Split(" ")[0].Contains("/"))
             {
-                //"Can not open connection ! " + ex.Message.ToString()
-                Trace.WriteLine(ex);
-                return null;
+                startDates = roosterData[4].Split(" ")[0].Split("/");
+                startTime = roosterData[4].Split(" ")[1];
+                endDates = roosterData[5].Split(" ")[0].Split("/");
+                endTime = roosterData[5].Split(" ")[1];
+            } else
+            {
+                startDates = roosterData[4].Split(" ")[0].Split("-");
+                startTime = roosterData[4].Split(" ")[1];
+                endDates = roosterData[5].Split(" ")[0].Split("-");
+                endTime = roosterData[5].Split(" ")[1];
             }
+
+            sql.ExecuteNonSearchQuery($"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', -1, 0)");
+            sql.ExecuteNonSearchQuery($"Update Rooster Set IsPending = 1 where EventId = {EventID}");
             
             return RedirectToAction("ShiftView", "Home");
         }

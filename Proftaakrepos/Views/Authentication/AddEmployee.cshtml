@@ -1,30 +1,41 @@
-﻿@model AddEmployeeModel
+﻿@model AddEmployee
 @{
     ViewData["Title"] = "AddEmployee";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>AddEmployee</h1>
+<link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
+<div class="form">
+    <div style="color: red;">@ViewData["Error"]</div>
 
-<form method="post" asp-controller="Authentication" asp-action="AddEmployee">
-    <div asp-validation-summary="All"></div>
-
-    <div>
-        <label asp-for="GebruikersNaam"></label>
-        <input asp-for="GebruikersNaam" />
-        <span asp-validation-for="GebruikersNaam"></span>
-    </div>
-    <div>
-        <label asp-for="Wachtwoord"></label>
-        <input asp-for="Wachtwoord" />
-        <span asp-validation-for="Wachtwoord"></span>
-    </div>
-    <div>
-        <label asp-for="BevestigWachtwoord"></label>
-        <input asp-for="BevestigWachtwoord" />
-        <span asp-validation-for="BevestigWachtwoord"></span>
-    </div>
-    <div>
-        <input type="submit" value="AddEmployee" />
-    </div>
-</form>
+    <form action="/authentication/AddEmployee" method="post" class="login-form">
+        <div style="color: red;"></div>
+        <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="naam" name="naam" type="text" placeholder="Voornaam"> <span class="field-validation-valid" data-valmsg-for="naam" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="tussenvoegsel" name="tussenvoegsel" type="text" placeholder="Tussenvoegsel"> <span class="field-validation-valid" data-valmsg-for="tussenvoegsel" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="achternaam" name="achternaam" type="text" placeholder="Achternaam"> <span class="field-validation-valid" data-valmsg-for="achternaam" data-valmsg-replace="true"></span></div>
+        <div class="banner"><center><h5 style="color: white">CONTACT INFORMATIE</h5></center></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" data-val-email="The field is not a valid e-mail address." data-val-required="The E-mail field is required." id="Email" name="Email" type="email" placeholder="E-mail"> <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="phoneNumber" name="phoneNumber" type="text" placeholder="Telefoonnummer"> <span class="field-validation-valid" data-valmsg-for="telefoonnummer" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="straatnaam" name="straatnaam" type="text" placeholder="Straatnaam"> <span class="field-validation-valid" data-valmsg-for="straatnaam" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="huisnummer" name="huisnummer" type="text" placeholder="Huisnummer"> <span class="field-validation-valid" data-valmsg-for="huisnummer" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="postcode" name="postcode" type="text" placeholder="Postcode"> <span class="field-validation-valid" data-valmsg-for="postcode" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="woonplaats" name="woonplaats" type="text" placeholder="Woonplaats"> <span class="field-validation-valid" data-valmsg-for="woonplaats" data-valmsg-replace="true"></span></div>
+        @Html.DropDownListFor(m => m.role,
+                    new SelectList(Enum.GetValues(typeof(AddEmployee.Roles))),
+                    "Selecteer rol")
+        <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
+        <p>Email notificatie</p>
+        <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
+        <input type="radio" name="emailsetting" value="Nee" />
+        <label>Nee</label>
+        <p>SMS notificatie</p>
+        <input type="radio" name="smssetting" value="Ja" />
+        <label>Ja</label>
+        <input type="radio" name="smssetting" value="Nee" />
+        <label>Nee</label>
+        <br>
+        <input type="submit" value="Voeg toe">
+    </form>
+</div>

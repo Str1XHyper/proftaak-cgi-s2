@@ -1,0 +1,17 @@
+﻿.page {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+}
+
+.left {
+    grid-column: 1;
+    height: 100vh;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+}
+
+.right {
+    grid-column: 2;
+    height: 100vh;
+}
