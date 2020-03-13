@@ -19,6 +19,7 @@ namespace Proftaakrepos.Controllers
         private SQLConnection sQLConnection = new SQLConnection();
         private ChangeSettings changeSettings = new ChangeSettings();
         private GetRole getRole = new GetRole();
+        private AddLoginAccount addLoginAccount = new AddLoginAccount();
         [HttpGet]
         public IActionResult Login()
         {
@@ -54,7 +55,8 @@ namespace Proftaakrepos.Controllers
         {
             string authToken = GenerateAuthToken.GetUniqueKey(10);
             sQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{addEmployeeModel.eMail.ToLower()}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
-            changeSettings.InitSettings(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting);
+            //changeSettings.InitSettings(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting);
+            addLoginAccount.AddLogin(addEmployeeModel.eMail, changeSettings.InitSettings(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting).ToString());
             return View(addEmployeeModel);
         }
 
@@ -79,6 +81,12 @@ namespace Proftaakrepos.Controllers
             ViewData["EmployeeInfo"] = data;
             return View("Employees");
         }
-
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePassword changePassword)
+        {
+            addLoginAccount.ChangeLoginAdmin(changePassword.email, changePassword.password);
+            ViewData["msg"] = "Wachtwoord aangepast";
+            return View("Employees");
+        }
     }
 }

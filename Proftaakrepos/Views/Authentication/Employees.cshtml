@@ -8,12 +8,14 @@
     if (ViewData["EmployeeInfo"] != null)
     {
         EmployeeInfo = ViewData["EmployeeInfo"] as string[];
-    } else
+    }
+    else
     {
         EmployeeInfo = new string[12];
     }
 }
 <h1>Employees</h1>
+<p style="color: green; font-size: 20px;">@ViewData["msg"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <form asp-action="GetEmployeeInfo" asp-controller="Authentication" method="post">
     <select name="employee" id="employee">
@@ -24,15 +26,15 @@
             int test = employees.Count() * 3;
             for (int i = 1; i <= employees.Count() * 3; i += 3)
             {
-            if (employeeNames[i] != null)
-            {
-            <option value="@count">@employeeNames[i-1] @employeeNames[i] @employeeNames[i + 1]</option>
-            }
-            else
-            {
-            <option value="@count">@employeeNames[i-1] @employeeNames[i + 1]</option>
-            }
-            count++;
+                if (employeeNames[i] != null)
+                {
+                    <option value="@count">@employeeNames[i - 1] @employeeNames[i] @employeeNames[i + 1]</option>
+                }
+                else
+                {
+                    <option value="@count">@employeeNames[i - 1] @employeeNames[i + 1]</option>
+                }
+                count++;
             }
         }
     </select>
@@ -42,7 +44,7 @@
 <form action="/authentication/AddEmployee" method="post" class="login-form">
     <div style="color: red;"></div>
     <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="naam" name="naam" type="text" placeholder="Voornaam" value="@EmployeeInfo[1]"/> <span class="field-validation-valid" data-valmsg-for="naam" data-valmsg-replace="true"></span></div>
+    <div class="editor-field"><input class="text-box single-line" data-val="true" id="naam" name="naam" type="text" placeholder="Voornaam" value="@EmployeeInfo[1]" /> <span class="field-validation-valid" data-valmsg-for="naam" data-valmsg-replace="true"></span></div>
     <div class="editor-field"><input class="text-box single-line" data-val="true" id="tussenvoegsel" name="tussenvoegsel" type="text" placeholder="Tussenvoegsel" value="@EmployeeInfo[2]"> <span class="field-validation-valid" data-valmsg-for="tussenvoegsel" data-valmsg-replace="true"></span></div>
     <div class="editor-field"><input class="text-box single-line" data-val="true" id="achternaam" name="achternaam" type="text" placeholder="Achternaam" value="@EmployeeInfo[3]"> <span class="field-validation-valid" data-valmsg-for="achternaam" data-valmsg-replace="true"></span></div>
     <div class="banner"><center><h5 style="color: white">CONTACT INFORMATIE</h5></center></div>
@@ -56,15 +58,61 @@
                 new SelectList(Enum.GetValues(typeof(AddEmployee.Roles))),
                 "Selecteer rol")
     <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
-    <p>Email notificatie</p>
-    <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
-    <input type="radio" name="emailsetting" value="Nee" />
-    <label>Nee</label>
-    <p>SMS notificatie</p>
-    <input type="radio" name="smssetting" value="Ja" />
-    <label>Ja</label>
-    <input type="radio" name="smssetting" value="Nee" />
-    <label>Nee</label>
+
+    @{
+        ChangeSettings changeSettings = new ChangeSettings();
+        string[] employeeSettings;
+        if (EmployeeInfo[0] != null)
+        {
+            employeeSettings = changeSettings.getSettings(EmployeeInfo[0]);
+            if (employeeSettings.Length > 2)
+            {
+                if (employeeSettings[1].ToLower() == "true")
+                {
+                    <p>Email notificatie</p>
+                    <input type="radio" name="emailsetting" value="Ja" checked /> <label>Ja</label>
+                    <input type="radio" name="emailsetting" value="Nee" /><label>Nee</label>
+                }
+                else
+                {
+                    <p>Email notificatie</p>
+                    <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
+                    <input type="radio" name="emailsetting" value="Nee" checked /><label>Nee</label>
+                }
+                if (employeeSettings[2].ToLower() == "true")
+                {
+                    <p>SMS notificatie</p>
+                    <input type="radio" name="smssetting" value="Ja" checked />
+                    <label>Ja</label>
+                    <input type="radio" name="smssetting" value="Nee" />
+                    <label>Nee</label>
+                }
+                else
+                {
+                    <p>SMS notificatie</p>
+                    <input type="radio" name="smssetting" value="Ja" />
+                    <label>Ja</label>
+                    <input type="radio" name="smssetting" value="Nee" checked />
+                    <label>Nee</label>
+                }
+            }
+        }
+        else
+        {
+            <p>Email notificatie</p>
+            <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
+            <input type="radio" name="emailsetting" value="Nee" /><label>Nee</label>
+            <p>SMS notificatie</p>
+            <input type="radio" name="smssetting" value="Ja" />
+            <label>Ja</label>
+            <input type="radio" name="smssetting" value="Nee" />
+            <label>Nee</label>
+        }
+    }
     <br>
     <input type="submit" value="Voeg toe">
 </form>
+
+<div class="banner"><center><h5 style="color: white">INLOGGEVENS</h5></center></div>
+<br>
+@Html.Partial("ChangePassword")

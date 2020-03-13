@@ -10,7 +10,7 @@ namespace ClassLibrary.Classes
         SQLConnection sQLConnection = new SQLConnection();
         private int emailSettings;
         private int smsSettings;
-        public void InitSettings(string email, string emailSetting, string smssSetting)
+        public int InitSettings(string email, string emailSetting, string smssSetting)
         {
             List<string> userIDlist = sQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{email}'");
             int userID = Convert.ToInt32(userIDlist[0]);
@@ -32,6 +32,12 @@ namespace ClassLibrary.Classes
                 smsSettings = 0;
             }
             sQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Settings`(`UserId`, `ReceiveMail`, `ReceiveSMS`) VALUES ('{userID}','{emailSettings}','{smsSettings}')");
+            return userID;
+        }
+
+        public string[] getSettings(string userID)
+        {
+            return sQLConnection.ExecuteSearchQuery($"SELECT * FROM `Settings` WHERE `UserId` = {userID}").ToArray();
         }
     }
 }
