@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ClassLibrary.Classes
 {
-    public class GetRole
+    public class GetUserData
     {
         public static string RoleNameAuth(string authcode)
         {
@@ -18,6 +18,13 @@ namespace ClassLibrary.Classes
             string[] idResponse;
             idResponse = SQLConnection.ExecuteSearchQuery($"SELECT `Rol` FROM `Werknemers` WHERE `UserId` = '{userID}'").ToArray();
             return idResponse[0];
+        }
+
+        public static string UserIDAuth(string authcode)
+        {
+            string[] authResponse;
+            authResponse = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{authcode}'").ToArray();
+            return authResponse[0];
         }
     }
 }
