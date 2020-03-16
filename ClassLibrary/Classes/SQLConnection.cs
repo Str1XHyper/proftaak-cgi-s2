@@ -7,9 +7,8 @@ namespace ClassLibrary.Classes
 {
     public class SQLConnection
     {
-        private List<string> values = new List<string>();
         private MySqlDataReader reader;
-        private MySqlConnection CreateConnection(string IP, string Database, string UserName, string Password)
+        private static MySqlConnection CreateConnection(string IP, string Database, string UserName, string Password)
         {
             MySqlConnection cnn;
             string connetionString = $"server={IP};database={Database};uid={UserName};pwd={Password};";
@@ -17,9 +16,9 @@ namespace ClassLibrary.Classes
             return cnn;
         }
 
-        public List<string> ExecuteSearchQuery(string query)
+        public static List<string> ExecuteSearchQuery(string query)
         {
-            values.Clear();
+            List<string> values = new List<string>();
             MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
@@ -38,7 +37,7 @@ namespace ClassLibrary.Classes
             return values;
         }
 
-        public void ExecuteNonSearchQuery(string query)
+        public static void ExecuteNonSearchQuery(string query)
         {
             MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
             MySqlCommand cmd = new MySqlCommand();
@@ -49,8 +48,9 @@ namespace ClassLibrary.Classes
             cnn.Close();
         }
 
-        public List<string> ExecuteGetStringQuery(string query)
+        public static List<string> ExecuteGetStringQuery(string query)
         {
+            List<string> values = new List<string>();
             MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
