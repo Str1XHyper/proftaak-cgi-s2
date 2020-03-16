@@ -7,9 +7,7 @@
     ViewData["Title"] = "ShiftView";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string authCode = ViewData["UserInfo"].ToString();
-    SQLConnection sQLConnection = new SQLConnection();
-    ShiftView shiftView = new ShiftView();
-    string currentId = shiftView.GetLoggedInUserId(authCode);
+    string currentId = ShiftView.GetLoggedInUserId(authCode);
 }
 <link rel="stylesheet" href="~/css/ShiftView.css" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -23,11 +21,11 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            for (int i = 1; i <= shiftView.EntryCount("TradeID", "TradeRequest"); i++)
+            for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
             {
-                string[] requestOutput = shiftView.GetRequests(i).ToArray();
+                string[] requestOutput = ShiftView.GetRequests(i).ToArray();
                 string[] disabledIds = requestOutput[6].Split(" ");
-                string[] issuerDetails = shiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
+                string[] issuerDetails = ShiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
 
                 string date = "Error";
                 string startTime = "Error";
@@ -86,10 +84,10 @@
                 <input type="hidden" value="@currentId" name="UserID" />
                 <select name="EventID" id="EventID" class="RoosterDropDown">
                     @{
-                        for (int i = 1; i <= shiftView.EntryCount("EventId", "Rooster"); i++)
+                        for (int i = 1; i <= ShiftView.EntryCount("EventId", "Rooster"); i++)
                         {
-                            List<string> dienstInfo = shiftView.GetDiensten(Convert.ToInt32(currentId), i);
-                            if (shiftView.HasCorrectInfo(dienstInfo))
+                            List<string> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId), i);
+                            if (ShiftView.HasCorrectInfo(dienstInfo))
                             {
 
                                 if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
@@ -116,11 +114,11 @@
         </div>
         <div id="Active" class="w3-container w3-border tab requests">
             @{
-                for (int i = 1; i <= shiftView.EntryCount("TradeID", "TradeRequest"); i++)
+                for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
                 {
-                    string[] requestOutput = shiftView.GetRequests(i).ToArray();
+                    string[] requestOutput = ShiftView.GetRequests(i).ToArray();
                     string[] disabledIds = requestOutput[6].Split(" ");
-                    string[] issuerDetails = shiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
+                    string[] issuerDetails = ShiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
 
                     string date = "Error";
                     string startTime = "Error";

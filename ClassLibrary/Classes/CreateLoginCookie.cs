@@ -10,25 +10,24 @@ namespace ClassLibrary.Classes
 {
     public class CreateLoginCookie
     {
-        private string authCode;
-        private SQLConnection sqlConnection = new SQLConnection();
-        private string userID;
-        public string getAuthToken(string username)
+        public static string getAuthToken(string username)
         {
+            string authCode;
+            string userID;
             userID = GetUserID(username);
             authCode = GetAuthCode(userID);
             return authCode;
         }
 
-        private string GetAuthCode(string UserID)
+        private static string GetAuthCode(string UserID)
         {
-            List<string> authCode = sqlConnection.ExecuteSearchQuery($"SELECT AuthCode FROM `Werknemers` WHERE UserId = '{UserID}'");
+            List<string> authCode = SQLConnection.ExecuteSearchQuery($"SELECT AuthCode FROM `Werknemers` WHERE UserId = '{UserID}'");
             return authCode[0];
         }
 
-        private string GetUserID(string userName)
+        private static string GetUserID(string userName)
         {
-            List<string> userID = sqlConnection.ExecuteSearchQuery($"SELECT UserId FROM `Login` WHERE Username = '{userName}'");
+            List<string> userID = SQLConnection.ExecuteSearchQuery($"SELECT UserId FROM `Login` WHERE Username = '{userName}'");
             return userID[0];
         }
     }

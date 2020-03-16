@@ -60,11 +60,10 @@
     <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
 
     @{
-        ChangeSettings changeSettings = new ChangeSettings();
         string[] employeeSettings;
         if (EmployeeInfo[0] != null)
         {
-            employeeSettings = changeSettings.getSettings(EmployeeInfo[0]);
+            employeeSettings = ChangeSettings.getSettings(EmployeeInfo[0]);
             if (employeeSettings.Length > 2)
             {
                 if (employeeSettings[1].ToLower() == "true")

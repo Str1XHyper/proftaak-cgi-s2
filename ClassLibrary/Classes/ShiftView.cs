@@ -8,23 +8,22 @@ namespace ClassLibrary.Classes
 {
     public class ShiftView
     {
-        private SQLConnection sqlConnection = new SQLConnection();
-        List<string> returns;
-        public string GetLoggedInUserId(string authCode)
+        public static string GetLoggedInUserId(string authCode)
         {
-            return sqlConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];
+            return SQLConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];
         }
 
-        public bool HasCorrectInfo(List<string> QueryResult)
+        public static bool HasCorrectInfo(List<string> QueryResult)
         {
             return QueryResult.Count > 1;
         }
 
-        public List<string> GetDiensten(int UserID, int EventId)
+        public static List<string> GetDiensten(int UserID, int EventId)
         {
+            List<string> returns = new List<string>();
             try
             {
-                return sqlConnection.ExecuteSearchQuery($"Select * From Rooster Where UserId = {UserID} and EventId = {EventId}");
+                return SQLConnection.ExecuteSearchQuery($"Select * From Rooster Where UserId = {UserID} and EventId = {EventId}");
             }
             catch (Exception ex)
             {
@@ -33,11 +32,12 @@ namespace ClassLibrary.Classes
         }
 
 
-        public List<string> GetNameByUIDs(int UserID)
+        public static List<string> GetNameByUIDs(int UserID)
         {
+            List<string> returns = new List<string>();
             try
             {
-                return sqlConnection.ExecuteSearchQuery($"Select * From Werknemers Where UserId = {UserID}");
+                return SQLConnection.ExecuteSearchQuery($"Select * From Werknemers Where UserId = {UserID}");
             }
             catch (Exception ex)
             {
@@ -45,11 +45,12 @@ namespace ClassLibrary.Classes
             }
         }
 
-        public int EntryCount(string column, string table)
+        public static int EntryCount(string column, string table)
         {
+            List<string> returns = new List<string>();
             try
             {
-                return Convert.ToInt32(sqlConnection.ExecuteSearchQuery($"Select count({column}) From {table}")[0]);
+                return Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select count({column}) From {table}")[0]);
             }
             catch (Exception ex)
             {
@@ -57,11 +58,12 @@ namespace ClassLibrary.Classes
             }
         }
 
-        public List<string> GetRequests(int TradeID)
+        public static List<string> GetRequests(int TradeID)
         {
+            List<string> returns = new List<string>();
             try
             {
-                return sqlConnection.ExecuteSearchQuery($"Select * From TradeRequest Where TradeId = {TradeID}");
+                return SQLConnection.ExecuteSearchQuery($"Select * From TradeRequest Where TradeId = {TradeID}");
             }
             catch (Exception ex)
             {
