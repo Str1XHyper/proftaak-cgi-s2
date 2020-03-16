@@ -12,6 +12,7 @@ namespace ClassLibrary.Classes
         public string RoleNameAuth(string authcode)
         {
             authResponse = sQLConnection.ExecuteSearchQuery($"SELECT `Rol` FROM `Werknemers` WHERE `AuthCode` = '{authcode}'").ToArray();
+            // als leeg (niet ingelogd);
             return authResponse[0];
         }
 
