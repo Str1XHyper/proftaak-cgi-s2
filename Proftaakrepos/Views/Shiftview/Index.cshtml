@@ -17,7 +17,7 @@
     <h1>ShiftView</h1>
 
     @* Incoming request box *@
-    <h1 class="incommingH1">Incoming requests</h1>
+    <h1 class="incomingH1">Incoming requests</h1>
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
@@ -63,7 +63,7 @@
                 {
                     <div class="exampleRequest">
                         <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
-                        <a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
+                        <a asp-controller="Shiftview" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
                             <img src="~/img/check-solid.svg" alt="No">
                         </a>
                         <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">
@@ -157,6 +157,4 @@
             <p>Expired request will show here.</p>
         </div>
     </div>
-</div>
-</div>
 </div>
