@@ -20,7 +20,7 @@
     background-color: #c4c4c4;
     width: 1050px;
     height: 500px;
-    margin: 0 auto;
+    margin: 0 auto 10px auto;
     padding-top: 10px;
     overflow-x: hidden;
 }
