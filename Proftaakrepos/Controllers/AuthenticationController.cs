@@ -56,7 +56,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult AddEmployee()
         {
-            if(GetRole.RoleNameAuth(HttpContext.Session.GetString("UserInfo")).ToLower() == "roostermaker")
+            if(GetUserData.RoleNameAuth(HttpContext.Session.GetString("UserInfo")).ToLower() == "roostermaker")
             {
                 return View();
             }
@@ -73,6 +73,8 @@ namespace Proftaakrepos.Controllers
         {
             string[] data = SQLConnection.ExecuteSearchQuery($"Select * from `Werknemers` where UserId = {employee}").ToArray();
             ViewData["EmployeeInfo"] = data;
+            ViewData["userRole"] = SQLConnection.ExecuteSearchQuery($"SELECT `Rol` from `Werknemers` where UserId = {employee}")[0];
+            ViewData["roles"] = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`").ToArray();
             return View("Employees");
         }
         [HttpPost]
