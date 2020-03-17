@@ -70,5 +70,26 @@ namespace ClassLibrary.Classes
                 return returns;//new string[] { "Can not open connection ! " + ex.Message.ToString() };
             }
         }
+
+        public static string[] FixTimeStamp(string[] requestOutput)
+        {
+            string date = requestOutput[2].Split(" ")[0];
+            string[] startTimes = requestOutput[2].Split(" ")[1].Split(":");
+            string[] endTimes = requestOutput[3].Split(" ")[1].Split(":");
+
+            string startTime = startTimes[0] + ":" + startTimes[1];
+            string endTime = endTimes[0] + ":" + endTimes[1];
+
+            if (requestOutput[2].Contains("AM") || requestOutput[2].Contains("PM"))
+            {
+                string startUSTimeStamp = requestOutput[2].Split(" ")[2];
+                string endUSTimeStamp = requestOutput[3].Split(" ")[2];
+
+                startTime += $" {startUSTimeStamp}";
+                endTime += $" {endUSTimeStamp}";
+            }
+
+            return new string[] {date, startTime, endTime};
+        }
     }
 }
