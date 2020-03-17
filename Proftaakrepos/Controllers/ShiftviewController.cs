@@ -12,7 +12,13 @@ namespace Proftaakrepos.Controllers
 {
     public class ShiftviewController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Incoming()
+        {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            return View();
+        }
+
+        public IActionResult CreateRequest()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
@@ -39,7 +45,7 @@ namespace Proftaakrepos.Controllers
             catch (Exception ex)
             {
                 //"Can not open connection ! " + ex.Message.ToString()
-                return View("ShiftView");
+                return View("Index");
             }
 
             cmd.CommandText = $"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID}";
@@ -55,9 +61,9 @@ namespace Proftaakrepos.Controllers
             catch (Exception ex)
             {
                 //"Can not open connection ! " + ex.Message.ToString()
-                return View("ShiftView");
+                return View("Index");
             }
-            return View("ShiftView");
+            return View("Index");
         }
 
         public IActionResult Block(string UserID, int TradeID, string DisabledIds)
@@ -80,10 +86,10 @@ namespace Proftaakrepos.Controllers
             catch (Exception ex)
             {
                 //"Can not open connection ! " + ex.Message.ToString()
-                return View("ShiftView");
+                return View("Index");
             }
 
-            return View("ShiftView");
+            return View("Index");
         }
     }
 }

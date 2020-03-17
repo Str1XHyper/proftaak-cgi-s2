@@ -1,0 +1,87 @@
+﻿@using MySql.Data.MySqlClient;
+@using Microsoft.AspNetCore.Http;
+@using ClassLibrary.Classes;
+@model ShiftViewModel;
+
+@{
+    ViewData["Title"] = "Create a Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string authCode = ViewData["UserInfo"].ToString();
+    string currentId = ShiftView.GetLoggedInUserId(authCode);
+}
+
+<link rel="stylesheet" href="~/css/ShiftView.css" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="~/js/ShiftView.js"></script>
+
+<div class="window">
+    @* Create a request - box *@
+    <h1 class="createH1">Create a request | @authCode</h1>
+    <div class="CreateRequest">
+        <div class="position-static">
+            <form asp-action="CreateRequest" asp-controller="Home" method="post" class="CreateRequestForm">
+                <input type="hidden" value="@currentId" name="UserID" />
+                <select name="EventID" id="EventID" class="RoosterDropDown">
+                    @{
+                        for (int i = 1; i <= ShiftView.EntryCount("EventId", "Rooster"); i++)
+                        {
+                            List<string> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId), i);
+                            if (ShiftView.HasCorrectInfo(dienstInfo))
+                            {
+
+                                if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
+                                {
+                                    if (dienstInfo[8].ToLower() == "false")
+                                    {
+                                        <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
+                                    }
+                                }
+                            }
+                        }
+                    }
+                </select>
+                <input type="submit" value="Vraag ruilverzoek aan" class="SubmitButton" />
+            </form>
+            <div class="activeRequests">
+                <h2>Your requests</h2>
+                <div class="w3-bar">
+                    <button class="w3-bar-item w3-button w3-hover-white tablink w3-black" onclick="openTab(event,'Active')">Active</button>
+                    <button class="w3-bar-item w3-button w3-hover-white tablink" onclick="openTab(event,'Expired')">Expired</button>
+                </div>
+            </div>
+            <h2 id="status">Active</h2>
+        </div>
+        <div id="Active" class="w3-container w3-border tab requests">
+            @{
+                for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
+                {
+                    string[] requestOutput = ShiftView.GetRequests(i).ToArray();
+                    string[] disabledIds = requestOutput[6].Split(" ");
+                    string[] issuerDetails = ShiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
+
+                    string[] times = ShiftView.FixTimeStamp(requestOutput);
+
+                    string date = times[0];
+                    string startTime = times[1];
+                    string endTime = times[2];
+
+                    if (requestOutput[0] == currentId)
+                    {
+                        <div class="exampleRequest">
+                            <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
+                            @*<a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
+                                    <img src="~/img/check-solid.svg" alt="No">
+                                </a>
+                                <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">
+                                    <img src="~/img/ban-solid.svg" alt="No">
+                                </a>*@
+                        </div>
+                    }
+                }
+            }
+        </div>
+        <div id="Expired" class="w3-container w3-border tab" style="display:none">
+            <p>Expired request will show here.</p>
+        </div>
+    </div>
+</div>
