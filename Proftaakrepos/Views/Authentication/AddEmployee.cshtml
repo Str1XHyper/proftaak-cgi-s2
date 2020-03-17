@@ -22,9 +22,9 @@
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="huisnummer" name="huisnummer" type="text" placeholder="Huisnummer"> <span class="field-validation-valid" data-valmsg-for="huisnummer" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="postcode" name="postcode" type="text" placeholder="Postcode"> <span class="field-validation-valid" data-valmsg-for="postcode" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="woonplaats" name="woonplaats" type="text" placeholder="Woonplaats"> <span class="field-validation-valid" data-valmsg-for="woonplaats" data-valmsg-replace="true"></span></div>
-        @Html.DropDownListFor(m => m.role,
+        @*@Html.DropDownListFor(m => m.role,
                     new SelectList(Enum.GetValues(typeof(AddEmployee.Roles))),
-                    "Selecteer rol")
+                    "Selecteer rol")*@
         <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
         <p>Email notificatie</p>
         <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>

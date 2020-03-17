@@ -23,7 +23,6 @@
             int count = 1;
             Employees employees = new Employees();
             string[] employeeNames = employees.Names();
-            int test = employees.Count() * 3;
             for (int i = 1; i <= employees.Count() * 3; i += 3)
             {
                 if (employeeNames[i] != null)
@@ -41,7 +40,7 @@
     <input type="submit" value="Vraag op" />
 </form>
 
-<form action="/authentication/AddEmployee" method="post" class="login-form">
+<form asp-action="UpdateEmployee" asp-controller="Authentication" method="post">
     <div style="color: red;"></div>
     <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
     <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="naam" type="text" placeholder="Voornaam" value="@EmployeeInfo[1]" /> <span class="field-validation-valid" data-valmsg-for="naam" data-valmsg-replace="true"></span></div>
@@ -54,11 +53,21 @@
     <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="huisnummer" type="text" placeholder="Huisnummer" value="@EmployeeInfo[7]"> <span class="field-validation-valid" data-valmsg-for="huisnummer" data-valmsg-replace="true"></span></div>
     <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="postcode" type="text" placeholder="Postcode" value="@EmployeeInfo[8]"> <span class="field-validation-valid" data-valmsg-for="postcode" data-valmsg-replace="true"></span></div>
     <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="woonplaats" type="text" placeholder="Woonplaats" value="@EmployeeInfo[9]"> <span class="field-validation-valid" data-valmsg-for="woonplaats" data-valmsg-replace="true"></span></div>
-    <select id="inputfield">
+    <select id="inputfield" name="role">
         @{
-            @ViewData["userRole"];
-            @ViewData["roles"];
-        }
+            if (ViewData["roles"] == null)
+            {
+                <option value="wrong">Kies eerst een werknemer</option>
+            }
+            else
+            {
+                string[] roles = ViewData["roles"] as string[];
+                for (int i = 0; i < roles.Length; i++)
+                {
+                    <option value="@roles[i]">@roles[i]</option>
+                }
+                }
+         }
     </select>
     <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
 
