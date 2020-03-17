@@ -8,7 +8,7 @@ using Proftaakrepos.Data;
 using ClassLibrary;
 using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
-
+using System.Collections.Generic;
 
 namespace Proftaakrepos.Controllers
 {
@@ -48,10 +48,17 @@ namespace Proftaakrepos.Controllers
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
             string authToken = GenerateAuthToken.GetUniqueKey(10);
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{addEmployeeModel.eMail.ToLower()}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
-            //changeSettings.InitSettings(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting);
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{addEmployeeModel.eMail.ToLower()}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role.ToLower()}')");
             AddLoginAccount.AddLogin(addEmployeeModel.eMail, ChangeSettings.InitSettings(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting).ToString());
             return View(addEmployeeModel);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateEmployee(AddEmployee addEmployeeModel)
+        {
+            string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{addEmployeeModel.eMail.ToLower()}'")[0];
+            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Werknemers` SET `Voornaam`='{addEmployeeModel.naam}',`Tussenvoegsel`='{addEmployeeModel.tussenvoegsel}',`Achternaam`='{addEmployeeModel.achternaam}',`Email`='{addEmployeeModel.eMail.ToLower()}',`Telefoonnummer`='{addEmployeeModel.phoneNumber}',`Straatnaam`='{addEmployeeModel.straatnaam}',`Huisnummer`='{addEmployeeModel.huisNummer}',`Postcode`='{addEmployeeModel.postcode}',`Woonplaats`='{addEmployeeModel.woonplaats}',`Rol`='{addEmployeeModel.role}' WHERE `UserId` = {userID}");
+            return View("Employees");
         }
 
         public IActionResult AddEmployee()
@@ -71,10 +78,19 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult GetEmployeeInfo(string employee)
         {
+            List<string> totalRoles = new List<string>();
             string[] data = SQLConnection.ExecuteSearchQuery($"Select * from `Werknemers` where UserId = {employee}").ToArray();
             ViewData["EmployeeInfo"] = data;
-            ViewData["userRole"] = SQLConnection.ExecuteSearchQuery($"SELECT `Rol` from `Werknemers` where UserId = {employee}")[0];
-            ViewData["roles"] = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`").ToArray();
+            List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
+            totalRoles.Add(data[11]);
+            for(int i = 0; i < typeOfRoles.Count; i++)
+            {
+                if (data[11].ToLower() != typeOfRoles[i].ToLower())
+                {
+                    totalRoles.Add(typeOfRoles[i]);
+                }
+            }
+            ViewData["roles"] = totalRoles.ToArray();
             return View("Employees");
         }
         [HttpPost]

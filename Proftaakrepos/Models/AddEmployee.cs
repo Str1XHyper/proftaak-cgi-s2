@@ -16,13 +16,7 @@ namespace Proftaakrepos.Models
         public int huisNummer { get; set; }
         public string postcode{ get; set; }
         public string woonplaats{ get; set; }
-        public Roles role { get; set; }
-
-        public enum Roles
-        {
-            Roostermaker,
-            Medewerker
-        }
+        public string role { get; set; }
 
         public string emailsetting { get; set; }
         public string smssetting { get; set; }
