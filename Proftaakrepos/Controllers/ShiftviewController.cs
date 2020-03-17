@@ -12,7 +12,13 @@ namespace Proftaakrepos.Controllers
 {
     public class ShiftviewController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Incoming()
+        {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            return View();
+        }
+
+        public IActionResult CreateRequest()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
