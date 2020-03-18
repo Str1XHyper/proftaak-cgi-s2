@@ -56,7 +56,14 @@
                 for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
                 {
                     string[] requestOutput = ShiftView.GetRequests(i).ToArray();
-                    string[] disabledIds = requestOutput[6].Split(" ");
+                    if (requestOutput[6].Contains(","))
+                    {
+                        disabledIds = requestOutput[6].Split(",");
+                    }
+                    else
+                    {
+                        disabledIds = new string[] { requestOutput[6] };
+                    }
                     string[] issuerDetails = ShiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
 
                     string[] times = ShiftView.FixTimeStamp(requestOutput);
