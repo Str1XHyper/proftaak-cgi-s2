@@ -9,7 +9,6 @@ namespace Proftaakrepos.Controllers
 {
     public class EmployeesController : Controller
     {
-        private SQLConnection sql = new SQLConnection();
         public IActionResult Index()
         {
             return View();
@@ -18,7 +17,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult GetEmployeeInfo(string employee)
         {
-            string[] data = sql.ExecuteSearchQuery($"Select * from `Werknemers` where UserId = {employee}").ToArray();
+            string[] data = SQLConnection.ExecuteSearchQuery($"Select * from `Werknemers` where UserId = {employee}").ToArray();
             ViewData["EmployeeInfo"] = data;
             return RedirectToAction("Employees", "Authentication");
         }
