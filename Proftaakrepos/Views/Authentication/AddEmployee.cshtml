@@ -1,10 +1,11 @@
 ﻿@model AddEmployee
 @{
-    ViewData["Title"] = "AddEmployee";
+    ViewData["Title"] = "Voeg een werknemer toe";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>AddEmployee</h1>
+<h1>Voeg werknemer toe</h1>
+<p style="color: red;">@ViewData["result"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <div class="form">
     <div style="color: red;">@ViewData["Error"]</div>
@@ -22,8 +23,18 @@
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="huisnummer" type="text" placeholder="Huisnummer"> <span class="field-validation-valid" data-valmsg-for="huisnummer" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="postcode" type="text" placeholder="Postcode"> <span class="field-validation-valid" data-valmsg-for="postcode" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="woonplaats" type="text" placeholder="Woonplaats"> <span class="field-validation-valid" data-valmsg-for="woonplaats" data-valmsg-replace="true"></span></div>
-        <select id="inputfield">
-            <option value="1">test</option>
+        <select id="inputfield" name="role">
+            @{ if (ViewData["roles"] == null)
+                {}
+                else
+                {
+                    string[] rollen = ViewData["roles"] as string[];
+                    for (int i = 0; i < rollen.Length; i++)
+                    {
+                        <option value="@rollen[i]">@rollen[i]</option>
+                    }
+                }
+            }
         </select>
         <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
         <p>Email notificatie</p>
