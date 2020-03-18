@@ -27,42 +27,8 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult HandleRequest(string UserID, int TradeID)
         {
-            MySqlConnection cnn;
-            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-            cnn = new MySqlConnection(connetionString);
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandText = $"Update TradeRequest Set Status = 1 Where TradeId = {TradeID} ";
-            try
-            {
-                cnn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                }
-                cnn.Close();
-            }
-            catch (Exception ex)
-            {
-                //"Can not open connection ! " + ex.Message.ToString()
-                return View("Index");
-            }
-
-            cmd.CommandText = $"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID}";
-            try
-            {
-                cnn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                }
-                cnn.Close();
-            }
-            catch (Exception ex)
-            {
-                //"Can not open connection ! " + ex.Message.ToString()
-                return View("Index");
-            }
+            SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set Status = 1 Where TradeId = {TradeID};Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID} ");
+            //SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID}");
             return View("Index");
         }
 
