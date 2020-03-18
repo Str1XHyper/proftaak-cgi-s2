@@ -19,16 +19,25 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
+            List<string> asd = new List<string>();
             for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
             {
                 string[] disabledIds;
                 string[] requestOutput = ShiftView.GetRequests(i).ToArray();
-                if (requestOutput[6].Contains(","))
+                if (requestOutput.Length > 5)
                 {
-                    disabledIds = requestOutput[6].Split(",");
-                } else
+                    if (requestOutput[6].Contains(','))
+                    {
+                        disabledIds = requestOutput[6].Split(",");
+                    }
+                    else
+                    {
+                        disabledIds = new string[] { requestOutput[6] };
+                    }
+                }
+                else
                 {
-                    disabledIds = new string[] { requestOutput[6] };
+                    break;
                 }
                 string[] issuerDetails = ShiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
 
