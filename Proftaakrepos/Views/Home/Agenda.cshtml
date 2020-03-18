@@ -10,17 +10,18 @@
     <title>Agenda</title>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/js/moment.js"></script>
-    <link rel="stylesheet" href="~/css/Agenda.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" integrity="sha256-Lfe6+s5LEek8iiZ31nXhcSez0nmOxP+3ssquHMR3Alo=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js" integrity="sha256-GBryZPfVv8G3K1Lu2QwcqQXAO4Szv4xlY4B/ftvyoMI=" crossorigin="anonymous"></script>
-    <link href="~/css/main.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js" integrity="sha256-FT1eN+60LmWX0J8P25UuTjEEE0ZYvpC07nnU6oFKFuI=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/timegrid/main.min.js" integrity="sha256-L9T+qE3Ms6Rsuxl+KwLST6a3R/2o6m33zB5mR2KyPjU=" crossorigin="anonymous"></script>
     <script src='~/js/interactionmain.min.js'></script>
+    <script src="~/js/MySQLManager.js"></script>
+
+    <link rel="stylesheet" href="~/css/Agenda.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" integrity="sha256-Lfe6+s5LEek8iiZ31nXhcSez0nmOxP+3ssquHMR3Alo=" crossorigin="anonymous" />
+    <link href="~/css/main.min.css" rel="stylesheet" />
     @*<script src="~/js/myCalendar.js"></script>*@
-<script>
+    <script>
     ///////////////////////////////////////////////
-    document.onload
     document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
@@ -45,20 +46,44 @@
                     center: 'title',
                     left: 'addEventButton'
                 },
-                events: ['@Url.Action("FetchAllEvents", "Home")'],
+                events: [
+                    {
+                        title: 'My Event',
+                        start: '2020-03-19',
+                        description: 'This is a cool event'
+                    }
+                        ],
                 selectable: true,
                 selectHelper: true,
                 editable: true,
                 eventLimit: true,
-                select: function (selectionInfo) {
-                    console.log("test");
-                }
             });
+        var list;
+        $.ajax({
+        url: '/Home/FetchAllEvents',
+        type: 'GET', // type of the HTTP request
+        dataType: 'json',
+        success: function (data) {
+            list = data;
+            var eventArray = [];
+            for (var i = 0; i < list.length; i++) {
+                var obj = {}
+                obj.title = list[i].title;
+                obj.startDate = list[i].startDate;
+                obj.endDate = list[i].endDate;
+                obj.allDay = list[i].allDay;
+                eventArray.push(obj);
+            }
+            calendar.events = eventArray;
+            console.log(eventArray);
+            console.log(calendar.events);
+        }
+        });
         calendar.render();
-        
+
     });
 
-</script>
+    </script>
 
 
 </head>
