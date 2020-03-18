@@ -26,12 +26,19 @@ namespace ClassLibrary.Classes
             cnn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
             values.Clear();
-            while (reader.Read())
+            try
             {
-                for(int i = 0; i < reader.FieldCount; i++)
+                while (reader.Read())
                 {
-                    values.Add(reader[i].ToString());
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        values.Add(reader[i].ToString());
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                string eString = e.ToString();
             }
             cnn.Close();
             return values;
