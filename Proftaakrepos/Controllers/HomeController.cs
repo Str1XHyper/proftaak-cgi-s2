@@ -12,7 +12,7 @@ namespace Proftaakrepos.Controllers
 {
     public class HomeController : Controller
     {
-        List<EventModel> mockEvents = new List<EventModel>();
+        List<EventModel> eventList;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -103,6 +103,84 @@ namespace Proftaakrepos.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public EventModel[] FetchAllEvents()
+        {
+            eventList = new List<EventModel>();
+            MySqlConnection cnn;
+            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+            cnn = new MySqlConnection(connetionString);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = cnn;
+            cmd.CommandText = $"select * from Events";
+            try
+            {
+                cnn.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    EventModel em = new EventModel();
+                    em.userId = Convert.ToInt32(reader[0]);
+                    em.title = reader[1].ToString();
+                    em.description = reader[2].ToString();
+                    em.startDate = Convert.ToDateTime(reader[3]);
+                    em.endDate = Convert.ToDateTime(reader[4]);
+                    em.themeColor = reader[5].ToString();
+                    em.isFullDay = Convert.ToBoolean(reader[6]);
+                    em.isPending = Convert.ToBoolean(reader[7]);
+                    eventList.Add(em);
+                }
+                cnn.Close();
+                EventModel[] eventArray = new EventModel[eventList.Count];
+                eventList.CopyTo(eventArray);
+                return eventArray;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public IActionResult HandleRequest(string UserID, int TradeID)
+        {
+
+            MySqlConnection cnn;
+            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+            cnn = new MySqlConnection(connetionString);
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.Connection = cnn;
+            cmd.CommandText = $"Update TradeRequest Set Status = 1 Where TradeId = {TradeID} ";
+            try
+            {
+                cnn.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+                //"Can not open connection ! " + ex.Message.ToString()
+                return View("ShiftView");
+            }
+
+            cmd.CommandText = $"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID}";
+            try
+            {
+                cnn.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                }
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+                //"Can not open connection ! " + ex.Message.ToString()
+                return View("ShiftView");
+            }
+            return RedirectToAction("ShiftView", "Home");
         }
 
         

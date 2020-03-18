@@ -20,5 +20,6 @@ function openTab(evt, tabName) {
     }
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " w3-black";
-    status.innerHTML = tabName;
+    statusText = getElementsByClassName(tabName).innerHTML
+    status.innerHTML = statusText;
 }

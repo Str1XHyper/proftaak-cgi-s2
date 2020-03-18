@@ -1,5 +1,4 @@
 ﻿@model Proftaakrepos.Models.EventModel
-
 @{
     ViewData["Title"] = "Agenda";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,35 +16,54 @@
     <link href="~/css/main.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js" integrity="sha256-FT1eN+60LmWX0J8P25UuTjEEE0ZYvpC07nnU6oFKFuI=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/timegrid/main.min.js" integrity="sha256-L9T+qE3Ms6Rsuxl+KwLST6a3R/2o6m33zB5mR2KyPjU=" crossorigin="anonymous"></script>
+    <script src='~/js/interactionmain.min.js'></script>
     @*<script src="~/js/myCalendar.js"></script>*@
-    <script>
-        ///////////////////////////////////////////////
-        document.addEventListener('DOMContentLoaded', function () {
+<script>
+    ///////////////////////////////////////////////
+    document.onload
+    document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                customButtons: {
+                    addEventButton: {
+                        text: 'Add event',
+                        click: function () {
+                            window.location.href = '@Url.Action("CreateEvent", "Home")'
+                        }
+                    }
+                },
                 plugins: ['timeGrid'],
+
                 defaultView: 'timeGridWeek',
                 nowIndicator: 'true',
                 minTime: "06:00:00",
                 maxTime: "24:00:00",
                 height: 'auto',
                 header: {
-                    center: 'addEventButton'
+                    right: 'prev,next, today',
+                    center: 'title',
+                    left: 'addEventButton'
                 },
+                events: ['@Url.Action("FetchAllEvents", "Home")'],
+                selectable: true,
+                selectHelper: true,
+                editable: true,
+                eventLimit: true,
+                select: function (selectionInfo) {
+                    console.log("test");
+                }
             });
-            calendar.render();
-        });
-    </script>
+        calendar.render();
+        
+    });
+
+</script>
 
 
 </head>
 
 <body>
-    <h2>Agenda </h2>
-    <a href='@Url.Action("CreateEvent", "Home")'>
-        <input type='button' class="AddEventButton fc-addEventButton-button fc-button fc-button-primary" value='Add event' />
-    </a>
     <div id="calendar"></div>
 </body>
 
