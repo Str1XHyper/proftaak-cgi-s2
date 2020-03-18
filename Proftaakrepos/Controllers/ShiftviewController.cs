@@ -39,7 +39,7 @@ namespace Proftaakrepos.Controllers
             cnn = new MySqlConnection(connetionString);
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = cnn;
-            cmd.CommandText = $"Update TradeRequest Set DisabledIds = '{UserID} {DisabledIds}'Where TradeId = {TradeID}";
+            cmd.CommandText = $"Update TradeRequest Set DisabledIds = '{DisabledIds},{UserID}'Where TradeId = {TradeID}";
             try
             {
                 cnn.Open();
