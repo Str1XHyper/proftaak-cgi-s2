@@ -22,6 +22,7 @@ namespace ClassLibrary
                 string retrievedPassword = passwords[0];
                 if(password == retrievedPassword)
                 {
+                    //SendMail.Execute().Wait();
                     return responses.redirectHome;
                 }
                 else
