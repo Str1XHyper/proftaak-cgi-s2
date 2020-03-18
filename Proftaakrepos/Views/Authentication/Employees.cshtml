@@ -1,6 +1,7 @@
 ﻿@model AddEmployee
 @using ClassLibrary.Classes;
 @{
+    ViewData["Title"] = "Werknemers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -14,7 +15,7 @@
         EmployeeInfo = new string[12];
     }
 }
-<h1>Employees</h1>
+<h1>Werknemers</h1>
 <p style="color: green; font-size: 20px;">@ViewData["msg"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <form asp-action="GetEmployeeInfo" asp-controller="Authentication" method="post">

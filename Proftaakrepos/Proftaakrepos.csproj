@@ -76,5 +76,9 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Employee\" />
+  </ItemGroup>
+
 
 </Project>

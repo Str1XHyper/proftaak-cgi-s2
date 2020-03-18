@@ -104,7 +104,7 @@ namespace Proftaakrepos.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public EventModel[] FetchAllEvents()
+        public IActionResult FetchAllEvents()
         {
             eventList = new List<EventModel>();
             MySqlConnection cnn;
@@ -112,7 +112,7 @@ namespace Proftaakrepos.Controllers
             cnn = new MySqlConnection(connetionString);
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = cnn;
-            cmd.CommandText = $"select * from Events";
+            cmd.CommandText = $"select * from Rooster";
             try
             {
                 cnn.Open();
@@ -120,20 +120,18 @@ namespace Proftaakrepos.Controllers
                 while (reader.Read())
                 {
                     EventModel em = new EventModel();
-                    em.userId = Convert.ToInt32(reader[0]);
-                    em.title = reader[1].ToString();
-                    em.description = reader[2].ToString();
-                    em.startDate = Convert.ToDateTime(reader[3]);
-                    em.endDate = Convert.ToDateTime(reader[4]);
-                    em.themeColor = reader[5].ToString();
-                    em.isFullDay = Convert.ToBoolean(reader[6]);
-                    em.isPending = Convert.ToBoolean(reader[7]);
+                    em.userId = Convert.ToInt32(reader[1]);
+                    em.title = reader[2].ToString();
+                    em.description = reader[3].ToString();
+                    em.startDate = Convert.ToDateTime(reader[4]);
+                    em.endDate = Convert.ToDateTime(reader[5]);
+                    em.themeColor = reader[6].ToString();
+                    em.isFullDay = Convert.ToBoolean(reader[7]);
+                    em.isPending = Convert.ToBoolean(reader[8]);
                     eventList.Add(em);
                 }
                 cnn.Close();
-                EventModel[] eventArray = new EventModel[eventList.Count];
-                eventList.CopyTo(eventArray);
-                return eventArray;
+                return Json(eventList);
             }
             catch (Exception ex)
             {
