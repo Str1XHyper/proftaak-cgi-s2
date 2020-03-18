@@ -45,9 +45,9 @@
                 maxTime: "24:00:00",
                 height: 'auto',
                 header: {
-                    right: 'prev,next, today ',
-                    center: 'title',
-                    left: 'addEventButton, dayGridMonth,timeGridWeek,timeGridDay',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    center: 'prev,today,next',
+                    left: 'title,  addEventButton,   ',
                 },
                 events: ['@Url.Action("FetchAllEvents", "Home")'],
                 selectable: true,
