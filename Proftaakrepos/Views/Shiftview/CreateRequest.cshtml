@@ -55,6 +55,7 @@
             @{
                 for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
                 {
+                    string[] disabledIds;
                     string[] requestOutput = ShiftView.GetRequests(i).ToArray();
                     if (requestOutput[6].Contains(","))
                     {
