@@ -47,11 +47,31 @@ namespace ClassLibrary.Classes
         public static void ExecuteNonSearchQuery(string query)
         {
             MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
+
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
             cmd.Connection = cnn;
             cnn.Open();
-            cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+            cnn.Close();
+        }
+
+        public static void ExecuteNonSearchQueryArray(string[] query)
+        {
+            MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
+
+            MySqlCommand[] cmd = new MySqlCommand[query.Length];
+            for (int i = 0; i<cmd.Length; i++)
+            {
+                cmd[i] = new MySqlCommand();
+                cmd[i].CommandText = query[i];
+                cmd[i].Connection = cnn;
+            }
+            cnn.Open();
+            for(int i = 0; i<cmd.Length; i++)
+            {
+                cmd[i].ExecuteNonQuery();
+            }
             cnn.Close();
         }
 
