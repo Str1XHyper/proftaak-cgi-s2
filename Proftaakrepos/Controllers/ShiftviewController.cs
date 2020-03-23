@@ -29,7 +29,7 @@ namespace Proftaakrepos.Controllers
         {
             SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set Status = 1 Where TradeId = {TradeID};Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID} ");
             //SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID}");
-            return View("Index");
+            return View("Incoming");
         }
 
         public IActionResult Block(string UserID, int TradeID, string DisabledIds)
@@ -52,10 +52,10 @@ namespace Proftaakrepos.Controllers
             catch (Exception ex)
             {
                 //"Can not open connection ! " + ex.Message.ToString()
-                return View("Index");
+                return View("Incoming");
             }
 
-            return View("Index");
+            return View("Incoming");
         }
     }
 }

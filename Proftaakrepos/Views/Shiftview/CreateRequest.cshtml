@@ -28,8 +28,10 @@
                             List<string> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId), i);
                             if (ShiftView.HasCorrectInfo(dienstInfo))
                             {
-
-                                if (dienstInfo[4] != null && dienstInfo[4].Split(" ")[0] != DateTime.Now.ToString().Split(" ")[0])
+                                DateTime dateTime = DateTime.Parse(dienstInfo[4]);
+                                DateTime now = DateTime.Now;
+                                int compareResult = DateTime.Compare(dateTime, now);
+                                if (dienstInfo[4] != null && compareResult > 0)
                                 {
                                     if (dienstInfo[8].ToLower() == "false")
                                     {
