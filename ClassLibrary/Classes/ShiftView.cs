@@ -8,6 +8,7 @@ namespace ClassLibrary.Classes
 {
     public class ShiftView
     {
+
         public static string GetLoggedInUserId(string authCode)
         {
             return SQLConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];

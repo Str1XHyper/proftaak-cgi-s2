@@ -4,7 +4,7 @@
 @model ShiftViewModel;
 
 @{
-    ViewData["Title"] = "Incoming Requests";
+    ViewData["Title"] = "Inkomende Aanvragen";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string authCode = ViewData["UserInfo"].ToString();
     string currentId = ShiftView.GetLoggedInUserId(authCode);
@@ -19,25 +19,17 @@
     <div class="topSpacer1"></div>
     <div class="RequestsRecieved">
         @{
-            List<string> asd = new List<string>();
             for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
             {
                 string[] disabledIds;
                 string[] requestOutput = ShiftView.GetRequests(i).ToArray();
-                if (requestOutput.Length > 5)
+                if (requestOutput[6].Contains(','))
                 {
-                    if (requestOutput[6].Contains(','))
-                    {
-                        disabledIds = requestOutput[6].Split(",");
-                    }
-                    else
-                    {
-                        disabledIds = new string[] { requestOutput[6] };
-                    }
+                    disabledIds = requestOutput[6].Split(",");
                 }
                 else
                 {
-                    break;
+                    disabledIds = new string[] { requestOutput[6] };
                 }
                 string[] issuerDetails = ShiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
 
