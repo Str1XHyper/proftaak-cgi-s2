@@ -126,7 +126,7 @@ namespace Proftaakrepos.Controllers
                     em.startDate = Convert.ToDateTime(reader[4]);
                     em.endDate = Convert.ToDateTime(reader[5]);
                     em.themeColor = reader[6].ToString();
-                    em.isFullDay = Convert.ToBoolean(reader[7]);
+                    em.isFullDay = Convert.ToInt32(reader[7]);
                     em.isPending = Convert.ToBoolean(reader[8]);
                     eventList.Add(em);
                 }
