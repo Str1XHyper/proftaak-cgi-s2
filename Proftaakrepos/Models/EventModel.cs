@@ -14,9 +14,9 @@ namespace Proftaakrepos.Models
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public string themeColor { get; set; }
-        public bool isFullDay { get; set; }
+        public int isFullDay { get; set; }
         public bool isPending { get; set; }
-        public EventModel(int _userId, string _title, string _description, DateTime _startDate, DateTime _endDate, string _themeColor, bool _isFullDay, bool _isPending)
+        public EventModel(int _userId, string _title, string _description, DateTime _startDate, DateTime _endDate, string _themeColor, int _isFullDay, bool _isPending)
         {
             this.title = _title;
             this.description = _description;

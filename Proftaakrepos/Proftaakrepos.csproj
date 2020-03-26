@@ -34,6 +34,7 @@
     <PackageReference Include="ClassLibrary" Version="1.0.0" />
     <PackageReference Include="fullcalendar" Version="3.9.0" />
     <PackageReference Include="FullCalendar.MVC5" Version="1.0.7" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.44.1.1893" />
     <PackageReference Include="jQuery" Version="3.4.1" />
     <PackageReference Include="jQuery.Fullcalendar" Version="3.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.2" />

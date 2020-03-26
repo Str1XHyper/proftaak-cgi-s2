@@ -14,6 +14,7 @@ namespace Proftaakrepos.Controllers
     {
         List<EventModel> eventList;
         private readonly ILogger<HomeController> _logger;
+        private int LoggedInUserId = 1;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -41,8 +42,9 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
-        public IActionResult Agenda()
+        public IActionResult Agenda(int userId)
         {
+            LoggedInUserId = userId;
             return View();
         }
         [HttpGet]
@@ -106,6 +108,8 @@ namespace Proftaakrepos.Controllers
         }
         public IActionResult FetchAllEvents()
         {
+            string var = HttpContext.Session.GetString("UserInfo");
+            int userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
             eventList = new List<EventModel>();
             MySqlConnection cnn;
             string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
@@ -126,9 +130,12 @@ namespace Proftaakrepos.Controllers
                     em.startDate = Convert.ToDateTime(reader[4]);
                     em.endDate = Convert.ToDateTime(reader[5]);
                     em.themeColor = reader[6].ToString();
-                    em.isFullDay = Convert.ToBoolean(reader[7]);
+                    em.isFullDay = Convert.ToInt32(reader[7]);
                     em.isPending = Convert.ToBoolean(reader[8]);
-                    eventList.Add(em);
+                    if (em.userId == userId)
+                    {
+                        eventList.Add(em);
+                    }
                 }
                 cnn.Close();
                 return Json(eventList);
