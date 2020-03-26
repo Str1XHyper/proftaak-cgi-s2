@@ -30,7 +30,7 @@ namespace Proftaakrepos.Controllers
                 case "redirectHome":
                     string authCode = CreateLoginCookie.getAuthToken(model.Username);
                     HttpContext.Session.SetString("UserInfo", authCode);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Agenda", "Home");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
                     break;
