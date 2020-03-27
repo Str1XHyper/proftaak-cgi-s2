@@ -17,12 +17,10 @@
                 @{ 
                     //List<string> accesslevels = GetAccessLevel.GetPermissions("");
                 }
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Privacy", "Privacy", "Home")</li>
-                <li>@Html.ActionLink("Incoming requests", "Incoming", "Shiftview")</li>
-                <li>@Html.ActionLink("Create a request", "CreateRequest", "Shiftview")</li>
+                <li>@Html.ActionLink("Verzoeken", "Incoming", "Shiftview")</li>
+                <li>@Html.ActionLink("Verzoek aanmaken", "CreateRequest", "Shiftview")</li>
                 <li>@Html.ActionLink("Werknemers", "Employees", "Authentication")</li>
-                <li>@Html.ActionLink("Werknemers toevoegen", "AddEmployee", "Authentication")</li>
+                <li>@Html.ActionLink("Werknemer toevoegen", "AddEmployee", "Authentication")</li>
                 <li>@Html.ActionLink("Rooster", "Agenda", "Home")</li>
             </ul>
             <p style="position: absolute; bottom: 0;">CGI.COM - @DateTime.Now.Year</p>

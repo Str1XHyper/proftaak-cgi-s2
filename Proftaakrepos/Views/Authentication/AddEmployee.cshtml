@@ -24,8 +24,7 @@
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="postcode" type="text" placeholder="Postcode"> <span class="field-validation-valid" data-valmsg-for="postcode" data-valmsg-replace="true"></span></div>
         <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="woonplaats" type="text" placeholder="Woonplaats"> <span class="field-validation-valid" data-valmsg-for="woonplaats" data-valmsg-replace="true"></span></div>
         <select id="inputfield" name="role">
-            @{ if (ViewData["roles"] == null)
-                {}
+            @{ if (ViewData["roles"] == null){}
                 else
                 {
                     string[] rollen = ViewData["roles"] as string[];
