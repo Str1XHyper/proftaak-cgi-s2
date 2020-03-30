@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
         editable: true,
         eventLimit: true,
         droppable: true,
-
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
