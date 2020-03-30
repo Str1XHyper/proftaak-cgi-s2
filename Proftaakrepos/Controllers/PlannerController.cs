@@ -57,7 +57,7 @@ namespace Proftaakrepos.Controllers
             if (ModelState.IsValid)
             {
                 HandleEventRequest(e);
-                return RedirectToAction("Agenda");
+                return RedirectToAction("CreateEvent");
             }
             else
             {
@@ -105,7 +105,7 @@ namespace Proftaakrepos.Controllers
                 Console.WriteLine(ex.Message);
             }
             userId = 0;
-            return RedirectToAction("CreateEvent", "Home");
+            return RedirectToAction("CreateEvent", "Planner");
         }
         [HttpGet]
         public IActionResult FetchAllEvents(int userId)
