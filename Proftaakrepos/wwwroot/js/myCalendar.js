@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar = new FullCalendar.Calendar(calendarEl, {
         customButtons: {
             addEventButton: {
-                text: 'Add event',
+                text: 'Nieuwe afspraak',
                 click: function () {
                     window.location.href = '/Home/CreateEvent'
                 }
