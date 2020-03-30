@@ -67,6 +67,7 @@ function FetchEvents() {
                 obj.start = list[i].startDate;
                 obj.end = list[i].endDate;
                 obj.allDay = list[i].isFullDay;
+                obj.backgroundColor = list[i].themeColor;
                 calendar.addEvent(obj);
                 calendar.rerenderEvents();
             }
