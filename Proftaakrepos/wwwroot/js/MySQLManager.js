@@ -1,6 +1,6 @@
 ﻿function FetchAllEvents() {
     $.ajax({
-        url: '/Home/FetchAllEvents',
+        url: '/Planner/FetchAllEvents',
         type: 'GET', // type of the HTTP request
         dataType: 'json',
         success: function (data) {
