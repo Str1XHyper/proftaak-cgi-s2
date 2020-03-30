@@ -4,12 +4,13 @@
     var calendar = new FullCalendar.Calendar(calendarEl, {
         customButtons: {
             addEventButton: {
-                text: 'Add event',
+                text: 'Nieuwe afspraak',
                 click: function () {
                     window.location.href = '/Home/CreateEvent'
                 }
             }
         },
+        locale: 'nl',
         plugins: ['timeGrid', 'dayGrid'],
         defaultView: 'timeGridWeek',
         nowIndicator: 'true',
