@@ -1,22 +1,55 @@
 ﻿@model Proftaakrepos.Models.EventModel
-
 @{
     ViewData["Title"] = "CreateEvent";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <head>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/js/moment.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js" integrity="sha256-GBryZPfVv8G3K1Lu2QwcqQXAO4Szv4xlY4B/ftvyoMI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js" integrity="sha256-FT1eN+60LmWX0J8P25UuTjEEE0ZYvpC07nnU6oFKFuI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/timegrid/main.min.js" integrity="sha256-L9T+qE3Ms6Rsuxl+KwLST6a3R/2o6m33zB5mR2KyPjU=" crossorigin="anonymous"></script>
+        <script src='https://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
 
+        <script src='~/js/interactionmain.min.js'></script>
+        <script src="~/js/MySQLManager.js"></script>
+        <script src="~/js/myCalendar.js"></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" integrity="sha256-Lfe6+s5LEek8iiZ31nXhcSez0nmOxP+3ssquHMR3Alo=" crossorigin="anonymous" />
+        <link href="~/css/main.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/css/Agenda.css" />
+    </head>
 <h1>Create Event</h1>
 
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div style="float: left" class="col-md-4">
         <form asp-action="CreateEvent">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="userId" class="control-label"></label>
-                <input asp-for="userId" class="form-control" />
-                <span asp-validation-for="userId" class="text-danger"></span>
-            </div>
+            @{
+                string rol = ViewBag.Rol;
+                if (rol == "Roostermaker")
+                {
+                <div class="form-group">
+                    <label asp-for="userId" class="control-label">Employee: </label>
+                    <select onChange="FetchEvents()" asp-for="userId" class="form-control" id="inputfield" name="userId">
+                        @{ if (ViewData["employees"] == null)
+                        {}
+                        else
+                        {
+                            string[] employeesId = ViewData["employeesId"] as string[];
+                            string[] employees = ViewData["employees"] as string[];
+                            for (int i = 0; i < employees.Length; i++)
+                            {
+                                <option value="@employeesId[i]">@employees[i]</option>
+                            }
+                        }
+                    }
+                    </select>
+                    <span asp-validation-for="voornaam" class="text-danger"></span>
+                </div>
+                }
+            }
+            
             <div class="form-group">
                 <label asp-for="title" class="control-label"></label>
                 <input asp-for="title" class="form-control" />
@@ -47,17 +80,10 @@
                 <input asp-for="isFullDay" class="form-control" />
                 <span asp-validation-for="isFullDay" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="isPending" class="control-label"></label>
-                <input asp-for="isPending" class="form-control" />
-                <span asp-validation-for="isPending" class="text-danger"></span>
-            </div>
             <input type="submit" value="Create" class="btn btn-primary" formmethod="post" />
         </form>
-</div>
-</div>
+    </div>
+    <div style="float: left; width:60%; padding-left: 2vw" id="calendar"></div>
+</div> 
 
-<div>
-    <a asp-action="Agenda">Back to List</a>
-</div>
 

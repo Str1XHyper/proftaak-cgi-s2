@@ -14,7 +14,6 @@ namespace Proftaakrepos.Controllers
     {
         List<EventModel> eventList;
         private readonly ILogger<HomeController> _logger;
-        private int LoggedInUserId = 1;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,7 +22,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Redirect("Agenda");
         }
 
         public IActionResult NoAccessIndex()
@@ -42,14 +41,21 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
-        public IActionResult Agenda(int userId)
+        public IActionResult Agenda()
         {
-            LoggedInUserId = userId;
             return View();
         }
         [HttpGet]
         public ActionResult CreateEvent()
         {
+            string var = HttpContext.Session.GetString("UserInfo");
+            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
+
+            ViewBag.Rol = rol;
+            var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
+            var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
+            ViewData["employeesId"] = employeesId.ToArray();
+            ViewData["employees"] = employees.ToArray();
             return View();
         }
         [HttpPost] 
@@ -65,10 +71,21 @@ namespace Proftaakrepos.Controllers
                 return View(e);
             }
         }
+
         public IActionResult HandleEventRequest(EventModel emdb)
         {
+            int userId = 0;
+            string var = HttpContext.Session.GetString("UserInfo");
+            if (emdb.userId!=0)
+            {
+                userId = emdb.userId;
+            }
+            else
+            {
+                userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
+            }
+            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
             string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-
             try
             {
                 using (MySqlConnection connection = new MySqlConnection(connetionString))
@@ -76,7 +93,7 @@ namespace Proftaakrepos.Controllers
                     //INSERT INTO, UPDATE AND DELETE
                     using (MySqlCommand cmd = new MySqlCommand("INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES (@UserId,@Subject,@Description,@Start,@End,@ThemeColor,@IsFullDay,@IsPending)", connection))
                     {
-                        cmd.Parameters.AddWithValue("@UserId", emdb.userId);
+                        cmd.Parameters.AddWithValue("@UserId", userId);
                         cmd.Parameters.AddWithValue("@Subject", emdb.title);
                         cmd.Parameters.AddWithValue("@Description", emdb.description);
                         cmd.Parameters.AddWithValue("@Start", emdb.startDate);
@@ -94,7 +111,7 @@ namespace Proftaakrepos.Controllers
             {
                 Console.WriteLine(ex.Message);
             }
-            
+            userId = 0;
             return RedirectToAction("CreateEvent", "Home");
         }
         public IActionResult Employees()
@@ -106,17 +123,29 @@ namespace Proftaakrepos.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult FetchAllEvents()
+        [HttpGet]
+        public IActionResult FetchAllEvents(int userId)
         {
             string var = HttpContext.Session.GetString("UserInfo");
-            int userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
+            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
+            int _userId = 0;
+            if (userId == 0)
+            {
+                _userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
+            }
+            else
+            {
+                _userId = userId;
+            }
+            ViewData["rol"] = rol;
             eventList = new List<EventModel>();
+
             MySqlConnection cnn;
             string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = cnn;
-            cmd.CommandText = $"select * from Rooster";
+            cmd.CommandText = $"select * from Rooster Where userId = {_userId}";
             try
             {
                 cnn.Open();
@@ -130,12 +159,9 @@ namespace Proftaakrepos.Controllers
                     em.startDate = Convert.ToDateTime(reader[4]);
                     em.endDate = Convert.ToDateTime(reader[5]);
                     em.themeColor = reader[6].ToString();
-                    em.isFullDay = Convert.ToInt32(reader[7]);
+                    em.isFullDay = Convert.ToBoolean(reader[7]);
                     em.isPending = Convert.ToBoolean(reader[8]);
-                    if (em.userId == userId)
-                    {
                         eventList.Add(em);
-                    }
                 }
                 cnn.Close();
                 return Json(eventList);
