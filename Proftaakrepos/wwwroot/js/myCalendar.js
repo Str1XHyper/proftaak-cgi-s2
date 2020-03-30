@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         },
+        locale: 'nl',
         buttonText: {
             today: '  ‌‌◯  ',
         },
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         editable: true,
         eventLimit: true,
         droppable: true,
+
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
@@ -46,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
         }
     });
+    calendar.setOption('locale', 'en');
     FetchEvents();
     calendar.render();
 });
