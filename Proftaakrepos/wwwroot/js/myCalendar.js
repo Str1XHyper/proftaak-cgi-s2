@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
             addEventButton: {
                 text: 'Nieuwe afspraak',
                 click: function () {
-                    window.location.href = '/Home/CreateEvent'
+                    window.location.href = '/Planner/CreateEvent'
                 }
             }
         },
@@ -53,7 +53,7 @@ function FetchEvents() {
     var selectedIndex = $("#inputfield").val();
     calendar.getEvents().forEach(function (item, index) { item.remove() });
     $.ajax({
-        url: '/Home/FetchAllEvents?userId=' + selectedIndex,
+        url: '/Planner/FetchAllEvents?userId=' + selectedIndex,
         type: 'GET',
         dataType: 'json',
         success: function (data) {

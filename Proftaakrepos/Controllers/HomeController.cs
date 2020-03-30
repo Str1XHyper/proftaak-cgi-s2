@@ -41,7 +41,7 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
-        public IActionResult Agenda()
+        /*public IActionResult Agenda()
         {
             return View();
         }
@@ -113,7 +113,7 @@ namespace Proftaakrepos.Controllers
             }
             userId = 0;
             return RedirectToAction("CreateEvent", "Home");
-        }
+        }*/
         public IActionResult Employees()
         {
             return View();
@@ -123,55 +123,8 @@ namespace Proftaakrepos.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        [HttpGet]
-        public IActionResult FetchAllEvents(int userId)
-        {
-            string var = HttpContext.Session.GetString("UserInfo");
-            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            int _userId = 0;
-            if (userId == 0)
-            {
-                _userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
-            }
-            else
-            {
-                _userId = userId;
-            }
-            ViewData["rol"] = rol;
-            eventList = new List<EventModel>();
-
-            MySqlConnection cnn;
-            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-            cnn = new MySqlConnection(connetionString);
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandText = $"select * from Rooster Where userId = {_userId}";
-            try
-            {
-                cnn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    EventModel em = new EventModel();
-                    em.userId = Convert.ToInt32(reader[1]);
-                    em.title = reader[2].ToString();
-                    em.description = reader[3].ToString();
-                    em.startDate = Convert.ToDateTime(reader[4]);
-                    em.endDate = Convert.ToDateTime(reader[5]);
-                    em.themeColor = reader[6].ToString();
-                    em.isFullDay = Convert.ToBoolean(reader[7]);
-                    em.isPending = Convert.ToBoolean(reader[8]);
-                        eventList.Add(em);
-                }
-                cnn.Close();
-                return Json(eventList);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
+       
+        
         public IActionResult HandleRequest(string UserID, int TradeID)
         {
 
