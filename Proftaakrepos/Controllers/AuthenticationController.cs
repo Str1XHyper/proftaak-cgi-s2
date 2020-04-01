@@ -69,6 +69,8 @@ namespace Proftaakrepos.Controllers
             {
                 List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
                 ViewData["roles"] = typeOfRoles.ToArray();
+                UIHandler uiHandler = new UIHandler();
+                ViewData["color"] = uiHandler.GetColor();
                 return View();
             }
             return RedirectToAction("NoAccessIndex", "Home");
@@ -76,6 +78,8 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Employees()
         {
+            UIHandler uiHandler = new UIHandler();
+            ViewData["color"] = uiHandler.GetColor();
             return View();
         }
 
