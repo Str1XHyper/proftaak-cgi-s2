@@ -12,9 +12,8 @@ namespace Proftaakrepos.Controllers
 {
     public class HomeController : Controller
     {
-        List<EventModel> eventList;
+        
         private readonly ILogger<HomeController> _logger;
-        private int LoggedInUserId = 1;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,7 +22,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Redirect("Agenda");
         }
 
         public IActionResult NoAccessIndex()
@@ -42,61 +41,6 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
-        public IActionResult Agenda(int userId)
-        {
-            LoggedInUserId = userId;
-            return View();
-        }
-        [HttpGet]
-        public ActionResult CreateEvent()
-        {
-            return View();
-        }
-        [HttpPost] 
-        public ActionResult CreateEvent(EventModel e)
-        {
-            if (ModelState.IsValid)
-            {
-                HandleEventRequest(e);
-                return RedirectToAction("Agenda");
-            }
-            else
-            {
-                return View(e);
-            }
-        }
-        public IActionResult HandleEventRequest(EventModel emdb)
-        {
-            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(connetionString))
-                {
-                    //INSERT INTO, UPDATE AND DELETE
-                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES (@UserId,@Subject,@Description,@Start,@End,@ThemeColor,@IsFullDay,@IsPending)", connection))
-                    {
-                        cmd.Parameters.AddWithValue("@UserId", emdb.userId);
-                        cmd.Parameters.AddWithValue("@Subject", emdb.title);
-                        cmd.Parameters.AddWithValue("@Description", emdb.description);
-                        cmd.Parameters.AddWithValue("@Start", emdb.startDate);
-                        cmd.Parameters.AddWithValue("@End", emdb.endDate);
-                        cmd.Parameters.AddWithValue("@ThemeColor", emdb.themeColor);
-                        cmd.Parameters.AddWithValue("@IsFullDay", emdb.isFullDay);
-                        cmd.Parameters.AddWithValue("@IsPending", emdb.isPending);
-                        connection.Open();
-                        cmd.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            
-            return RedirectToAction("CreateEvent", "Home");
-        }
         public IActionResult Employees()
         {
             return View();
@@ -106,46 +50,8 @@ namespace Proftaakrepos.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult FetchAllEvents()
-        {
-            string var = HttpContext.Session.GetString("UserInfo");
-            int userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
-            eventList = new List<EventModel>();
-            MySqlConnection cnn;
-            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-            cnn = new MySqlConnection(connetionString);
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandText = $"select * from Rooster";
-            try
-            {
-                cnn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    EventModel em = new EventModel();
-                    em.userId = Convert.ToInt32(reader[1]);
-                    em.title = reader[2].ToString();
-                    em.description = reader[3].ToString();
-                    em.startDate = Convert.ToDateTime(reader[4]);
-                    em.endDate = Convert.ToDateTime(reader[5]);
-                    em.themeColor = reader[6].ToString();
-                    em.isFullDay = Convert.ToInt32(reader[7]);
-                    em.isPending = Convert.ToBoolean(reader[8]);
-                    if (em.userId == userId)
-                    {
-                        eventList.Add(em);
-                    }
-                }
-                cnn.Close();
-                return Json(eventList);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
+       
+        
         public IActionResult HandleRequest(string UserID, int TradeID)
         {
 
