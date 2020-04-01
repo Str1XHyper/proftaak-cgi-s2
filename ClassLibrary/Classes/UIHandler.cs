@@ -8,7 +8,7 @@ namespace ClassLibrary.Classes
     {
         public string GetColor()
         {
-            return "#3DA35D";
+            return "#1E3F20";
         }
     }
 }
