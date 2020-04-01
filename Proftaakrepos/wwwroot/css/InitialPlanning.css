@@ -1,0 +1,13 @@
+﻿body {
+    padding-right: 10vw;
+}
+table, th, td {
+    border: 1px solid black;
+    position: center;
+    width: 10px;
+}
+
+input {
+    width: 50px;
+}
+

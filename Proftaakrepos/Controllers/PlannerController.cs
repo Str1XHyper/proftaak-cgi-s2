@@ -38,6 +38,24 @@ namespace Proftaakrepos.Controllers
         {
             return View();
         }
+        public IActionResult InitialPlanning(int weeks)
+        {
+            ViewBag.employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
+            ViewBag.week = GetWeekDateTimes(weeks);
+            ViewBag.weekCount = weeks;
+            ViewBag.currentYear = (DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(weeks * 7)).ToString("yyyy");
+            return View();
+        }
+        public static List<DateTime> GetWeekDateTimes(int weeks)
+        {
+            List<DateTime> currentWeek = new List<DateTime>();
+            DateTime startDate = (DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(weeks*7));
+            for(int i = 0; i < 7; i++)
+            {
+                currentWeek.Add((startDate.Date.AddDays(i)));
+            }
+            return currentWeek;
+        }
         [HttpGet]
         public ActionResult CreateEvent()
         {
@@ -65,6 +83,7 @@ namespace Proftaakrepos.Controllers
             }
         }
 
+        [HttpPost]
         public IActionResult HandleEventRequest(EventModel emdb)
         {
             int userId = 0;
@@ -78,33 +97,7 @@ namespace Proftaakrepos.Controllers
                 userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
             }
             string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-            try
-            {
-                using (MySqlConnection connection = new MySqlConnection(connetionString))
-                {
-                    //INSERT INTO, UPDATE AND DELETE
-                    using (MySqlCommand cmd = new MySqlCommand("INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES (@UserId,@Subject,@Description,@Start,@End,@ThemeColor,@IsFullDay,@IsPending)", connection))
-                    {
-                        cmd.Parameters.AddWithValue("@UserId", userId);
-                        cmd.Parameters.AddWithValue("@Subject", emdb.title);
-                        cmd.Parameters.AddWithValue("@Description", emdb.description);
-                        cmd.Parameters.AddWithValue("@Start", emdb.startDate);
-                        cmd.Parameters.AddWithValue("@End", emdb.endDate);
-                        cmd.Parameters.AddWithValue("@ThemeColor", emdb.themeColor);
-                        cmd.Parameters.AddWithValue("@IsFullDay", emdb.isFullDay);
-                        cmd.Parameters.AddWithValue("@IsPending", emdb.isPending);
-                        connection.Open();
-                        cmd.ExecuteNonQuery();
-                        connection.Close();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            userId = 0;
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{userId}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{Convert.ToInt32(emdb.isFullDay)}','{emdb.isPending}')");
             return RedirectToAction("CreateEvent", "Planner");
         }
         [HttpGet]
