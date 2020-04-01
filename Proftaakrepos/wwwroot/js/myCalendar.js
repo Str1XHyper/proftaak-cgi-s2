@@ -12,11 +12,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
         locale: 'nl',
-        buttonText: {
+        allDaySlot: true,
+        allDayText: 'Hele dag',
+        buttonText:
+        {
+            month: 'Maand',
+            week: 'Week',
+            day: 'Dag',
             today: '  ‌‌◯  ',
         },
-        allDaySlot: true,
-        plugins: ['interaction', 'timeGrid', 'dayGrid'],
+        plugins: ['bootstrap', 'interaction', 'timeGrid', 'dayGrid'],
         defaultView: 'timeGridWeek',
         nowIndicator: 'true',
         minTime: "06:00:00",
@@ -34,7 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
             left: 'addEventButton,title',
         },
         eventClick: function (info) {
-            alert('Event: ' + info.event.title);
+            alert('Beschrijving: ' + info.event.description);
+        },
+        eventResizeStop: function (info) {
+
         },
         views: {
             dayGrid: {
@@ -48,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
         }
     });
-    calendar.setOption('locale', 'en');
+    calendar.setOption('locale', 'nl');
     FetchEvents();
     calendar.render();
 });

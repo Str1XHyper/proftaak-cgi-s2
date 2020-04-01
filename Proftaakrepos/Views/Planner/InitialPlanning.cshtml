@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="~/css/InitialPlanning.css" />
 
 <h1>Initiele Planning @ViewBag.currentYear</h1>
-<form asp-action="HandleEventRequest" method="post">
     <table style="width:100%">
         <button onclick="location.href = 'InitialPlanning?weeks=' + (@ViewBag.weekCount-1)">Vorige</button>
         <button onclick="location.href = 'InitialPlanning?weeks=' + 0">Vandaag</button>
@@ -61,6 +60,8 @@
         em.endDate = Convert.ToDateTime(ViewBag.week[1]);
         em.title = "Werk";
     }
+<form asp-action="HandleEventRequest" method="post">
+
     <input type="hidden" asp-for="userId" value="1">
     <input type="hidden" asp-for="description" value="work">
     <input type="hidden" asp-for="isFullDay" value="false">
