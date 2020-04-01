@@ -10,21 +10,22 @@
 <div class="form">
     <div style="color: red;">@ViewData["Error"]</div>
 
-    <form action="/authentication/AddEmployee" method="post" class="login-form">
+    <form asp-action="AddEmployee" asp-controller="Authentication" method="post" class="login-form">
         <div style="color: red;"></div>
         <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="naam" type="text" placeholder="Voornaam"> <span class="field-validation-valid" data-valmsg-for="naam" data-valmsg-replace="true"></span></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="tussenvoegsel" type="text" placeholder="Tussenvoegsel"> <span class="field-validation-valid" data-valmsg-for="tussenvoegsel" data-valmsg-replace="true"></span></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="achternaam" type="text" placeholder="Achternaam"> <span class="field-validation-valid" data-valmsg-for="achternaam" data-valmsg-replace="true"></span></div>
+        <input id="inputfield" asp-for="naam" type="text" placeholder="Voornaam">
+        <input id="inputfield" asp-for="tussenvoegsel" type="text" placeholder="Tussenvoegsel">
+        <input id="inputfield" asp-for="achternaam" type="text" placeholder="Achternaam">
+
         <div class="banner"><center><h5 style="color: white">CONTACT INFORMATIE</h5></center></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" data-val-email="The field is not a valid e-mail address." data-val-required="The E-mail field is required." id="inputfield" name="Email" type="email" placeholder="E-mail"> <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="phoneNumber" type="text" placeholder="Telefoonnummer"> <span class="field-validation-valid" data-valmsg-for="telefoonnummer" data-valmsg-replace="true"></span></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="straatnaam" type="text" placeholder="Straatnaam"> <span class="field-validation-valid" data-valmsg-for="straatnaam" data-valmsg-replace="true"></span></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="huisnummer" type="text" placeholder="Huisnummer"> <span class="field-validation-valid" data-valmsg-for="huisnummer" data-valmsg-replace="true"></span></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="postcode" type="text" placeholder="Postcode"> <span class="field-validation-valid" data-valmsg-for="postcode" data-valmsg-replace="true"></span></div>
-        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="woonplaats" type="text" placeholder="Woonplaats"> <span class="field-validation-valid" data-valmsg-for="woonplaats" data-valmsg-replace="true"></span></div>
+        <input id="inputfield" asp-for="eMail" type="email" placeholder="E-mail">
+        <input id="inputfield" asp-for="phoneNumber" type="text" placeholder="Telefoonnummer">
+        <input id="inputfield" asp-for="straatnaam" type="text" placeholder="Straatnaam">
+        <input id="inputfield" asp-for="huisNummer" type="text" placeholder="Huisnummer">
+        <input id="inputfield" asp-for="postcode" type="text" placeholder="Postcode">
+        <input id="inputfield" asp-for="woonplaats" type="text" placeholder="Woonplaats">
         <select id="inputfield" name="role">
-            @{ if (ViewData["roles"] == null){}
+            @{ if (ViewData["roles"] == null) { }
                 else
                 {
                     string[] rollen = ViewData["roles"] as string[];

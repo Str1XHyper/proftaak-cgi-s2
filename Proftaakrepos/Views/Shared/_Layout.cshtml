@@ -16,6 +16,7 @@
             <ul class="nav navbar-nav">
                 @{ 
                     //List<string> accesslevels = GetAccessLevel.GetPermissions("");
+                    string roles = ViewData["roles"] as string;
                 }
                 <li>@Html.ActionLink("Verzoeken", "Incoming", "Shiftview")</li>
                 <li>@Html.ActionLink("Verzoek aanmaken", "CreateRequest", "Shiftview")</li>
