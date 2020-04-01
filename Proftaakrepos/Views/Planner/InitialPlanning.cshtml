@@ -1,0 +1,74 @@
+﻿@model Proftaakrepos.Models.EventModel
+
+@{
+    ViewData["Title"] = "InitialPlanning";
+}
+
+<link rel="stylesheet" href="~/css/InitialPlanning.css" />
+
+<h1>Initiele Planning @ViewBag.currentYear</h1>
+<form asp-action="HandleEventRequest" method="post">
+    <table style="width:100%">
+        <button onclick="location.href = 'InitialPlanning?weeks=' + (@ViewBag.weekCount-1)">Vorige</button>
+        <button onclick="location.href = 'InitialPlanning?weeks=' + 0">Vandaag</button>
+        <button onclick="location.href = 'InitialPlanning?weeks=' + (@ViewBag.weekCount+1)">Volgende</button>
+        <tr>
+            <th>Werknemer</th>
+            @for (int i = 0; i < 7; i++)
+            {
+                <th colspan="3">@ViewBag.week[i].ToString("dd/MM")</th>
+            }
+        </tr>
+        <tr>
+            <td></td>
+            @for (int i = 0; i < 7; i++)
+            {
+                <td>Van</td>
+                <td>Tot</td>
+                <td>Pauze</td>
+            }
+        </tr>
+        @{
+            string[] werknemers = (ViewBag.employees).ToArray();
+            for (int i = 0; i < werknemers.Length; i++)
+            {
+                <tr>
+                    <td>@werknemers[i]</td>
+                    @{
+                        for (int j = 0; j < 3; j++)
+                        {
+                            <td><input type="text" id="@werknemers[i] + DayOne + @j.ToString()" name="timesDayOne"><br></td>
+                            <td><input type="text" id="@werknemers[i] + DayTwo + @j.ToString()" name="timesDayTwo"><br></td>
+                            <td><input type="text" id="@werknemers[i] + DayThree + @j.ToString()" name="timesDayThree"><br></td>
+                            <td><input type="text" id="@werknemers[i] + DayFour + @j.ToString()" name="timesDayFour"><br></td>
+                            <td><input type="text" id="@werknemers[i] + DayFive + @j.ToString()" name="timesDayFive"><br></td>
+                            <td><input type="text" id="@werknemers[i] + DaySix + @j.ToString()" name="timesDaySix"><br></td>
+                            <td><input type="text" id="@werknemers[i] + DaySeven + @j.ToString()" name="timesDaySeven"><br></td>
+                        }
+                    }
+                </tr>
+            }
+        }
+    </table>
+    @{
+        EventModel em = new EventModel();
+        em.userId = 1;
+        em.description = "work ffs";
+        em.isFullDay = false;
+        em.themeColor = "Blue";
+        em.voornaam = "Tijn";
+        em.startDate = Convert.ToDateTime(ViewBag.week[0]);
+        em.endDate = Convert.ToDateTime(ViewBag.week[1]);
+        em.title = "Werk";
+    }
+    <input type="hidden" asp-for="userId" value="1">
+    <input type="hidden" asp-for="description" value="work">
+    <input type="hidden" asp-for="isFullDay" value="false">
+    <input type="hidden" asp-for="themeColor" value="Blue">
+    <input type="hidden" asp-for="voornaam" value="Tijn">
+    <input type="hidden" asp-for="startDate" value="@Convert.ToDateTime(ViewBag.week[0])">
+    <input type="hidden" asp-for="endDate" value="@Convert.ToDateTime(ViewBag.week[1])">
+    <input type="hidden" asp-for="title" value="Werk">
+    <input type="submit">
+    tijn is a ginger
+</form>
