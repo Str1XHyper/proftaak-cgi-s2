@@ -15,7 +15,7 @@
         EmployeeInfo = new string[12];
     }
 }
-<h1>Werknemers</h1>
+<h1>Wijzig gegevens van werknemers</h1>
 <p style="color: green; font-size: 20px;">@ViewData["msg"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <form asp-action="GetEmployeeInfo" asp-controller="Authentication" method="post">
@@ -43,88 +43,110 @@
 
 <form asp-action="UpdateEmployee" asp-controller="Authentication" method="post">
     <div style="color: red;"></div>
-    <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="naam" type="text" placeholder="Voornaam" value="@EmployeeInfo[1]" /> <span class="field-validation-valid" data-valmsg-for="naam" data-valmsg-replace="true"></span></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="tussenvoegsel" type="text" placeholder="Tussenvoegsel" value="@EmployeeInfo[2]"> <span class="field-validation-valid" data-valmsg-for="tussenvoegsel" data-valmsg-replace="true"></span></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="achternaam" type="text" placeholder="Achternaam" value="@EmployeeInfo[3]"> <span class="field-validation-valid" data-valmsg-for="achternaam" data-valmsg-replace="true"></span></div>
-    <div class="banner"><center><h5 style="color: white">CONTACT INFORMATIE</h5></center></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" data-val-email="The field is not a valid e-mail address." data-val-required="The E-mail field is required." id="inputfield" name="Email" type="email" placeholder="E-mail" value="@EmployeeInfo[4]"> <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="phoneNumber" type="text" placeholder="Telefoonnummer" value="@EmployeeInfo[5]"> <span class="field-validation-valid" data-valmsg-for="telefoonnummer" data-valmsg-replace="true"></span></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="straatnaam" type="text" placeholder="Straatnaam" value="@EmployeeInfo[6]"> <span class="field-validation-valid" data-valmsg-for="straatnaam" data-valmsg-replace="true"></span></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="huisnummer" type="text" placeholder="Huisnummer" value="@EmployeeInfo[7]"> <span class="field-validation-valid" data-valmsg-for="huisnummer" data-valmsg-replace="true"></span></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="postcode" type="text" placeholder="Postcode" value="@EmployeeInfo[8]"> <span class="field-validation-valid" data-valmsg-for="postcode" data-valmsg-replace="true"></span></div>
-    <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="woonplaats" type="text" placeholder="Woonplaats" value="@EmployeeInfo[9]"> <span class="field-validation-valid" data-valmsg-for="woonplaats" data-valmsg-replace="true"></span></div>
-    <select id="inputfield" name="role">
+    <div id="div1" style="display:none;">
+        <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="naam" type="text" placeholder="Voornaam" value="@EmployeeInfo[1]" /> <span class="field-validation-valid" data-valmsg-for="naam" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="tussenvoegsel" type="text" placeholder="Tussenvoegsel" value="@EmployeeInfo[2]"> <span class="field-validation-valid" data-valmsg-for="tussenvoegsel" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="achternaam" type="text" placeholder="Achternaam" value="@EmployeeInfo[3]"> <span class="field-validation-valid" data-valmsg-for="achternaam" data-valmsg-replace="true"></span></div>
+    </div>
+    <div id="div2" style="display:none;">
+        <div class="banner"><center><h5 style="color: white">CONTACT INFORMATIE</h5></center></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" data-val-email="The field is not a valid e-mail address." data-val-required="The E-mail field is required." id="inputfield" name="Email" type="email" placeholder="E-mail" value="@EmployeeInfo[4]"> <span class="field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="phoneNumber" type="text" placeholder="Telefoonnummer" value="@EmployeeInfo[5]"> <span class="field-validation-valid" data-valmsg-for="telefoonnummer" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="straatnaam" type="text" placeholder="Straatnaam" value="@EmployeeInfo[6]"> <span class="field-validation-valid" data-valmsg-for="straatnaam" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="huisnummer" type="text" placeholder="Huisnummer" value="@EmployeeInfo[7]"> <span class="field-validation-valid" data-valmsg-for="huisnummer" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="postcode" type="text" placeholder="Postcode" value="@EmployeeInfo[8]"> <span class="field-validation-valid" data-valmsg-for="postcode" data-valmsg-replace="true"></span></div>
+        <div class="editor-field"><input class="text-box single-line" data-val="true" id="inputfield" name="woonplaats" type="text" placeholder="Woonplaats" value="@EmployeeInfo[9]"> <span class="field-validation-valid" data-valmsg-for="woonplaats" data-valmsg-replace="true"></span></div>
+        <select id="inputfield" name="role">
+            @{
+                if (ViewData["roles"] == null)
+                {
+                    <option value="wrong">Kies eerst een werknemer</option>
+                }
+                else
+                {
+                    string[] roles = ViewData["roles"] as string[];
+                    for (int i = 0; i < roles.Length; i++)
+                    {
+                        <option value="@roles[i]">@roles[i]</option>
+                    }
+                }
+            }
+        </select>
+    </div>
+    <div id="div3" style="display:none;">
+        <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
+
         @{
-            if (ViewData["roles"] == null)
+            string[] employeeSettings;
+            if (EmployeeInfo[0] != null)
             {
-                <option value="wrong">Kies eerst een werknemer</option>
+                employeeSettings = ChangeSettings.getSettings(EmployeeInfo[0]);
+                if (employeeSettings.Length > 2)
+                {
+                    if (employeeSettings[1].ToLower() == "true")
+                    {
+                        <p>Email notificatie</p>
+                        <input type="radio" name="emailsetting" value="Ja" checked /> <label>Ja</label>
+                        <input type="radio" name="emailsetting" value="Nee" /><label>Nee</label>
+                    }
+                    else
+                    {
+                        <p>Email notificatie</p>
+                        <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
+                        <input type="radio" name="emailsetting" value="Nee" checked /><label>Nee</label>
+                    }
+                    if (employeeSettings[2].ToLower() == "true")
+                    {
+                        <p>SMS notificatie</p>
+                        <input type="radio" name="smssetting" value="Ja" checked />
+                        <label>Ja</label>
+                        <input type="radio" name="smssetting" value="Nee" />
+                        <label>Nee</label>
+                    }
+                    else
+                    {
+                        <p>SMS notificatie</p>
+                        <input type="radio" name="smssetting" value="Ja" />
+                        <label>Ja</label>
+                        <input type="radio" name="smssetting" value="Nee" checked />
+                        <label>Nee</label>
+                    }
+                }
             }
             else
             {
-                string[] roles = ViewData["roles"] as string[];
-                for (int i = 0; i < roles.Length; i++)
-                {
-                    <option value="@roles[i]">@roles[i]</option>
-                }
-                }
-         }
-    </select>
-    <div class="banner"><center><h5 style="color: white">INSTELLINGEN</h5></center></div>
-
-    @{
-        string[] employeeSettings;
-        if (EmployeeInfo[0] != null)
-        {
-            employeeSettings = ChangeSettings.getSettings(EmployeeInfo[0]);
-            if (employeeSettings.Length > 2)
-            {
-                if (employeeSettings[1].ToLower() == "true")
-                {
-                    <p>Email notificatie</p>
-                    <input type="radio" name="emailsetting" value="Ja" checked /> <label>Ja</label>
-                    <input type="radio" name="emailsetting" value="Nee" /><label>Nee</label>
-                }
-                else
-                {
-                    <p>Email notificatie</p>
-                    <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
-                    <input type="radio" name="emailsetting" value="Nee" checked /><label>Nee</label>
-                }
-                if (employeeSettings[2].ToLower() == "true")
-                {
-                    <p>SMS notificatie</p>
-                    <input type="radio" name="smssetting" value="Ja" checked />
-                    <label>Ja</label>
-                    <input type="radio" name="smssetting" value="Nee" />
-                    <label>Nee</label>
-                }
-                else
-                {
-                    <p>SMS notificatie</p>
-                    <input type="radio" name="smssetting" value="Ja" />
-                    <label>Ja</label>
-                    <input type="radio" name="smssetting" value="Nee" checked />
-                    <label>Nee</label>
-                }
+                <p>Email notificatie</p>
+                <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
+                <input type="radio" name="emailsetting" value="Nee" /><label>Nee</label>
+                <p>SMS notificatie</p>
+                <input type="radio" name="smssetting" value="Ja" />
+                <label>Ja</label>
+                <input type="radio" name="smssetting" value="Nee" />
+                <label>Nee</label>
             }
         }
-        else
-        {
-            <p>Email notificatie</p>
-            <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
-            <input type="radio" name="emailsetting" value="Nee" /><label>Nee</label>
-            <p>SMS notificatie</p>
-            <input type="radio" name="smssetting" value="Ja" />
-            <label>Ja</label>
-            <input type="radio" name="smssetting" value="Nee" />
-            <label>Nee</label>
-        }
-    }
-    <br>
-    <input type="submit" value="Voeg toe">
+        <br>
+        <input type="submit" value="Voeg toe">
+    </div>
 </form>
+<div id="div4" style="display: none;">
+    <div class="banner"><center><h5 style="color: white">INLOGGEVENS</h5></center></div>
+        <br>
+        <partial name="ChangePassword" />
+</div>
+<script>
+    function FadeAnimation() {
+        $("#div1").fadeIn();
+        $("#div2").fadeIn(1000);
+        $("#div3").fadeIn(1500);
+        $("#div4").fadeIn(2000);
+        ChangeUIColor();
+    }
 
-@*<div class="banner"><center><h5 style="color: white">INLOGGEVENS</h5></center></div>
-<br>
-<partial name="ChangePassword" />*@
+    function ChangeUIColor() {
+        $(".banner").css("background-color", '@ViewBag.Color');
+    }
+
+window.onload = FadeAnimation;
+</script>
