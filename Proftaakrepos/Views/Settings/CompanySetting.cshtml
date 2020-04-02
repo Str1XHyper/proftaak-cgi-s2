@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewData["Title"] = "CompanySetting";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/colorPickerCSS.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<h1>CompanySetting</h1>
+
+<div id="precolors" class="grid-container">
+    <div id="div1" style="display: none;">
+        <button id="colorbutton" class="grid-item" style="background-color: black;"></button> <!--1-->
+        <button id="colorbutton" class="grid-item" style="background-color: #500c16"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #793337"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #a5595b;"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #d18081"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #ffaaaa"></button>
+    </div>
+    <div id="div2" style="display: none;">
+        <button id="colorbutton" class="grid-item" style="background-color: #808080"></button><!--2-->
+        <button id="colorbutton" class="grid-item" style="background-color: #859584"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #8aab87"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #8dc18b"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #8fd78d"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #90ee90"></button>
+    </div>
+    <div id="div3" style="display: none;">
+        <button id="colorbutton" class="grid-item" style="background-color: #a9a9a9"></button><!--3-->
+        <button id="colorbutton" class="grid-item" style="background-color: #abb2b5"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #acbcc1"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #adc5cd"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #adceda"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: #add8e6"></button>
+    </div>
+    <div id="div4" style="display: none;">
+        <button id="colorbutton" class="grid-item" style="background-color: lightgray"></button><!--4-->
+        <button id="colorbutton" class="grid-item" style="background-color: "></button>
+        <button id="colorbutton" class="grid-item"></button>
+        <button id="colorbutton" class="grid-item"></button>
+        <button id="colorbutton" class="grid-item"></button>
+        <button id="colorbutton" class="grid-item"></button>
+    </div>
+    <div id="div5" style="display: none;">
+        <button id="colorbutton" class="grid-item" style="background-color: white"></button><!--5-->
+        <button id="colorbutton" class="grid-item" style="background-color: red"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: green"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: blue"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: chocolate"></button>
+        <button id="colorbutton" class="grid-item" style="background-color: navy"></button>
+    </div>
+</div>
+<br />
+<div ng-app="" ng-init="hexCode='00000'">
+    <input type="hidden" />
+    <p>Eigen hex-code</p>
+    <label>#</label><input type="text" ng-model="hexCode" ng-maxlength="7" ng-animate="" style="width: 165px;" />
+    <p>{{hexCode}}</p>
+</div>
+
+<script>
+    function FadeAnimation() {
+        $("#div1").fadeIn();
+        $("#div2").fadeIn(1000);
+        $("#div3").fadeIn(1500);
+        $("#div4").fadeIn(2000);
+        $("#div5").fadeIn(2250);
+    }
+
+    window.onload = FadeAnimation;
+</script>

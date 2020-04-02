@@ -14,7 +14,7 @@
     <div class="page">
         <div class="sidenav left" style="z-index: 100; position: absolute;">
             <ul class="nav navbar-nav">
-                @{ 
+                @{
                     //List<string> accesslevels = GetAccessLevel.GetPermissions("");
                     string roles = ViewData["roles"] as string;
                 }
@@ -23,6 +23,7 @@
                 <li>@Html.ActionLink("Werknemers", "Employees", "Authentication")</li>
                 <li>@Html.ActionLink("Werknemer toevoegen", "AddEmployee", "Authentication")</li>
                 <li>@Html.ActionLink("Rooster", "Agenda", "Planner")</li>
+                <li>@Html.ActionLink("Instellingen", "CompanySetting", "Settings")</li>
             </ul>
             <p style="position: absolute; bottom: 0;">CGI.COM - @DateTime.Now.Year</p>
         </div>
