@@ -9,51 +9,51 @@
 
 <div id="precolors" class="grid-container">
     <div id="div1" style="display: none;">
-        <button id="colorbutton" class="grid-item" style="background-color: black;"></button> <!--1-->
-        <button id="colorbutton" class="grid-item" style="background-color: #500c16"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #793337"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #a5595b;"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #d18081"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #ffaaaa"></button>
+        <button id="button1" onclick="changeHex()" class="grid-item" style="background-color: black;"></button> <!--1-->
+        <button id="button2" onclick="changeHex()" class="grid-item" style="background-color: #500c16"></button>
+        <button id="button3" onclick="changeHex()" class="grid-item" style="background-color: #793337"></button>
+        <button id="button4" onclick="changeHex()" class="grid-item" style="background-color: #a5595b;"></button>
+        <button id="button5" onclick="changeHex()" class="grid-item" style="background-color: #d18081"></button>
+        <button id="button6" onclick="changeHex()" class="grid-item" style="background-color: #ffaaaa"></button>
     </div>
     <div id="div2" style="display: none;">
-        <button id="colorbutton" class="grid-item" style="background-color: #808080"></button><!--2-->
-        <button id="colorbutton" class="grid-item" style="background-color: #859584"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #8aab87"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #8dc18b"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #8fd78d"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #90ee90"></button>
+        <button id="button7" onclick="changeHex()" class="grid-item" style="background-color: #808080"></button><!--2-->
+        <button id="button8" onclick="changeHex()" class="grid-item" style="background-color: #859584"></button>
+        <button id="button9" onclick="changeHex()" class="grid-item" style="background-color: #8aab87"></button>
+        <button id="button10" onclick="changeHex()" class="grid-item" style="background-color: #8dc18b"></button>
+        <button id="button11" onclick="changeHex()" class="grid-item" style="background-color: #8fd78d"></button>
+        <button id="button12" onclick="changeHex()" class="grid-item" style="background-color: #90ee90"></button>
     </div>
     <div id="div3" style="display: none;">
-        <button id="colorbutton" class="grid-item" style="background-color: #a9a9a9"></button><!--3-->
-        <button id="colorbutton" class="grid-item" style="background-color: #abb2b5"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #acbcc1"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #adc5cd"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #adceda"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: #add8e6"></button>
+        <button id="button13" onclick="changeHex()" class="grid-item" style="background-color: #a9a9a9"></button><!--3-->
+        <button id="button14" onclick="changeHex()" class="grid-item" style="background-color: #abb2b5"></button>
+        <button id="button15" onclick="changeHex()" class="grid-item" style="background-color: #acbcc1"></button>
+        <button id="button16" onclick="changeHex()" class="grid-item" style="background-color: #adc5cd"></button>
+        <button id="button17" onclick="changeHex()" class="grid-item" style="background-color: #adceda"></button>
+        <button id="button18" onclick="changeHex()" class="grid-item" style="background-color: #add8e6"></button>
     </div>
     <div id="div4" style="display: none;">
-        <button id="colorbutton" class="grid-item" style="background-color: lightgray"></button><!--4-->
-        <button id="colorbutton" class="grid-item" style="background-color: "></button>
-        <button id="colorbutton" class="grid-item"></button>
-        <button id="colorbutton" class="grid-item"></button>
-        <button id="colorbutton" class="grid-item"></button>
-        <button id="colorbutton" class="grid-item"></button>
+        <button id="button19" onclick="changeHex()" class="grid-item" style="background-color: lightgray"></button><!--4-->
+        <button id="button20" onclick="changeHex()" class="grid-item"></button>
+        <button id="button21" onclick="changeHex()" class="grid-item"></button>
+        <button id="button22" onclick="changeHex()" class="grid-item"></button>
+        <button id="button23" onclick="changeHex()" class="grid-item"></button>
+        <button id="button24" onclick="changeHex()" class="grid-item"></button>
     </div>
     <div id="div5" style="display: none;">
-        <button id="colorbutton" class="grid-item" style="background-color: white"></button><!--5-->
-        <button id="colorbutton" class="grid-item" style="background-color: red"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: green"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: blue"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: chocolate"></button>
-        <button id="colorbutton" class="grid-item" style="background-color: navy"></button>
+        <button id="button25" class="grid-item" style="background-color: white"></button><!--5-->
+        <button id="button26" class="grid-item" style="background-color: red"></button>
+        <button id="button27" class="grid-item" style="background-color: green"></button>
+        <button id="button28" class="grid-item" style="background-color: blue"></button>
+        <button id="button29" class="grid-item" style="background-color: chocolate"></button>
+        <button id="button30" class="grid-item" style="background-color: navy"></button>
     </div>
 </div>
 <br />
 <div ng-app="" ng-init="hexCode='00000'">
     <input type="hidden" />
     <p>Eigen hex-code</p>
-    <label>#</label><input type="text" ng-model="hexCode" ng-maxlength="7" ng-animate="" style="width: 165px;" />
+    <label>#</label><input type="text" id="box" ng-model="hexCode" ng-maxlength="7" ng-animate="" style="width: 165px;" />
     <p>{{hexCode}}</p>
 </div>
 
@@ -67,4 +67,42 @@
     }
 
     window.onload = FadeAnimation;
+    $("").css("backgroundColor")
+</script>
+
+<script>
+    function changeHex() {
+        var rgb = $("#button7").css("backgroundColor");
+        var r = rgb.split("(")[1].split(", ")[0];
+        var g = rgb.split("(")[1].split(", ")[1];
+        var btemp = rgb.split("(")[1].split(", ")[2];
+        var blength = btemp.length;
+        var b = str.substr(1, 4)
+        document.getElementById("box").value = rgb;
+        //$("#button7").css("backgroundColor")
+    }
+    function rgbToHex(r, g, b) {
+  return + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+</script>
+
+<script>
+    $.cssHooks.backgroundColor = {
+    get: function(elem) {
+        if (elem.currentStyle)
+            var bg = elem.currentStyle["backgroundColor"];
+        else if (window.getComputedStyle)
+            var bg = document.defaultView.getComputedStyle(elem,
+                null).getPropertyValue("background-color");
+        if (bg.search("rgb") == -1)
+            return bg;
+        else {
+            bg = bg.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            function hex(x) {
+                return ("0" + parseInt(x).toString(16)).slice(-2);
+            }
+            return "#" + hex(bg[1]) + hex(bg[2]) + hex(bg[3]);
+        }
+    }
+}
 </script>
