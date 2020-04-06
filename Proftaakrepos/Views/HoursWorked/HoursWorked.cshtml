@@ -1,0 +1,69 @@
+﻿@model HoursWorkedModel
+
+@{
+    ViewData["Title"] = "Hours Worked";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="~/css/style.css" runat="server">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
+    <!--<script type="text/javascript" src="~/js/script.js"></script>-->
+    <title>Gewerkte uren</title>
+</head>
+<body>
+    <div id="filter-project">
+        <input type="search" id="searchbar" placeholder="Search Project" onclick=clearSearch>
+        <input type="submit">
+        <div id="display-options">
+            <p>Display: </p>
+            <select id="display-filter">
+                <option value="1week">1 week</option>
+                <option value="2weeks" asp-action-for="">2 weken</option>
+                <option value="1month">1 maand</option>
+                <option value="1year">1 jaar</option>
+                <option value="allTime">Altijd</option>
+            </select>
+        </div><br />
+        <hr />
+    </div>
+    <table class="hours-table">
+        <!--Show days of week-->
+        <tr class="table-header">
+            <th input-type="text">@HoursWorkedModel.GetWeekOfYear</th>
+            <td>Maandag</td>
+            <td>Dinsdag</td>
+            <td>Woensdag</td>
+            <td>Donderdag</td>
+            <td>Vrijdag</td>
+            <td>Zaterdag</td>
+            <td>Zondag</td>
+            <td>Subtotaal van Week</td>
+        </tr>
+        <tbody>
+            <tr>
+                <td>Totale tijd</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Gewerkte uren</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Overuren</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="total-table">
+        <tr>
+            <th class="table-header" id="total-header">Totaal van @HoursWorkedModel.EmployeeName</th>
+        </tr>
+        <tr class="table-body"><td>Totale tijd</td></tr>
+        <tr class="table-body"><td>Gewerkte uren</td></tr>
+        <tr class="table-body"><td>Overuren</td></tr>
+    </table>
+</body>
+</html>

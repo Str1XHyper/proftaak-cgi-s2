@@ -1,0 +1,64 @@
+﻿html {
+    font-family: Helvetica, sans-serif;
+}
+
+#searchbar {
+    background-image: url(icons8-search.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+/*Search icon*/
+.gg-search {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs,1));
+    width: 16px;
+    height: 16px;
+    border: 2px solid;
+    border-radius: 100%;
+    margin-left: -4px;
+    margin-top: -4px
+}
+
+.gg-search::after {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 3px;
+    width: 2px;
+    height: 8px;
+    background: currentColor;
+    transform: rotate(-45deg);
+    top: 10px;
+    left: 12px
+}
+
+.hours-table {
+    width: 100%;
+}
+
+.table-header {
+    background-color: grey;
+    color: white;
+    margin: auto;
+}
+
+.table-header td {
+    text-align: center;
+}
+
+#total-header {
+    width: 4600px;
+    text-align: left;
+}
+
+#display-options {
+    float: right;
+}
+
+#display-options p {
+    display: inline;
+}
