@@ -1,49 +1,31 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using Proftaakrepos.Models;
-using System;
-using System.Threading.Tasks;
-using Proftaakrepos.Data;
-using ClassLibrary;
-using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
+using Proftaakrepos.Models;
 using System.Collections.Generic;
 
 namespace Proftaakrepos.Controllers
 {
-    public class AuthenticationController : Controller
+    public class EmployeeController : Controller
     {
-        [HttpGet]
-        public IActionResult Login()
+        #region Views
+        public IActionResult Employees()
         {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Login(LoginModel model)
+        public IActionResult AddEmployee()
         {
-            string response =  LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
-
-            switch (response)
+            if (GetUserData.RoleNameAuth(HttpContext.Session.GetString("UserInfo")).ToLower() == "roostermaker")
             {
-                case "redirectHome":
-                    string authCode = CreateLoginCookie.getAuthToken(model.Username);
-                    HttpContext.Session.SetString("UserInfo", authCode);
-                    return RedirectToAction("Agenda", "Planner");
-                case "wrongEntry":
-                    ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
-                    break;
-                case "multipleEntries":
-                    ViewData["Error"] = "Meerdere accounts gevonden met dit e-mail.";
-                    break;
-                case "massiveError":
-                    ViewData["Error"] = "Godverdomme Bart, hoe moeilijk is het?";
-                    break;
-
+                List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
+                ViewData["roles"] = typeOfRoles.ToArray();
+                return View();
             }
-            return View(model);
+            return RedirectToAction("NoAccessIndex", "Home");
         }
+        #endregion
+        #region Logic
         [HttpPost]
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
@@ -63,22 +45,6 @@ namespace Proftaakrepos.Controllers
             return View("Employees");
         }
 
-        public IActionResult AddEmployee()
-        {
-            if(GetUserData.RoleNameAuth(HttpContext.Session.GetString("UserInfo")).ToLower() == "roostermaker")
-            {
-                List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
-                ViewData["roles"] = typeOfRoles.ToArray();
-                return View();
-            }
-            return RedirectToAction("NoAccessIndex", "Home");
-        }
-
-        public IActionResult Employees()
-        {
-            return View();
-        }
-
         [HttpPost]
         public IActionResult GetEmployeeInfo(string employee)
         {
@@ -87,7 +53,7 @@ namespace Proftaakrepos.Controllers
             ViewData["EmployeeInfo"] = data;
             List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
             totalRoles.Add(data[11]);
-            for(int i = 0; i < typeOfRoles.Count; i++)
+            for (int i = 0; i < typeOfRoles.Count; i++)
             {
                 if (data[11].ToLower() != typeOfRoles[i].ToLower())
                 {
@@ -97,12 +63,7 @@ namespace Proftaakrepos.Controllers
             ViewData["roles"] = totalRoles.ToArray();
             return View("Employees");
         }
-        [HttpPost]
-        public IActionResult ChangePassword(ChangePassword changePassword)
-        {
-            AddLoginAccount.ChangeLoginAdmin(changePassword.email, changePassword.password);
-            ViewData["msg"] = "Wachtwoord aangepast";
-            return View("Employees");
-        }
+
+        #endregion
     }
 }
