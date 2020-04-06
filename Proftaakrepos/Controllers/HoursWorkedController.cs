@@ -13,6 +13,8 @@ namespace Proftaakrepos.Controllers
             if (id != null)
                 //@TODO: Add more logic to Controller.
                 return View("HoursWorked");
+
+            return View();
         }
     }
 }
