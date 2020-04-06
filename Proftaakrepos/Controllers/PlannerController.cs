@@ -16,26 +16,32 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Index()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         public IActionResult Create()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         public IActionResult Delete()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         public IActionResult Edit()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         public IActionResult Details()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         public IActionResult Agenda()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         public IActionResult InitialPlanning(int weeks)
@@ -44,6 +50,7 @@ namespace Proftaakrepos.Controllers
             ViewBag.week = GetWeekDateTimes(weeks);
             ViewBag.weekCount = weeks;
             ViewBag.currentYear = (DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(weeks * 7)).ToString("yyyy");
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         public static List<DateTime> GetWeekDateTimes(int weeks)
@@ -67,6 +74,7 @@ namespace Proftaakrepos.Controllers
             var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
             ViewData["employeesId"] = employeesId.ToArray();
             ViewData["employees"] = employees.ToArray();
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         [HttpPost]
@@ -79,6 +87,7 @@ namespace Proftaakrepos.Controllers
             }
             else
             {
+
                 return View(e);
             }
         }
@@ -141,6 +150,7 @@ namespace Proftaakrepos.Controllers
                     eventList.Add(em);
                 }
                 cnn.Close();
+                ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
                 return Json(eventList);
             }
             catch (Exception ex)

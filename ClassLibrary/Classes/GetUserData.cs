@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace ClassLibrary.Classes
 {
@@ -45,6 +45,21 @@ namespace ClassLibrary.Classes
             else
             {
                 return "geenAuthCode";
+            }
+        }
+
+        public static string UserNameAuth(string authCode)
+        {
+            
+            if (authCode != null)
+            {
+                List<string> names = SQLConnection.ExecuteSearchQuery($"SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam` FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
+                string name = names[0] + " " + names[1] + " " + names[2];
+                return name;
+            }
+            else
+            {
+                return "UserNietGevonden";
             }
         }
     }

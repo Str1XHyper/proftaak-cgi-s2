@@ -30,12 +30,14 @@ namespace Proftaakrepos.Controllers
             string[] query = new string[] { $"Update TradeRequest Set Status = 1 Where TradeId = {TradeID}", $"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID} " };
             SQLConnection.ExecuteNonSearchQueryArray(query);
             //SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID}");
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return Redirect("Incoming");
         }
 
         public IActionResult Block(string UserID, int TradeID, string DisabledIds)
         {
             SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set DisabledIds = '{DisabledIds},{UserID}'Where TradeId = {TradeID}");
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return Redirect("Incoming");
         }
     }
