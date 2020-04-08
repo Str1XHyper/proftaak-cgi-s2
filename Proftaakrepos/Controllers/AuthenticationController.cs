@@ -23,6 +23,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string response =  LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
 
             switch (response)
@@ -47,6 +48,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string authToken = GenerateAuthToken.GetUniqueKey(10);
             string newEmail = addEmployeeModel.eMail.ToLower();
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{newEmail}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
@@ -58,6 +60,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult UpdateEmployee(AddEmployee addEmployeeModel)
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{addEmployeeModel.eMail.ToLower()}'")[0];
             SQLConnection.ExecuteNonSearchQuery($"UPDATE `Werknemers` SET `Voornaam`='{addEmployeeModel.naam}',`Tussenvoegsel`='{addEmployeeModel.tussenvoegsel}',`Achternaam`='{addEmployeeModel.achternaam}',`Email`='{addEmployeeModel.eMail.ToLower()}',`Telefoonnummer`='{addEmployeeModel.phoneNumber}',`Straatnaam`='{addEmployeeModel.straatnaam}',`Huisnummer`='{addEmployeeModel.huisNummer}',`Postcode`='{addEmployeeModel.postcode}',`Woonplaats`='{addEmployeeModel.woonplaats}',`Rol`='{addEmployeeModel.role}' WHERE `UserId` = {userID}");
             return View("Employees");
@@ -65,7 +68,8 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult AddEmployee()
         {
-            if(GetUserData.RoleNameAuth(HttpContext.Session.GetString("UserInfo")).ToLower() == "roostermaker")
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            if (GetUserData.RoleNameAuth(HttpContext.Session.GetString("UserInfo")).ToLower() == "roostermaker")
             {
                 List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
                 ViewData["roles"] = typeOfRoles.ToArray();
@@ -76,6 +80,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Employees()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             UIHandler uiHandler = new UIHandler();
             ViewData["color"] = uiHandler.GetColor();
             return View();
@@ -84,6 +89,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult GetEmployeeInfo(string employee)
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             List<string> totalRoles = new List<string>();
             string[] data = SQLConnection.ExecuteSearchQuery($"Select * from `Werknemers` where UserId = {employee}").ToArray();
             ViewData["EmployeeInfo"] = data;
@@ -102,6 +108,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult ChangePassword(ChangePassword changePassword)
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             AddLoginAccount.ChangeLoginAdmin(changePassword.email, changePassword.password);
             ViewData["msg"] = "Wachtwoord aangepast";
             return View("Employees");

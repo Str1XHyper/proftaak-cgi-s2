@@ -27,12 +27,14 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult NoAccessIndex()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             ModelState.AddModelError("", "U heeft niet de rechten om deze pagina te bezoeken.");
             return View("Index");
         }
 
         public IActionResult Privacy()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
 
@@ -43,6 +45,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Employees()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
