@@ -3,103 +3,209 @@
     ViewData["Title"] = "CreateEvent";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <head>
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/js/moment.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js" integrity="sha256-GBryZPfVv8G3K1Lu2QwcqQXAO4Szv4xlY4B/ftvyoMI=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js" integrity="sha256-FT1eN+60LmWX0J8P25UuTjEEE0ZYvpC07nnU6oFKFuI=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/timegrid/main.min.js" integrity="sha256-L9T+qE3Ms6Rsuxl+KwLST6a3R/2o6m33zB5mR2KyPjU=" crossorigin="anonymous"></script>
-        <script src='https://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
+<head>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/moment.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.js" integrity="sha256-GBryZPfVv8G3K1Lu2QwcqQXAO4Szv4xlY4B/ftvyoMI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/daygrid/main.min.js" integrity="sha256-FT1eN+60LmWX0J8P25UuTjEEE0ZYvpC07nnU6oFKFuI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/timegrid/main.min.js" integrity="sha256-L9T+qE3Ms6Rsuxl+KwLST6a3R/2o6m33zB5mR2KyPjU=" crossorigin="anonymous"></script>
+    <script src='https://fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
 
-        <script src='~/js/interactionmain.min.js'></script>
-        <script src="~/js/MySQLManager.js"></script>
-        <script src="~/js/myCalendar.js"></script>
+    <script src='~/js/interactionmain.min.js'></script>
+    <script src="~/js/MySQLManager.js"></script>
+    <script src="~/js/myCalendar.js"></script>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" integrity="sha256-Lfe6+s5LEek8iiZ31nXhcSez0nmOxP+3ssquHMR3Alo=" crossorigin="anonymous" />
-        <link href="~/css/main.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="~/css/Agenda.css" />
-    </head>
-    <div class="row" style="padding-top: 3vh">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" integrity="sha256-Lfe6+s5LEek8iiZ31nXhcSez0nmOxP+3ssquHMR3Alo=" crossorigin="anonymous" />
+    <link href="~/css/main.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/Agenda.css" />
+</head>
+<div class="row" style="padding-top: 3vh">
 
-        <div style="float: left" class="col-md-4">
-            <form asp-action="CreateEvent" asp-controller="Planner" method="post">
+    <div style="float: left" class="col-md-4">
+        <form asp-action="CreateEvent" asp-controller="Planner" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @{
+                string[] userData;
+                if (ViewData["UserData"] != null)
+                {
+                    userData = ViewData["UserData"] as string[];
+
+                }
+                else
+                {
+                    userData = new string[9];
+                }
+                string rol = ViewBag.Rol;
+                if (rol == "Roostermaker")
+                {
+                    <div class="form-group">
+                        <label asp-for="userId" class="control-label">Werknemer: </label>
+                        <select onChange="FetchEvents()" asp-for="userId" class="form-control" id="inputfield" name="userId" value="@userData[1]">
+                            @{ if (ViewData["employees"] == null)
+                                { }
+                                else
+                                {
+                                    string[] employeesId = ViewData["employeesId"] as string[];
+                                    string[] employees = ViewData["employees"] as string[];
+                                    for (int i = 0; i < employees.Length; i++)
+                                    {
+                                        <option selected="@(userData[1] == employeesId[i])" value="@employeesId[i]">@employees[i]</option>
+                                    }
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="voornaam" class="text-danger"></span>
+                    </div>
+                }
+            }
+
+            <div class="form-group">
+                <label asp-for="title" class="control-label">Titel: </label>
+                <input asp-for="title" class="form-control" value="@userData[2]" />
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="description" class="control-label">Beschrijving: </label>
+                <input asp-for="description" class="form-control" value="@userData[3]" />
+                <span asp-validation-for="description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="startDate" class="control-label">Start datum: </label>
+                <input asp-for="startDate" class="form-control" value="@Convert.ToDateTime(userData[4])" />
+                <span asp-validation-for="startDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="endDate" class="control-label">Eind datum: </label>
+                <input asp-for="endDate" class="form-control" value="@Convert.ToDateTime(userData[5])" />
+                <span asp-validation-for="endDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="themeColor" class="control-label">Soort: </label>
+                <select asp-for="themeColor" class="form-control" id="inputfield" name="themeColor" value="@userData[6]">
+                    <option selected="@(userData[6] == "#E9967A")" value="#E9967A">Stand-by</option>
+                    <option selected="@(userData[6] == "#98FB98")" value="#98FB98">Incidenten</option>
+                    <option selected="@(userData[6] == "#FFFF99")" value="#FFFF99">Pauze</option>
+                    <option selected="@(userData[6] == "#D8BFD8")" value="#D8BFD8">Verlof</option>
+                    <option selected="@(userData[6] == "#87CEFA")" value="#87CEFA">Noodgevallen</option>
+
+                </select>
+                <span asp-validation-for="themeColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isFullDay" class="control-label">Hele dag: </label>
+                <input asp-for="isFullDay" class="form-control" value="@userData[7]" />
+                <span asp-validation-for="isFullDay" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Bevestig" class="btn btn-primary" formmethod="post" />
+        </form>
+
+    </div>
+
+    <div style="float: left; width:60%; padding-left: 2vw" id="calendar"></div>
+    <button id="myBtn">Open Modal</button>
+
+    
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form asp-action="EditEvent" asp-controller="Planner" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @{
-                    string[] userData;
+                    string[] _userData;
                     if (ViewData["UserData"] != null)
                     {
-                        userData = ViewData["UserData"] as string[];
 
+                        _userData = ViewData["UserData"] as string[];
                     }
                     else
                     {
-                        userData = new string[9];
+                        _userData = new string[9];
                     }
-                    string rol = ViewBag.Rol;
-                    if (rol == "Roostermaker")
+                    if (Convert.ToInt32(_userData[0]) > 0)
                     {
-                        <div class="form-group">
-                            <label asp-for="userId" class="control-label">Werknemer: </label>
-                            <select onChange="FetchEvents()" asp-for="userId" class="form-control" id="inputfield" name="userId" value="@userData[1]">
-                                @{ if (ViewData["employees"] == null)
-                                    { }
-                                    else
+                        <script>
+                            var modal = document.getElementById("myModal");
+                            modal.style.display = "block";
+                            var span = document.getElementsByClassName("close")[0];
+                            window.onclick = function (event) {
+                                if (event.target == modal) {
+                                    modal.style.display = "none";
+                                }
+                            }
+                            span.onclick = function () {
+                                modal.style.display = "none";
+                            }
+                        </script>
+                    }
+                }
+                <input id="eventIdField" type="hidden" asp-for="eventId" value="@_userData[0]" />
+                <input type="hidden" asp-for="voornaam" value="........." />
+                @if (ViewBag.Rol == "Roostermaker")
+                {
+                    <div class="form-group">
+                        <label asp-for="userId" class="control-label">Werknemer: </label>
+                        <select asp-for="userId" class="form-control" id="userIdField" name="userId" value="@_userData[1]">
+                            @{ if (ViewData["employees"] == null)
+                                { }
+                                else
+                                {
+                                    string[] employeesId = ViewData["employeesId"] as string[];
+                                    string[] employees = ViewData["employees"] as string[];
+                                    for (int i = 0; i < employees.Length; i++)
                                     {
-                                        string[] employeesId = ViewData["employeesId"] as string[];
-                                        string[] employees = ViewData["employees"] as string[];
-                                        for (int i = 0; i < employees.Length; i++)
-                                        {
-                                            <option selected="@(userData[1] == employeesId[i])" value="@employeesId[i]" >@employees[i]</option>
-                                        }
+                                        <option selected="@(_userData[1] == employeesId[i])" value="@employeesId[i]">@employees[i]</option>
                                     }
                                 }
-                            </select>
-                            <span asp-validation-for="voornaam" class="text-danger"></span>
-                        </div>
-                                    }
+                            }
+                        </select>
+                        <span asp-validation-for="voornaam" class="text-danger"></span>
+                    </div>
                 }
 
                 <div class="form-group">
                     <label asp-for="title" class="control-label">Titel: </label>
-                    <input asp-for="title" class="form-control" value="@userData[2]"/>
+                    <input id="titleField" asp-for="title" class="form-control" value="@_userData[2]" />
                     <span asp-validation-for="title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="description" class="control-label">Beschrijving: </label>
-                    <input asp-for="description" class="form-control" value="@userData[3]"/>
+                    <input id="descriptionField" asp-for="description" class="form-control" value="@_userData[3]" />
                     <span asp-validation-for="description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="startDate" class="control-label">Start datum: </label>
-                    <input asp-for="startDate" class="form-control" value="@Convert.ToDateTime(userData[4])" />
+                    <input id="startField" asp-for="startDate" class="form-control" value="@Convert.ToDateTime(_userData[4])" />
                     <span asp-validation-for="startDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="endDate" class="control-label">Eind datum: </label>
-                    <input asp-for="endDate" class="form-control" value="@Convert.ToDateTime(userData[5])"/>
+                    <input id="endField" asp-for="endDate" class="form-control" value="@Convert.ToDateTime(_userData[5])" />
                     <span asp-validation-for="endDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="themeColor" class="control-label">Soort: </label>
-                    <select asp-for="themeColor" class="form-control" id="inputfield" name="themeColor" value="@userData[6]">
-                        <option selected="@(userData[6] == "#E9967A")" value="#E9967A">Stand-by</option>
-                        <option selected="@(userData[6] == "#98FB98")" value="#98FB98">Incidenten</option>
-                        <option selected="@(userData[6] == "#FFFF99")" value="#FFFF99">Pauze</option>
-                        <option selected="@(userData[6] == "#D8BFD8")" value="#D8BFD8">Verlof</option>
-                        <option selected="@(userData[6] == "#87CEFA")" value="#87CEFA">Noodgevallen</option>
-
+                    <select asp-for="themeColor" class="form-control" id="themeColorField" name="themeColor" value="@_userData[6]">
+                        <option selected="@(_userData[6] == "#E9967A")" value="#E9967A">Stand-by</option>
+                        <option selected="@(_userData[6] == "#98FB98")" value="#98FB98">Incidenten</option>
+                        <option selected="@(_userData[6] == "#FFFF99")" value="#FFFF99">Pauze</option>
+                        <option selected="@(_userData[6] == "#D8BFD8")" value="#D8BFD8">Verlof</option>
+                        <option selected="@(_userData[6] == "#87CEFA")" value="#87CEFA">Noodgevallen</option>
                     </select>
                     <span asp-validation-for="themeColor" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="isFullDay" class="control-label">Hele dag: </label>
-                    <input asp-for="isFullDay" class="form-control" value="@userData[7]"/>
+                    <input id="fullDayField" asp-for="isFullDay" class="form-control" value="@_userData[7]" />
                     <span asp-validation-for="isFullDay" class="text-danger"></span>
                 </div>
-                <input type="submit" value="Bevestig" class="btn btn-primary" formmethod="post" />
+                <input type="submit" value="Wijzig" class="btn btn-primary" formmethod="post" />
             </form>
         </div>
-        <div style="float: left; width:60%; padding-left: 2vw" id="calendar"></div>
-    </div> 
+
+    </div>
+
+
+
+</div>
 
 

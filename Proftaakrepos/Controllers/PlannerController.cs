@@ -42,6 +42,13 @@ namespace Proftaakrepos.Controllers
         public IActionResult Agenda()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            string var = HttpContext.Session.GetString("UserInfo");
+            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
+            ViewBag.Rol = rol;
+            var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
+            var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
+            ViewData["employeesId"] = employeesId.ToArray();
+            ViewData["employees"] = employees.ToArray();
             return View();
         }
         public IActionResult InitialPlanning(int weeks)
@@ -75,35 +82,23 @@ namespace Proftaakrepos.Controllers
             ViewData["employees"] = employees.ToArray();
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
+
         }
-        [HttpGet]
-        public ActionResult EditEvent(int EventId)
+        public ActionResult GetEventInfo(int EventId)
         {
-            string var = HttpContext.Session.GetString("UserInfo");
-            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            string[] data = SQLConnection.ExecuteSearchQuery($"Select * From Rooster Where EventId = '{EventId}'").ToArray();
-            ViewData["UserData"] = data;
-            ViewBag.Rol = rol;
-            var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
-            var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
-            ViewData["employeesId"] = employeesId.ToArray();
-            ViewData["employees"] = employees.ToArray();
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            return View();
+            List<string> eventData = SQLConnection.ExecuteSearchQuery($"select * from Rooster Where EventId = {EventId}");
+            return Json(eventData);
         }
+
         [HttpPost]
         public ActionResult EditEvent(EventModel e)
         {
             if (ModelState.IsValid)
             {
                 HandleEditEventRequest(e);
-                return RedirectToAction("CreateEvent");
             }
-            else
-            {
+            return RedirectToAction("Agenda");
 
-                return View(e);
-            }
         }
         [HttpPost]
         public ActionResult CreateEvent(EventModel e)
@@ -158,7 +153,7 @@ namespace Proftaakrepos.Controllers
             eventList = new List<EventModel>();
 
             MySqlConnection cnn;
-            string connetionString = "server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+            string connetionString = $"server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             MySqlCommand cmd = new MySqlCommand();
             cmd.Connection = cnn;

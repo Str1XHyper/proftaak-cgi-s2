@@ -149,7 +149,7 @@ a[data-goto]:hover {
 }
 
     .fc-row .fc-bg {
-        z-index: 1
+        z-index: 3
     }
 
     .fc-row .fc-bgevent-skeleton td,
@@ -158,21 +158,21 @@ a[data-goto]:hover {
     }
 
     .fc-row .fc-bgevent-skeleton {
-        z-index: 2
+        z-index: 4
     }
 
     .fc-row .fc-highlight-skeleton {
-        z-index: 3
+        z-index: 5
     }
 
     .fc-row .fc-content-skeleton {
         position: relative;
-        z-index: 4;
+        z-index: 6;
         padding-bottom: 2px
     }
 
     .fc-row .fc-mirror-skeleton {
-        z-index: 5
+        z-index: 7
     }
 
 .fc .fc-row .fc-content-skeleton table,

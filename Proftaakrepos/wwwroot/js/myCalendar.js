@@ -39,8 +39,43 @@ document.addEventListener('DOMContentLoaded', function () {
             left: 'addEventButton,title',
         },
         eventClick: function (info) {
-            var url = "EditEvent?EventId=" + info.event.id;
-            window.location.href = url;
+            $.ajax({
+                url: '/Planner/GetEventInfo',
+                type: 'GET',
+                data: { EventId: info.event.id },
+                success: function (data) {
+                    var eventId = data[0];
+                    var userId = data[1];
+                    var title = data[2];
+                    var description = data[3];
+                    var start = data[4];
+                    var end = data[5];
+                    var themeColor = data[6];
+                    var fullDay = data[7];
+                    document.getElementById("userIdField").value = userId;
+                    document.getElementById("eventIdField").value = eventId;
+                    document.getElementById("titleField").value = title;
+                    document.getElementById("descriptionField").value = description;
+                    document.getElementById("startField").value = start;
+                    document.getElementById("endField").value = end;
+                    document.getElementById("themeColorField").value = themeColor;
+                    document.getElementById("fullDayField").value = fullDay;
+                }
+            });
+            //var url = "CreateEvent?EventId=" + info.event.id;
+            //window.location.href = url;
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+            var span = document.getElementsByClassName("close")[0];
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
         },
         views: {
             dayGrid: {
@@ -51,13 +86,14 @@ document.addEventListener('DOMContentLoaded', function () {
             },
         },
         select: function (info) {
-            
+
         }
     });
     calendar.setOption('locale', 'nl');
     FetchEvents();
     calendar.render();
 });
+
 function FetchEvents() {
     var selectedIndex = $("#inputfield").val();
     calendar.getEvents().forEach(function (item, index) { item.remove() });
