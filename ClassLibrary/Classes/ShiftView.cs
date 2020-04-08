@@ -16,7 +16,7 @@ namespace ClassLibrary.Classes
 
         public static bool HasCorrectInfo(List<string> QueryResult)
         {
-            return QueryResult.Count > 1;
+            return QueryResult.Count > 0;
         }
 
         public static List<string> GetDiensten(int UserID, int EventId)
