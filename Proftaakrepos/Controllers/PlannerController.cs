@@ -91,14 +91,17 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditEvent(EventModel e)
+        public IActionResult EditEvent(EventModel e, string pagename)
         {
             if (ModelState.IsValid)
             {
                 HandleEditEventRequest(e);
             }
+            if(pagename == "CreateEvent")
+            {
+                return RedirectToAction("CreateEvent");
+            }
             return RedirectToAction("Agenda");
-
         }
         [HttpPost]
         public ActionResult CreateEvent(EventModel e)
@@ -184,6 +187,10 @@ namespace Proftaakrepos.Controllers
             {
                 return null;
             }
+        }
+        public void UpdateAgendaTimes(DateTime endTime, int EventId)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set End = '{endTime.ToString("yyyy/MM/dd HH:mm")}' Where EventId = '{EventId}'");
         }
 
     }

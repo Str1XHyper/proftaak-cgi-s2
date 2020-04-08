@@ -30,9 +30,16 @@ document.addEventListener('DOMContentLoaded', function () {
         selectable: true,
         selectHelper: true,
         editable: true,
-        eventStartEditable: true,
         eventLimit: true,
         droppable: true,
+        dropAccept: true,
+        eventDrop: function (eventDropInfo) {
+            alert(eventDropInfo.event.title + " was dropped on " + eventDropInfo.event.endDate.toISOString());
+
+            if (!confirm("Are you sure about this change?")) {
+                info.revert();
+            }
+        },
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
@@ -85,15 +92,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' },
             },
         },
+        eventStartEditable: true,
+        eventDurationEditable: true,
+        eventDragStop(info) {
+            info.eventStartEditable
+        },
+        //Fix thing below
+        eventResize: function (eventResizeInfo) {
+            $.ajax(
+                {
+                    type: "GET",
+                    url: '/Planner/UpdateAgendaTimes?endTime=' + eventResizeInfo.event.end.toISOString() + '&EventId=' + eventResizeInfo.event.id,
+                });
+        },
         select: function (info) {
-
         }
     });
     calendar.setOption('locale', 'nl');
     FetchEvents();
     calendar.render();
 });
-
+function CloseModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+    FetchEvents();
+}
 function FetchEvents() {
     var selectedIndex = $("#inputfield").val();
     calendar.getEvents().forEach(function (item, index) { item.remove() });
