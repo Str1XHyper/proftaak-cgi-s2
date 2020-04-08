@@ -9,8 +9,9 @@ namespace Proftaakrepos.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index()
+        public IActionResult ChangeSettings()
         {
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
 
