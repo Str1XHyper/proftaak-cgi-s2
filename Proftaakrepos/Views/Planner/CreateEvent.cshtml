@@ -22,15 +22,25 @@
     <div class="row" style="padding-top: 3vh">
 
         <div style="float: left" class="col-md-4">
-            <form asp-action="CreateEvent">
+            <form asp-action="CreateEvent" asp-controller="Planner" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @{
+                    string[] userData;
+                    if (ViewData["UserData"] != null)
+                    {
+                        userData = ViewData["UserData"] as string[];
+
+                    }
+                    else
+                    {
+                        userData = new string[9];
+                    }
                     string rol = ViewBag.Rol;
                     if (rol == "Roostermaker")
                     {
                         <div class="form-group">
                             <label asp-for="userId" class="control-label">Werknemer: </label>
-                            <select onChange="FetchEvents()" asp-for="userId" class="form-control" id="inputfield" name="userId">
+                            <select onChange="FetchEvents()" asp-for="userId" class="form-control" id="inputfield" name="userId" value="@userData[1]">
                                 @{ if (ViewData["employees"] == null)
                                     { }
                                     else
@@ -39,51 +49,51 @@
                                         string[] employees = ViewData["employees"] as string[];
                                         for (int i = 0; i < employees.Length; i++)
                                         {
-                                            <option value="@employeesId[i]">@employees[i]</option>
+                                            <option selected="@(userData[1] == employeesId[i])" value="@employeesId[i]" >@employees[i]</option>
                                         }
                                     }
                                 }
                             </select>
                             <span asp-validation-for="voornaam" class="text-danger"></span>
                         </div>
-                    }
+                                    }
                 }
 
                 <div class="form-group">
                     <label asp-for="title" class="control-label">Titel: </label>
-                    <input asp-for="title" class="form-control" />
+                    <input asp-for="title" class="form-control" value="@userData[2]"/>
                     <span asp-validation-for="title" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="description" class="control-label">Beschrijving: </label>
-                    <input asp-for="description" class="form-control" />
+                    <input asp-for="description" class="form-control" value="@userData[3]"/>
                     <span asp-validation-for="description" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="startDate" class="control-label">Start datum: </label>
-                    <input asp-for="startDate" class="form-control" />
+                    <input asp-for="startDate" class="form-control" value="@Convert.ToDateTime(userData[4])" />
                     <span asp-validation-for="startDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="endDate" class="control-label">Eind datum: </label>
-                    <input asp-for="endDate" class="form-control" />
+                    <input asp-for="endDate" class="form-control" value="@Convert.ToDateTime(userData[5])"/>
                     <span asp-validation-for="endDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="themeColor" class="control-label">Soort: </label>
-                    <select asp-for="themeColor" class="form-control" id="inputfield" name="themeColor">
-                        <option value="#E9967A">Stand-by</option>
-                        <option value="#98FB98">Incidenten</option>
-                        <option value="#FFFF99">Pauze</option>
-                        <option value="#D8BFD8">Verlof</option>
-                        <option value="#87CEFA">Noodgevallen</option>
+                    <select asp-for="themeColor" class="form-control" id="inputfield" name="themeColor" value="@userData[6]">
+                        <option selected="@(userData[6] == "#E9967A")" value="#E9967A">Stand-by</option>
+                        <option selected="@(userData[6] == "#98FB98")" value="#98FB98">Incidenten</option>
+                        <option selected="@(userData[6] == "#FFFF99")" value="#FFFF99">Pauze</option>
+                        <option selected="@(userData[6] == "#D8BFD8")" value="#D8BFD8">Verlof</option>
+                        <option selected="@(userData[6] == "#87CEFA")" value="#87CEFA">Noodgevallen</option>
 
                     </select>
                     <span asp-validation-for="themeColor" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="isFullDay" class="control-label">Hele dag: </label>
-                    <input asp-for="isFullDay" class="form-control" />
+                    <input asp-for="isFullDay" class="form-control" value="@userData[7]"/>
                     <span asp-validation-for="isFullDay" class="text-danger"></span>
                 </div>
                 <input type="submit" value="Bevestig" class="btn btn-primary" formmethod="post" />

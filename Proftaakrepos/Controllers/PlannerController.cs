@@ -68,7 +68,6 @@ namespace Proftaakrepos.Controllers
         {
             string var = HttpContext.Session.GetString("UserInfo");
             string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-
             ViewBag.Rol = rol;
             var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
             var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
@@ -76,6 +75,35 @@ namespace Proftaakrepos.Controllers
             ViewData["employees"] = employees.ToArray();
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
+        }
+        [HttpGet]
+        public ActionResult EditEvent(int EventId)
+        {
+            string var = HttpContext.Session.GetString("UserInfo");
+            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
+            string[] data = SQLConnection.ExecuteSearchQuery($"Select * From Rooster Where EventId = '{EventId}'").ToArray();
+            ViewData["UserData"] = data;
+            ViewBag.Rol = rol;
+            var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
+            var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
+            ViewData["employeesId"] = employeesId.ToArray();
+            ViewData["employees"] = employees.ToArray();
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EditEvent(EventModel e)
+        {
+            if (ModelState.IsValid)
+            {
+                HandleEditEventRequest(e);
+                return RedirectToAction("CreateEvent");
+            }
+            else
+            {
+
+                return View(e);
+            }
         }
         [HttpPost]
         public ActionResult CreateEvent(EventModel e)
@@ -91,7 +119,10 @@ namespace Proftaakrepos.Controllers
                 return View(e);
             }
         }
-
+        public void HandleEditEventRequest(EventModel emdb)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set UserId = '{emdb.userId}',Subject = '{emdb.title}', Description = '{emdb.description}', Start = '{emdb.startDate.ToString("yyyy/MM/dd HH:mm")}', End = '{emdb.endDate.ToString("yyyy/MM/dd HH:mm")}', ThemeColor = '{emdb.themeColor}', IsFullDay = '{Convert.ToInt32(emdb.isFullDay)}' Where EventId = '{emdb.eventId}'");
+        }
         [HttpPost]
         public IActionResult HandleEventRequest(EventModel emdb)
         {
@@ -139,6 +170,7 @@ namespace Proftaakrepos.Controllers
                 while (reader.Read())
                 {
                     EventModel em = new EventModel();
+                    em.eventId = Convert.ToInt32(reader[0]);
                     em.userId = Convert.ToInt32(reader[1]);
                     em.title = reader[2].ToString();
                     em.description = reader[3].ToString();

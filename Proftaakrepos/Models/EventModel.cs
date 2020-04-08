@@ -8,6 +8,7 @@ namespace Proftaakrepos.Models
 {
     public class EventModel
     {
+        public int eventId { get; set; }
         public int userId { get; set; }
         public string voornaam { get; set; }
         public string title { get; set; }
