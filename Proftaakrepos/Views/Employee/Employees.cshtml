@@ -18,7 +18,7 @@
 <h1>Wijzig gegevens van werknemers</h1>
 <p style="color: green; font-size: 20px;">@ViewData["msg"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
-<form asp-action="GetEmployeeInfo" asp-controller="Authentication" method="post">
+<form asp-action="GetEmployeeInfo" asp-controller="Employee" method="post">
     <select name="employee" id="employee">
         @{
             int count = 1;
@@ -41,7 +41,7 @@
     <input type="submit" value="Vraag op" />
 </form>
 
-<form asp-action="UpdateEmployee" asp-controller="Authentication" method="post">
+<form asp-action="UpdateEmployee" asp-controller="Employee" method="post">
     <div style="color: red;"></div>
     <div id="div1" style="display:none;">
         <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
@@ -130,23 +130,17 @@
         <input type="submit" value="Voeg toe">
     </div>
 </form>
-<div id="div4" style="display: none;">
+@*<div id="div4" style="display: none;">
     <div class="banner"><center><h5 style="color: white">INLOGGEVENS</h5></center></div>
         <br>
         <partial name="ChangePassword" />
-</div>
+</div>*@
 <script>
     function FadeAnimation() {
         $("#div1").fadeIn();
         $("#div2").fadeIn(1000);
         $("#div3").fadeIn(1500);
         $("#div4").fadeIn(2000);
-        ChangeUIColor();
     }
-
-    function ChangeUIColor() {
-        $(".banner").css("background-color", '@ViewBag.Color');
-    }
-
 window.onload = FadeAnimation;
 </script>

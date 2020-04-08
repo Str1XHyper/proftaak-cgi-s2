@@ -21,7 +21,7 @@
 <div class="form">
     <div style="color: red;">@ViewData["Error"]</div>
 
-    <form asp-action="AddEmployee" asp-controller="Authentication" method="post" class="login-form">
+    <form asp-action="AddEmployee" asp-controller="Employee" method="post" class="login-form">
         <div style="color: red;"></div>
         <div id="div1" style="display:none;">
             <div class="banner"><center><h5 style="color: white">BASIS INFORMATIE</h5></center></div>
@@ -72,12 +72,6 @@
         $("#div1").fadeIn();
         $("#div2").fadeIn(1000);
         $("#div3").fadeIn(1500);
-        ChangeUIColor();
     }
-
-    function ChangeUIColor() {
-        $(".banner").css("background-color", '@ViewBag.Color');
-    }
-
 window.onload = FadeAnimation;
 </script>
