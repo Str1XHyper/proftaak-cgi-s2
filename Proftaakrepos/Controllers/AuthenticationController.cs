@@ -17,6 +17,10 @@ namespace Proftaakrepos.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if(HttpContext.Session.GetString("UserInfo") != null)
+            {
+                return RedirectToAction("Agenda", "Planner");
+            }
             return View();
         }
 

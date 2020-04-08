@@ -8,10 +8,10 @@ namespace ClassLibrary.Classes
     public class SQLConnection
     {
         private MySqlDataReader reader;
-        private static MySqlConnection CreateConnection(string IP, string Database, string UserName, string Password)
+        private static MySqlConnection CreateConnection()
         {
             MySqlConnection cnn;
-            string connetionString = $"server={IP};database={Database};uid={UserName};pwd={Password};";
+            string connetionString = $"server=5.39.113.3;database=PlannerApplicatie;uid=nova;pwd=NovaChonkyBois;";
             cnn = new MySqlConnection(connetionString);
             return cnn;
         }
@@ -19,7 +19,7 @@ namespace ClassLibrary.Classes
         public static List<string> ExecuteSearchQuery(string query)
         {
             List<string> values = new List<string>();
-            MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
+            MySqlConnection cnn = CreateConnection();
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
             cmd.Connection = cnn;
@@ -46,7 +46,7 @@ namespace ClassLibrary.Classes
         public static List<string>[] ExecuteSearchQueryArray(string[] query)
         {
             List<string>[] values = new List<string>[query.Length];
-            MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
+            MySqlConnection cnn = CreateConnection();
             MySqlCommand[] cmd = new MySqlCommand[query.Length];
             for (int i = 0; i < cmd.Length; i++)
             {
@@ -81,7 +81,7 @@ namespace ClassLibrary.Classes
 
         public static void ExecuteNonSearchQuery(string query)
         {
-            MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
+            MySqlConnection cnn = CreateConnection();
 
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
@@ -93,7 +93,7 @@ namespace ClassLibrary.Classes
 
         public static void ExecuteNonSearchQueryArray(string[] query)
         {
-            MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
+            MySqlConnection cnn = CreateConnection();
 
             MySqlCommand[] cmd = new MySqlCommand[query.Length];
             for (int i = 0; i<cmd.Length; i++)
@@ -113,7 +113,7 @@ namespace ClassLibrary.Classes
         public static List<string> ExecuteGetStringQuery(string query)
         {
             List<string> values = new List<string>();
-            MySqlConnection cnn = CreateConnection("185.182.57.161", "tijnvcd415_Proftaak", "tijnvcd415_Proftaak", "Proftaak");
+            MySqlConnection cnn = CreateConnection();
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
             cmd.Connection = cnn;

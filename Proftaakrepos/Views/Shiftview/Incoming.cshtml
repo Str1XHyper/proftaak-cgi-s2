@@ -57,7 +57,7 @@
                 {
                     <div class="exampleRequest">
                         <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
-                        <a asp-controller="Shiftview" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
+                        <a asp-controller="Shiftview" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-EventID="@requestOutput[7]" method="Post" class="button">
                             <img src="~/img/check-solid.svg" alt="No">
                         </a>
                         <a asp-controller="Shiftview" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">

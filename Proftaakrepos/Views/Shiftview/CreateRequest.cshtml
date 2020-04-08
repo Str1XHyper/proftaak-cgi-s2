@@ -19,13 +19,14 @@
     <h1 class="createH1">Ruilverzoek aanmaken</h1>
     <div class="CreateRequest">
         <div class="position-static">
-            <form asp-action="CreateRequest" asp-controller="Home" method="post" class="CreateRequestForm">
+            <form asp-action="CreateRequest" asp-controller="Shiftview" method="post" class="CreateRequestForm">
                 <input type="hidden" value="@currentId" name="UserID" />
                 <select name="EventID" id="EventID" class="RoosterDropDown">
                     @{
                         for (int i = 1; i <= ShiftView.EntryCount("EventId", "Rooster"); i++)
                         {
                             List<string> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId), i);
+                            
                             if (ShiftView.HasCorrectInfo(dienstInfo))
                             {
                                 DateTime dateTime = DateTime.Parse(dienstInfo[4]);
