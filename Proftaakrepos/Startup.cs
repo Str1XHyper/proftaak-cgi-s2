@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Proftaakrepos.Data;
 using Proftaakrepos.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Proftaakrepos
 {
@@ -41,13 +42,6 @@ namespace Proftaakrepos
             // IMPORTANT: This session call MUST go before UseMvc()
             app.UseSession();
 
-            // Add MVC to the request pipeline.
-            //app.UseMvc(routes =>
-            //  {
-            //      routes.MapRoute(
-            //          name: "default",
-            //          template: "{controller=Authentication}/{action=Login}/{id?}");
-            //  });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -63,7 +57,12 @@ namespace Proftaakrepos
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseAuthentication();
             app.UseSession();
 
             app.UseEndpoints(endpoints =>

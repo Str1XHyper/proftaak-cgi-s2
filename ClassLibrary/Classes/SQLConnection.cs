@@ -11,7 +11,8 @@ namespace ClassLibrary.Classes
         private static MySqlConnection CreateConnection()
         {
             MySqlConnection cnn;
-            string connetionString = $"server=5.39.113.3;database=PlannerApplicatie;uid=nova;pwd=NovaChonkyBois;";
+            //string connetionString = $"server=5.39.113.3;database=PlannerApplicatie;uid=nova;pwd=NovaChonkyBois;";
+            string connetionString = $"server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             return cnn;
         }
