@@ -12,12 +12,19 @@
     line-height: 1.5;
     border-radius: .25em;
 }
-h2{
+.calendar {
+    background-color: #212529;
+}
+h2 {
     position: absolute;
 }
-div{
-    padding-bottom: 3px;
+
+.fc-left div{
 }
+.fc-header-toolbar{
+    padding-bottom: 10px;
+}
+
 .open-button {
     background-color: #555;
     color: white;
@@ -84,6 +91,24 @@ div{
     .form-container .btn:hover, .open-button:hover {
         opacity: 1;
     }
+
+
+.fc-button {
+    background-color: #212529;
+}
+
+    .fc-button:hover {
+        background-color: #343a40;
+    }
+
+.fc-unthemed td{
+    border-color: #212529;
+    padding-bottom: 0px;
+}
+.fc-divider, .fc-widget-header, fc-unthemed {
+    border-color: #212529;
+    background-color: white;
+}
 
 
 

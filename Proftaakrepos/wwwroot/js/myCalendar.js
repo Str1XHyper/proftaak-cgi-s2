@@ -39,10 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
             left: 'addEventButton,title',
         },
         eventClick: function (info) {
-            alert('Beschrijving: ' + info.event.description);
-        },
-        eventResizeStop: function (info) {
-
+            var url = "EditEvent?EventId=" + info.event.id;
+            window.location.href = url;
         },
         views: {
             dayGrid: {
@@ -71,6 +69,7 @@ function FetchEvents() {
             var list = data;
             for (var i = 0; i < list.length; i++) {
                 var obj = {}
+                obj.id = list[i].eventId;
                 obj.title = list[i].title;
                 obj.start = list[i].startDate;
                 obj.end = list[i].endDate;
