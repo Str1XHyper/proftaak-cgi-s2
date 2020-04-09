@@ -70,6 +70,11 @@ namespace Proftaakrepos.Controllers
             }
             return currentWeek;
         }
+        public void DeleteEvent(int EventId)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM Rooster WHERE EventId = {EventId}");
+        }
+
         [HttpGet]
         public ActionResult CreateEvent()
         {

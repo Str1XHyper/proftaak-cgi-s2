@@ -34,10 +34,14 @@ document.addEventListener('DOMContentLoaded', function () {
         droppable: true,
         dropAccept: true,
         eventDrop: function (eventDropInfo) {
-            alert(eventDropInfo.event.title + " was dropped on " + eventDropInfo.event.endDate.toISOString());
 
-            if (!confirm("Are you sure about this change?")) {
-                info.revert();
+            window.onclick = function (event) {
+
+
+
+                if (event.target == calendar) {
+                    console.log("UwU");
+                }
             }
         },
         header: {
@@ -116,6 +120,15 @@ function CloseModal() {
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
     FetchEvents();
+}
+
+function DeleteEvent(info) {
+    $.ajax(
+        {
+            type: "GET",
+            url: '/Planner/DeleteEvent?EventId=' + info.value,
+        });
+    CloseModal();
 }
 function FetchEvents() {
     var selectedIndex = $("#inputfield").val();
