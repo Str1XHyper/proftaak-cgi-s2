@@ -12,16 +12,19 @@
     line-height: 1.5;
     border-radius: .25em;
 }
+
 .calendar {
     background-color: #212529;
 }
+
 h2 {
     position: absolute;
 }
 
-.fc-left div{
+.fc-left div {
 }
-.fc-header-toolbar{
+
+.fc-header-toolbar {
     padding-bottom: 10px;
 }
 
@@ -101,14 +104,16 @@ h2 {
         background-color: #343a40;
     }
 
-.fc-unthemed td{
+.fc-unthemed td {
     border-color: #212529;
     padding-bottom: 0px;
 }
+
 .fc-divider, .fc-widget-header, fc-unthemed {
     border-color: #212529;
     background-color: white;
 }
+
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -145,6 +150,3 @@ h2 {
         text-decoration: none;
         cursor: pointer;
     }
-
-
-
