@@ -70,6 +70,11 @@ namespace Proftaakrepos.Controllers
             }
             return currentWeek;
         }
+        public void DeleteEvent(int EventId)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM Rooster WHERE EventId = {EventId}");
+        }
+
         [HttpGet]
         public ActionResult CreateEvent()
         {
@@ -87,18 +92,25 @@ namespace Proftaakrepos.Controllers
         public ActionResult GetEventInfo(int EventId)
         {
             List<string> eventData = SQLConnection.ExecuteSearchQuery($"select * from Rooster Where EventId = {EventId}");
+            var start = DateTime.Parse(eventData[4]);
+            var end = DateTime.Parse(eventData[5]);
+            eventData[4] = start.ToString("yyyy-MM-dd'T'HH:mm");
+            eventData[5] = end.ToString("yyyy-MM-dd'T'HH:mm");
             return Json(eventData);
         }
 
         [HttpPost]
-        public ActionResult EditEvent(EventModel e)
+        public IActionResult EditEvent(EventModel e, string pagename)
         {
             if (ModelState.IsValid)
             {
                 HandleEditEventRequest(e);
             }
+            if(pagename == "CreateEvent")
+            {
+                return RedirectToAction("CreateEvent");
+            }
             return RedirectToAction("Agenda");
-
         }
         [HttpPost]
         public ActionResult CreateEvent(EventModel e)
@@ -184,6 +196,10 @@ namespace Proftaakrepos.Controllers
             {
                 return null;
             }
+        }
+        public void UpdateAgendaTimes(DateTime startTime, DateTime endTime, int EventId)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set Start = '{startTime.ToString("yyyy/MM/dd HH:mm")}',End = '{endTime.ToString("yyyy/MM/dd HH:mm")}' Where EventId = {EventId}");
         }
 
     }

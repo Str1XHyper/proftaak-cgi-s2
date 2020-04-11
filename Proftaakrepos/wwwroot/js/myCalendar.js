@@ -27,12 +27,21 @@ document.addEventListener('DOMContentLoaded', function () {
         minTime: "06:00:00",
         maxTime: "24:00:00",
         height: 'auto',
+        draggable: true,
         selectable: true,
         selectHelper: true,
         editable: true,
-        eventStartEditable: true,
         eventLimit: true,
         droppable: true,
+        dropAccept: true,
+        eventDrop: function (eventDropInfo) {
+            console.log(eventDropInfo.event.end)
+            $.ajax(
+                {
+                    type: "GET",
+                    url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + eventDropInfo.event.end.toISOString() + '&EventId=' + eventDropInfo.event.id,
+                });
+        },
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
@@ -62,8 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById("fullDayField").value = fullDay;
                 }
             });
-            //var url = "CreateEvent?EventId=" + info.event.id;
-            //window.location.href = url;
             var modal = document.getElementById("myModal");
             modal.style.display = "block";
             var span = document.getElementsByClassName("close")[0];
@@ -85,15 +92,50 @@ document.addEventListener('DOMContentLoaded', function () {
                 titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' },
             },
         },
+        eventResize: function (eventResizeInfo) {
+            $.ajax(
+                {
+                    type: "GET",
+                    url: '/Planner/UpdateAgendaTimes?startTime=' + eventResizeInfo.event.start.toISOString() + '&endTime=' + eventResizeInfo.event.end.toISOString() + '&EventId=' + eventResizeInfo.event.id,
+                });
+        },
         select: function (info) {
+            var startISO = info.start.toISOString();
+            var endISO = info.end.toISOString();
+            document.getElementById("startField").value = startISO;
+            document.getElementById("endField").value = endISO;
 
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+            var span = document.getElementsByClassName("close")[0];
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
         }
     });
     calendar.setOption('locale', 'nl');
     FetchEvents();
     calendar.render();
 });
+function CloseModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+    FetchEvents();
+}
 
+function DeleteEvent(info) {
+    $.ajax(
+        {
+            type: "GET",
+            url: '/Planner/DeleteEvent?EventId=' + info.value,
+        });
+    CloseModal();
+}
 function FetchEvents() {
     var selectedIndex = $("#inputfield").val();
     calendar.getEvents().forEach(function (item, index) { item.remove() });
@@ -112,6 +154,7 @@ function FetchEvents() {
                 obj.allDay = list[i].isFullDay;
                 obj.backgroundColor = list[i].themeColor;
                 obj.borderColor = '#010203';
+                obj.editable = true;
                 calendar.addEvent(obj);
                 calendar.rerenderEvents();
             }

@@ -31,6 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bootstrap.v3.Datetimepicker" Version="4.17.45" />
+    <PackageReference Include="Bootstrap.v3.Datetimepicker.CSS" Version="4.17.45" />
     <PackageReference Include="ClassLibrary" Version="1.0.0" />
     <PackageReference Include="fullcalendar" Version="3.9.0" />
     <PackageReference Include="FullCalendar.MVC5" Version="1.0.7" />

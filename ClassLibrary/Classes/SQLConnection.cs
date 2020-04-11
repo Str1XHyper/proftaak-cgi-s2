@@ -11,8 +11,8 @@ namespace ClassLibrary.Classes
         private static MySqlConnection CreateConnection()
         {
             MySqlConnection cnn;
-            string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
-            //string connetionString = $"server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+            //string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";//
+            string connetionString = $"server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             return cnn;
         }
