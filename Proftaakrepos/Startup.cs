@@ -8,6 +8,9 @@ using Proftaakrepos.Data;
 using Proftaakrepos.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.HttpOverrides;
+using System;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 
 namespace Proftaakrepos
 {
@@ -23,8 +26,19 @@ namespace Proftaakrepos
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
             services.AddMvc();
-            services.AddSession();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(60);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddDistributedMemoryCache();
             services.AddControllersWithViews();
@@ -39,8 +53,6 @@ namespace Proftaakrepos
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // IMPORTANT: This session call MUST go before UseMvc()
-            app.UseSession();
 
             if (env.IsDevelopment())
             {
@@ -55,15 +67,15 @@ namespace Proftaakrepos
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseCookiePolicy();
             app.UseRouting();
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            app.UseSession();
+            //app.UseForwardedHeaders(new ForwardedHeadersOptions
+            //{
+            //    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            //});
 
             app.UseAuthentication();
-            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

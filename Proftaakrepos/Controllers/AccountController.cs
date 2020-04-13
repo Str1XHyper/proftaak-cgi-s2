@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace Proftaakrepos.Controllers
 {
@@ -17,6 +18,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult LogOut()
         {
+            
             HttpContext.Session.Remove("UserInfo");
             return RedirectToAction("Login", "Authentication");
         }
