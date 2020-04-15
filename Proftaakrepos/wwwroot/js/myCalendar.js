@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 });
 function CloseModal() {
+    var modal = document.getElementById("myModal");
     modal.style.display = "none";
     FetchEvents();
 }
@@ -134,6 +135,16 @@ function DeleteEvent(info) {
             url: '/Planner/DeleteEvent?EventId=' + info.value,
         });
     CloseModal();
+}
+function HandleRequest() {
+    $.ajax({
+        url: '/Planner/CreateEvent',
+        type: 'post',
+        data: $('#modalForm').serialize(),
+        success: function () {
+            CloseModal();
+        }
+    });
 }
 function FetchEvents() {
     var selectedIndex = $("#userIdField1").val();

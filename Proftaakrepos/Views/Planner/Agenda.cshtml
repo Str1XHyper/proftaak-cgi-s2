@@ -12,6 +12,7 @@
     <script src="~/js/moment.js"></script>
     <script src="~/js/fullcalendar/core/main.min.js"></script>
     <script src="~/js/fullcalendar/daygrid/main.min.js"></script>
+    <script src="~/js/fullcalendar/daygrid/main.js"></script>
     <script src="~/js/fullcalendar/timegrid/main.min.js"></script>
     <script src="~/js/fullcalendar/bootstrap/main.min.js"></script>
     <script src="~/js/fullcalendar/core/main.js"></script>
@@ -114,7 +115,7 @@
                     <input id="fullDayField" asp-for="isFullDay" class="form-control" value="" />
                     <span asp-validation-for="isFullDay" class="text-danger"></span>
                 </div>
-                <input id="submitButton" onClick="CloseModal()" type="submit" value="Wijzig" class="btn btn-primary" formmethod="post" />
+                <input id="submitButton" onClick="HandleRequest()" value="Wijzig" class="btn btn-primary" />
                 <input type="button" value="Verwijder" class="btn btn-primary" onclick="DeleteEvent(eventId)" />
             </form>
         </div>
