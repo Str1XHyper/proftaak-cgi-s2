@@ -8,9 +8,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string authCode = ViewData["UserInfo"].ToString();
     string currentId = ShiftView.GetLoggedInUserId(authCode);
+    List<string[]> tradeRequests = ShiftView.GetRequests();
+    List<string[]> users = ShiftView.GetUsers();
 }
-<link rel="stylesheet" href="~/css/ShiftView.css" />
-<link rel="stylesheet" href="~/css/w3.css">
 <script src="~/js/ShiftView.js"></script>
 
 @* NEW DESIGN *@
@@ -39,60 +39,42 @@
 </ul>*@
 
 
-<div class="window">
-    @* Incoming request box *@
-    <h1 class="incomingH1">Inkomende verzoeken</h1>
-    <div class="topSpacer1"></div>
-    @*<div class="RequestsRecieved">
-        @{
-            for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
-            {
-                string[] disabledIds;
-                string[] requestOutput = ShiftView.GetRequests(i).ToArray();
-                if (requestOutput[6].Contains(','))
-                {
-                    disabledIds = requestOutput[6].Split(",");
-                }
-                else
-                {
-                    disabledIds = new string[] { requestOutput[6] };
-                }
-                string[] issuerDetails = ShiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
 
-                string[] times = ShiftView.FixTimeStamp(requestOutput);
-
-                string date = times[0];
-                string startTime = times[1];
-                string endTime = times[2];
-
-                bool printRequest = true;
-                foreach (string id in disabledIds)
-                {
-                    if (currentId == id || @requestOutput[1].ToLower() == "true")
+<div class="container-fluid">
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">Ruilverzoeken van anderen</div>
+        <div class="card-body">
+            <ul class="list-group">
+                @{
+                    foreach (string[] request in tradeRequests)
                     {
-                        printRequest = false;
+                        string name = "";
+                        string[] blockedIds = request[6].Split(",").ToArray() ;
+
+                        if (request[0] != currentId && !blockedIds.Contains(currentId.ToString()))
+                        {
+                            foreach (string[] user in users)
+                            {
+                                if (user[0] == request[0])
+                                {
+                                    name = user[1] + " " + user[2] + " " + user[3];
+                                }
+                            }
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @request[2] - @request[3] - @name
+                                <div class="input-group-append">
+                                    <a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Shiftview" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@request[5]" asp-route-EventID="@request[7]" method="Post">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger" style="width: 50px" asp-controller="Shiftview" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@request[5]" asp-route-DisabledIds="@request[6]" method="Post">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        }
                     }
                 }
-
-                if (currentId == requestOutput[0])
-                {
-                    printRequest = false;
-                }
-
-                if (printRequest)
-                {
-                    <div class="exampleRequest">
-                        <span class="requestText"> @date @startTime to @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>
-                        <a asp-controller="Shiftview" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-EventID="@requestOutput[7]" method="Post" class="button">
-                            <img src="~/img/check-solid.svg" alt="No">
-                        </a>
-                        <a asp-controller="Shiftview" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">
-                            <img src="~/img/ban-solid.svg" alt="No">
-                        </a>
-                    </div>
-                }
-            }
-        }
-    </div>*@
-    <div class="bottomSpacer1"></div>
+            </ul>
+        </div>
+    </div>
 </div>
