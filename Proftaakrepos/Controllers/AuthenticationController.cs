@@ -39,7 +39,7 @@ namespace Proftaakrepos.Controllers
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
-                    addLoginLog.NewLogin(authCode, true, userIP, timeNow);
+                    addLoginLog.NewLogin(authCode, false, userIP, timeNow);
                     break;
                 case "multipleEntries":
                     ViewData["Error"] = "Meerdere accounts gevonden met dit e-mail.";
