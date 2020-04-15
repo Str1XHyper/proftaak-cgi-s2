@@ -13,14 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
-        customButtons: {
-            addEventButton: {
-                text: 'Nieuwe afspraak',
-                click: function () {
-                    window.location.href = '/Planner/CreateEvent'
-                }
-            }
-        },
         locale: 'nl',
         allDaySlot: true,
         allDayText: 'Hele dag',
@@ -52,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
-            left: 'addEventButton,title',
+            left: 'title',
         },
         eventClick: function (info) {
             $.ajax({
