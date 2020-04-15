@@ -106,11 +106,13 @@ h2{
     padding-bottom: 0px;
 }
 
-.fc-divider, .fc-widget-header, fc-unthemed {
-    border-color: #212529;
-    background-color: #e6e6e6;
+.fc-widget-header, fc-unthemed {
+    background-color: white !important;
+    border-color: black !important;
 }
-
+.fc-divider{
+    border-color:black !important;
+}
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */

@@ -3,11 +3,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     var modal = document.getElementById("myModal");
     var span = document.getElementsByClassName("close")[0];
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+
     span.onclick = function () {
         modal.style.display = "none";
     }
@@ -40,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         eventDragStop: function (info) {
             console.log(info.event.end)
         },
-        
+
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
@@ -72,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
             modal.style.display = "block";
-            
+
         },
         views: {
             dayGrid: {
@@ -137,6 +133,10 @@ function HandleRequest() {
             CloseModal();
         }
     });
+}
+function EditTitle(info) {
+    document.getElementById("titleField").value = info;
+    document.getElementById("descriptionField").value = info;
 }
 function FetchEvents() {
     var selectedIndex = $("#userIdField1").val();
