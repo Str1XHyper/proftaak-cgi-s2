@@ -144,7 +144,7 @@ namespace Proftaakrepos.Controllers
                 userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
             }
             string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{userId}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{Convert.ToInt32(emdb.isFullDay)}','{emdb.isPending}')");
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{userId}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{Convert.ToInt32(emdb.isFullDay)}','{(emdb.isPending ? 1 : 0)}')");
             return RedirectToAction("CreateEvent", "Planner");
         }
         [HttpGet]
@@ -164,38 +164,24 @@ namespace Proftaakrepos.Controllers
             ViewData["rol"] = rol;
             eventList = new List<EventModel>();
 
-            MySqlConnection cnn;
-            string connetionString = $"server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
-            cnn = new MySqlConnection(connetionString);
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.Connection = cnn;
-            cmd.CommandText = $"select * from Rooster Where userId = {_userId}";
-            try
+            List<string[]> events = SQLConnection.ExecuteSearchQueryWithArrayReturn($"select * from Rooster Where userId = {_userId}");
+
+            foreach (string[] e in events)
             {
-                cnn.Open();
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    EventModel em = new EventModel();
-                    em.eventId = Convert.ToInt32(reader[0]);
-                    em.userId = Convert.ToInt32(reader[1]);
-                    em.title = reader[2].ToString();
-                    em.description = reader[3].ToString();
-                    em.startDate = Convert.ToDateTime(reader[4]);
-                    em.endDate = Convert.ToDateTime(reader[5]);
-                    em.themeColor = reader[6].ToString();
-                    em.isFullDay = Convert.ToBoolean(reader[7]);
-                    em.isPending = Convert.ToBoolean(reader[8]);
-                    eventList.Add(em);
-                }
-                cnn.Close();
-                ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-                return Json(eventList);
+                EventModel em = new EventModel();
+                em.eventId = Convert.ToInt32(e[0]);
+                em.userId = Convert.ToInt32(e[1]);
+                em.title = e[2].ToString();
+                em.description = e[3].ToString();
+                em.startDate = Convert.ToDateTime(e[4]);
+                em.endDate = Convert.ToDateTime(e[5]);
+                em.themeColor = e[6].ToString();
+                em.isFullDay = Convert.ToBoolean(e[7]);
+                em.isPending = Convert.ToBoolean(e[8]);
+                eventList.Add(em);
             }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            return Json(eventList);
         }
         public void UpdateAgendaTimes(DateTime startTime, DateTime endTime, int EventId)
         {

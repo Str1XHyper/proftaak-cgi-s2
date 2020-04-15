@@ -19,12 +19,12 @@ namespace ClassLibrary.Classes
             return QueryResult.Count > 0;
         }
 
-        public static List<string> GetDiensten(int UserID, int EventId)
+        public static List<string[]> GetDiensten(int UserID)
         {
-            List<string> returns = new List<string>();
+            List<string[]> returns = new List<string[]>();
             try
             {
-                return SQLConnection.ExecuteSearchQuery($"Select * From Rooster Where UserId = {UserID} and EventId = {EventId}");
+                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Rooster Where UserId = {UserID}");
             }
             catch (Exception ex)
             {
