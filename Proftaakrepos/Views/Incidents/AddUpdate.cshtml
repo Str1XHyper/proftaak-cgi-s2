@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha256-kIxwtDqhOVbQysWu0OpR9QfijdXCfqvXgAUJuv7Uxmg=" crossorigin="anonymous" />
 </head>
 <h1>Status update toevoegen</h1>
-<form onload="Initialize" method="post">
+<form method="post">
     <input type="hidden" asp-for="IncidentID" value="@ViewBag.IncidentId" />
     <input type="hidden" asp-for="StatusIdIncident" value="@activeStatusID" />
     <div class="input-group mb-3">
