@@ -18,15 +18,10 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
-        public IActionResult SorryXander()
-        {
-            return View();
-        }
-
         public IActionResult CreateRequest()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            return RedirectToAction("SorryXander");
+            return View();
         }
 
         [HttpPost]
