@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+@*TODO:
+    -Rollen toevoegen
+    -Rollen laten zien op de pagina
+    -Rollen in orde kunnen veranderen.*@
+<script src="~/js/lolgetfk.js"></script>
+<link rel="stylesheet" type="text/css" href="~/css/purejS.css">
+
+<div class="container">
+
+    <div>
+        <h3>Sortable List 1</h3>
+        <ul id="list-1" class="sortable">
+            <li id="item-1">Item 01 &nbsp;-&nbsp; <a href="#1">Link 01</a></li>
+            <li id="item-2">Item 02 &nbsp;-&nbsp; <a href="#2">Link 02</a></li>
+            <li id="item-3">Item 03 &nbsp;-&nbsp; <a href="#3">Link 03</a></li>
+            <li id="item-4">Item 04 &nbsp;-&nbsp; <a href="#4">Link 04</a></li>
+            <li id="item-5">Item 05 &nbsp;-&nbsp; <a href="#5">Link 05</a></li>
+            <li id="item-6">Item 06 &nbsp;-&nbsp; <a href="#6">Link 06</a></li>
+        </ul>
+        <button id="sbtn-1" type="button">Serialize</button>
+    </div>
+
+    <div>
+        <h3>Sortable List 2</h3>
+        <ul id="list-2" class="sortable">
+            <li id="item-7">Item 07 &nbsp;-&nbsp; <a href="#7">Link 07</a></li>
+            <li id="item-8">Item 08 &nbsp;-&nbsp; <a href="#8">Link 08</a></li>
+            <li id="item-9">Item 09 &nbsp;-&nbsp; <a href="#9">Link 09</a></li>
+            <li id="item-10">Item 10 &nbsp;-&nbsp; <a href="#10">Link 10</a></li>
+            <li id="item-11">Item 11 &nbsp;-&nbsp; <a href="#11">Link 11</a></li>
+            <li id="item-12">Item 12 &nbsp;-&nbsp; <a href="#12">Link 12</a></li>
+        </ul>
+        <button id="sbtn-2" type="button">Serialize</button>
+    </div>
+
+</div>
