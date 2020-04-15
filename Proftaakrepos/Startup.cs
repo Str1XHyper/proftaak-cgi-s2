@@ -63,7 +63,6 @@ namespace Proftaakrepos
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseCookiePolicy();
             app.UseRouting();
             app.UseSession();
             //app.UseForwardedHeaders(new ForwardedHeadersOptions
