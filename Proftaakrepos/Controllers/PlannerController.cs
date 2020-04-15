@@ -16,22 +16,22 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Index()
         {
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            
             return View();
         }
         public IActionResult Create()
         {
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            
             return View();
         }
         public IActionResult Delete()
         {
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            
             return View();
         }
         public IActionResult Edit()
         {
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            
             return View();
         }
         public IActionResult Details()
