@@ -8,18 +8,18 @@
 //}
 
 function openTab(evt, tabName) {
-    var i, x, tablinks, status;
-    x = document.getElementsByClassName("tab");
-    status = document.getElementById("status");
-    for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";
+    var i;
+    var tabs = document.getElementsByClassName("tab");
+    var tablinks = document.getElementsByClassName("tablink");
+
+    for (i = 0; i < tabs.length; i++) {
+        tabs[i].style.display = "none";
     }
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < x.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" w3-black", "");
+
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace("active", "");
     }
+
     document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " w3-black";
-    statusText = getElementsByClassName(tabName).innerHTML
-    status.innerHTML = statusText;
+    document.getElementById(tabName + "Button").classList.add('active');
 }
