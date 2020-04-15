@@ -10,6 +10,7 @@
     string currentId = ShiftView.GetLoggedInUserId(authCode);
     List<string[]> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId));
     List<string[]> tradeRequests = ShiftView.GetRequests();
+    List<string[]> users = ShiftView.GetUsers();
 }
 <script src="~/js/ShiftView.js"></script>
 
@@ -96,8 +97,16 @@
                             {
                                 if (request[0] == currentId && Convert.ToInt32(request[4]) != -1)
                                 {
+                                    string name = "";
+                                    foreach (string[] user in users)
+                                    {
+                                        if (user[0] == request[4])
+                                        {
+                                            name = user[1] + " " + user[2] + " " + user[3];
+                                        }
+                                    }
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        @request[2] - @request[3] | Geaccepteerd door @request[4]
+                                        @request[2] - @request[3] | Geaccepteerd door @name
                                     </li>
                                 }
 
