@@ -1,0 +1,52 @@
+﻿@using ClassLibrary.Classes
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Threading.Tasks;
+@using Microsoft.AspNetCore.Mvc;
+
+@{
+    ViewData["Title"] = "StatusUpdate";
+    List<string[]> statusUpdates = ViewBag.StatusUpdates;
+}
+<div class="mb-3">
+    <a class="btn btn-outline-secondary" asp-action="AddUpdate" asp-route-incidentId="@ViewBag.IncidentId">Voeg toe</a>
+</div>
+@{
+    if (statusUpdates.Count > 0)
+    {
+        foreach (string[] statusUpdate in statusUpdates)
+        {
+            <div class="card mb-3">
+                <div class="card-header bg-dark text-white">@statusUpdate[2]</div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @statusUpdate[3]
+                    </h5>
+                </div>
+                <div class="card-footer">
+                    <a class=" btn btn-outline-secondary" asp-action="EditUpdate" 
+                       asp-route-incidentId="@ViewBag.IncidentId" 
+                       asp-route-statusIdIncident="@statusUpdate[2]"
+                       asp-route-statusOmschrijving="@statusUpdate[3]"
+                       asp-route-start="@statusUpdate[4]"
+                       asp-route-end="@statusUpdate[5]"
+                       >Edit</a>
+                    <a class=" btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId" asp-route-delete="@true" asp-route-updateId="@statusUpdate[0]">Delete</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card mb-3">
+            <div class="card-header bg-dark text-white">Geen status updates</div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Er zijn nog geen status updates voor dit incident.
+                </h5>
+            </div>
+        </div>
+    }
+    <a class="btn btn-outline-secondary" asp-action="Index">Cancel</a>
+}
