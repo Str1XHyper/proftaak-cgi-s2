@@ -15,6 +15,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
+    @{
+        string usercode = Context.Session.GetString("UserInfo");
+    }
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <a class="navbar-brand" href="/Planner/Agenda"><img id="logo" src="~/img/CGI_logo.svg"></a>
         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
@@ -47,7 +50,7 @@
                         </a>
                         <div class="sb-sidenav-menu-heading">Incidenten</div>
                         <a class="nav-link" asp-controller="Incidents" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-exclamation"></i></div>
                             Incidenten
                         </a>
                         <div class="sb-sidenav-menu-heading">Ruilaanvragen</div>
@@ -59,26 +62,32 @@
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-plus"></i></div>
                             Uitgaand
                         </a>
-                        <div class="sb-sidenav-menu-heading">Werknemers</div>
-                        <a class="nav-link collapsed" href="/Employee/Employees">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-edit"></i></div>
-                            Werknemers
-                        </a>
-                        <a class="nav-link collapsed" href="/Employee/AddEmployee">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
-                            Voeg werknemer toe
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Applicatie</div>
-                        <a class="nav-link collapsed" href="/Role/Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div>
-                            Toegang
-                        </a>
+                        @{
+                            string rol = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'")[0];
+                            if (rol.ToLower() == "roostermaker")
+                            {
+                                <div class="sb-sidenav-menu-heading">Werknemers</div>
+                                <a class="nav-link collapsed" href="/Employee/Employees">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-user-edit"></i></div>
+                                    Werknemers
+                                </a>
+                                <a class="nav-link collapsed" href="/Employee/AddEmployee">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
+                                    Voeg werknemer toe
+                                </a>
+                                <div class="sb-sidenav-menu-heading">Applicatie</div>
+                                <a class="nav-link collapsed" href="/Role/Index">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div>
+                                    Toegang
+                                </a>
+                            }
+
+                        }
+
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Ingelogd als:</div>@{ 
-                        string usercode = Context.Session.GetString("UserInfo");
-                    }
+                    <div class="small">Ingelogd als:</div>
                     @GetUserData.UserNameAuth(usercode)
                 </div>
             </nav>
