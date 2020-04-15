@@ -26,7 +26,7 @@ namespace Proftaakrepos.Controllers
         public IActionResult CreateRequest()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            return RedirectToAction("SorryXander");
+            return View();
         }
 
         [HttpPost]
