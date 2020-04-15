@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Activity Log</h1>
+    <h1>Laatste accountactiviteit</h1>
 
 <table class="table table-striped">
     <thead class="thead-dark">
@@ -24,11 +24,11 @@
                     <td>@records[i][3]</td>
                     @{ if (@records[i][1].ToLower() == "true")
                         {
-                            <td>Gelukt</td>
+                            <td>Ja</td>
                         }
                         else
                         {
-                            <td>Mislukt</td>
+                            <td>Nee</td>
                         }
                     }
                 </tr>
@@ -36,18 +36,3 @@
         }
     </tbody>
 </table>
-
-<ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        Cras justo odio
-        <span class="badge badge-primary badge-pill">14</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        Dapibus ac facilisis in
-        <span class="badge badge-primary badge-pill">2</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        Morbi leo risus
-        <span class="badge badge-primary badge-pill">1</span>
-    </li>
-</ul>

@@ -27,19 +27,16 @@ namespace Proftaakrepos.Controllers
         public IActionResult Login(LoginModel model)
         {
             string response =  LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
-            AddLoginLog addLoginLog = new AddLoginLog();
-            string authCode = CreateLoginCookie.getAuthToken(model.Username);
-            string timeNow = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-            string userIP = Response.HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
             switch (response)
             {
                 case "redirectHome":
+                    string authCode = CreateLoginCookie.getAuthToken(model.Username);
                     HttpContext.Session.SetString("UserInfo", authCode);
-                    addLoginLog.NewLogin(authCode, true, userIP, timeNow);
+                    AddLogin(true, model.Username);
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
-                    addLoginLog.NewLogin(authCode, false, userIP, timeNow);
+                    AddLogin(false, model.Username);
                     break;
                 case "multipleEntries":
                     ViewData["Error"] = "Meerdere accounts gevonden met dit e-mail.";
@@ -50,6 +47,15 @@ namespace Proftaakrepos.Controllers
 
             }
             return View(model);
+        }
+
+        public void AddLogin(bool success, string username)
+        {
+            AddLoginLog addLoginLog = new AddLoginLog();
+            string authCode = CreateLoginCookie.getAuthToken(username);
+            string timeNow = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+            string userIP = Response.HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
+            addLoginLog.NewLogin(authCode, success, userIP, timeNow);
         }
         
         [HttpPost]

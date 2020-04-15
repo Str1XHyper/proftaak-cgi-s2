@@ -22,13 +22,27 @@ namespace ClassLibrary.Classes
         private static string GetAuthCode(string UserID)
         {
             List<string> authCode = SQLConnection.ExecuteSearchQuery($"SELECT AuthCode FROM `Werknemers` WHERE UserId = '{UserID}'");
-            return authCode[0];
+            if (authCode.Count == 0)
+            {
+                return "0";
+            }
+            else
+            {
+                return authCode[0];
+            }
         }
 
         private static string GetUserID(string userName)
         {
             List<string> userID = SQLConnection.ExecuteSearchQuery($"SELECT UserId FROM `Login` WHERE Username = '{userName}'");
-            return userID[0];
+            if(userID.Count == 0)
+            {
+                return "0";
+            }
+            else
+            {
+                return userID[0];
+            }
         }
     }
 }
