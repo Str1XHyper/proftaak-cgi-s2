@@ -143,7 +143,7 @@
                 <input type="hidden" asp-for="voornaam" value="........." />
                 @if (ViewBag.Rol == "Roostermaker")
                 {
-                    <div class="form-group">
+                    <div class="form-group, employeeheader">
                         <label asp-for="userId" class="control-label">Werknemer: </label>
                         <select asp-for="userId" class="form-control" id="userIdField" name="userId" value="@_userData[1]">
                             @{ if (ViewData["employees"] == null)

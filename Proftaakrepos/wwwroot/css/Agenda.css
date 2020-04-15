@@ -12,20 +12,18 @@
     line-height: 1.5;
     border-radius: .25em;
 }
-
 .calendar {
     background-color: #212529;
 }
 
-h2 {
+h2{
     position: absolute;
 }
-
 .fc-left div {
 }
 
 .fc-header-toolbar {
-    padding-bottom: 10px;
+    border-radius: 5px;
 }
 
 .open-button {
@@ -95,7 +93,6 @@ h2 {
         opacity: 1;
     }
 
-
 .fc-button {
     background-color: #212529;
 }
@@ -111,7 +108,7 @@ h2 {
 
 .fc-divider, .fc-widget-header, fc-unthemed {
     border-color: #212529;
-    background-color: white;
+    background-color: #e6e6e6;
 }
 
 .modal {
@@ -126,7 +123,9 @@ h2 {
     background-color: grey; /* Fallback color */
     background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
 }
-
+.p-3 {
+    background-color: white;
+}
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
