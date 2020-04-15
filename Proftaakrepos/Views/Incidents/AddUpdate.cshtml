@@ -52,25 +52,27 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
         </div>
-        <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Now.ToString("dd-MM-yyyy hh:mm")">
+        <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Now.ToString("yyyy/MM/dd HH:mm")">
         <script>
-            jQuery('#startInput').datetimepicker();
             jQuery('#startInput').datetimepicker({
-                format: 'd-m-Y H:i',
+                format: 'Y/m/d H:i',
+                step: 15,
             });
+            $.datetimepicker.setLocale('nl');
         </script>
     </div>
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
+            <span class="input-group-text" id="basic-addon3">Eind datum en tijd: </span>
         </div>
-        <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Now.AddHours(1).ToString("dd-MM-yyyy hh:mm")">
+        <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Now.AddHours(1).ToString("yyyy/MM/dd HH:mm")">
         <script>
-            jQuery('#endInput').datetimepicker();
             jQuery('#endInput').datetimepicker({
-                format: 'd-m-Y H:i',
+                format: 'Y/m/d H:i',
+                step: 15,
             });
+            $.datetimepicker.setLocale('nl');
         </script>
     </div>
     <input type="submit" class="btn btn-outline-secondary">

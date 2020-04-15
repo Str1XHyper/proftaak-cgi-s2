@@ -2,6 +2,16 @@
 @{
     ViewData["Title"] = "Edit Update";
 }
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+    <script src="~/js/Datepicker.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha256-kIxwtDqhOVbQysWu0OpR9QfijdXCfqvXgAUJuv7Uxmg=" crossorigin="anonymous" />
+</head>
 <h1>Edit Update</h1>
 <form method="post">
     <input type="hidden" asp-for="IncidentID" value="@Model.IncidentID" />
@@ -16,13 +26,28 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
         </div>
-        <input type="datetime-local" class="form-control" asp-for="Start" value="@Model.Start.ToString("yyyy-MM-ddThh:mm")">
+        <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Parse(Model.Start).ToString("yyyy/MM/dd HH:mm")">
+        <script>
+            jQuery('#startInput').datetimepicker({
+                format: 'Y/m/d H:i',
+                step: 15,
+            });
+            $.datetimepicker.setLocale('nl');
+        </script>
     </div>
+
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
+            <span class="input-group-text" id="basic-addon3">Eind datum en tijd: </span>
         </div>
-        <input type="datetime-local" class="form-control" asp-for="End" value="@Model.End.ToString("yyyy-MM-ddThh:mm")">
+        <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Parse(Model.End).ToString("yyyy/MM/dd HH:mm")">
+        <script>
+            jQuery('#endInput').datetimepicker({
+                format: 'Y/m/d H:i',
+                step: 15,
+            });
+            $.datetimepicker.setLocale('nl');
+        </script>
     </div>
     <input type="submit" class="btn btn-outline-secondary">
     <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@Model.IncidentID">Cancel</a>
