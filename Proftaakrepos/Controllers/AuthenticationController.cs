@@ -59,5 +59,17 @@ namespace Proftaakrepos.Controllers
             ViewData["msg"] = "Wachtwoord aangepast";
             return View("Employees");
         }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePasswordPost(ChangePassword weirdflex)
+        {
+            AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
+            return View("ChangePassword");
+        }
     }
 }
