@@ -111,7 +111,7 @@ namespace Proftaakrepos.Controllers
             return RedirectToAction("Agenda");
         }
         [HttpPost]
-        public ActionResult CreateEvent(EventModel e)
+        public void CreateEvent(EventModel e)
         {
             if (ModelState.IsValid)
             {
@@ -124,7 +124,7 @@ namespace Proftaakrepos.Controllers
                     HandleEventRequest(e);
                 }
             }
-            return RedirectToAction("Agenda");
+            //return RedirectToAction("Agenda");
         }
         public void HandleEditEventRequest(EventModel emdb)
         {

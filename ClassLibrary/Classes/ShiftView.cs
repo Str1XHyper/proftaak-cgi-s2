@@ -72,6 +72,19 @@ namespace ClassLibrary.Classes
             }
         }
 
+        public static List<string[]> GetUsers()
+        {
+            List<string[]> returns = new List<string[]>();
+            try
+            {
+                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Werknemers");
+            }
+            catch (Exception ex)
+            {
+                return returns;
+            }
+        }
+
         public static string[] FixTimeStamp(string[] requestOutput)
         {
             string date = requestOutput[2].Split(" ")[0];
