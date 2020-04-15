@@ -11,10 +11,40 @@ namespace ClassLibrary.Classes
         private static MySqlConnection CreateConnection()
         {
             MySqlConnection cnn;
-            //string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";//
-            string connetionString = $"server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+            string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";//
+            //string connetionString = $"server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
             cnn = new MySqlConnection(connetionString);
             return cnn;
+        }
+        public static List<string[]> ExecuteSearchQueryWithArrayReturn(string query)
+        {
+            string[] tempStrArr;
+            List<string[]> values = new List<string[]>();
+            MySqlConnection cnn = CreateConnection();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.CommandText = query;
+            cmd.Connection = cnn;
+            cnn.Open();
+            MySqlDataReader reader = cmd.ExecuteReader();
+            values.Clear();
+            try
+            {
+                while (reader.Read())
+                {
+                    tempStrArr = new string[reader.FieldCount];
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        tempStrArr[i] = reader[i].ToString();
+                    }
+                    values.Add(tempStrArr);
+                }
+            }
+            catch (Exception e)
+            {
+                string eString = e.ToString();
+            }
+            cnn.Close();
+            return values;
         }
 
         public static List<string> ExecuteSearchQuery(string query)
@@ -37,7 +67,7 @@ namespace ClassLibrary.Classes
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 string eString = e.ToString();
             }
