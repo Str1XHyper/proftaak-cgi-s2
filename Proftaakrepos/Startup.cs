@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Proftaakrepos.Data;
 using Proftaakrepos.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -35,7 +34,6 @@ namespace Proftaakrepos
             services.AddMvc();
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(60);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
@@ -44,8 +42,6 @@ namespace Proftaakrepos
             services.AddControllersWithViews();
             //MvcOptions.EnableEndpointRouting = false;
 
-            services.AddDbContext<ProftaakreposContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("ProftaakreposContext")));
 
 //            services.AddIdentity<ApplicationUser, IdentityRole>()
         }

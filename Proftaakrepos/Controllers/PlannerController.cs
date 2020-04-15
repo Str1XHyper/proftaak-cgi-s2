@@ -44,11 +44,13 @@ namespace Proftaakrepos.Controllers
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string var = HttpContext.Session.GetString("UserInfo");
             string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            ViewBag.Rol = rol;
+            var userId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0];
             var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
             var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
             ViewData["employeesId"] = employeesId.ToArray();
             ViewData["employees"] = employees.ToArray();
+            ViewData["rol"] = rol;
+            ViewData["userId"] = userId;
             return View();
         }
         public IActionResult InitialPlanning(int weeks)
