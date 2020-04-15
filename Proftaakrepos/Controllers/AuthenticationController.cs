@@ -4,7 +4,6 @@ using MySql.Data.MySqlClient;
 using Proftaakrepos.Models;
 using System;
 using System.Threading.Tasks;
-using Proftaakrepos.Data;
 using ClassLibrary;
 using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
