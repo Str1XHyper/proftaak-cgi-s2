@@ -51,7 +51,7 @@
                         string name = "";
                         string[] blockedIds = request[6].Split(",").ToArray() ;
 
-                        if (request[0] != currentId && !blockedIds.Contains(currentId.ToString()))
+                        if (request[0] != currentId && !blockedIds.Contains(currentId.ToString()) && Convert.ToBoolean(request[1]) != true)
                         {
                             foreach (string[] user in users)
                             {
