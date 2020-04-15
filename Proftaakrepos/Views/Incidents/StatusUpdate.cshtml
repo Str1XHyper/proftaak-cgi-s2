@@ -21,7 +21,8 @@
                 <div class="card-header bg-dark text-white">StatusUpdate ID: @statusUpdate[2]</div>
                 <div class="card-body">
                     <h5 class="card-title">
-                        @statusUpdate[3]
+                        @statusUpdate[3] <br />
+                        @DateTime.Parse(statusUpdate[4]).ToString("yyyy/MM/dd HH:mm") tot @DateTime.Parse(statusUpdate[5]).ToString("yyyy/MM/dd HH:mm")
                     </h5>
                 </div>
                 <div class="card-footer">
