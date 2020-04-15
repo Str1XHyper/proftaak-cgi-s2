@@ -37,7 +37,7 @@ namespace ClassLibrary.Classes
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 string eString = e.ToString();
             }

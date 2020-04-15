@@ -1,7 +1,17 @@
 ﻿var calendar;
-document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('calendar');
 
+document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById("myModal");
+    var span = document.getElementsByClassName("close")[0];
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+    var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         customButtons: {
             addEventButton: {
@@ -58,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var title = data[2];
                     var description = data[3];
                     var start = data[4];
+                    console.log(start);
                     var end = data[5];
                     var themeColor = data[6];
                     var fullDay = data[7];
@@ -71,18 +82,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById("fullDayField").value = fullDay;
                 }
             });
-            var modal = document.getElementById("myModal");
             modal.style.display = "block";
-            var span = document.getElementsByClassName("close")[0];
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
+            
         },
         views: {
             dayGrid: {
@@ -99,23 +100,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     url: '/Planner/UpdateAgendaTimes?startTime=' + eventResizeInfo.event.start.toISOString() + '&endTime=' + eventResizeInfo.event.end.toISOString() + '&EventId=' + eventResizeInfo.event.id,
                 });
         },
-        select: function (info) {
-            var startISO = info.start.toISOString();
-            var endISO = info.end.toISOString();
-            document.getElementById("startField").value = startISO;
-            document.getElementById("endField").value = endISO;
-
-            var modal = document.getElementById("myModal");
+        select: function (selectionInfo) {
+            var selectedIndex = $("#userIdField1").val();
+            console.log(selectedIndex);
+            var start = new Date(selectionInfo.start.valueOf() - selectionInfo.start.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
+            var end = new Date(selectionInfo.end.valueOf() - selectionInfo.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
+            document.getElementById("startField").value = start;
+            document.getElementById("endField").value = end;
+            document.getElementById("submitButton").value = "Bevestig";
+            document.getElementById("userIdField").value = selectedIndex;
             modal.style.display = "block";
-            var span = document.getElementsByClassName("close")[0];
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
         }
     });
     calendar.setOption('locale', 'nl');
@@ -123,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 });
 function CloseModal() {
-    var modal = document.getElementById("myModal");
     modal.style.display = "none";
     FetchEvents();
 }
@@ -137,7 +130,7 @@ function DeleteEvent(info) {
     CloseModal();
 }
 function FetchEvents() {
-    var selectedIndex = $("#inputfield").val();
+    var selectedIndex = $("#userIdField1").val();
     calendar.getEvents().forEach(function (item, index) { item.remove() });
     $.ajax({
         url: '/Planner/FetchAllEvents?userId=' + selectedIndex,
