@@ -6,9 +6,9 @@ namespace ClassLibrary.Classes
 {
     public class AddLoginAccount
     {
-        public static void AddLogin(string email, string ID)
+        public static void AddLogin(string naam, string ID, string email)
         {
-            string password = email.Split("@")[0] + "WW";
+            string password = naam + "WW";
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Login(UserId, Username, Password) VALUES( '{ID}', '{email.ToLower()}', AES_ENCRYPT('{password}', 'CGIKey'))");
         }
 
