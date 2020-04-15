@@ -11,9 +11,6 @@
     List<string[]> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId));
     List<string[]> tradeRequests = ShiftView.GetRequests();
 }
-
-@*<link rel="stylesheet" href="~/css/ShiftView.css" />*@
-@*<link rel="stylesheet" href="~/css/w3.css">*@
 <script src="~/js/ShiftView.js"></script>
 
 <div class="container-fluid">
@@ -97,13 +94,13 @@
                         @{
                             foreach (string[] request in tradeRequests)
                             {
-                                if(request[0] == currentId && Convert.ToInt32(request[4]) != -1)
+                                if (request[0] == currentId && Convert.ToInt32(request[4]) != -1)
                                 {
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         @request[2] - @request[3] | Geaccepteerd door @request[4]
                                     </li>
                                 }
-                                
+
                             }
                         }
                     </ul>
@@ -131,87 +128,5 @@
                 </div>
             </div>
         </div>
+    </div>
 </div>
-
-@*<div class="window">*@
-@* Create a request - box *@
-@*<h1 class="createH1">Ruilverzoek aanmaken</h1>
-    <div class="CreateRequest">
-        <div class="position-static">
-            <form asp-action="CreateRequest" asp-controller="Shiftview" method="post" class="CreateRequestForm">
-                <input type="hidden" value="@currentId" name="UserID" />
-                <select name="EventID" id="EventID" class="RoosterDropDown">
-                    @{
-                        for (int i = 1; i <= ShiftView.EntryCount("EventId", "Rooster"); i++)
-                        {
-                            List<string> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId), i);
-
-                            if (ShiftView.HasCorrectInfo(dienstInfo))
-                            {
-                                DateTime dateTime = DateTime.Parse(dienstInfo[4]);
-                                DateTime now = DateTime.Now;
-                                int compareResult = DateTime.Compare(dateTime, now);
-                                if (dienstInfo[4] != null && compareResult > 0)
-                                {
-                                    if (dienstInfo[8].ToLower() == "false")
-                                    {
-                                        <option value="@dienstInfo[0]">@dienstInfo[4] - @dienstInfo[5]</option>
-                                    }
-                                }
-                            }
-                        }
-                    }
-                </select>
-                <input type="submit" value="Vraag ruilverzoek aan" class="SubmitButton" />
-            </form>
-            <div class="activeRequests">
-                <h2>Uw ruilaanvragen</h2>
-                <div class="w3-bar">
-                    <button class="Active w3-bar-item w3-button w3-hover-white tablink w3-black" onclick="openTab(event,'Active')">Actieve aanvragen</button>
-                    <button class="Expired w3-bar-item w3-button w3-hover-white tablink" onclick="openTab(event,'Expired')">Verlopen aanvragen</button>
-                </div>
-            </div>
-            <h2 id="status">Actieve aanvragen</h2>
-        </div>
-        <div id="Active" class="w3-container w3-border tab requests">*@
-@*@{
-    for (int i = 1; i <= ShiftView.EntryCount("TradeID", "TradeRequest"); i++)
-    {
-        string[] disabledIds;
-        string[] requestOutput = ShiftView.GetRequests(i).ToArray();
-        if (requestOutput[6].Contains(','))
-        {
-            disabledIds = requestOutput[6].Split(",");
-        }
-        else
-        {
-            disabledIds = new string[] { requestOutput[6] };
-        }
-        string[] issuerDetails = ShiftView.GetNameByUIDs(Convert.ToInt32(requestOutput[0])).ToArray();
-
-        string[] times = ShiftView.FixTimeStamp(requestOutput);
-
-        string date = times[0];
-        string startTime = times[1];
-        string endTime = times[2];
-
-        if (requestOutput[0] == currentId)
-        {
-            <div class="exampleRequest">
-                <span class="requestText">@date @startTime tot @endTime <span>- @issuerDetails[1] @issuerDetails[2] @issuerDetails[3]</span></span>*@
-@*<a asp-controller="Home" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@i" method="Post" class="button">
-        <img src="~/img/check-solid.svg" alt="No">
-    </a>
-    <a asp-controller="Home" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@i" asp-route-DisabledIds="@requestOutput[6]" method="Post" class="button">
-        <img src="~/img/ban-solid.svg" alt="No">
-    </a>*@
-@*</div>
-            }
-        }
-    }*@
-@*</div>
-            <div id="Expired" class="w3-container w3-border tab" style="display:none">
-                <p>Uw verlopen aanvragen zullen hier te zien zijn.</p>
-            </div>
-        </div>
-    </div>*@
