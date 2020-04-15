@@ -91,6 +91,10 @@ namespace Proftaakrepos.Controllers
             return View();
 
         }
+        public ActionResult DatePicker()
+        {
+            return View();
+        }
         public ActionResult GetEventInfo(int EventId)
         {
             List<string> eventData = SQLConnection.ExecuteSearchQuery($"select * from Rooster Where EventId = {EventId}");

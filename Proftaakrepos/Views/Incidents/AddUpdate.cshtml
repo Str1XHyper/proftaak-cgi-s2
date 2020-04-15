@@ -29,8 +29,17 @@
         activeStatusID = 1;
     }
 }
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+    <script src="~/js/Datepicker.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha256-kIxwtDqhOVbQysWu0OpR9QfijdXCfqvXgAUJuv7Uxmg=" crossorigin="anonymous" />
+</head>
 <h1>Status update toevoegen</h1>
-<form method="post">
+<form onload="Initialize" method="post">
     <input type="hidden" asp-for="IncidentID" value="@ViewBag.IncidentId" />
     <input type="hidden" asp-for="StatusIdIncident" value="@activeStatusID" />
     <div class="input-group mb-3">
@@ -43,13 +52,26 @@
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
         </div>
-        <input type="datetime-local" class="form-control" asp-for="Start" value="@DateTime.Now.ToString("yyyy-MM-ddThh:mm")">
+        <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Now.ToString("dd-MM-yyyy hh:mm")">
+        <script>
+            jQuery('#startInput').datetimepicker();
+            jQuery('#startInput').datetimepicker({
+                format: 'd-m-Y H:i',
+            });
+        </script>
     </div>
+
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
         </div>
-        <input type="datetime-local" class="form-control" asp-for="End" value="@DateTime.Now.AddHours(1).ToString("yyyy-MM-ddThh:mm")">
+        <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Now.AddHours(1).ToString("dd-MM-yyyy hh:mm")">
+        <script>
+            jQuery('#endInput').datetimepicker();
+            jQuery('#endInput').datetimepicker({
+                format: 'd-m-Y H:i',
+            });
+        </script>
     </div>
     <input type="submit" class="btn btn-outline-secondary">
     <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId">Cancel</a>
