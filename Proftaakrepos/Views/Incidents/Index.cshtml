@@ -1,18 +1,76 @@
-﻿
+﻿@using ClassLibrary.Classes
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Threading.Tasks;
+@using Microsoft.AspNetCore.Mvc;
+
 @{
     ViewData["Title"] = "Incidenten";
+    List<string[]> incidenten = ViewBag.Incidents;
 }
+@{
+    if (incidenten.Count != 0)
+    {
 
-    <div class="card mb-3">
-        <div class="card-header">
-            Incident
+        foreach (string[] incident in incidenten)
+        {
+            int statusCount = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(StatusIdIncident) FROM IncidentUpdates WHERE IncidentId = '{incident[0]}'; ")[0]);
+            <div class="card mb-3">
+                <div class="card-header bg-dark text-white">
+                    Incident ID: @incident[0]
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @incident[1]
+                        <br />
+                        Status:
+                        @{
+                            switch (incident[2])
+                            {
+                                case "0":
+                                    <a>Nog niet begonnen</a>
+                                    break;
+                                case "1":
+                                    <a>Wordt aangewerkt</a>
+                                    break;
+                                default:
+                                    <a>Er is een fout opgetreden in de database</a>
+                                    break;
+
+                            }
+                        }
+                        <br />
+                        Aantal updates: @statusCount
+                    </h5>
+
+                </div>
+                <div class="card-footer bg-white">
+                    @{ if (incident[2] == "0")
+                        {
+                            <a class=" btn btn-outline-secondary" asp-action="Index" asp-route-status="1" asp-route-statusId="@incident[0]">Starten</a>
+                        }
+                        else if (incident[2] == "1")
+                        {
+                            <a class=" btn btn-outline-secondary" asp-action="StatusUpdate" asp-route-incidentId="@incident[0]">Status aanpassen</a>
+                            <a class=" btn btn-danger" asp-action="Index" asp-route-status="2" asp-route-statusId="@incident[0]" method="Post">Afgehandeld</a>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="card mb-3 ">
+            <div class="card-header bg-dark text-white">
+                Geen incidenten
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Er zijn geen incidenten op het moment
+                </h5>
+            </div>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">Omschrijving</h5>
-        </div>
-        <div class="card-footer">
-            <a href="#" class=" btn btn-primary">Starten</a>
-            <a class=" btn btn-primary" asp-action="" asp-controller="" asp-route-id="">Status aanpassen</a>
-            <a href="#" class=" btn btn-primary">Afgehandeld</a>
-        </div>
-    </div>
+    }
+}
