@@ -59,16 +59,29 @@ namespace ClassLibrary.Classes
             }
         }
 
-        public static List<string> GetRequests(int TradeID)
+        public static List<string[]> GetRequests()
         {
-            List<string> returns = new List<string>();
+            List<string[]> returns = new List<string[]>();
             try
             {
-                return SQLConnection.ExecuteSearchQuery($"Select * From TradeRequest Where TradeId = {TradeID}");
+                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From TradeRequest");
             }
             catch (Exception ex)
             {
                 return returns;//new string[] { "Can not open connection ! " + ex.Message.ToString() };
+            }
+        }
+
+        public static List<string[]> GetUsers()
+        {
+            List<string[]> returns = new List<string[]>();
+            try
+            {
+                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Werknemers");
+            }
+            catch (Exception ex)
+            {
+                return returns;
             }
         }
 

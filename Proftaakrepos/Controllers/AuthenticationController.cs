@@ -27,15 +27,19 @@ namespace Proftaakrepos.Controllers
         public IActionResult Login(LoginModel model)
         {
             string response =  LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
-
+            AddLoginLog addLoginLog = new AddLoginLog();
+            string authCode = CreateLoginCookie.getAuthToken(model.Username);
+            string timeNow = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
+            string userIP = Response.HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
             switch (response)
             {
                 case "redirectHome":
-                    string authCode = CreateLoginCookie.getAuthToken(model.Username);
                     HttpContext.Session.SetString("UserInfo", authCode);
+                    addLoginLog.NewLogin(authCode, true, userIP, timeNow);
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
+                    addLoginLog.NewLogin(authCode, false, userIP, timeNow);
                     break;
                 case "multipleEntries":
                     ViewData["Error"] = "Meerdere accounts gevonden met dit e-mail.";
@@ -54,6 +58,18 @@ namespace Proftaakrepos.Controllers
             AddLoginAccount.ChangeLoginAdmin(changePassword.email, changePassword.password);
             ViewData["msg"] = "Wachtwoord aangepast";
             return View("Employees");
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePasswordPost(ChangePassword weirdflex)
+        {
+            AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
+            return View("ChangePassword");
         }
     }
 }

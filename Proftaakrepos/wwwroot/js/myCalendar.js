@@ -13,14 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
-        customButtons: {
-            addEventButton: {
-                text: 'Nieuwe afspraak',
-                click: function () {
-                    window.location.href = '/Planner/CreateEvent'
-                }
-            }
-        },
         locale: 'nl',
         allDaySlot: true,
         allDayText: 'Hele dag',
@@ -39,23 +31,20 @@ document.addEventListener('DOMContentLoaded', function () {
         height: 'auto',
         draggable: true,
         selectable: true,
+        eventLimit: true,
         selectHelper: true,
         editable: true,
         eventLimit: true,
         droppable: true,
         dropAccept: true,
-        eventDrop: function (eventDropInfo) {
-            console.log(eventDropInfo.event.end)
-            $.ajax(
-                {
-                    type: "GET",
-                    url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + eventDropInfo.event.end.toISOString() + '&EventId=' + eventDropInfo.event.id,
-                });
+        eventDragStop: function (info) {
+            console.log(info.event.end)
         },
+        
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
-            left: 'addEventButton,title',
+            left: 'title',
         },
         eventClick: function (info) {
             $.ajax({
@@ -105,18 +94,28 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(selectedIndex);
             var start = new Date(selectionInfo.start.valueOf() - selectionInfo.start.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
             var end = new Date(selectionInfo.end.valueOf() - selectionInfo.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
+            document.getElementById("eventIdField").value = 0;
             document.getElementById("startField").value = start;
             document.getElementById("endField").value = end;
             document.getElementById("submitButton").value = "Bevestig";
             document.getElementById("userIdField").value = selectedIndex;
             modal.style.display = "block";
-        }
+        },
+        eventDrop: function (eventDropInfo) {
+            console.log(eventDropInfo.event.end)
+            $.ajax(
+                {
+                    type: "GET",
+                    url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + eventDropInfo.event.end.toISOString() + '&EventId=' + eventDropInfo.event.id,
+                });
+        },
     });
     calendar.setOption('locale', 'nl');
     FetchEvents();
     calendar.render();
 });
 function CloseModal() {
+    var modal = document.getElementById("myModal");
     modal.style.display = "none";
     FetchEvents();
 }
@@ -128,6 +127,16 @@ function DeleteEvent(info) {
             url: '/Planner/DeleteEvent?EventId=' + info.value,
         });
     CloseModal();
+}
+function HandleRequest() {
+    $.ajax({
+        url: '/Planner/CreateEvent',
+        type: 'post',
+        data: $('#modalForm').serialize(),
+        success: function () {
+            CloseModal();
+        }
+    });
 }
 function FetchEvents() {
     var selectedIndex = $("#userIdField1").val();
@@ -147,9 +156,11 @@ function FetchEvents() {
                 obj.allDay = list[i].isFullDay;
                 obj.backgroundColor = list[i].themeColor;
                 obj.borderColor = '#010203';
+                obj.startEditable = true;
+                obj.eventResourceEditable = true;
                 obj.editable = true;
+                obj.eventEditable = true;
                 calendar.addEvent(obj);
-                calendar.rerenderEvents();
             }
         }
     });
