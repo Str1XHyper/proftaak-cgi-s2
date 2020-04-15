@@ -1,8 +1,154 @@
-﻿
+﻿@model ApplicationUser
 @{
     ViewData["Title"] = "ChangeSettings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>ChangeSettings</h1>
+@{ 
+    string[] test;
+    if(ViewData["userInformation"] != null)
+    {
+        test = ViewData["userInformation"] as string[];
+    }
+    else
+    {
+        test = new string[12];
+    }
 
+    string[] setting;
+    if(ViewData["Settings"] != null)
+    {
+        setting = ViewData["Settings"] as string[];
+    }
+    else
+    {
+        setting = new string[3];
+    }
+}
+<h1>Instellingen</h1>
+<form asp-action="ChangeLeSetting" asp-controller="Account">
+    <div class="card-deck">
+        <div class="card">
+            <div class="card-header bg-dark text-white">Basisinformatie</div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Voornaam:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="naam" value="@test[1]">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Tussenvoegsel:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="tussenvoegsel" value="@test[2]">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Achternaam:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="achternaam" value="@test[3]">
+                </div>
+                <div class="border-top my-3"></div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Huidige wachtwoord:</span>
+                    </div>
+                    <input type="password" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Nieuw wachtwoord:</span>
+                    </div>
+                    <input oninput="checkPass('pw1')" type="password" id="newpass1" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Wachtwoord herhalen:</span>
+                    </div>
+                    <input oninput="checkPass('pw2')" type="password" id="newpass2" class="form-control">
+                </div>
+                <div id="PassAlert" class="alert alert-warning alert-dismissible show" role="alert" style="display:none;">
+                <strong>Wachtwoord vereisten:</strong> Minimaal 1 getal, 1 speciaal karakter, 1 kleine en 1 hoofd letter
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header bg-dark text-white">Contactgegevens</div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">E-mail:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="eMail" value="@test[4]">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Telefoonnummer:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="phoneNumber" value="@test[5]">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Straatnaam:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="straatnaam" value="@test[6]">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Huisnummer:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="huisNummer" value="@test[7]">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Postcode:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="postcode" value="@test[8]">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Woonplaats:</span>
+                    </div>
+                    <input type="text" class="form-control" asp-for="woonplaats" value="@test[9]">
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header bg-dark text-white">Notificaties</div>
+            <div class="card-body">
+                <div class="custom-control custom-switch">
+                    @{
+                        if (setting[1].ToLower() == "true")
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting" checked>
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
+                        }
+                    }
+
+                    <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
+                </div>
+                <br />
+                <div class="custom-control custom-switch">
+                    @{
+                        if (setting[2].ToLower() == "true")
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting" checked>
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
+                        }
+                    }
+                    <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark btn-block btn-sm">Pas instellingen aan</button>
+        </div>
+    </div>
+</form>
+
+<script src="~/js/passStrength.js"></script>

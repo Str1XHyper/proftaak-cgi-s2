@@ -20,7 +20,7 @@
             for (int i = 0; i < records.Count(); i++)
             {
                 <tr>
-                    <th scope="row">@records[i][2]</th>
+                    <th scope="row">@records[i][2].Substring(0, records[i][2].Length - 3)</th>
                     <td>@records[i][3]</td>
                     @{ if (@records[i][1].ToLower() == "true")
                         {

@@ -87,29 +87,29 @@
                     if (employeeSettings[1].ToLower() == "true")
                     {
                         <p>Email notificatie</p>
-                        <input type="radio" name="emailsetting" value="Ja" checked /> <label>Ja</label>
-                        <input type="radio" name="emailsetting" value="Nee" /><label>Nee</label>
+                        <input type="radio" name="emailsetting" value="1" checked /> <label>Ja</label>
+                        <input type="radio" name="emailsetting" value="0" /><label>Nee</label>
                     }
                     else
                     {
                         <p>Email notificatie</p>
-                        <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
-                        <input type="radio" name="emailsetting" value="Nee" checked /><label>Nee</label>
+                        <input type="radio" name="emailsetting" value="1" /> <label>Ja</label>
+                        <input type="radio" name="emailsetting" value="0" checked /><label>Nee</label>
                     }
                     if (employeeSettings[2].ToLower() == "true")
                     {
                         <p>SMS notificatie</p>
-                        <input type="radio" name="smssetting" value="Ja" checked />
+                        <input type="radio" name="smssetting" value="1" checked />
                         <label>Ja</label>
-                        <input type="radio" name="smssetting" value="Nee" />
+                        <input type="radio" name="smssetting" value="0" />
                         <label>Nee</label>
                     }
                     else
                     {
                         <p>SMS notificatie</p>
-                        <input type="radio" name="smssetting" value="Ja" />
+                        <input type="radio" name="smssetting" value="1" />
                         <label>Ja</label>
-                        <input type="radio" name="smssetting" value="Nee" checked />
+                        <input type="radio" name="smssetting" value="0" checked />
                         <label>Nee</label>
                     }
                 }
@@ -117,12 +117,12 @@
             else
             {
                 <p>Email notificatie</p>
-                <input type="radio" name="emailsetting" value="Ja" /> <label>Ja</label>
-                <input type="radio" name="emailsetting" value="Nee" /><label>Nee</label>
+                <input type="radio" name="emailsetting" value="1" /> <label>Ja</label>
+                <input type="radio" name="emailsetting" value="0" /><label>Nee</label>
                 <p>SMS notificatie</p>
-                <input type="radio" name="smssetting" value="Ja" />
+                <input type="radio" name="smssetting" value="1" />
                 <label>Ja</label>
-                <input type="radio" name="smssetting" value="Nee" />
+                <input type="radio" name="smssetting" value="0" />
                 <label>Nee</label>
             }
         }
@@ -130,11 +130,6 @@
         <input type="submit" value="Voeg toe">
     </div>
 </form>
-@*<div id="div4" style="display: none;">
-    <div class="banner"><center><h5 style="color: white">INLOGGEVENS</h5></center></div>
-        <br>
-        <partial name="ChangePassword" />
-</div>*@
 <script>
     function FadeAnimation() {
         $("#div1").fadeIn();
