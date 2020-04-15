@@ -20,7 +20,6 @@ namespace Proftaakrepos.Controllers
             }
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
             ViewBag.Incidents = incidents;
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
 
@@ -37,7 +36,6 @@ namespace Proftaakrepos.Controllers
             var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}' ORDER BY `StatusIdIncident` ASC");
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
 
@@ -46,7 +44,6 @@ namespace Proftaakrepos.Controllers
             var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}'");
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
 
@@ -57,7 +54,6 @@ namespace Proftaakrepos.Controllers
             var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}'");
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = incidentId });
         }
 
@@ -71,7 +67,6 @@ namespace Proftaakrepos.Controllers
                 Start = DateTime.Parse(start),
                 End = DateTime.Parse(end)
             };
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View(model);
         }
 
