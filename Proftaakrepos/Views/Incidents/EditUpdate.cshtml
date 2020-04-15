@@ -25,5 +25,5 @@
         <input type="datetime-local" class="form-control" asp-for="End" value="@Model.End.ToString("yyyy-MM-ddThh:mm")">
     </div>
     <input type="submit" class="btn btn-outline-secondary">
-    <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId">Cancel</a>
+    <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@Model.IncidentID">Cancel</a>
 </form>

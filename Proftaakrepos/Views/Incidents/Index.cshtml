@@ -18,7 +18,7 @@
             int statusCount = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(StatusIdIncident) FROM IncidentUpdates WHERE IncidentId = '{incident[0]}'; ")[0]);
             <div class="card mb-3">
                 <div class="card-header bg-dark text-white">
-                    @incident[0]
+                    Incident ID: @incident[0]
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">
