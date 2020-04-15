@@ -16,6 +16,36 @@ namespace ClassLibrary.Classes
             cnn = new MySqlConnection(connetionString);
             return cnn;
         }
+        public static List<string[]> ExecuteSearchQueryWithArrayReturn(string query)
+        {
+            string[] tempStrArr;
+            List<string[]> values = new List<string[]>();
+            MySqlConnection cnn = CreateConnection();
+            MySqlCommand cmd = new MySqlCommand();
+            cmd.CommandText = query;
+            cmd.Connection = cnn;
+            cnn.Open();
+            MySqlDataReader reader = cmd.ExecuteReader();
+            values.Clear();
+            try
+            {
+                while (reader.Read())
+                {
+                    tempStrArr = new string[reader.FieldCount];
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        tempStrArr[i] = reader[i].ToString();
+                    }
+                    values.Add(tempStrArr);
+                }
+            }
+            catch (Exception e)
+            {
+                string eString = e.ToString();
+            }
+            cnn.Close();
+            return values;
+        }
 
         public static List<string> ExecuteSearchQuery(string query)
         {
