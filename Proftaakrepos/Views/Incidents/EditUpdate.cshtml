@@ -1,0 +1,29 @@
+﻿@model AddStatusUpdateModel
+@{
+    ViewData["Title"] = "Edit Update";
+}
+<h1>Edit Update</h1>
+<form method="post">
+    <input type="hidden" asp-for="IncidentID" value="@Model.IncidentID" />
+    <input type="hidden" asp-for="StatusIdIncident" value="@Model.StatusIdIncident" />
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Status Omschrijving: </span>
+        </div>
+        <input type="text" class="form-control" asp-for="StatusOmschrijving" value="@Model.StatusOmschrijving">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
+        </div>
+        <input type="datetime-local" class="form-control" asp-for="Start" value="@Model.Start.ToString("yyyy-MM-ddThh:mm")">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
+        </div>
+        <input type="datetime-local" class="form-control" asp-for="End" value="@Model.End.ToString("yyyy-MM-ddThh:mm")">
+    </div>
+    <input type="submit" class="btn btn-outline-secondary">
+    <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId">Cancel</a>
+</form>
