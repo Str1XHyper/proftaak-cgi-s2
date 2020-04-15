@@ -65,8 +65,8 @@ namespace Proftaakrepos.Controllers
         public static List<DateTime> GetWeekDateTimes(int weeks)
         {
             List<DateTime> currentWeek = new List<DateTime>();
-            DateTime startDate = (DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(weeks*7));
-            for(int i = 0; i < 7; i++)
+            DateTime startDate = (DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(weeks * 7));
+            for (int i = 0; i < 7; i++)
             {
                 currentWeek.Add((startDate.Date.AddDays(i)));
             }
@@ -102,15 +102,11 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditEvent(EventModel e, string pagename)
+        public IActionResult EditEvent(EventModel e)
         {
             if (ModelState.IsValid)
             {
                 HandleEditEventRequest(e);
-            }
-            if(pagename == "CreateEvent")
-            {
-                return RedirectToAction("CreateEvent");
             }
             return RedirectToAction("Agenda");
         }
@@ -119,14 +115,16 @@ namespace Proftaakrepos.Controllers
         {
             if (ModelState.IsValid)
             {
-                HandleEventRequest(e);
-                return RedirectToAction("CreateEvent");
+                if (e.eventId>0)
+                {
+                    HandleEditEventRequest(e);
+                }
+                else
+                {
+                    HandleEventRequest(e);
+                }
             }
-            else
-            {
-
-                return View(e);
-            }
+            return RedirectToAction("Agenda");
         }
         public void HandleEditEventRequest(EventModel emdb)
         {

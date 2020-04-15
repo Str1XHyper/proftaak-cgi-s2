@@ -52,10 +52,9 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <form id="modalForm" asp-action="EditEvent" asp-controller="Planner" method="post">
+            <form id="modalForm" asp-action="CreateEvent" asp-controller="Planner" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <input type="hidden" name="pagename" value="Agenda" />
                 <input id="eventIdField" type="hidden" asp-for="eventId" value="0" />
                 <input type="hidden" asp-for="voornaam" value="........." />
                 @if (ViewBag.Rol == "Roostermaker")
