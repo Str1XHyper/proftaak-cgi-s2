@@ -51,6 +51,7 @@ namespace Proftaakrepos.Controllers
                     }
                     ViewBag["Success"] = "gelukt!";
                     ChangeVal(model);
+                    //func
                     return RedirectToAction("ChangeSettings");
                 }
                 else
