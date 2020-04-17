@@ -7,7 +7,6 @@ namespace ClassLibrary.Classes
 {
     public class SQLConnection
     {
-        private MySqlDataReader reader;
         private static MySqlConnection CreateConnection()
         {
             MySqlConnection cnn;

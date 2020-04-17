@@ -25,16 +25,20 @@
                         @DateTime.Parse(statusUpdate[4]).ToString("yyyy/MM/dd HH:mm") tot @DateTime.Parse(statusUpdate[5]).ToString("yyyy/MM/dd HH:mm")
                     </h5>
                 </div>
-                <div class="card-footer">
-                    <a class=" btn btn-outline-secondary" asp-action="EditUpdate" 
-                       asp-route-incidentId="@ViewBag.IncidentId" 
-                       asp-route-statusIdIncident="@statusUpdate[2]"
-                       asp-route-statusOmschrijving="@statusUpdate[3]"
-                       asp-route-start="@statusUpdate[4]"
-                       asp-route-end="@statusUpdate[5]"
-                       >Edit</a>
-                    <a class=" btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId" asp-route-delete="@true" asp-route-updateId="@statusUpdate[0]">Delete</a>
-                </div>
+                @{if (statusUpdate[2] != "0")
+                    {
+                        <div class="card-footer">
+                            <a class=" btn btn-outline-secondary" asp-action="EditUpdate"
+                               asp-route-incidentId="@ViewBag.IncidentId"
+                               asp-route-statusIdIncident="@statusUpdate[2]"
+                               asp-route-statusOmschrijving="@statusUpdate[3]"
+                               asp-route-start="@statusUpdate[4]"
+                               asp-route-end="@statusUpdate[5]">Edit</a>
+                            <a class=" btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId" asp-route-delete="@true" asp-route-updateId="@statusUpdate[0]">Delete</a>
+
+                        </div>
+                    }
+                }
             </div>
         }
     }

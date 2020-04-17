@@ -17,6 +17,14 @@ namespace Proftaakrepos.Controllers
             if(status != null && statusId != null)
             {
                 SQLConnection.ExecuteNonSearchQuery($"UPDATE `Incidenten` SET `Afgehandeld`= '{status}' WHERE `IncidentID` = '{statusId}'");
+                if(status == "1")
+                {
+                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`) VALUES ('{statusId}','0','Begonnen aan het incident','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}')");
+                } else if (status == "2")
+                {
+                    int i = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(`StatusIDIncident`) FROM  `IncidentUpdates` WHERE `IncidentID` = '{statusId}'")[0]);
+                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}')");
+                }
             }
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
             ViewBag.Incidents = incidents;
@@ -71,11 +79,23 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditUpdate(AddStatusUpdateModel addStatusUpdateModel)
+        public IActionResult EditUpdate(AddStatusUpdateModel model)
         {
            
-            SQLConnection.ExecuteNonSearchQuery($" UPDATE `IncidentUpdates` SET `StatusOmschrijving`='{addStatusUpdateModel.StatusOmschrijving}',`Start`='{DateTime.Parse(addStatusUpdateModel.Start).ToString("yyyy/MM/dd HH:mm")}',`End`='{DateTime.Parse(addStatusUpdateModel.End).ToString("yyyy/MM/dd HH:mm")}' WHERE `IncidentId` = '{addStatusUpdateModel.IncidentID}' AND `StatusIdIncident` = '{addStatusUpdateModel.StatusIdIncident}'");
-            return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = addStatusUpdateModel.IncidentID });
+            SQLConnection.ExecuteNonSearchQuery($" UPDATE `IncidentUpdates` SET `StatusOmschrijving`='{model.StatusOmschrijving}',`Start`='{DateTime.Parse(model.Start).ToString("yyyy/MM/dd HH:mm")}',`End`='{DateTime.Parse(model.End).ToString("yyyy/MM/dd HH:mm")}' WHERE `IncidentId` = '{model.IncidentID}' AND `StatusIdIncident` = '{model.StatusIdIncident}'");
+            return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = model.IncidentID });
+        }
+
+        public IActionResult VoegIncidentToe()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult VoegIncidentToe(AddIncidentModel model)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`) VALUES ('{model.IncidentNaam}')");
+            return RedirectToAction("Index");
         }
     }
 }
