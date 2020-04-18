@@ -10,7 +10,7 @@ namespace Proftaakrepos.Models
         public int IncidentID { get; set; }
         public int StatusIdIncident { get; set; }
         public string StatusOmschrijving { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public string Start { get; set; }
+        public string End { get; set; }
     }
 }

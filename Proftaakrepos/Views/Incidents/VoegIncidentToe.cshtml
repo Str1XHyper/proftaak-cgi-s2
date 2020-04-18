@@ -1,0 +1,15 @@
+﻿@model AddIncidentModel
+@{
+    ViewData["Title"] = "VoegIncidentToe";
+}
+
+<h1>Voeg Incident Toe</h1>
+<form method="post">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">Incident naam: </span>
+        </div>
+        <input type="text" class="form-control" asp-for="IncidentNaam">
+    </div>
+    <input type="submit" class="btn btn-outline-secondary">
+</form>

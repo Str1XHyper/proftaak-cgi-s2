@@ -39,38 +39,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha256-kIxwtDqhOVbQysWu0OpR9QfijdXCfqvXgAUJuv7Uxmg=" crossorigin="anonymous" />
 </head>
 <h1>Status update toevoegen</h1>
-<form onload="Initialize" method="post">
+<form method="post">
     <input type="hidden" asp-for="IncidentID" value="@ViewBag.IncidentId" />
     <input type="hidden" asp-for="StatusIdIncident" value="@activeStatusID" />
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Status Omschrijving: </span>
+            <span class="input-group-text" id="basic-addon3" style="width:175px">Status Omschrijving: </span>
         </div>
         <input type="text" class="form-control" asp-for="StatusOmschrijving">
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
+            <span class="input-group-text" id="basic-addon3" style="width:175px">Start datum en tijd: </span>
         </div>
-        <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Now.ToString("dd-MM-yyyy hh:mm")">
+        <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Now.ToString("yyyy/MM/dd HH:mm")">
         <script>
-            jQuery('#startInput').datetimepicker();
             jQuery('#startInput').datetimepicker({
-                format: 'd-m-Y H:i',
+                format: 'Y/m/d H:i',
+                step: 15,
             });
+            $.datetimepicker.setLocale('nl');
         </script>
     </div>
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
+            <span class="input-group-text" id="basic-addon3" style="width:175px">Eind datum en tijd: </span>
         </div>
-        <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Now.AddHours(1).ToString("dd-MM-yyyy hh:mm")">
+        <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Now.AddHours(1).ToString("yyyy/MM/dd HH:mm")">
         <script>
-            jQuery('#endInput').datetimepicker();
             jQuery('#endInput').datetimepicker({
-                format: 'd-m-Y H:i',
+                format: 'Y/m/d H:i',
+                step: 15,
             });
+            $.datetimepicker.setLocale('nl');
         </script>
     </div>
     <input type="submit" class="btn btn-outline-secondary">

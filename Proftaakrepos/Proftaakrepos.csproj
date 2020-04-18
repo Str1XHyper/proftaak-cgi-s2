@@ -138,6 +138,7 @@
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.44.1.1893" />
     <PackageReference Include="jQuery" Version="3.4.1" />
     <PackageReference Include="jQuery.Fullcalendar" Version="3.9.0" />
+    <PackageReference Include="jQuery.UI.Interactions.Draggable" Version="1.8.9" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0-preview1.19506.2" />

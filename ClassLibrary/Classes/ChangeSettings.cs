@@ -13,7 +13,7 @@ namespace ClassLibrary.Classes
             int smsSettings;
             List<string> userIDlist = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{email}'");
             int userID = Convert.ToInt32(userIDlist[0]);
-            if(emailSetting.ToLower() == "ja")
+            if(emailSetting.ToLower() == "true")
             {
                 emailSettings = 1;
             }
@@ -22,7 +22,7 @@ namespace ClassLibrary.Classes
                 emailSettings = 0;
             }
 
-            if(smssSetting.ToLower() == "ja")
+            if(smssSetting.ToLower() == "true")
             {
                 smsSettings = 1;
             }
