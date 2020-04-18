@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
             day: 'Dag',
             today: '  ‌‌◯  ',
         },
-        plugins: ['bootstrap', 'interaction', 'timeGrid', 'dayGrid'],
+        plugins: ['dayGrid', 'bootstrap', 'interaction', 'timeGrid'],
         defaultView: 'timeGridWeek',
         nowIndicator: 'true',
         minTime: "06:00:00",
@@ -33,10 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
         eventLimit: true,
         droppable: true,
         dropAccept: true,
-        eventDragStop: function (info) {
-            console.log(info.event.end)
-        },
-
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
@@ -76,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             timeGrid: {
                 titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' },
+                eventLimit: 3,
             },
         },
         eventResize: function (eventResizeInfo) {
@@ -98,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = "block";
         },
         eventDrop: function (eventDropInfo) {
-            console.log(eventDropInfo.event.end)
             $.ajax(
                 {
                     type: "GET",
@@ -147,6 +143,7 @@ function FetchEvents() {
         dataType: 'json',
         success: function (data) {
             var list = data;
+            console.log(selectedIndex);
             for (var i = 0; i < list.length; i++) {
                 var obj = {}
                 obj.id = list[i].eventId;
