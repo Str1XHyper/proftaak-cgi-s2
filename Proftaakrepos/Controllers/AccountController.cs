@@ -64,9 +64,8 @@ namespace Proftaakrepos.Controllers
         private void ChangeVal(ApplicationUser model)
         {
             string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{HttpContext.Session.GetString("UserInfo")}'")[0];
-            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Werknemers` SET `Voornaam`='{model.naam}',`Tussenvoegsel`='{model.tussenvoegsel}',`Achternaam`='{model.achternaam}',`Email`='{model.eMail.ToLower()}',`Telefoonnummer`='{model.phoneNumber}',`Straatnaam`='{model.straatnaam}',`Huisnummer`='{model.huisNummer}',`Postcode`='{model.postcode}',`Woonplaats`='{model.woonplaats}' WHERE `UserId` = '{userID}'");
-            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(model.emailsetting)?1:0)}',`ReceiveSMS`='{(Convert.ToBoolean(model.smssetting) ? 1 : 0)}' WHERE `UserId` = '{userID}'");
-            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Login` SET `Username` = '{model.eMail}' WHERE `UserId` = '{userID}'");
+            string[] queries = { $"UPDATE `Werknemers` SET `Voornaam`='{model.naam}',`Tussenvoegsel`='{model.tussenvoegsel}',`Achternaam`='{model.achternaam}',`Email`='{model.eMail.ToLower()}',`Telefoonnummer`='{model.phoneNumber}',`Straatnaam`='{model.straatnaam}',`Huisnummer`='{model.huisNummer}',`Postcode`='{model.postcode}',`Woonplaats`='{model.woonplaats}' WHERE `UserId` = '{userID}'", $"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(model.emailsetting)?1:0)}',`ReceiveSMS`='{(Convert.ToBoolean(model.smssetting) ? 1 : 0)}' WHERE `UserId` = '{userID}'", $"UPDATE `Login` SET `Username` = '{model.eMail}' WHERE `UserId` = '{userID}'" };
+            SQLConnection.ExecuteNonSearchQueryArray(queries);
         }
     }
 }
