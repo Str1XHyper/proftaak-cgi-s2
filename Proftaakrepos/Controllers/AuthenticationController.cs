@@ -13,15 +13,6 @@ namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
     {
-        [HttpGet]
-        public IActionResult Login()
-        {
-            if(HttpContext.Session.GetString("UserInfo") != null)
-            {
-                return RedirectToAction("Agenda", "Planner");
-            }
-            return View();
-        }
 
         [HttpPost]
         public IActionResult Login(LoginModel model)
@@ -76,6 +67,15 @@ namespace Proftaakrepos.Controllers
         {
             AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
             return View("ChangePassword");
+        }
+
+        public IActionResult LoginNew()
+        {
+            if (HttpContext.Session.GetString("UserInfo") != null)
+            {
+                return RedirectToAction("Agenda", "Planner");
+            }
+            return View();
         }
     }
 }
