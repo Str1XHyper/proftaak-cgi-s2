@@ -68,6 +68,7 @@
                 <div id="Active" class="tab card-body">
                     <ul class="list-group">
                         @{
+                            bool hasRequests1 = false;
                             foreach (string[] dienst in dienstInfo)
                             {
                                 DateTime dateTime = DateTime.Parse(dienst[4]);
@@ -77,6 +78,7 @@
                                 {
                                     if (dienst[8].ToLower() == "true")
                                     {
+                                        hasRequests1 = true;
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             @dienst[2] | @dienst[4] - @dienst[5]
                                             <div class="input-group-append">
@@ -89,14 +91,22 @@
                             }
                         }
                     </ul>
+                    @{
+                        if (!hasRequests1)
+                        {
+                            <h5 class="float-left">U heeft nog geen actieve aanvragen.</h5>
+                        }
+                    }
                 </div>
                 <div id="Accepted" class="tab card-body" style="display:none;">
                     <ul class="list-group">
                         @{
+                            bool hasRequests2 = false;
                             foreach (string[] request in tradeRequests)
                             {
                                 if (request[0] == currentId && Convert.ToInt32(request[4]) != -1)
                                 {
+                                    hasRequests2 = true;
                                     string name = "";
                                     foreach (string[] user in users)
                                     {
@@ -113,10 +123,17 @@
                             }
                         }
                     </ul>
+                    @{
+                        if (!hasRequests2)
+                        {
+                            <h5 class="float-left">U heeft nog geen aanvragen geaccepteerd</h5>
+                        }
+                    }
                 </div>
                 <div id="Expired" class="tab card-body" style="display:none;">
                     <ul class="list-group">
                         @{
+                            bool hasRequests3 = false;
                             foreach (string[] dienst in dienstInfo)
                             {
                                 DateTime dateTime = DateTime.Parse(dienst[4]);
@@ -126,6 +143,7 @@
                                 {
                                     if (dienst[8].ToLower() == "true")
                                     {
+                                        hasRequests3 = true;
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             @dienst[2] | @dienst[4] - @dienst[5]
                                         </li>
@@ -134,6 +152,12 @@
                             }
                         }
                     </ul>
+                    @{
+                        if (!hasRequests3)
+                        {
+                            <h5 class="float-left">U heeft nog geen verlopen aanvragen.</h5>
+                        }
+                    }
                 </div>
             </div>
         </div>
