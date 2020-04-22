@@ -12,6 +12,10 @@ namespace Proftaakrepos.Controllers
 {
     public class ShiftviewController : Controller
     {
+        public IActionResult ShiftviewEmail()
+        {
+            return View();
+        }
         public IActionResult Incoming()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
@@ -57,11 +61,31 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult HandleRequest(string UserID, int TradeID, int EventID)
         {
+            string nameAcceptor;
             string[] query = new string[] { $"Update TradeRequest Set Status = 1 Where TradeId = {TradeID}", $"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID} " };
             SQLConnection.ExecuteNonSearchQueryArray(query);
             //SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set UserIdAcceptor = {UserID} Where TradeId = {TradeID}");
             SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set UserId = {UserID}, IsPending = 0 Where EventId = {EventID}");
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
+            string[] userData = SQLConnection.ExecuteSearchQuery($"SELECT * FROM Werknemers Where UserId='{UserID}'").ToArray();
+            string[] eventData = SQLConnection.ExecuteSearchQuery($"SELECT * FROM Rooster Where EventId='{EventID}'").ToArray();
+            if(userData[2] == "")
+            {
+                nameAcceptor = userData[1] + " " + userData[3];
+            }
+            else
+            {
+                nameAcceptor = userData[1] + " " + userData[2] + " " + userData[3];
+            }
+            #region htmlContent
+            string htmlMessage = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
+            htmlMessage += "<HTML><HEAD><META http-equiv=Content-Type content=\"text/html; charset=iso-8859-1\">";
+            htmlMessage += "</HEAD><BODY><DIV><FONT face=Arial color=#ff0000 size=2>this is some HTML text";
+            htmlMessage += "</FONT></DIV></BODY></HTML>";
+            #endregion
+            string subject = "Ruilverzoek geaccepteerd";
+            string plainMessage = $"Test message plz plz plz work {nameAcceptor} accepted your request";
+            SendMail.Execute(subject, "alex.peek@hotmail.com", htmlMessage, plainMessage);
             return Redirect("Incoming");
         }
 
