@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Proftaakrepos.Models;
 using System.Collections.Generic;
+using System;
 
 namespace Proftaakrepos.Controllers
 {
@@ -38,11 +39,13 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateEmployee(AddEmployee addEmployeeModel)
+        public IActionResult UpdateEmployee(AddEmployee addEmployeeModel, string oldEmail)
         {
-            string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{addEmployeeModel.eMail.ToLower()}'")[0];
+            string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{oldEmail.ToLower()}'")[0];
             SQLConnection.ExecuteNonSearchQuery($"UPDATE `Werknemers` SET `Voornaam`='{addEmployeeModel.naam}',`Tussenvoegsel`='{addEmployeeModel.tussenvoegsel}',`Achternaam`='{addEmployeeModel.achternaam}',`Email`='{addEmployeeModel.eMail.ToLower()}',`Telefoonnummer`='{addEmployeeModel.phoneNumber}',`Straatnaam`='{addEmployeeModel.straatnaam}',`Huisnummer`='{addEmployeeModel.huisNummer}',`Postcode`='{addEmployeeModel.postcode}',`Woonplaats`='{addEmployeeModel.woonplaats}',`Rol`='{addEmployeeModel.role}' WHERE `UserId` = {userID}");
-            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `ReceiveMail`='{addEmployeeModel.emailsetting}',`ReceiveSMS`='{addEmployeeModel.smssetting}' WHERE `UserId` = {userID}");
+            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(addEmployeeModel.emailsetting) ? 1 : 0)}',`ReceiveSMS`='{(Convert.ToBoolean(addEmployeeModel.smssetting) ? 1 : 0)}' WHERE `UserId` = {userID}");
+            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Login` SET `Username` = '{addEmployeeModel.eMail}' WHERE `UserId` = '{userID}'");
+            ViewData["msg"] = "Werknemer " + addEmployeeModel.naam + " is aangepast.";
             return View("Employees");
         }
 

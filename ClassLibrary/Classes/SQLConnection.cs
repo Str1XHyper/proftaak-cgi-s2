@@ -117,7 +117,7 @@ namespace ClassLibrary.Classes
             cmd.CommandText = query;
             cmd.Connection = cnn;
             cnn.Open();
-                cmd.ExecuteNonQuery();
+            cmd.ExecuteNonQuery();
             cnn.Close();
         }
 

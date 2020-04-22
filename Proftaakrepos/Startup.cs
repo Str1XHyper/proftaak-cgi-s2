@@ -76,7 +76,7 @@ namespace Proftaakrepos
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Authentication}/{action=Login}/{id?}");
+                    pattern: "{controller=Authentication}/{action=LoginNew}/{id?}");
             });
         }
     }
