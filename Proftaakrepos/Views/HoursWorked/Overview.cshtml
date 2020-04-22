@@ -1,7 +1,8 @@
-﻿@model HoursWorkedModel
+﻿@using Proftaakrepos.Models
 
 @{
     ViewData["Title"] = "Hours Worked";
+    var data = ViewData["Collection"] as List<HoursWorkedModel>;
 }
 
 <!DOCTYPE html>
@@ -15,13 +16,13 @@
 </head>
 <body>
     <div id="filter-project">
-        <input type="search" id="searchbar" placeholder="Search Project" onclick=clearSearch>
+        <input type="search" id="searchbar" placeholder="Zoek project">
         <input type="submit">
         <div id="display-options">
             <p>Display: </p>
             <select id="display-filter">
                 <option value="1week">1 week</option>
-                <option value="2weeks" asp-action-for="">2 weken</option>
+                <option value="2weeks">2 weken</option>
                 <option value="1month">1 maand</option>
                 <option value="1year">1 jaar</option>
                 <option value="allTime">Altijd</option>
@@ -29,34 +30,9 @@
         </div><br />
         <hr />
     </div>
-    <table class="hours-table">
-        <!--Show days of week-->
-        <tr class="table-header">
-            <th input-type="text">@HoursWorkedModel.GetWeekOfYear</th>
-            <td>Maandag</td>
-            <td>Dinsdag</td>
-            <td>Woensdag</td>
-            <td>Donderdag</td>
-            <td>Vrijdag</td>
-            <td>Zaterdag</td>
-            <td>Zondag</td>
-            <td>Subtotaal van Week</td>
-        </tr>
-        <tbody>
-            <tr>
-                <td>Totale tijd</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Gewerkte uren</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Overuren</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    
+    @await Html.PartialAsync("OverviewTable")
+    
     <table class="total-table">
         <tr>
             <th class="table-header" id="total-header">Totaal van @HoursWorkedModel.EmployeeName</th>
