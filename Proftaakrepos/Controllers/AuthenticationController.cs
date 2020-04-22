@@ -37,7 +37,7 @@ namespace Proftaakrepos.Controllers
                     break;
 
             }
-            return View(model);
+            return View("LoginNew");
         }
 
         public void AddLogin(bool success, string username)

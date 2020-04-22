@@ -22,7 +22,7 @@ namespace Proftaakrepos.Controllers
         {
             
             HttpContext.Session.Remove("UserInfo");
-            return RedirectToAction("Login", "Authentication");
+            return RedirectToAction("LoginNew", "Authentication");
         }
 
         [HttpPost]
