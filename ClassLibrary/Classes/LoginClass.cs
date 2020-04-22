@@ -7,38 +7,46 @@ namespace ClassLibrary
 {
     public class LoginClass
     {
-        private enum responses { redirectHome, wrongEntry, multipleEntries, massiveError};
+        private enum responses { redirectHome, wrongEntry, multipleEntries, massiveError };
         public static Enum LoginUserFunction(string userName, string password)
         {
             string sql;
             List<string> passwords;
             List<string> usernames;
-            sql = $"SELECT `Username` FROM `Login` WHERE Username='{userName.ToLower()}'";
-            usernames = SQLConnection.ExecuteSearchQuery(sql);
-            sql = $"SELECT AES_DECRYPT(Password,'CGIKey')  FROM `Login` WHERE Username='{userName.ToLower()}'";
-            passwords = SQLConnection.ExecuteGetStringQuery(sql);
-            if(usernames.Count == 1)
+            if (userName != null)
             {
-                string retrievedPassword = passwords[0];
-                if(password == retrievedPassword)
+                sql = $"SELECT `Username` FROM `Login` WHERE Username='{userName.ToLower()}'";
+                usernames = SQLConnection.ExecuteSearchQuery(sql);
+                sql = $"SELECT AES_DECRYPT(Password,'CGIKey')  FROM `Login` WHERE Username='{userName.ToLower()}'";
+                passwords = SQLConnection.ExecuteGetStringQuery(sql);
+                if (usernames.Count == 1)
                 {
-                    //SendMail.Execute().Wait();
-                    return responses.redirectHome;
+                    string retrievedPassword = passwords[0];
+                    if (password == retrievedPassword)
+                    {
+                        //SendMail.Execute().Wait();
+                        return responses.redirectHome;
+                    }
+                    else
+                    {
+                        return responses.wrongEntry;
+                    }
                 }
-                else
+                else if (usernames.Count != 2)
                 {
                     return responses.wrongEntry;
                 }
-            }else if(usernames.Count != 2)
+                else if (usernames.Count == 2)
+                {
+                    return responses.multipleEntries;
+                }
+
+                return responses.massiveError;
+            }
+            else
             {
                 return responses.wrongEntry;
             }
-            else if(usernames.Count == 2)
-            {
-                return responses.multipleEntries;
-            }
-            
-            return responses.massiveError;
         }
     }
 }
