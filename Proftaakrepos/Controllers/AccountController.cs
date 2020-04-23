@@ -80,5 +80,16 @@ namespace Proftaakrepos.Controllers
             ViewData["email"] = email;
             return View("ChangePassword");
         }
+
+        public IActionResult PasswordChange()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult PasswordChange(string test)
+        {
+            return View();
+        }
     }
 }
