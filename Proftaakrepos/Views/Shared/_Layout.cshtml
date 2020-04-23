@@ -64,7 +64,9 @@
                             Uitgaand
                         </a>
                         @{
-                            string rol = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'")[0];
+                            string rol = string.Empty;
+                            List<string> rollen = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'");
+                            if (rollen.Count == 1) rol = rollen[0];
                             if (rol.ToLower() == "roostermaker")
                             {
                                 <div class="sb-sidenav-menu-heading">Werknemers</div>

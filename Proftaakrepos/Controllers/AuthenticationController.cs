@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using Proftaakrepos.Models;
-using System;
-using System.Threading.Tasks;
-using ClassLibrary;
+﻿using ClassLibrary;
 using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Proftaakrepos.Models;
+using System;
 
 namespace Proftaakrepos.Controllers
 {

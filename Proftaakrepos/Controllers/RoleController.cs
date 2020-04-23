@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClassLibrary.Classes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Proftaakrepos.Controllers
@@ -10,7 +8,9 @@ namespace Proftaakrepos.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            string _authCode = HttpContext.Session.GetString("UserInfo");
+            if (CheckIfAllowed.IsAllowed(_authCode, "RoleIndex")) return View();
+            else return RedirectToAction("NoAccessIndex", "Home");
         }
     }
 }
