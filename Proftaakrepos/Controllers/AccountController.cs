@@ -20,9 +20,8 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult LogOut()
         {
-            
             HttpContext.Session.Remove("UserInfo");
-            return RedirectToAction("LoginNew", "Authentication");
+            return RedirectToAction("LoginNew", "Authentication", new {extra = "uitgelogd" });
         }
 
         [HttpPost]

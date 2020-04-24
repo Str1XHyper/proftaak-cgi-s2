@@ -65,11 +65,15 @@ namespace Proftaakrepos.Controllers
             return View("ChangePassword");
         }
 
-        public IActionResult LoginNew()
+        public IActionResult LoginNew(string extra)
         {
             if (HttpContext.Session.GetString("UserInfo") != null)
             {
                 return RedirectToAction("Agenda", "Planner");
+            }
+            if (extra != null)
+            {
+                ViewData["Error"] = "Succesvol uitgelogd.";
             }
             return View();
         }
