@@ -29,7 +29,7 @@ namespace Proftaakrepos.Controllers
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
             ViewBag.Incidents = incidents;
             string _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "Incidenten")) return View();
+            if (CheckIfAllowed.IsAllowed(_authCode, "Incident")) return View();
             else return RedirectToAction("NoAccessIndex", "Home");
         }
 

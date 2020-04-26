@@ -14,7 +14,7 @@ namespace ClassLibrary.Classes
                 List<string> rr = SQLConnection.ExecuteSearchQuery($"SELECT `{page}` FROM `Rollen` WHERE `Naam` = '{r[0]}'");
                 if (rr.Count > 0)
                 {
-                    if (rr[0] == "True") return true;
+                    if (rr[0] == "True" || rr[0] == "1") return true;
                     else return false;
                 }
                 else return false;
