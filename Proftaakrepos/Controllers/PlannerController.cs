@@ -54,7 +54,9 @@ namespace Proftaakrepos.Controllers
             ViewData["employees"] = employees.ToArray();
             ViewData["rol"] = rol;
             ViewData["userId"] = userId;
-            return View();
+            string _authCode = HttpContext.Session.GetString("UserInfo");
+            if (CheckIfAllowed.IsAllowed(_authCode, "Agenda")) return View();
+            else return RedirectToAction("NoAccessIndex", "Home");
         }
         public IActionResult InitialPlanning(int weeks)
         {

@@ -1,29 +1,25 @@
 ﻿using ClassLibrary.Classes;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Proftaakrepos.Models;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 namespace Proftaakrepos.Controllers
 {
     public class EmployeeController : Controller
     {
+        private string _authCode;
         #region Views
         public IActionResult Employees()
         {
             return View();
         }
-
         public IActionResult AddEmployee()
         {
-            if (GetUserData.RoleNameAuth(HttpContext.Session.GetString("UserInfo")).ToLower() == "roostermaker")
-            {
-                List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
-                ViewData["roles"] = typeOfRoles.ToArray();
-                return View();
-            }
-            return RedirectToAction("NoAccessIndex", "Home");
+            _authCode = HttpContext.Session.GetString("UserInfo");
+            if (CheckIfAllowed.IsAllowed(_authCode, "AddEmployee")) return View();
+            else return RedirectToAction("NoAccessIndex", "Home");
         }
         #endregion
         #region Logic

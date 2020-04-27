@@ -22,15 +22,8 @@ namespace ClassLibrary
                 if (usernames.Count == 1)
                 {
                     string retrievedPassword = passwords[0];
-                    if (password == retrievedPassword)
-                    {
-                        //SendMail.Execute().Wait();
-                        return responses.redirectHome;
-                    }
-                    else
-                    {
-                        return responses.wrongEntry;
-                    }
+                    if (password == retrievedPassword) return responses.redirectHome;
+                    else return responses.wrongEntry;
                 }
                 else if (usernames.Count != 2)
                 {

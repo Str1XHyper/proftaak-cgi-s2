@@ -20,9 +20,8 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult LogOut()
         {
-            
             HttpContext.Session.Remove("UserInfo");
-            return RedirectToAction("LoginNew", "Authentication");
+            return RedirectToAction("LoginNew", "Authentication", new {extra = "uitgelogd" });
         }
 
         [HttpPost]
@@ -79,6 +78,17 @@ namespace Proftaakrepos.Controllers
             ViewData["conf"] = "good";
             ViewData["email"] = email;
             return View("ChangePassword");
+        }
+
+        public IActionResult PasswordChange()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult PasswordChange(string test)
+        {
+            return View();
         }
     }
 }

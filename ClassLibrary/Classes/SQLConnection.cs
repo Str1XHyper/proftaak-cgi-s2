@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 
 namespace ClassLibrary.Classes
@@ -10,8 +11,10 @@ namespace ClassLibrary.Classes
         private static MySqlConnection CreateConnection()
         {
             MySqlConnection cnn;
+            //for debugging
             string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
-            //string connetionString = $"server=185.182.57.161;database=tijnvcd415_Proftaak;uid=tijnvcd415_Proftaak;pwd=Proftaak;";
+            //for release
+            //string connetionString = $"server=localhost;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
             cnn = new MySqlConnection(connetionString);
             return cnn;
         }

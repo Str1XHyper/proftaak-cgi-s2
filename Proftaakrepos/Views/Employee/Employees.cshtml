@@ -79,7 +79,7 @@
                         <label class="input-group-text" for="inputGroupSelect01">Rol:</label>
                     </div>
 
-                    <select class="custom-select" id="inputGroupSelect01">
+                    <select class="custom-select" id="inputGroupSelect01" asp-for="role">
                         @{
                             if (ViewData["roles"] == null)
                             {

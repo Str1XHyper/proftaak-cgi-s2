@@ -20,7 +20,7 @@ namespace Proftaakrepos
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().UseUrls(urls: "http://bier-1.democgi.com:5010");
                 });
     }
 }
