@@ -6,14 +6,17 @@ using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Proftaakrepos.Models;
 
 namespace Proftaakrepos.Controllers
 {
     public class PlannerController : Controller
     {
-        private List<EventModel> eventList;
 
+        private static string userId;
+        private static string rol;
+        private List<EventModel> eventList;
         public IActionResult Index()
         {
 
@@ -43,8 +46,8 @@ namespace Proftaakrepos.Controllers
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string var = HttpContext.Session.GetString("UserInfo");
-            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            var userId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0];
+            rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
+            userId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0];
             var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
             var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
             ViewData["employeesId"] = employeesId.ToArray();
@@ -145,65 +148,55 @@ namespace Proftaakrepos.Controllers
             }
             else
             {
-                userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
+                
             }
             if (userId == -1)
             {
                 int userCount = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select Count(UserId) From Werknemers")[0]);
                 for(int i = 0; i < userCount; i++)
                 {
-                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{i}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{(emdb.isFullDay ? 1 : 0)}','{(emdb.isPending ? 1 : 0)}')");
+                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{i}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{(emdb.isFullDay)}','{(emdb.isPending ? 1 : 0)}')");
                 }
             }
             else
             {
-                SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{userId}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{(emdb.isFullDay ? 1 : 0)}','{(emdb.isPending ? 1 : 0)}')");
+                SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{userId}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{(emdb.isFullDay)}','{(emdb.isPending ? 1 : 0)}')");
             }
             return RedirectToAction("CreateEvent", "Planner");
         }
         [HttpGet]
-        public IActionResult FetchAllEvents(int userId)
+        public IActionResult FetchAllEvents(int SendUserId)
         {
             string var = HttpContext.Session.GetString("UserInfo");
-            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            int _userId = 0;
-            if (userId == 0)
+            string _userId = "0";
+            if (SendUserId == 0)
             {
-                _userId = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0]);
+                _userId = userId;
             }
             else
             {
-                _userId = userId;
+                _userId = SendUserId.ToString();
             }
             ViewData["rol"] = rol;
             eventList = new List<EventModel>();
             List<string[]> events;
-            if (userId == -1)
+            if (SendUserId == -1)
             {
-                events = SQLConnection.ExecuteSearchQueryWithArrayReturn($"select * from Rooster");
+                events = SQLConnection.ExecuteSearchQueryWithArrayReturn($"select Rooster.*, Werknemers.Voornaam from Rooster INNER JOIN Werknemers ON Rooster.UserId = Werknemers.UserId");
             }
             else
             {
                 events = SQLConnection.ExecuteSearchQueryWithArrayReturn($"select * from Rooster Where UserId = {_userId}");
 
             }
-            List<string[]> voornaamEnUserId = SQLConnection.ExecuteSearchQueryWithArrayReturn($"select Voornaam, UserId from Werknemers");
             foreach (string[] e in events)
             {
                 EventModel em = new EventModel();
                 em.eventId = Convert.ToInt32(e[0]);
                 em.userId = Convert.ToInt32(e[1]);
-                if (userId == -1)
+                if (SendUserId == -1)
                 {
-                    string voornaam = "";
-                    foreach(string[] voornamen in voornaamEnUserId)
-                    {
-                        if(voornamen[1] == em.userId.ToString())
-                        {
-                            voornaam = voornamen[0];
-                        }
-                    }
-                    em.title = voornaam + " - " + e[2].ToString();
+                    em.title = e[9] + " - " + e[2].ToString();
                 }
                 else
                 {
@@ -213,7 +206,7 @@ namespace Proftaakrepos.Controllers
                 em.startDate = Convert.ToDateTime(e[4]);
                 em.endDate = Convert.ToDateTime(e[5]);
                 em.themeColor = e[6].ToString();
-                em.isFullDay = Convert.ToBoolean(e[7]);
+                em.isFullDay = Convert.ToInt32(e[7]);
                 em.isPending = Convert.ToBoolean(e[8]);
                 eventList.Add(em);
             }

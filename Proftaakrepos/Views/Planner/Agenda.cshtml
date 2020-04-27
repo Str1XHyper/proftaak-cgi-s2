@@ -18,17 +18,11 @@
     <script src="~/js/fullcalendar/core/main.js"></script>
     <script src="~/js/fullcalendar/interaction/main.js"></script>
     <script src="~/js/myCalendar.js"></script>
-    <script src="~/js/ShiftView.js"></script>
-    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
-    <script src="~/js/Datepicker.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha256-kIxwtDqhOVbQysWu0OpR9QfijdXCfqvXgAUJuv7Uxmg=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/bootstrap/main.min.css" integrity="sha256-auNBxJ+1OpvUJfYRsPihqLzJFUM9D3gpb8nOh5v0LiM=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" integrity="sha256-Lfe6+s5LEek8iiZ31nXhcSez0nmOxP+3ssquHMR3Alo=" crossorigin="anonymous" />
     <link href="~/css/main.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/Agenda.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
 </head>
 <body>
@@ -38,6 +32,10 @@
             <div class="card mb-4">
                 <div class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
                 <div class="card-body bg-white">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
+                        </div>
                         <select onChange="FetchEvents()" class="form-control" name="userId" id="userIdField1">
                             @{ if (ViewData["employees"] == null)
                                 { }
@@ -53,7 +51,20 @@
                                 }
                             }
                         </select>
-                    <span asp-validation-for="voornaam" class="text-danger"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Soort:</span>
+                        </div>
+                        <select onchange="FetchEvents()" class="form-control" id="soortDienstField">
+                            <option value="Allemaal">Allemaal</option>
+                            <option selected value="#E9967A">Stand-by</option>
+                            <option value="#98FB98">Incidenten</option>
+                            <option value="#FFFF99">Pauze</option>
+                            <option value="#D8BFD8">Verlof</option>
+                            <option value="#87CEFA">Noodgevallen</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         }
@@ -135,16 +146,19 @@
                             <input id="endField" asp-for="endDate" class="form-control" />
                             <span asp-validation-for="endDate" class="text-danger"></span>
                         </div>
-
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Hele dag: </span>
                             </div>
-                            <span asp-validation-for="isFullDay" class="text-danger"></span>
-                            <input id="fullDayField" asp-for="isFullDay" class="form-control" style="width: 40px !important; position:absolute !important; left: 6vw !important" />
+                            <select asp-for="isFullDay" class="form-control" id="fullDayField" name="isFullDay">
+
+                                <option selected value="0">Nee</option>
+                                <option value="1">Ja</option>
+                            </select>
                         </div>
-                        <input id="submitButton" onClick="HandleRequest()" value="Wijzig" class="btn btn-outline-secondary"/>
-                        <input type="button" value="Verwijder" class="btn btn-danger" onclick="DeleteEvent(eventId)" />
+                        <input type="button" value="Ruilverzoek Aanvragen" class="btn btn-outline-secondary" onclick="TradeEvent()" />
+                        <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent(eventId)" />
+                        <input id="submitButton" onClick="HandleRequest()" value="Wijzig" class="btn btn-outline-secondary additional-buttons" />
                     </form>
                 </div>
 

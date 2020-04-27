@@ -100,7 +100,9 @@ h2{
     .fc-button:hover {
         background-color: #343a40;
     }
-
+.fc-time-grid .fc-slats td{
+    height:2em;
+}
 .fc-unthemed td {
     border-color: #212529;
     padding-bottom: 0px;
@@ -156,4 +158,8 @@ h2{
 }
 .input-group-text {
     width: 6vw !important;
+}
+.additional-buttons {
+    float:right;
+    margin-left:0.5vw;
 }

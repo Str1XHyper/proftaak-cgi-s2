@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     var modal = document.getElementById("myModal");
     var span = document.getElementsByClassName("close")[0];
-
     span.onclick = function () {
         modal.style.display = "none";
     }
@@ -22,10 +21,12 @@ document.addEventListener('DOMContentLoaded', function () {
         plugins: ['dayGrid', 'bootstrap', 'interaction', 'timeGrid'],
         defaultView: 'timeGridWeek',
         nowIndicator: 'true',
-        minTime: "06:00:00",
-        maxTime: "24:00:00",
+        //minTime: "06:00:00",
+        //maxTime: "24:00:00",
         height: 'auto',
         draggable: true,
+        lazyFetching: true,
+        slotDuration: '01:00:00',
         selectable: true,
         eventLimit: true,
         selectHelper: true,
@@ -53,6 +54,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     var end = data[5];
                     var themeColor = data[6];
                     var fullDay = data[7];
+                    console.log(fullDay);
+                    if (fullDay == true) {
+                        document.getElementById("fullDayField").selectedIndex = 1;
+                    }
+                    else {
+                        document.getElementById("fullDayField").selectedIndex = 0;
+                    }
                     document.getElementById("userIdField").value = userId;
                     document.getElementById("eventIdField").value = eventId;
                     document.getElementById("titleField").value = title;
@@ -60,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById("startField").value = start;
                     document.getElementById("endField").value = end;
                     document.getElementById("themeColorField").value = themeColor;
-                    document.getElementById("fullDayField").value = fullDay;
                 }
             });
             modal.style.display = "block";
@@ -84,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         select: function (selectionInfo) {
             var selectedIndex = $("#userIdField1").val();
-            console.log(selectedIndex);
             var start = new Date(selectionInfo.start.valueOf() - selectionInfo.start.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
             var end = new Date(selectionInfo.end.valueOf() - selectionInfo.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
             document.getElementById("eventIdField").value = 0;
@@ -103,8 +109,9 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
     calendar.setOption('locale', 'nl');
-    FetchEvents();
     calendar.render();
+    FetchEvents();
+
 });
 function CloseModal() {
     var modal = document.getElementById("myModal");
@@ -117,6 +124,16 @@ function DeleteEvent(info) {
         {
             type: "GET",
             url: '/Planner/DeleteEvent?EventId=' + info.value,
+        });
+    CloseModal();
+}
+function TradeEvent(info) {
+    var eventId = $("#eventIdField").val();
+    var userId = $("#userIdField").val();
+    $.ajax(
+        {
+            type: "POST",
+            url: '/Shiftview/CreateRequest?EventID=' + eventId + "&UserID=" + userId,
         });
     CloseModal();
 }
@@ -136,15 +153,19 @@ function EditTitle(info) {
 }
 function FetchEvents() {
     var selectedIndex = $("#userIdField1").val();
+    var soortEvent = $("#soortDienstField").val();
+    console.log(soortEvent);
     calendar.getEvents().forEach(function (item, index) { item.remove() });
     $.ajax({
-        url: '/Planner/FetchAllEvents?userId=' + selectedIndex,
+        url: '/Planner/FetchAllEvents?SendUserId=' + selectedIndex,
         type: 'GET',
         dataType: 'json',
         success: function (data) {
             var list = data;
-            console.log(selectedIndex);
             for (var i = 0; i < list.length; i++) {
+                if (list[i].themeColor != soortEvent && soortEvent != "Allemaal") {
+                    continue;
+                }
                 var obj = {}
                 obj.id = list[i].eventId;
                 obj.title = list[i].title;
@@ -153,10 +174,6 @@ function FetchEvents() {
                 obj.allDay = list[i].isFullDay;
                 obj.backgroundColor = list[i].themeColor;
                 obj.borderColor = '#010203';
-                obj.startEditable = true;
-                obj.eventResourceEditable = true;
-                obj.editable = true;
-                obj.eventEditable = true;
                 calendar.addEvent(obj);
             }
         }
