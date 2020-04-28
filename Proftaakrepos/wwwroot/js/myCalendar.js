@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
-        locale: 'nl',
         allDaySlot: true,
         allDayText: 'Hele dag',
         buttonText:
@@ -26,12 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
         height: 'auto',
         draggable: true,
         lazyFetching: true,
+        locale: 'nl',
         slotDuration: '01:00:00',
         selectable: true,
         eventLimit: true,
         selectHelper: true,
-        editable: true,
         eventLimit: true,
+        editable: true,
         droppable: true,
         dropAccept: true,
         header: {
@@ -61,7 +61,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     else {
                         document.getElementById("fullDayField").selectedIndex = 0;
                     }
-                    document.getElementById("userIdField").value = userId;
+                    var rol = $("#rol").val();
+                    if (rol == "roostermaker") {
+                        document.getElementById("userIdField").value = userId;
+                    }
+                    else {
+                        document.getElementById("fullDayField").disabled = true;
+                        document.getElementById('eventIdField').readOnly = true; 
+                        document.getElementById('titleField').readOnly = true; 
+                        document.getElementById('descriptionField').readOnly = true; 
+                        document.getElementById('startField').readOnly = true; 
+                        document.getElementById('endField').readOnly = true; 
+                        document.getElementById('themeColorField').disabled = true; 
+                    }
                     document.getElementById("eventIdField").value = eventId;
                     document.getElementById("titleField").value = title;
                     document.getElementById("descriptionField").value = description;
@@ -109,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
     calendar.setOption('locale', 'nl');
-    calendar.render();
     FetchEvents();
+    calendar.render();
 
 });
 function CloseModal() {
@@ -125,6 +137,8 @@ function DeleteEvent(info) {
             type: "GET",
             url: '/Planner/DeleteEvent?EventId=' + info.value,
         });
+    RemoveEvents();
+    FetchEvents();
     CloseModal();
 }
 function TradeEvent(info) {
@@ -151,31 +165,48 @@ function EditTitle(info) {
     document.getElementById("titleField").value = info;
     document.getElementById("descriptionField").value = info;
 }
+function RemoveEvents() {
+    var eventSource = calendar.getEventSources()[0];
+    eventSource.remove();
+}
+
 function FetchEvents() {
     var selectedIndex = $("#userIdField1").val();
     var soortEvent = $("#soortDienstField").val();
-    console.log(soortEvent);
-    calendar.getEvents().forEach(function (item, index) { item.remove() });
+    var rol = $("#rol").val();
+    console.log(rol);
     $.ajax({
         url: '/Planner/FetchAllEvents?SendUserId=' + selectedIndex,
         type: 'GET',
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             var list = data;
+            var d = new Date();
+            var n = d.getTime();
+            var objarray = [];
             for (var i = 0; i < list.length; i++) {
-                if (list[i].themeColor != soortEvent && soortEvent != "Allemaal") {
+                if (list[i].themeColor != soortEvent && soortEvent != "Allemaal" && rol == "roostermaker") {
                     continue;
                 }
-                var obj = {}
-                obj.id = list[i].eventId;
-                obj.title = list[i].title;
-                obj.start = list[i].startDate;
-                obj.end = list[i].endDate;
-                obj.allDay = list[i].isFullDay;
-                obj.backgroundColor = list[i].themeColor;
-                obj.borderColor = '#010203';
-                calendar.addEvent(obj);
+                var obj = {
+                    id: list[i].eventId,
+                    title: list[i].title,
+                    start: list[i].startDate,
+                    end: list[i].endDate,
+                    allDay: list[i].isFullDay,
+                    backgroundColor: list[i].themeColor,
+                    borderColor: '#010203',
+                }
+                if (rol != "roostermaker") {
+                    obj.editable = false;
+                }
+                objarray.push(obj);
             }
+            calendar.addEventSource(objarray);
+            var e = new Date();
+            var o = e.getTime();
+            console.log(o - n);
         }
     });
 }
