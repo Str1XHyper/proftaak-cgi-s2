@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             month: 'Maand',
             week: 'Week',
             day: 'Dag',
-            today: '  ‌‌◯  ',
+            today: '  ‌‌-  ',
         },
         plugins: ['dayGrid', 'bootstrap', 'interaction', 'timeGrid'],
         defaultView: 'timeGridWeek',

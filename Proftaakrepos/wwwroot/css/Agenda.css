@@ -151,6 +151,9 @@
         animation: none;
         animation-duration: 0s;
     }
+    .fc-event:in-range {
+        margin-right: 30% !important;
+    }
 
 .p-3 {
     background-color: white;
@@ -234,27 +237,30 @@
 
 .fc-previous-button {
     font-size: calc(6pt + 0.3vw) !important;
-    font-weight: bold;
+}
+.fc-today-button {
+    min-width: 2vw !important;
+    max-width: 50pt !important;
 }
 .fc-next-button {
     margin-right: 12vw !important;
     font-size: calc(6pt + 0.3vw) !important;
-    font-weight: bold;
 }
 .fc-left {
     font-size: calc(5pt + 0.3vw) !important;
-    width: calc(50pt + 4vw) !important;
+    min-width: calc(70pt) !important;
 }
 .fc-title {
-    font-size: calc(4pt + 0.4vw) !important;
+    font-size: calc(3pt + 0.4vw) !important;
+    min-width: 160px !important;
 }
 span {
     font-size: calc(5pt + 0.3vw) !important;
 }
 .fc-button-primary {
-    width: calc(50px + 15%) !important;
+    width: 65px !important;
+    height: 40px !important;
     font-size: calc(6pt + 0.3vw) !important;
-    font-weight: bold;
     max-height: 45px !important;
 }
 .fc-dayGridMonth {
@@ -284,6 +290,11 @@ span {
     }
     .input-group-text{
         min-width: 70px !important;
+    }
+    .fc-button-primary {
+        height: 55px !important;
+        width: 55px !important;
+        font-size: calc(6pt + 0.3vw) !important;
     }
 }
 
