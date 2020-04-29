@@ -17,9 +17,9 @@
     background-color: #212529;
 }
 
-h2 {
+/*h2 {
     position: absolute;
-}
+}*/
 
 .fc-left div {
 }
@@ -146,10 +146,11 @@ h2 {
     /*animation-name: animatetop;
     animation-duration: 15s;*/
 }
-.fc-event:hover {
-    animation: none;
-    animation-duration: 0s;
-}
+
+    .fc-event:hover {
+        animation: none;
+        animation-duration: 0s;
+    }
 
 .p-3 {
     background-color: white;
@@ -165,10 +166,11 @@ h2 {
 
 /* The Close Button */
 .close {
-    color: #aaa;
+    color: black !important;
     float: right;
-    font-size: 28px;
+    font-size: 20px !important;
     font-weight: bold;
+    line-height: 1em !important;
 }
 
     .close:hover,
@@ -184,14 +186,30 @@ h2 {
 }
 
 .input-group-text {
-    font-size: calc(7pt + 0.3vw) !important;
     min-width: 10vw !important;
     max-width: 17vw !important;
+    font-size: calc(7pt + 0.3vw) !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-weight: 500 !important;
 }
 
 .additional-buttons {
     float: right;
     margin-left: 0.5vw;
+}
+
+.fc-now-indicator {
+    border-left-color: #660000 !important;
+    border-right-color: #660000 !important;
+}
+
+.fc-now-indicator-arrow {
+    border-width: 7px 0 7px 9px !important;
+}
+
+.fc-now-indicator-line {
+    border-color: #660000 !important;
+    border-width: 1px !important;
 }
 
 @keyframes animatetop {
@@ -213,3 +231,59 @@ h2 {
         opacity: 0
     }
 }
+
+.fc-previous-button {
+    font-size: calc(6pt + 0.3vw) !important;
+    font-weight: bold;
+}
+.fc-next-button {
+    margin-right: 12vw !important;
+    font-size: calc(6pt + 0.3vw) !important;
+    font-weight: bold;
+}
+.fc-left {
+    font-size: calc(5pt + 0.3vw) !important;
+    width: calc(50pt + 4vw) !important;
+}
+.fc-title {
+    font-size: calc(4pt + 0.4vw) !important;
+}
+span {
+    font-size: calc(5pt + 0.3vw) !important;
+}
+.fc-button-primary {
+    width: calc(50px + 15%) !important;
+    font-size: calc(6pt + 0.3vw) !important;
+    font-weight: bold;
+    max-height: 45px !important;
+}
+.fc-dayGridMonth {
+    width: calc(60px + 11%) !important;
+}
+.form-control {
+    font-size: calc(7pt + 0.3vw) !important;
+}
+.card-header {
+    font-size: calc(5pt + 0.6vw) !important;
+}
+@media only screen and (max-width: 600px) {
+    .form-control{
+    }
+    .fc-time-grid .fc-slats td{
+        height: 1em;
+    }
+    .p-3 {
+        padding: 0 !important;
+    }
+    .card-body {
+        padding: 0 !important;
+    }
+    .card-header{
+        height: 20px !important;
+        padding-bottom: 25px !important;
+    }
+    .input-group-text{
+        min-width: 70px !important;
+    }
+}
+
