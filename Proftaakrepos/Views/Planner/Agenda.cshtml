@@ -1,4 +1,4 @@
-﻿@model Proftaakrepos.Models.EventModel
+﻿@model Proftaakrepos.Models.AgendaViewModel
 @{
     ViewData["Title"] = "Agenda";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,7 +8,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Agenda</title>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/js/moment.js"></script>
     <script src="~/js/fullcalendar/core/main.min.js"></script>
     <script src="~/js/fullcalendar/daygrid/main.min.js"></script>
@@ -18,6 +20,8 @@
     <script src="~/js/fullcalendar/core/main.js"></script>
     <script src="~/js/fullcalendar/interaction/main.js"></script>
     <script src="~/js/myCalendar.js"></script>
+    <link href="~/css/bootstrap-tokenfield.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js" integrity="sha256-l6+Sy1aRcXA+XZ/kFMXGnQcAEpB8Hlx4SCCpQ5TpyEs=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/bootstrap/main.min.css" integrity="sha256-auNBxJ+1OpvUJfYRsPihqLzJFUM9D3gpb8nOh5v0LiM=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/4.2.0/core/main.min.css" integrity="sha256-Lfe6+s5LEek8iiZ31nXhcSez0nmOxP+3ssquHMR3Alo=" crossorigin="anonymous" />
     <link href="~/css/main.min.css" rel="stylesheet" />
@@ -26,6 +30,32 @@
 </head>
 <body>
     @{
+        string voornaamlist = "\"";
+        string userIdList = "\"";
+        if (ViewData["rol"].ToString() == "Roostermaker")
+        {
+            <input id="rol" type="hidden" value="roostermaker" />
+            int i = 1;
+            foreach (UserViewModel um in Model.userList)
+            {
+                if (um.tussenvoegsel != "")
+                {
+                    voornaamlist += i + " - " + um.voornaam + " " + um.tussenvoegsel + " " + um.achternaam + ",";
+                }
+                else
+                {
+                    voornaamlist += i + " - " + um.voornaam + " " + um.achternaam + ",";
+                }
+                userIdList += um.userId + ",";
+                i++;
+            }
+            voornaamlist += "\"";
+            userIdList += "\"";
+        }
+        else
+        {
+            <input id="rol" type="hidden" value="overig" />
+        }
         if (ViewData["rol"] as string == "Roostermaker")
         {
             <div class="card mb-4">
@@ -35,21 +65,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
                         </div>
-                        <select onChange="FetchEvents(); RemoveEvents();" class="form-control" name="userId" id="userIdField1">
-                            @{ if (ViewData["employees"] == null)
-                                { }
-                                else
-                                {
-                                    string[] employeesId = ViewData["employeesId"] as string[];
-                                    string[] employees = ViewData["employees"] as string[];
-                                    <option value="-1">Allemaal</option>
-                                    for (int i = 0; i < employees.Length; i++)
-                                    {
-                                        <option selected="@(ViewData["userId"] as string == employeesId[i])" value="@employeesId[i]">@employees[i]</option>
-                                    }
-                                }
-                            }
-                        </select>
+                        <input onchange="SetUserIDHeader(@voornaamlist, @userIdList); RemoveEvents(); FetchEvents();" onclick="InitHeaderTokenField(@voornaamlist);" type="text" class="form-control" id="voornaamFieldHeader" value="" autocomplete="off" />
+                        <input type="hidden" id="userIdField1"/>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -77,104 +94,86 @@
                     <span class="close">&times;</span>
                     <form id="modalForm" asp-action="CreateEvent" asp-controller="Planner" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        @if (ViewData["rol"].ToString() == "Roostermaker")
-                        {
-                            <input id="rol" type="hidden" value="roostermaker" />
+                        @{EventModel newmodel = new EventModel();}
+                        @{
 
-                        }
-                        else
-                        {
-                            <input id="rol" type="hidden" value="overig" />
-                        }
-                        <input id="eventIdField" type="hidden" asp-for="eventId" value="0" />
-                        <input type="hidden" asp-for="voornaam" value="........." />
-                        @if (ViewData["rol"].ToString() == "Roostermaker")
-                        {
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon3">Werknemer: </span>
+                            <input id="eventIdField" type="hidden" asp-for="@newmodel.eventId" value="0" />
+                            if (ViewData["rol"].ToString() == "Roostermaker")
+                            {
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">Werknemer: </span>
+                                    </div>
+                                    @*<input onfocus="InitAutoComplete(@voornaamlist)" onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" />*@
+                                    <input onclick="InitTokenField(@voornaamlist);" onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
+                                    <input type="hidden" asp-for="@newmodel.userId" id="userIdField2" />
                                 </div>
-                                <select asp-for="userId" class="form-control" id="userIdField" name="userId" value="">
-                                    @{ if (ViewData["employees"] == null)
-                                        { }
-                                        else
-                                        {
-                                            string[] employeesId = ViewData["employeesId"] as string[];
-                                            string[] employees = ViewData["employees"] as string[];
-                                            <option value="-1">Allemaal</option>
-                                            for (int i = 0; i < employees.Length; i++)
-                                            {
-                                                <option selected="@(employeesId[i])" value="@employeesId[i]">@employees[i]</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-
-
-                                <span asp-validation-for="voornaam" class="text-danger"></span>
-                            </div>
+                            }
                         }
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Type: </span>
                             </div>
-                            <select onChange="EditTitle(this.options[this.selectedIndex].text)" asp-for="themeColor" class="form-control" id="themeColorField" name="themeColor">
-                                <option value="#E9967A">Stand-by</option>
-                                <option value="#98FB98">Incidenten</option>
-                                <option value="#FFFF99">Pauze</option>
-                                <option value="#D8BFD8">Verlof</option>
-                                <option value="#87CEFA">Noodgevallen</option>
+                            <select onChange="EditTitle(this.options[this.selectedIndex].text)" asp-for="@newmodel.themeColor" class="form-control" id="themeColorField">
+                                <option value="#343a40">Stand-by</option>
+                                <option value="#212529">Incidenten</option>
+                                <option value="#565656">Pauze</option>
+                                <option value="#660000">Verlof</option>
+                                @*<option value="#87CEFA">Noodgevallen</option>*@
                             </select>
-                            <span asp-validation-for="themeColor" class="text-danger"></span>
+                            <span asp-validation-for="@newmodel.themeColor" class="text-danger"></span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Titel: </span>
                             </div>
-                            <input id="titleField" asp-for="title" class="form-control" value="" />
-                            <span asp-validation-for="title" class="text-danger"></span>
+                            <input id="titleField" asp-for="@newmodel.title" class="form-control" value="" />
+                            <span asp-validation-for="@newmodel.title" class="text-danger"></span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Beschrijving: </span>
                             </div>
-                            <input id="descriptionField" asp-for="description" class="form-control" value="" />
-                            <span asp-validation-for="description" class="text-danger"></span>
+                            <input id="descriptionField" asp-for="@newmodel.description" class="form-control" value="" />
+                            <span asp-validation-for="@newmodel.description" class="text-danger"></span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Start: </span>
                             </div>
-                            <input id="startField" asp-for="startDate" class="form-control" />
-                            <span asp-validation-for="startDate" class="text-danger"></span>
+                            <input id="startField" asp-for="@newmodel.startDate" class="form-control" />
+                            <span asp-validation-for="@newmodel.startDate" class="text-danger"></span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Einde: </span>
                             </div>
-                            <input id="endField" asp-for="endDate" class="form-control" />
-                            <span asp-validation-for="endDate" class="text-danger"></span>
+                            <input id="endField" asp-for="@newmodel.endDate" class="form-control" />
+                            <span asp-validation-for="@newmodel.endDate" class="text-danger"></span>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Hele dag: </span>
                             </div>
-                            <select asp-for="isFullDay" class="form-control" id="fullDayField" name="isFullDay">
+                            <select asp-for="@newmodel.isFullDay" class="form-control" id="fullDayField" name="isFullDay">
 
                                 <option selected value="0">Nee</option>
                                 <option value="1">Ja</option>
                             </select>
                         </div>
+
                         @if (ViewData["rol"].ToString() == "Roostermaker")
                         {
-                            <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent(eventId); FetchEvents(); RemoveEvents();" />
-                            <input id="submitButton" onClick="HandleRequest(); RemoveEvents();" value="Wijzig" class="btn btn-outline-secondary additional-buttons" />
+
+                            <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent(); RemoveEvents(); CloseModal();" />
+                            <input type="button" id="submitButton" onclick="HandleRequest(); RemoveEvents();" value="Wijzig" class="btn btn-outline-secondary additional-buttons" />
                         }
                         else
                         {
                             <input type="button" value="Ruilverzoek Aanvragen" class="btn btn-outline-secondary" onclick="TradeEvent(); RemoveEvents();" />
                         }
                     </form>
+
                 </div>
             </div>
         </div>

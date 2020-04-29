@@ -9,7 +9,7 @@ namespace Proftaakrepos.Models
     public class EventModel
     {
         public int eventId { get; set; }
-        public int userId { get; set; }
+        public string userId { get; set; }
         public string voornaam { get; set; }
         public string title { get; set; }
         public string description { get; set; }
@@ -18,7 +18,7 @@ namespace Proftaakrepos.Models
         public string themeColor { get; set; }
         public int isFullDay { get; set; }
         public bool isPending { get; set; }
-        public EventModel(int _userId, string _voornaam, string _title, string _description, DateTime _startDate, DateTime _endDate, string _themeColor, int _isFullDay, bool _isPending)
+        public EventModel(string _userId, string _voornaam, string _title, string _description, DateTime _startDate, DateTime _endDate, string _themeColor, int _isFullDay, bool _isPending)
         {
             this.title = _title;
             this.voornaam = _voornaam;

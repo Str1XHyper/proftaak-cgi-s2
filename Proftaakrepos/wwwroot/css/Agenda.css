@@ -12,13 +12,15 @@
     line-height: 1.5;
     border-radius: .25em;
 }
+
 .calendar {
     background-color: #212529;
 }
 
-h2{
+h2 {
     position: absolute;
 }
+
 .fc-left div {
 }
 
@@ -100,9 +102,11 @@ h2{
     .fc-button:hover {
         background-color: #343a40;
     }
-.fc-time-grid .fc-slats td{
-    height:2em;
+
+.fc-time-grid .fc-slats td {
+    height: 2em;
 }
+
 .fc-unthemed td {
     border-color: #212529;
     padding-bottom: 0px;
@@ -112,9 +116,11 @@ h2{
     background-color: white !important;
     border-color: black !important;
 }
-.fc-divider{
-    border-color:black !important;
+
+.fc-divider {
+    border-color: black !important;
 }
+
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -124,9 +130,27 @@ h2{
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
+    overflow-y: hidden;
     background-color: grey; /* Fallback color */
     background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
+    animation-name: animatetop;
+    animation-duration: 0.2s;
 }
+
+.fc-event {
+    font-family: 'Raleway', sans-serif !important;
+    color: #bdbcbc !important;
+    font-weight: 700 !important;
+    margin-right: 2% !important;
+    /*font-weight: bold;*/
+    /*animation-name: animatetop;
+    animation-duration: 15s;*/
+}
+.fc-event:hover {
+    animation: none;
+    animation-duration: 0s;
+}
+
 .p-3 {
     background-color: white;
 }
@@ -153,13 +177,39 @@ h2{
         text-decoration: none;
         cursor: pointer;
     }
-.input-group-prepend{
-    width: 6vw !important;
+
+.input-group-prepend {
+    min-width: 10vw !important;
+    max-width: 17vw !important;
 }
+
 .input-group-text {
-    width: 6vw !important;
+    font-size: calc(7pt + 0.3vw) !important;
+    min-width: 10vw !important;
+    max-width: 17vw !important;
 }
+
 .additional-buttons {
-    float:right;
-    margin-left:0.5vw;
+    float: right;
+    margin-left: 0.5vw;
+}
+
+@keyframes animatetop {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes animatetopreversed {
+    from {
+        opacity: 1
+    }
+
+    to {
+        opacity: 0
+    }
 }
