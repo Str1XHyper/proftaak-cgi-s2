@@ -54,7 +54,7 @@ namespace Proftaakrepos.Controllers
             //ViewData["employees"] = employees.ToArray();
             ViewData["rol"] = rol;
             ViewData["userId"] = userId;
-            AgendaViewModel viewdata = new AgendaViewModel();
+            AgendaViewModel viewdata = new AgendaViewModel(userId);
             string[] roosterData = SQLConnection.ExecuteSearchQuery($"Select Rooster.*, Werknemers.Voornaam From Rooster INNER JOIN Werknemers ON Werknemers.UserId = Rooster.UserId").ToArray();
             List<EventModel> modelList = new List<EventModel>();
             for (int i = 0; i < roosterData.Length; i+=10){

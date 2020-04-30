@@ -1,15 +1,31 @@
 ﻿var calendar;
 var selectedEventID;
+
 document.addEventListener('DOMContentLoaded', function () {
     var modal = document.getElementById("myModal");
     var span = document.getElementsByClassName("close")[0];
     span.onclick = function () {
         modal.style.display = "none";
     }
+    var windowWidth = window.innerWidth;
+    var wantedWeekends = true;
+    var wantedView = 'timeGridWeek';
+    var wantedDur = '01:00:00';
+    if (windowWidth < 725) {
+        wantedView = 'timeGridDay';
+        $(document).ready(function () {
+            // Handler for .ready() called.
+            $('html, body').animate({
+                scrollTop: $('#button-header').offset().top - 55,
+            }, 1000);
+        });
+        wantedWeekends = false;
+    }
     var calendarEl = document.getElementById('calendar');
     calendar = new FullCalendar.Calendar(calendarEl, {
         allDaySlot: true,
         allDayText: 'Hele dag',
+        weekends: wantedWeekends,
         buttonText:
         {
             month: 'Maand',
@@ -18,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             today: '  ‌‌-  ',
         },
         plugins: ['dayGrid', 'bootstrap', 'interaction', 'timeGrid'],
-        defaultView: 'timeGridWeek',
+        defaultView: wantedView,
         nowIndicator: 'true',
         //minTime: "06:00:00",
         //maxTime: "24:00:00",
@@ -26,13 +42,17 @@ document.addEventListener('DOMContentLoaded', function () {
         draggable: true,
         lazyFetching: true,
         locale: 'nl',
-        slotDuration: '01:00:00',
+        slotDuration: wantedDur,
         selectable: true,
         selectHelper: true,
         eventLimit: true,
         editable: true,
         droppable: true,
         dropAccept: true,
+        slotLabelFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+        },
         header: {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
@@ -60,6 +80,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                     else {
                         document.getElementById("fullDayField").selectedIndex = 0;
+                    }
+                    var currentTokens = $('#voornaamFieldHeader').tokenfield('getTokens');
+
+                    for (var i = 0; i < currentTokens.length; i++) {
+                        var userIdByToken = currentTokens[i].value.split(" ");
+                        if (userIdByToken[0] == userId) {
+                            $('#voornaamField').tokenfield('setTokens', currentTokens[i].value);
+                            break;
+                        }
                     }
                     var rol = $("#rol").val();
                     document.getElementById("eventIdField").value = eventId;
@@ -129,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         },
     });
+
     calendar.setOption('locale', 'nl');
     FetchEvents();
     calendar.render();
@@ -251,6 +281,7 @@ function InitTokenField(data) {
         }, 0)
     });
 }
+
 function InitHeaderTokenField(data) {
     var employeedata = data;
     var splitemployeedata = employeedata.split(",");
@@ -263,6 +294,7 @@ function InitHeaderTokenField(data) {
     });
     $('#voornaamFieldHeader').on('tokenfield:createtoken', function (event) {
         var exists = false;
+        var currentTokens = $('#voornaamFieldHeader').tokenfield('getTokens');
         $.each(splitemployeedata, function (index, value) {
             if (event.attrs.value === value) {
                 exists = true;
@@ -271,13 +303,37 @@ function InitHeaderTokenField(data) {
         if (!exists) {
             event.preventDefault();
         }
+        else {
+            for (var i = 0; i < currentTokens.length; i++) {
+                if (currentTokens[i].value === event.attrs.value) {
+                    event.preventDefault();
+                    document.getElementById('popup').style.display = 'block';
+                    var strCmd = "document.getElementById('popup').style.display = 'none'";
+                    var hideTimer = setTimeout(strCmd, 2000);
+                }
+            }
+        }
         setTimeout(function () {
             $('#voornaamFieldHeader').blur();
             $('#voornaamFieldHeader').focus();
         }, 0)
     });
 }
-
+window.onload = function SetLoggedInUserToken() {
+    var loggedUser = document.getElementById("loggedInUser").value;
+    var employeedata = document.getElementById("naamLijst").value;
+    this.InitTokenField(employeedata);
+    this.InitHeaderTokenField(employeedata);
+    var splitemployeedata = employeedata.split(",");
+    for (var i = 0; i < employeedata.length; i++) {
+        var userIdByToken = splitemployeedata[i].split(" ");
+        if (userIdByToken[0] == loggedUser) {
+            console.log(splitemployeedata[i]);
+            $('#voornaamFieldHeader').tokenfield('setTokens', splitemployeedata[i]);
+            break;
+        }
+    }
+}
 function FetchEvents() {
     var rol = $("#rol").val();
     var selectedIndex = "0";

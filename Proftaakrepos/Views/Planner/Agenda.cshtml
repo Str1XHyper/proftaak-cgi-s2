@@ -30,8 +30,8 @@
 </head>
 <body>
     @{
-        string voornaamlist = "\"";
-        string userIdList = "\"";
+        string voornaamlist = "";
+        string userIdList = "";
         if (ViewData["rol"].ToString() == "Roostermaker")
         {
             <input id="rol" type="hidden" value="roostermaker" />
@@ -49,8 +49,6 @@
                 userIdList += um.userId + ",";
                 i++;
             }
-            voornaamlist += "\"";
-            userIdList += "\"";
         }
         else
         {
@@ -58,36 +56,45 @@
         }
         if (ViewData["rol"] as string == "Roostermaker")
         {
-            <div class="card mb-4">
-                <div class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
-                <div class="card-body bg-white">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
-                        </div>
-                        <input onchange="SetUserIDHeader(@voornaamlist, @userIdList); RemoveEvents(); FetchEvents();" onclick="InitHeaderTokenField(@voornaamlist);" type="text" class="form-control" id="voornaamFieldHeader" value="" autocomplete="off" />
-                        <input type="hidden" id="userIdField1"/>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Soort:</span>
-                        </div>
-                        <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
-                            <option selected value="Allemaal">Allemaal</option>
-                            <option value="#E9967A">Stand-by</option>
-                            <option value="#98FB98">Incidenten</option>
-                            <option value="#FFFF99">Pauze</option>
-                            <option value="#D8BFD8">Verlof</option>
-                            <option value="#87CEFA">Noodgevallen</option>
-                        </select>
-                    </div>
-                </div>
+<div class="card mb-4">
+    <input id="loggedInUser" type="hidden" value="@Model.loggedInUserId" />
+    <input id="naamLijst" type="hidden" value="@voornaamlist" />
+    <div class="popup-window bg-dark text-white" id="popup">Deze gebruiker is al geselecteerd</div>
+
+    <div class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
+    <div class="card-body bg-white">
+        <div class="input-group mb-3">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
             </div>
+            @{ 
+                voornaamlist = "\"" + voornaamlist + "\"";
+                userIdList = "\"" + userIdList + "\"";
+            }
+            <input onchange="SetUserIDHeader(@voornaamlist,@userIdList); RemoveEvents(); FetchEvents();"  type="text" class="form-control" id="voornaamFieldHeader" value="" autocomplete="off" />
+            <input type="hidden" id="userIdField1" value="@Model.loggedInUserId" />
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Soort:</span>
+            </div>
+            <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
+                <option selected value="Allemaal">Allemaal</option>
+                <option value="#343a40">Stand-by</option>
+                <option value="#212529">Incidenten</option>
+                <option value="#565656">Pauze</option>
+                <option value="#660000">Verlof</option>
+            </select>
+        </div>
+    </div>
+</div>
         }
     }
     <div class="card mb-4">
-        <div class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Rooster:</div>
+        <div id="button-header" class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Rooster:</div>
         <div class="card-body bg-white">
+
             <div id="calendar"></div>
             <div id="myModal" class="modal">
                 <div class="modal-content">
@@ -105,7 +112,7 @@
                                         <span class="input-group-text" id="basic-addon3">Werknemer: </span>
                                     </div>
                                     @*<input onfocus="InitAutoComplete(@voornaamlist)" onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" />*@
-                                    <input onclick="InitTokenField(@voornaamlist);" onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
+                                    <input onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
                                     <input type="hidden" asp-for="@newmodel.userId" id="userIdField2" />
                                 </div>
                             }
@@ -165,7 +172,7 @@
                         @if (ViewData["rol"].ToString() == "Roostermaker")
                         {
 
-                            <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent(); RemoveEvents(); CloseModal();" style="border-color: black; background-color:#660000 !important"/>
+                            <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent(); RemoveEvents(); CloseModal();" style="border-color: black; background-color:#660000 !important" />
                             <input type="button" id="submitButton" onclick="HandleRequest(); RemoveEvents();" value="Wijzig" class="btn btn-light additional-buttons" style="border-color: black !important" />
                         }
                         else
