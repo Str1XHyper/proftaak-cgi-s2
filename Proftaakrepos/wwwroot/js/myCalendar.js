@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var wantedView = 'timeGridWeek';
     var wantedDur = '01:00:00';
     if (windowWidth < 725) {
-        wantedView = 'timeGridDay';
         $(document).ready(function () {
             // Handler for .ready() called.
             $('html, body').animate({
@@ -49,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         editable: true,
         droppable: true,
         dropAccept: true,
+        longPressDelay: '500',
         slotLabelFormat: {
             hour: 'numeric',
             minute: '2-digit',
@@ -228,6 +228,17 @@ function DeleteEvent() {
     console.log("Delete event");
 }
 function TradeEvent(info) {
+    var selectedTokens = $('#voornaamField').tokenfield('getTokens');
+    var employeedata = document.getElementById("naamLijst").value;
+    var splitemployeedata = employeedata.split(",");
+    for (var i = 0; i < employeedata.length; i++) {
+        var userIdByToken = splitemployeedata[i].split(" ");
+        if (userIdByToken[0] == loggedUser) {
+            console.log(splitemployeedata[i]);
+            $('#voornaamField').tokenfield('setTokens', splitemployeedata[i]);
+            break;
+        }
+    }
     var eventId = $("#eventIdField").val();
     var userId = $("#userIdField").val();
     $.ajax(
@@ -238,14 +249,27 @@ function TradeEvent(info) {
     CloseModal();
 }
 function HandleRequest() {
-    $.ajax({
-        url: '/Planner/CreateEvent',
-        type: 'post',
-        data: $('#modalForm').serialize(),
-        success: function () {
-            CloseModal();
+    var selectedIds = "";
+    var selectedTokens = $('#voornaamField').tokenfield('getTokens');
+    if (selectedTokens.length > 0) {
+        for (var i = 0; i < selectedTokens.length; i++) {
+            var userIdByToken = selectedTokens[i].value.split(" ");
+            selectedIds += userIdByToken[0] + ",";
         }
-    });
+        document.getElementById("userIdField2").value = selectedIds;
+        $.ajax({
+            url: '/Planner/CreateEvent',
+            type: 'post',
+            data: $('#modalForm').serialize(),
+            success: function () {
+                CloseModal();
+            }
+        });
+    }
+    else {
+        window.alert("Selecteer een werknemer");
+        FetchEvents();
+    }
 }
 function EditTitle(info) {
     document.getElementById("titleField").value = info;
@@ -376,4 +400,5 @@ function FetchEvents() {
             console.log(o - n);
         }
     });
+
 }
