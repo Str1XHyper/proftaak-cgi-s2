@@ -153,7 +153,7 @@
 
 .fc-event {
     font-family: 'Raleway', sans-serif !important;
-    color: #bdbcbc !important;
+    color: black !important;
     font-weight: 700 !important;
     margin-right: 2% !important;
     /*font-weight: bold;*/
@@ -172,6 +172,7 @@
 
 .p-3 {
     background-color: white;
+    
 }
 /* Modal Content/Box */
 .modal-content {
@@ -298,6 +299,9 @@ span {
 .form-control {
     font-size: calc(7pt + 0.3vw) !important;
     box-shadow: inherit;
+}
+.fontawesome-i2svg-active {
+    
 }
 
 .tokenfield {
