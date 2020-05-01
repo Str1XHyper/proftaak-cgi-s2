@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         editable: true,
         droppable: true,
         dropAccept: true,
-        longPressDelay: '500',
+        longPressDelay: 500,
         slotLabelFormat: {
             hour: 'numeric',
             minute: '2-digit',
