@@ -18,7 +18,12 @@ namespace Proftaakrepos.Controllers
         public IActionResult AddEmployee()
         {
             _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "AddEmployee")) return View();
+            if (CheckIfAllowed.IsAllowed(_authCode, "AddEmployee"))
+            {
+                List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
+                ViewData["roles"] = typeOfRoles.ToArray();
+                return View();
+            }
             else return RedirectToAction("NoAccessIndex", "Home");
         }
         #endregion

@@ -21,9 +21,9 @@
 <div class="card mb-3">
     <div class="card-header bg-dark text-white">Werknemer:</div>
     <div class="card-body">
-        <form asp-action="GetEmployeeInfo" asp-controller="Employee" method="post">
+        <form asp-action="GetEmployeeInfo" asp-controller="Employee" method="post" id="getEmployee">
             <div class="input-group">
-                <select class="custom-select" id="inputGroupSelect04" name="employee">
+                <select class="custom-select" id="inputGroupSelect04" name="employee" onchange="execForm()">
                     @{
                         int count = 1;
                         Employees employees = new Employees();
@@ -42,9 +42,6 @@
                         }
                     }
                 </select>
-                <div class="input-group-append">
-                    <input type="submit" class="btn btn-outline-secondary" value="Vraag gegevens op"/>
-                </div>
             </div>
         </form>
     </div>
@@ -202,3 +199,9 @@
         </div>
     </div>
 </form>
+
+<script>
+    function execForm() {
+        document.getElementById("getEmployee").submit();
+    }
+</script>
