@@ -17,57 +17,33 @@ namespace Proftaakrepos.Controllers
         private static string userId;
         private static string rol;
         private List<EventModel> eventList;
-        public IActionResult Index()
-        {
-
-            return View();
-        }
-        public IActionResult Create()
-        {
-
-            return View();
-        }
-        public IActionResult Delete()
-        {
-
-            return View();
-        }
-        public IActionResult Edit()
-        {
-
-            return View();
-        }
-        public IActionResult Details()
-        {
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            return View();
-        }
+     
+     
+        
         public IActionResult Agenda()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string var = HttpContext.Session.GetString("UserInfo");
-            rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            userId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers Where AuthCode = '{var}'")[0];
-            //var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
-            //var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
-            //ViewData["employeesId"] = employeesId.ToArray();
-            //ViewData["employees"] = employees.ToArray();
+            string[] loggedUserData = SQLConnection.ExecuteSearchQuery($"Select Rol,UserId From Werknemers Where AuthCode = '{var}'").ToArray();
+            userId = loggedUserData[1];
+            rol = loggedUserData[0];
             ViewData["rol"] = rol;
             ViewData["userId"] = userId;
             AgendaViewModel viewdata = new AgendaViewModel(userId);
             string[] roosterData = SQLConnection.ExecuteSearchQuery($"Select Rooster.*, Werknemers.Voornaam From Rooster INNER JOIN Werknemers ON Werknemers.UserId = Rooster.UserId").ToArray();
             List<EventModel> modelList = new List<EventModel>();
-            for (int i = 0; i < roosterData.Length; i+=10){
+            for (int i = 0; i < roosterData.Length; i += 10)
+            {
                 EventModel model = new EventModel();
                 model.eventId = Convert.ToInt32(roosterData[i]);
-                model.userId = roosterData[i+1];
-                model.title = roosterData[i+2];
-                model.description = roosterData[i+3];
-                model.startDate = Convert.ToDateTime(roosterData[i+4]);
-                model.endDate = Convert.ToDateTime(roosterData[i+5]);
-                model.themeColor = roosterData[i+6];
-                model.isFullDay = Convert.ToInt32(roosterData[i+7]);
-                model.voornaam = roosterData[i+9];
+                model.userId = roosterData[i + 1];
+                model.title = roosterData[i + 2];
+                model.description = roosterData[i + 3];
+                model.startDate = Convert.ToDateTime(roosterData[i + 4]);
+                model.endDate = Convert.ToDateTime(roosterData[i + 5]);
+                model.themeColor = roosterData[i + 6];
+                model.isFullDay = Convert.ToInt32(roosterData[i + 7]);
+                model.voornaam = roosterData[i + 9];
                 viewdata.eventList.Add(model);
             }
             string[] userData = SQLConnection.ExecuteSearchQuery($"Select UserId, Voornaam, Tussenvoegsel, Achternaam, Rol From Werknemers").ToArray();
@@ -80,48 +56,16 @@ namespace Proftaakrepos.Controllers
             if (CheckIfAllowed.IsAllowed(_authCode, "Agenda")) return View(viewdata);
             else return RedirectToAction("NoAccessIndex", "Home");
         }
-        public IActionResult InitialPlanning(int weeks)
-        {
-            ViewBag.employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
-            ViewBag.week = GetWeekDateTimes(weeks);
-            ViewBag.weekCount = weeks;
-            ViewBag.currentYear = (DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(weeks * 7)).ToString("yyyy");
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            return View();
-        }
-        public static List<DateTime> GetWeekDateTimes(int weeks)
-        {
-            List<DateTime> currentWeek = new List<DateTime>();
-            DateTime startDate = (DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(weeks * 7));
-            for (int i = 0; i < 7; i++)
-            {
-                currentWeek.Add((startDate.Date.AddDays(i)));
-            }
-            return currentWeek;
-        }
+
+       
         public void DeleteEvent(int EventId)
         {
             SQLConnection.ExecuteNonSearchQuery($"DELETE FROM Rooster WHERE EventId = {EventId}");
         }
 
-        [HttpGet]
-        public ActionResult CreateEvent()
-        {
-            string var = HttpContext.Session.GetString("UserInfo");
-            string rol = SQLConnection.ExecuteSearchQuery($"Select Rol From Werknemers Where AuthCode = '{var}'")[0];
-            ViewBag.Rol = rol;
-            var employees = SQLConnection.ExecuteSearchQuery($"Select Voornaam From Werknemers");
-            var employeesId = SQLConnection.ExecuteSearchQuery($"Select UserId From Werknemers");
-            ViewData["employeesId"] = employeesId.ToArray();
-            ViewData["employees"] = employees.ToArray();
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            return View();
-
-        }
-        public ActionResult DatePicker()
-        {
-            return View();
-        }
+            
+        
+       
         public ActionResult GetEventInfo(int EventId)
         {
             List<string> eventData = SQLConnection.ExecuteSearchQuery($"select Rooster.*, Werknemers.Voornaam from Rooster INNER JOIN Werknemers ON Werknemers.UserId = Rooster.UserId Where EventId = {EventId}");
@@ -132,21 +76,12 @@ namespace Proftaakrepos.Controllers
             return Json(eventData);
         }
 
-        [HttpPost]
-        public IActionResult EditEvent(EventModel e)
-        {
-            if (ModelState.IsValid)
-            {
-                HandleEditEventRequest(e);
-            }
-            return RedirectToAction("Agenda");
-        }
+      
         [HttpPost]
         public void CreateEvent(EventModel newmodel)
         {
             newmodel.userId = newmodel.userId.Substring(0, newmodel.userId.Length - 1);
-            string[] userIdArray;
-            userIdArray = newmodel.userId.Split(",");
+            string[] userIdArray = newmodel.userId.Split(",");
             if (ModelState.IsValid)
             {
                 if (newmodel.eventId > 0)
@@ -158,14 +93,15 @@ namespace Proftaakrepos.Controllers
                     HandleEventRequest(newmodel, userIdArray);
                 }
             }
-            //return RedirectToAction("Agenda");
+            
         }
+
+        // To Do: Combine kwerries
         public void HandleEditEventRequest(EventModel emdb)
         {
             emdb.userId = emdb.userId.Substring(0, emdb.userId.Length);
             string[] userIdArray = emdb.userId.Split(",");
             SQLConnection.ExecuteNonSearchQuery($"DELETE FROM Rooster WHERE EventId = {emdb.eventId}");
-            //SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set UserId = '{emdb.userId}',Subject = '{emdb.title}', Description = '{emdb.description}', Start = '{emdb.startDate.ToString("yyyy/MM/dd HH:mm")}', End = '{emdb.endDate.ToString("yyyy/MM/dd HH:mm")}', ThemeColor = '{emdb.themeColor}', IsFullDay = '{Convert.ToInt32(emdb.isFullDay)}' Where EventId = '{emdb.eventId}'");
             string sqlquery = $"INSERT INTO Rooster(UserId, Subject, Description, Start, End, ThemeColor, IsFullDay, IsPending) VALUES ";
             for (int i = 0; i < userIdArray.Length; i++)
             {
@@ -186,14 +122,10 @@ namespace Proftaakrepos.Controllers
             {
                 userId = emdb.userId;
             }
-            else
-            {
-                
-            }
             if (userId == "-1")
             {
                 int userCount = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select Count(UserId) From Werknemers")[0]);
-                for(int i = 0; i < userCount; i++)
+                for (int i = 0; i < userCount; i++)
                 {
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{i}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{(emdb.isFullDay)}','{(emdb.isPending ? 1 : 0)}')");
                 }
@@ -201,7 +133,7 @@ namespace Proftaakrepos.Controllers
             else
             {
                 string sqlquery = $"INSERT INTO Rooster(UserId, Subject, Description, Start, End, ThemeColor, IsFullDay, IsPending) VALUES ";
-                for(int i = 0; i < useridArray.Length; i++)
+                for (int i = 0; i < useridArray.Length; i++)
                 {
                     if (i > 0)
                     {
@@ -218,7 +150,7 @@ namespace Proftaakrepos.Controllers
         {
             string var = HttpContext.Session.GetString("UserInfo");
             string _userId = "0";
-            string[] userIdArray = new string[0];
+            string[] userIdArray = new string[0] ;
             if (SendUserId == null || SendUserId == "0")
             {
                 _userId = userId;
@@ -235,17 +167,16 @@ namespace Proftaakrepos.Controllers
             {
                 events = SQLConnection.ExecuteSearchQueryWithArrayReturn($"select Rooster.*, Werknemers.Voornaam from Rooster INNER JOIN Werknemers ON Rooster.UserId = Werknemers.UserId");
             }
-            else if(SendUserId== "0")
+            else if (SendUserId == "0")
             {
                 events = SQLConnection.ExecuteSearchQueryWithArrayReturn($"select * from Rooster WHERE UserId = '{_userId}'");
             }
             else
             {
                 string sqlquery = $"select Rooster.*, Werknemers.Voornaam from Rooster INNER JOIN Werknemers ON Rooster.UserId = Werknemers.UserId";
-                //events = SQLConnection.ExecuteSearchQueryWithArrayReturn($"select * from Rooster Where UserId = {_userId}");
                 for (int i = 0; i < userIdArray.Length; i++)
                 {
-                    if(i == 0)
+                    if (i == 0)
                     {
                         sqlquery += " WHERE ";
                     }
@@ -255,7 +186,7 @@ namespace Proftaakrepos.Controllers
                     }
                     sqlquery += $"Rooster.UserId = '{userIdArray[i]}'";
                 }
-                
+
                 events = SQLConnection.ExecuteSearchQueryWithArrayReturn(sqlquery);
             }
             foreach (string[] e in events)
@@ -289,4 +220,48 @@ namespace Proftaakrepos.Controllers
         }
 
     }
-}
+} //     IS NOT BUG, IS FEATURE.                                                                                                                                                                                                
+//,,,,,,,,,,,,,,,,,,,******,,******************,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,****.*,.*..  .. .. , .......,,,,,,,,,,,,,,,,,,,,,,,,,.........................................................
+//,,,,,,,,,,,,,,,,**********************************,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*******,.,.  .*///,,//**, ..  .,...,,,,,,,,,,,,,,,,,,,,,,,,,.,.....................................................
+//,,,,,,,,,,,,,,,*************************************,,,,,,,,,,,,,,,.,,,,,,,,,,,,,,,,*******,..,./&%#((((((((((((//, .,..,,*(*...,,,**********,,,,,,,,...................................................
+//,,,,,,,,,,,,****************************************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,********,..*&&%%#((((((((((((((((, ,,,,,&&@&&&&@@@@@&&%#/, .,*,,,,,...........................,......................
+//,,,,,,,,,,,*****************************************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,***********%&%%###((((((((((((((((  .,,*,&%%&&&&&&&&&&&&&@(/,**,,,,,.....................,,,,,,,,,,,,,,,,,,,,.,......
+//,,,,,,,,,,,*****************************************,*,,,,,,,,,,,,,,,,,,,,,,,,,,,**********..,&&(/**(((((/*    .,(#(# ...,,,.%%#%&@&&&&&&&&&@(/,***,,,,...................,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+//,,,,,,,,,,,*********************/********************,,,,,,,,,,,,,,,,,,,,,,,,,,,**********/ .&&#(/*,.,((/#, .,.*((((/* . .,,    .,/(%%&@@@@@@(/*****,,,,..................,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+//,,,,,,,,**********************//*********************,,,,,,,,,,,,,,,,,,,,,,,,,,,,**********(&(&(/*..,(&/*(/...*/(*//##    ...##(*,.,,***,,,*,.,/****,,,,,.............,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+//,,,,,,,,*******************/////*/*/*******************,,,,,,,,,,,,,,,,,,,,,,,************/*.@%%%#/(%##((/#(*,,/(((((#.##(., ,&&###(/***,. *..,******,,,,.............,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+//,,,,,,,*******************//*****/((###****************,,,,,,,,,,,,,,,,,,,,,,,,************* %&(//((/##/###..*(((((((((( ,(( .##(%&&%#(#(/*/..,//****,,,,,,...........,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+//,.,*,,,,,,,****************/((((((**//(/**************,,,**.**,*****,,,,         .********** &/%%%###(,.,.,/((((((((((/*(#*  ./,*/((((#%%%%##*,/******,,,,,...........,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+//../*,*//*//,*//**********/////(/*,.....((/************,,,**.,,,******,,. /**,///* *******.#(..&&%%%((......*(/(((((((..,    . //.,,,,,**///#(/./******,,**.,,.........,,,,,,,,,,,,,,,,,********,,,,*****
+//****,.*.//// ,* /********/(/*************/*************,,**.,,,******,,. **** / * /*****, (/(  #&%%##/,,,*/(((((#((((,  .      **/////**,*,(,,./***,(.**./...,,.......,,,,,,,,,,,,,,,***************,   
+// .,*,.///////((/(,*****/(((((((((/,......./************,,***,*,******,,. ****//*/ *****/.(/((.. %&&###(((/////((((((,,     .....,*/*////((/#//./***, (/,,,,,,,*,......,,,,,,,,,,,,,,,******,,*****,,,   
+//****,.*///**,,,./..*,              ......  */***********,************,,. */.//**/ *****/ /// .,  .,%#(*/*/*******//((    ..     .,,,,,...,,(.*./****.(((**,,*,,,.......,,,,,,,,,,**********..,,.    .   
+//*.  *..//*/*,**.*(,/,   ..........****. ...*/***********,*****,******,,. ,...,,,, /*****.(/ ., ..,.*&%(/,******//(((*      ..   .,,..... ../.,********/,*,****,,....  .,,  .  .. ..,.   . .,,. ..   .,,.
+//,,,,*. ,. ,****//*//,   ...................*/***********,*****,******,,. ,....,,, /***/..((* ,.*... @&%#////////((((.     .  .....,,,,,,***(**(#//***/ ,*,**/,,,,..   .,.  .  ......  ... ...  .... ..  
+//....,,. .......  .**,   ..........,,.......,/*************/**********,,, ........,/****,,,,. ,,..,,.(&%#//(///((((/,         ...,*//*///***/,**/*///// ..,****,,,..  .......  .....................     
+//...,,,,,,,,,,,****,,.    ..................,/**************,,,,,,,,,*,,,,,,*****************/* .,    &&#//(((((((((/....      . ,*/******,,(.**//**.././**//*,**,..      ...  ...   .. ....  ......     
+//,,,,,,,,,,,,******,,.    ..................,/***************,*,,,,,,****,,*****************,...////*  &&(((/((((((((*,/.    ....,.****(##%%%%**//*/.,/ *..(* /*,,..   (#(  .  ...%%#   ...##(    .  /** 
+//,,,,,,,,,,*******,,,.   .................,.,/********************,,,,,,.... .              ..,,***.. .*&(((((((((***/#     .,,.,***//**/@&((##/..((/.   .///,*,*,..      ...  ..      ....,,. .  . .,,  
+//,,,,,,,,,********,,,,   ..........,,,,,,,,,./********.*//////*((/*///,,*///**/*/*///*/(%(**,**((. . .*%&(((#%##(***%/ .   ..*,.*. ..,,,,,,.,##*..///,*(*.**..,,.,,.       .   ..  .*******/////**,,     
+//,,,,,,,,,,*******,,,,    .........*%#(# ..../********.,/////(/**(///.//(/****/(,.%%#  ,(*(**/( . . *&%%%#/(&%%%#(%%, .   ,* .* .. ,,,,**,,*,...*,**/,*,*,* ..,*,,..   ... ..  ...******,,,,   *.    ..,.
+//,,,,*,*//*,,,***,,,,,   ...........  ....,../********..(/...(//((////,**/* ,(,*(*,,..(/,**(  .... ,&@.%&%%%%%%%#(%* .   *..,..,,,,,.,,,,,***,,, ./**,,,*,,.*,/,,,..   ..        .*,,,,**,**  ,(%, . *///
+//.**,***,**,,,,,,,,,,,      ................./********, (//(/,//((,**//((/,.**/****,((((.(*..(.....&&/.*%%%%%(/(#%   .   ,  ,,*,,,,*,,*,,,,/**,,.,,//,,**,.,,..,.,..      *,*(///(///*. ..,,  .*#  , .  ,
+//.**,***,,*..,/******,    .................../*******,, (//.//  (/(,/*(**(.*# *. ..((*/*,/##   ...*&&@&%#(((/#%##&         .,,,*,,,,/*.,.,,,,,***.   * .  *..,  ,,.       *,,,,(/////*, ..,,  ...,  .....
+//.,*.   ..*,**,/***,,,    ................,../*******,,./(//*/((///(/.**(,.**,*/, #(# (, (/( ,,.. #&&@&%#((/%%(#%#      ....,,//...,,,,*,,,.,,,*,,,  , ..*(*,,,%#((//*,** ,,,,,,.////,, ..,,,,..,,,,,.   
+//.,,,,,**,.**,  ,*,*,,   ....................********,,.* (///*/*,*/((/**//,*(****/(*(* / (/.  ,.. %%%&&%((%#(#%&#.     .,. **/..,,...,,,, /*,*,,,,,  . ...(#(#((((((*//***,.,.,.,..*/,,..,***,,,,...    ,
+//(/,,,,***.***/*  ,**,  .......,,,....,,..,..*********,.,(///*,//.,////**,.,***,( (( *,,.*/  #....%%(#&#%#/#%#&%.. ... *., ,.,....*,..,,,*(..,,*.., .. ...**..,,,,,..,,,//**,,*//(*,.. ...,,,,.,/*///****
+// ,***,*/**/*,/%/..,,,....,*...,/*../(//.....**/(/,,***,./*//////,.,***,///*//*,..(/,,,,***.*/*,.,*/*/#*,/%#///(*......*.,.,,,*/,,**,.,,,****,..., ,.....,,,,...... .,,,//,,****..,,. ..,/ . .,.  ..,//, 
+//...*****/*/##(((##/.#&##(#&...&####%%**,,,#@%####&*,***,(&&%%#%%%%%%##&@%%%%&#**@%###%&&#&&###%%%%%##&%&&%%%%%%%%%####@,,@%#####&#,.,,&%######&**...,&##%%#&/.. ...&######&*#(&(((#&, */#/,  ..,,      .
+//.,**,,** //***,,,.,/&%%%%#,,,/&&%%&,,*,,,&&&&&&&%&,***/&&&&&&@&&&&&&&%&&&&&&*#&&&&&&@,(&&&&&&@&&&@&&&*/&&&%&@&&&&&&&&&&*/&&&&&&&&,,,*&&&&&&&&/*,,*,&&&&&&&%&@..../%&&%%%%%&*,#&%%%&..  ..,*(#%%%%%%%%%%/
+//..,,*,/ .**. .,*//*%&%%%&%%&&&&&&&%*.,,#@&&&&(&&&&#,,&&&&&&%//**/.*(/*&&&&&&&&&&&&#,,&@&&&&&&&&@@@&&&(&@&&&&%##%&&&&&&&/&&&&&&&&&%,%&&&&&&&&&*,,,(&&&&&#&&&&%...,#&&&&&&&&&&*&&&%%(.............    ., .
+//...* ((((*.  ...,,,(%&&&&@@&@@@@@&&%.,*&@@&&%*/@@@&&&%&@&&&&*/,*/////*&&@@@@@@&/&,,,,&@@@@@@@@@@@@@&%%#(@@@@@@@@@@&@&#&,&&@&&&@&@&@@@@@@&&@@%&..,@@@@&&.*@@@&&&.,,&&@&&&#@@@&&@@@@%( ........ ..   . .,  
+/////((/,  ., .....,(,,,,#,*&%#,**,/,*/*,***,,,,*****/*/***/,,.......,#&,**,%,****#*,,#,***(***//////*(%***,%((%/***#&,*/%,***&(,******//****#*,&#,,**********,(*,*(,*,*,*#,*****,,.,,.....               
+//.,*,  ,,.........%%%%%&,,,,&&%%%%*%&&&&&(*#%((%@&&&&&&&&&&&&&&&&&&&#&&&&&%/%@@&&&&&.%@@&&&&&&&&&&&&#&&&&&@**./@&&&&&#.&&&&&&/&@&&&&&&#@@&&&&&&&&&&%*//(#@&&&&&(,@&&%%#,.(&&%%%%%&.                      
+//...*//,........,*&&%%&,.,,/@&&%%&&&&&&&,...,*/#@&&&&(,#@@&&&&&&&&&((@@&&@.**(&&&&&&,,/%@@&&&&&&&&&.(&@&&&./*..(@&&&&%(@@@&&&/#@@&&&,*&@&&&(#@@&&&(.,,,,,(@&&&&#/@@&&&*...(@&&%%&* ...                   
+//...,,  .........,*///(.,,,,**/(((/((((((((/,/(((###,......,.,,..,,,,,,**((/*/**......./((**,*,**(*/#((%(#%(#..*&#//(((((////******,**,,**,*,,,*,,.,,.,,,,,,,,,,,,,,,,,,,,,,,,,,,...                ...,,
+//... ,*,  ...............*//,...,,***/((/*,..#(/****(%....,,,..*(/,*(((/*.//,,****,.,&%####*   ((&%%&/%#&@#*,.&(**,***/* .*/*******,*,.,*. ,,,.,,.,...,.,,.,,......................              .,..,***
+//#%#////**   ...............   ..,/(,     .. ,#(***/ ./ .  ,&(.,,.,/((  /**//,/,.  .&#((##%%%#(((/*,*.*/#%%, &**///*,,* . * ***,,**,*,****,  ,**,.,.,.,...........................   .       .     .     
+//,   /((//**.  ..........................   ./,/,,..., .... .(%%/.   *,..*.,*/,/##(/*%#(#####%%#%%######,.,*,,#.,,...   /. ,,.,,,,,,,,,,,//****,.,...,,, ........................   .        *.          
+//.*,  .(((/(      ..    .................... *,.. .*,..........*, ..  ..,,.., #%##(((/**(##(###########/(,(,/./* ,,.... ,*,*   ,,,,..,, .,*/**/(*.,,..,,, ......................             ,.          
+//. */.  ,##  *,  ,,,,,,,,,,,,,..    ...........  ..  ..... .*,  ......&% .** (##(((((((#((/*/(((((((((( ,.#.* *., *,....,,.,,,.  .,..,,,.  .**,.. ....  ,........ ..............             .,          
+//** ,%/.        ,,,,,,,,,,,,,,,,,,,,,,,*      ...,.  ...,,.  ..  .. .....,,. .((//////(/(#####((((((((,.,,,,,...,  *,.,,,,,,(/,..  ( , ,,,.  ,  .  ... /, ......  ..............             .*    

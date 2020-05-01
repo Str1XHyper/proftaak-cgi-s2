@@ -111,7 +111,6 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">Werknemer: </span>
                                     </div>
-                                    @*<input onfocus="InitAutoComplete(@voornaamlist)" onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" />*@
                                     <input onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
                                     <input type="hidden" asp-for="@newmodel.userId" id="userIdField2" />
                                 </div>
