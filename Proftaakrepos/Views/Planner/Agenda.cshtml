@@ -56,39 +56,39 @@
         }
         if (ViewData["rol"] as string == "Roostermaker")
         {
-<div class="card mb-4">
-    <input id="loggedInUser" type="hidden" value="@Model.loggedInUserId" />
-    <input id="naamLijst" type="hidden" value="@voornaamlist" />
-    <div class="popup-window bg-dark text-white" id="popup">Deze gebruiker is al geselecteerd</div>
+            <div class="card mb-4">
+                <input id="loggedInUser" type="hidden" value="@Model.loggedInUserId" />
+                <input id="naamLijst" type="hidden" value="@voornaamlist" />
+                <div class="popup-window bg-dark text-white" id="popup">Deze gebruiker is al geselecteerd</div>
 
-    <div class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
-    <div class="card-body bg-white">
-        <div class="input-group mb-3">
+                <div class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
+                <div class="card-body bg-white">
+                    <div class="input-group mb-3">
 
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
+                        </div>
+                        @{
+                            voornaamlist = "\"" + voornaamlist + "\"";
+                            userIdList = "\"" + userIdList + "\"";
+                        }
+                        <input onchange="SetUserIDHeader(@voornaamlist,@userIdList); RemoveEvents(); FetchEvents();" type="text" class="form-control" id="voornaamFieldHeader" value="" autocomplete="off" />
+                        <input type="hidden" id="userIdField1" value="@Model.loggedInUserId" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Soort:</span>
+                        </div>
+                        <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
+                            <option selected value="Allemaal">Allemaal</option>
+                            <option value="#3b5a6f">Stand-by</option>
+                            <option value="#353b45">Incidenten</option>
+                            <option value="#828a87">Pauze</option>
+                            <option value="#ea4335">Verlof</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            @{ 
-                voornaamlist = "\"" + voornaamlist + "\"";
-                userIdList = "\"" + userIdList + "\"";
-            }
-            <input onchange="SetUserIDHeader(@voornaamlist,@userIdList); RemoveEvents(); FetchEvents();"  type="text" class="form-control" id="voornaamFieldHeader" value="" autocomplete="off" />
-            <input type="hidden" id="userIdField1" value="@Model.loggedInUserId" />
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Soort:</span>
-            </div>
-            <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
-                <option selected value="Allemaal">Allemaal</option>
-                <option value="#343a40">Stand-by</option>
-                <option value="#212529">Incidenten</option>
-                <option value="#565656">Pauze</option>
-                <option value="#660000">Verlof</option>
-            </select>
-        </div>
-    </div>
-</div>
         }
     }
     <div class="card mb-4">
@@ -111,7 +111,6 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">Werknemer: </span>
                                     </div>
-                                    @*<input onfocus="InitAutoComplete(@voornaamlist)" onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" />*@
                                     <input onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
                                     <input type="hidden" asp-for="@newmodel.userId" id="userIdField2" />
                                 </div>
@@ -122,11 +121,10 @@
                                 <span class="input-group-text" id="basic-addon3">Type: </span>
                             </div>
                             <select onChange="EditTitle(this.options[this.selectedIndex].text)" asp-for="@newmodel.themeColor" class="form-control" id="themeColorField">
-                                <option value="#343a40">Stand-by</option>
-                                <option value="#212529">Incidenten</option>
-                                <option value="#565656">Pauze</option>
-                                <option value="#660000">Verlof</option>
-                                @*<option value="#87CEFA">Noodgevallen</option>*@
+                                <option value="#3b5a6f">Stand-by</option>
+                                <option value="#353b45">Incidenten</option>
+                                <option value="#828a87">Pauze</option>
+                                <option value="#ea4335">Verlof</option>
                             </select>
                             <span asp-validation-for="@newmodel.themeColor" class="text-danger"></span>
                         </div>

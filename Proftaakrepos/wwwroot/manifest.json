@@ -1,0 +1,16 @@
+{
+    "name": "CGI-Bier",
+    "short_name": "CGI",
+    "lang": "en-US",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "white",
+    "theme_color": "grey",
+    "icons": [
+        {
+            "src": "img/cgi.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
