@@ -191,6 +191,28 @@
     line-height: 1em !important;
 }
 
+
+ /*moving the closebutton right/up a bit.
+modal-content {
+    background-color: white;
+    margin: 15% auto; /* 15% from the top and centered 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size 
+    padding-top: 10px; */
+}
+
+ /*The Close Button
+.close {
+    color: black !important;
+    float: right;
+    font-size: 30px !important;
+    font-weight: bold;
+    line-height: 0,7em !important;
+    padding-left: 97.5%;
+    padding-bottom: 5px;
+}*/
+
     .close:hover,
     .close:focus {
         color: black;
