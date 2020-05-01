@@ -81,10 +81,10 @@
                         </div>
                         <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
                             <option selected value="Allemaal">Allemaal</option>
-                            <option value="#343a40">Stand-by</option>
-                            <option value="#212529">Incidenten</option>
-                            <option value="#565656">Pauze</option>
-                            <option value="#660000">Verlof</option>
+                            <option value="#3b5a6f">Stand-by</option>
+                            <option value="#353b45">Incidenten</option>
+                            <option value="#828a87">Pauze</option>
+                            <option value="#ea4335">Verlof</option>
                         </select>
                     </div>
                 </div>
@@ -121,11 +121,10 @@
                                 <span class="input-group-text" id="basic-addon3">Type: </span>
                             </div>
                             <select onChange="EditTitle(this.options[this.selectedIndex].text)" asp-for="@newmodel.themeColor" class="form-control" id="themeColorField">
-                                <option value="#ea4335">Stand-by</option>
-                                <option value="#34a853">Incidenten</option>
-                                <option value="#fbbc05">Pauze</option>
+                                <option value="#3b5a6f">Stand-by</option>
+                                <option value="#353b45">Incidenten</option>
+                                <option value="#828a87">Pauze</option>
                                 <option value="#ea4335">Verlof</option>
-                                @*<option value="#87CEFA">Noodgevallen</option>*@
                             </select>
                             <span asp-validation-for="@newmodel.themeColor" class="text-danger"></span>
                         </div>

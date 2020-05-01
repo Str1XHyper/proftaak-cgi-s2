@@ -127,6 +127,9 @@
     <None Include="wwwroot\js\fullcalendar\timegrid\main.js.map" />
     <None Include="wwwroot\js\fullcalendar\timegrid\main.min.js" />
     <None Include="wwwroot\js\fullcalendar\timegrid\README.md" />
+    <None Include="wwwroot\js\main.js" />
+    <None Include="wwwroot\js\main.min.js" />
+    <None Include="wwwroot\sw.js" />
   </ItemGroup>
 
   <ItemGroup>
