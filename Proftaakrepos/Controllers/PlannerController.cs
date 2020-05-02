@@ -17,9 +17,6 @@ namespace Proftaakrepos.Controllers
         private static string userId;
         private static string rol;
         private List<EventModel> eventList;
-     
-     
-        
         public IActionResult Agenda()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
@@ -56,16 +53,10 @@ namespace Proftaakrepos.Controllers
             if (CheckIfAllowed.IsAllowed(_authCode, "Agenda")) return View(viewdata);
             else return RedirectToAction("NoAccessIndex", "Home");
         }
-
-       
         public void DeleteEvent(int EventId)
         {
             SQLConnection.ExecuteNonSearchQuery($"DELETE FROM Rooster WHERE EventId = {EventId}");
         }
-
-            
-        
-       
         public ActionResult GetEventInfo(int EventId)
         {
             List<string> eventData = SQLConnection.ExecuteSearchQuery($"select Rooster.*, Werknemers.Voornaam from Rooster INNER JOIN Werknemers ON Werknemers.UserId = Rooster.UserId Where EventId = {EventId}");
@@ -75,8 +66,6 @@ namespace Proftaakrepos.Controllers
             eventData[5] = end.ToString("yyyy-MM-dd'T'HH:mm");
             return Json(eventData);
         }
-
-      
         [HttpPost]
         public void CreateEvent(EventModel newmodel)
         {
@@ -93,9 +82,7 @@ namespace Proftaakrepos.Controllers
                     HandleEventRequest(newmodel, userIdArray);
                 }
             }
-            
         }
-
         // To Do: Combine kwerries
         public void HandleEditEventRequest(EventModel emdb)
         {
@@ -214,9 +201,13 @@ namespace Proftaakrepos.Controllers
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return Json(eventList);
         }
-        public void UpdateAgendaTimes(DateTime startTime, DateTime endTime, int EventId)
+        public void UpdateAgendaTimes(DateTime startTime, DateTime endTime, int EventId, bool allDay)
         {
-            SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set Start = '{startTime.ToString("yyyy/MM/dd HH:mm")}',End = '{endTime.ToString("yyyy/MM/dd HH:mm")}' Where EventId = {EventId}");
+            SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set Start = '{startTime.ToString("yyyy/MM/dd HH:mm")}',End = '{endTime.ToString("yyyy/MM/dd HH:mm")}',IsFullDay = '{Convert.ToInt32(allDay)}' Where EventId = {EventId}");
+        }
+        public void UpdateAllDay(int EventId, bool allDay)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set IsFullDay = '{Convert.ToInt32(allDay)}' Where EventId = {EventId}");
         }
 
     }

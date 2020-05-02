@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         //minTime: "06:00:00",
         //maxTime: "24:00:00",
         height: 'auto',
+        firstDay: 1,
         draggable: true,
         lazyFetching: true,
         locale: 'nl',
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var themeColor = data[6];
                     var fullDay = data[7];
                     var voornaam = data[9];
-                    if (fullDay == true) {
+                    if (fullDay == 1) {
                         document.getElementById("fullDayField").selectedIndex = 1;
                     }
                     else {
@@ -90,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                     var rol = $("#rol").val();
+                    document.getElementById("fullDayField").value = document.getElementById("fullDayField").selectedIndex;
                     document.getElementById("eventIdField").value = eventId;
                     document.getElementById("titleField").value = title;
                     document.getElementById("descriptionField").value = description;
@@ -158,11 +160,23 @@ document.addEventListener('DOMContentLoaded', function () {
             modal.style.display = "block";
         },
         eventDrop: function (eventDropInfo) {
-            $.ajax(
-                {
-                    type: "GET",
-                    url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + eventDropInfo.event.end.toISOString() + '&EventId=' + eventDropInfo.event.id,
-                });
+            if (eventDropInfo.event.allDay == true) {
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: '/Planner/UpdateAllDay?EventId=' + eventDropInfo.event.id + '&allDay=' + eventDropInfo.event.allDay,
+                    });
+            }
+            else {
+                var endTime = eventDropInfo.event.start;
+                endTime.setHours(eventDropInfo.event.start.getHours() + 1);
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + endTime.toISOString() + '&EventId=' + eventDropInfo.event.id + '&allDay=' + eventDropInfo.event.allDay,
+                    });
+            }
+            
         },
     });
 
@@ -264,32 +278,30 @@ function HandleRequest() {
             selectedIds += userIdByToken[0] + ",";
         }
         document.getElementById("userIdField2").value = selectedIds;
+        console.log($('#modalForm').serialize());
         $.ajax({
             url: '/Planner/CreateEvent',
             type: 'post',
             data: $('#modalForm').serialize(),
             success: function () {
-                console.log(Notification.permission)
-
                 CloseModal();
-
             }
         });
-        if (Notification.permission === 'granted') {
-            navigator.serviceWorker.getRegistration()
-                .then(function (reg) {
-                    var options = {
-                        body: 'Uw rooster is aangepast',
-                        icon: 'img/cgi.png',
-                        data: {
-                            dateOfArrival: Date.now(),
-                            primaryKey: 1
-                        }
-                    };
-                    reg.showNotification('Event created!', options);
-                    console.log("Its working tho");
-                });
-        }
+        //if (Notification.permission === 'granted') {
+        //    navigator.serviceWorker.getRegistration()
+        //        .then(function (reg) {
+        //            var options = {
+        //                body: 'Uw rooster is aangepast',
+        //                icon: 'img/cgi.png',
+        //                data: {
+        //                    dateOfArrival: Date.now(),
+        //                    primaryKey: 1
+        //                }
+        //            };
+        //            reg.showNotification('Event created!', options);
+        //            console.log("Its working tho");
+        //        });
+        //}
     }
     else {
         window.alert("Selecteer een werknemer");
