@@ -386,6 +386,15 @@ window.onload = function SetLoggedInUserToken() {
     }
 
 }
+function changeDivVisibility() {
+    var toolsDiv = document.getElementById("scheduler-tools");
+    if (toolsDiv.style.display == "none") {
+        toolsDiv.style.display = "block";
+    }
+    else {
+        toolsDiv.style.display = "none";
+    }
+}
 function FetchEvents() {
     var rol = $("#rol").val();
     var selectedIndex = "0";
