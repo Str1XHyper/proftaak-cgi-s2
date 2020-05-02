@@ -1,11 +1,11 @@
 {
-    "name": "CGI-Bier",
+    "name": "CGI",
     "short_name": "CGI",
-    "lang": "en-US",
-    "start_url": "/",
-    "display": "standalone",
-    "background_color": "white",
     "theme_color": "grey",
+    "background_color": "grey",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/Planner/Agenda",
     "icons": [
         {
             "src": "img/cgi.png",
@@ -14,3 +14,4 @@
         }
     ]
 }
+
