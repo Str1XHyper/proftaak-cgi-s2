@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(document).ready(function () {
             // Handler for .ready() called.
             $('html, body').animate({
-                scrollTop: $('#button-header').offset().top - 55,
+                scrollTop: $('#button-header').offset().top - 57,
             }, 1000);
         });
         wantedWeekends = false;
