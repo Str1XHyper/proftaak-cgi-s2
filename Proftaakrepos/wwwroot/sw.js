@@ -1,7 +1,7 @@
 var cacheName = 'cgi-pwa';
 var filesToCache = [
-    '/Error/Error500',
-    //'/Planner/Agenda',
+    '/',
+    '/Planner/Agenda',
     //'/css/style.css',
     //'/js/main.js'
 ];
