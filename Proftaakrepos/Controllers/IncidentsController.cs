@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
-using Proftaakrepos.Models;
+using Models;
 
 namespace Proftaakrepos.Controllers
 {

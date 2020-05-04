@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Proftaakrepos.Models;
+using Models;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Http;
 using ClassLibrary.Classes;

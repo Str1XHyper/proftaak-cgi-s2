@@ -1,6 +1,6 @@
 using System;
 
-namespace Proftaakrepos.Models
+namespace Models
 {
     public class ErrorViewModel
     {

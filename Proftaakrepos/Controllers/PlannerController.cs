@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
-using Proftaakrepos.Models;
+using Models;
 
 namespace Proftaakrepos.Controllers
 {

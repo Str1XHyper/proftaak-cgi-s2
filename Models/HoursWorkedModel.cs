@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Proftaakrepos.Models
+namespace Models
 {
     /// <summary>
     /// Summary description for Class1

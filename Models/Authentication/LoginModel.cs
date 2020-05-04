@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Proftaakrepos.Models
+namespace Models
 {
     public class LoginModel
     {
