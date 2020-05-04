@@ -1,4 +1,4 @@
-﻿namespace Proftaakrepos.Models
+﻿namespace Models
 {
     public class AddEmployee
     {
