@@ -355,9 +355,5 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Verlof\" />
-  </ItemGroup>
-
 
 </Project>
