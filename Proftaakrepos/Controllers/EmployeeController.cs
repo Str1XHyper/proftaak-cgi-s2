@@ -8,12 +8,11 @@ using System.Collections.Generic;
 
 namespace Proftaakrepos.Controllers
 {
-    [ClaimRequirement("Permission", "pER")]
     public class EmployeeController : Controller
     {
         private string _authCode;
         #region Views
-        [ClaimRequirement("Permission", "pER")]
+        [ClaimRequirement("", "ChangeEmployee")]
         public IActionResult Employees()
         {
             return View();

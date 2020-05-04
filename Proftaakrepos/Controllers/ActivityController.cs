@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Proftaakrepos.Authorize;
 
 namespace Proftaakrepos.Controllers
 {
     public class ActivityController : Controller
     {
+        [ClaimRequirement("LoggedIn", "")]
         public IActionResult Index()
         {
             string authcode = HttpContext.Session.GetString("UserInfo");

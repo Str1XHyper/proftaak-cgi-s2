@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Proftaakrepos.Authorize;
 using System;
 
 namespace Proftaakrepos.Controllers
 {
     public class AccountController : Controller
     {
+        [ClaimRequirement("LoggedIn", "")]
         public IActionResult ChangeSettings()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
@@ -18,13 +20,13 @@ namespace Proftaakrepos.Controllers
             ViewData["Settings"] = data;
             return View();
         }
-
+        [ClaimRequirement("Iedereen", "")]
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("UserInfo");
             return RedirectToAction("LoginNew", "Authentication", new {extra = "uitgelogd" });
         }
-
+        [ClaimRequirement("LoggedIn", "")]
         [HttpPost]
         public IActionResult ChangeLeSetting(ApplicationUser model)
         {
@@ -60,7 +62,7 @@ namespace Proftaakrepos.Controllers
                 }
             }
         }
-
+        [ClaimRequirement("LoggedIn", "")]
         private void ChangeVal(ApplicationUser model)
         {
             string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{HttpContext.Session.GetString("UserInfo")}'")[0];
@@ -79,24 +81,6 @@ namespace Proftaakrepos.Controllers
             ViewData["conf"] = "good";
             ViewData["email"] = email;
             return View("ChangePassword");
-        }
-
-        public IActionResult PasswordChange()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult PasswordChange(string test)
-        {
-            return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult AccessDenied()
-        {
-            return View();
         }
     }
 }
