@@ -7,7 +7,7 @@ using System;
 
 namespace Proftaakrepos.Controllers
 {
-    public class Account2Controller : Controller
+    public class AccountController : Controller
     {
         public IActionResult ChangeSettings()
         {

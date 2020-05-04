@@ -10,7 +10,6 @@ namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
     {
-
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {

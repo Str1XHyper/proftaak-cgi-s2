@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,27 @@ namespace Proftaakrepos.Authorize
         {
             string authCode = context.HttpContext.Session.GetString("UserInfo");
             string pagina = _claim.Type;
-            //Rol ophalen.
-            //Toegang ophalen van de pagina.
-            //Access geven of Access verbieden.
+            if(authCode != null)
+            {
+                //Rol ophalen.
+                //Toegang ophalen van de pagina.
+                //Access geven of Access verbieden.
+            }
+            else
+            {
+                context.Result = new RedirectToRouteResult
+            (
+                new RouteValueDictionary
+                    (
+                        new
+                        {
+                            controller = "Authentication",
+                            action = "LoginNew"
+                        }
+                    )
+            );
+
+            }
         }
     }
 }

@@ -31,21 +31,7 @@ namespace Proftaakrepos
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(
-                    Configuration.GetConnectionString("DefaultConnection"), mysqlOptions =>
-                    {
-                        mysqlOptions
-                            .ServerVersion(new Version(10, 2, 31), ServerType.MySql);
-                    })
-                );
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
-            {
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

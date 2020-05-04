@@ -52,13 +52,6 @@
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
                             Rooster
                         </a>
-                        @if (rol.ToLower() == "roostermaker")
-                        {
-                            <a class="nav-link collapsed" href="/Planner/AgendaSettings">
-                                <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
-                                Bedrijfsinstellingen
-                            </a>
-                        }
                         <div class="sb-sidenav-menu-heading">Incidenten</div>
                         <a class="nav-link" asp-controller="Incidents" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-exclamation"></i></div>
@@ -87,11 +80,15 @@
                                     Voeg werknemer toe
                                 </a>
 
-                                @*<div class="sb-sidenav-menu-heading">Applicatie</div>
-                                    <a class="nav-link collapsed" href="/Role/Index">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div>
-                                        Toegang
-                                    </a>*@
+                                <div class="sb-sidenav-menu-heading">Applicatie</div>
+                                @*<a class="nav-link collapsed" href="/Role/Index">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div>
+                                    Toegang
+                                </a>*@
+                                <a class="nav-link collapsed" href="/Planner/AgendaSettings">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
+                                    Bedrijfsinstellingen
+                                </a>
                             }
 
                         }
