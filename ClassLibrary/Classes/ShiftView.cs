@@ -24,7 +24,7 @@ namespace ClassLibrary.Classes
             List<string[]> returns = new List<string[]>();
             try
             {
-                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Rooster Where UserId = {UserID}");
+                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Rooster Where UserId = {UserID} ORDER BY `Start` ASC");
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@ namespace ClassLibrary.Classes
             List<string[]> returns = new List<string[]>();
             try
             {
-                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From TradeRequest");
+                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From TradeRequest ORDER BY `Start` DESC");
             }
             catch (Exception ex)
             {
