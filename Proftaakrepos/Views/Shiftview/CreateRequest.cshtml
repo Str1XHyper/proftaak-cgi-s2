@@ -15,7 +15,7 @@
 
 <div class="container-fluid">
 
-    @if (ViewData["Status"] != string.Empty)
+    @if (ViewData["Status"].ToString() != string.Empty)
     {
         <div class="alert alert-danger fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
             @ViewData["Status"]
