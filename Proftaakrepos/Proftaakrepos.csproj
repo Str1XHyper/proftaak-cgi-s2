@@ -26,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\AccountFix\AccessDenied.cshtml" />
+    <None Include="Views\AccountFix\Login.cshtml" />
+    <None Include="Views\AccountFix\Register.cshtml" />
     <None Include="wwwroot\img\img_avatar.png" />
     <None Include="wwwroot\js\fullcalendar\bootstrap\main.esm.js" />
     <None Include="wwwroot\js\fullcalendar\bootstrap\main.js" />
