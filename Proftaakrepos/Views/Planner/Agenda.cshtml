@@ -31,8 +31,15 @@
 </head>
 <body>
     @{
+        string[] colours = ViewData["colours"] as string[];
+        string colourString = "";
+        foreach(string s in colours)
+        {
+            colourString += "#" + s + ",";
+        }
         string voornaamlist = "";
         string userIdList = "";
+        <input id="colours" type="hidden" value="@colourString"/>
         if (ViewData["rol"].ToString() == "Roostermaker")
         {
             <input id="rol" type="hidden" value="roostermaker" />
