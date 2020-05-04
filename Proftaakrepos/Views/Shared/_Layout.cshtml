@@ -17,6 +17,9 @@
 <body class="sb-nav-fixed">
     @{
         string usercode = Context.Session.GetString("UserInfo");
+        string rol = string.Empty;
+        List<string> rollen = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'");
+        if (rollen.Count == 1) rol = rollen[0];
     }
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
@@ -48,6 +51,13 @@
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
                             Rooster
                         </a>
+                        @if (rol.ToLower() == "roostermaker")
+                        {
+                            <a class="nav-link collapsed" href="/Planner/AgendaSettings">
+                                <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
+                                Bedrijfsinstellingen
+                            </a>
+                        }
                         <div class="sb-sidenav-menu-heading">Incidenten</div>
                         <a class="nav-link" asp-controller="Incidents" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-exclamation"></i></div>
@@ -63,9 +73,7 @@
                             Uitgaand
                         </a>
                         @{
-                            string rol = string.Empty;
-                            List<string> rollen = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'");
-                            if (rollen.Count == 1) rol = rollen[0];
+
                             if (rol.ToLower() == "roostermaker")
                             {
                                 <div class="sb-sidenav-menu-heading">Werknemers</div>
@@ -77,11 +85,12 @@
                                     <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
                                     Voeg werknemer toe
                                 </a>
+
                                 @*<div class="sb-sidenav-menu-heading">Applicatie</div>
-                                <a class="nav-link collapsed" href="/Role/Index">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div>
-                                    Toegang
-                                </a>*@
+                                    <a class="nav-link collapsed" href="/Role/Index">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div>
+                                        Toegang
+                                    </a>*@
                             }
 
                         }
@@ -121,6 +130,6 @@
             </footer>
         </div>
     </div>
-    
+
 </body>
 </html>

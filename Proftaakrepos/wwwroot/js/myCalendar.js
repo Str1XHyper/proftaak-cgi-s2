@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         url: '/Planner/UpdateAllDay?EventId=' + eventDropInfo.event.id + '&allDay=' + eventDropInfo.event.allDay,
                     });
             }
-            else {
+            else if (eventDropInfo.oldEvent.allDay == true) {
                 var endTime = eventDropInfo.event.start;
                 endTime.setHours(eventDropInfo.event.start.getHours() + 1);
                 $.ajax(
@@ -176,7 +176,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + endTime.toISOString() + '&EventId=' + eventDropInfo.event.id + '&allDay=' + eventDropInfo.event.allDay,
                     });
             }
-            
+            else {
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + eventDropInfo.event.end.toISOString() + '&EventId=' + eventDropInfo.event.id + '&allDay=' + eventDropInfo.event.allDay,
+                    });
+            }
+
         },
     });
 
@@ -407,8 +414,11 @@ function changeDivVisibility() {
         toolsDiv.style.display = "none";
     }
 }
+
 function FetchEvents() {
     var rol = $("#rol").val();
+    var colours = document.getElementById("colours").value;
+    var colourArray = colours.split(",");
     var selectedIndex = "0";
     if (rol == "roostermaker") {
         selectedIndex = document.getElementById("userIdField1").value;
@@ -427,6 +437,16 @@ function FetchEvents() {
             for (var i = 0; i < list.length; i++) {
                 if (list[i].themeColor != soortEvent && soortEvent != "Allemaal" && rol == "roostermaker") {
                     continue;
+                }
+                if (colours != "") {
+                    if (list[i].themeColor == "#3b5a6f")
+                        list[i].themeColor = colourArray[0];
+                    else if (list[i].themeColor == "#828a87")
+                        list[i].themeColor = colourArray[1];
+                    else if (list[i].themeColor == "#353b45")
+                        list[i].themeColor = colourArray[2];
+                    else if (list[i].themeColor == "#ea4335")
+                        list[i].themeColor = colourArray[3];
                 }
                 var obj = {
                     id: list[i].eventId,

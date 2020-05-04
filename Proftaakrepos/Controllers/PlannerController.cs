@@ -13,17 +13,40 @@ namespace Proftaakrepos.Controllers
 {
     public class PlannerController : Controller
     {
-
         private static string userId;
         private static string rol;
         private List<EventModel> eventList;
+        #region Views
+        public IActionResult AgendaSettings()
+        {
+            string[] colours = SQLConnection.ExecuteSearchQuery($"SELECT * FROM ColorScheme").ToArray();
+            if(colours.Length == 0)
+            {
+                colours = new string[4];
+                colours[0] = "3b5a6f";
+                colours[1] = "828a87";
+                colours[2] = "353b45";
+                colours[3] = "830101";
+            }
+            ViewData["colours"] = colours;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AgendaSettings(AgendaSettings settings)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM ColorScheme");
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO ColorScheme (StandBy,Incidenten,Pauze,Verlof) VALUES ('{settings.standbyKleur}','{settings.incidentKleur}','{settings.pauzeKleur}','{settings.verlofKleur}')");
+            return RedirectToAction("Agenda");
+        }
         public IActionResult Agenda()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string var = HttpContext.Session.GetString("UserInfo");
+            string[] themeColours = SQLConnection.ExecuteSearchQuery($"select * from ColorScheme").ToArray();
             string[] loggedUserData = SQLConnection.ExecuteSearchQuery($"Select Rol,UserId From Werknemers Where AuthCode = '{var}'").ToArray();
             userId = loggedUserData[1];
             rol = loggedUserData[0];
+            ViewData["colours"] = themeColours;
             ViewData["rol"] = rol;
             ViewData["userId"] = userId;
             AgendaViewModel viewdata = new AgendaViewModel(userId);
@@ -52,6 +75,13 @@ namespace Proftaakrepos.Controllers
             string _authCode = HttpContext.Session.GetString("UserInfo");
             if (CheckIfAllowed.IsAllowed(_authCode, "Agenda")) return View(viewdata);
             else return RedirectToAction("NoAccessIndex", "Home");
+        }
+        #endregion
+        #region Data Logic
+        public IActionResult DeleteColours()
+        {
+            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM ColorScheme");
+            return RedirectToAction("Agenda");
         }
         public void DeleteEvent(int EventId)
         {
@@ -83,7 +113,6 @@ namespace Proftaakrepos.Controllers
                 }
             }
         }
-        // To Do: Combine kwerries
         public void HandleEditEventRequest(EventModel emdb)
         {
             emdb.userId = emdb.userId.Substring(0, emdb.userId.Length);
@@ -209,9 +238,11 @@ namespace Proftaakrepos.Controllers
         {
             SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set IsFullDay = '{Convert.ToInt32(allDay)}' Where EventId = {EventId}");
         }
-
+#endregion
     }
-} //     IS NOT BUG, IS FEATURE.                                                                                                                                                                                                
+}
+#region Easteregg
+//     IS NOT BUG, IS FEATURE.                                                                                                                                                                                                
 //,,,,,,,,,,,,,,,,,,,******,,******************,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,****.*,.*..  .. .. , .......,,,,,,,,,,,,,,,,,,,,,,,,,.........................................................
 //,,,,,,,,,,,,,,,,**********************************,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*******,.,.  .*///,,//**, ..  .,...,,,,,,,,,,,,,,,,,,,,,,,,,.,.....................................................
 //,,,,,,,,,,,,,,,*************************************,,,,,,,,,,,,,,,.,,,,,,,,,,,,,,,,*******,..,./&%#((((((((((((//, .,..,,*(*...,,,**********,,,,,,,,...................................................
@@ -256,3 +287,4 @@ namespace Proftaakrepos.Controllers
 //.*,  .(((/(      ..    .................... *,.. .*,..........*, ..  ..,,.., #%##(((/**(##(###########/(,(,/./* ,,.... ,*,*   ,,,,..,, .,*/**/(*.,,..,,, ......................             ,.          
 //. */.  ,##  *,  ,,,,,,,,,,,,,..    ...........  ..  ..... .*,  ......&% .** (##(((((((#((/*/(((((((((( ,.#.* *., *,....,,.,,,.  .,..,,,.  .**,.. ....  ,........ ..............             .,          
 //** ,%/.        ,,,,,,,,,,,,,,,,,,,,,,,*      ...,.  ...,,.  ..  .. .....,,. .((//////(/(#####((((((((,.,,,,,...,  *,.,,,,,,(/,..  ( , ,,,.  ,  .  ... /, ......  ..............             .*    
+#endregion

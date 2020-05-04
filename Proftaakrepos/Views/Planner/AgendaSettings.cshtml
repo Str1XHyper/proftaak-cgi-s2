@@ -1,0 +1,46 @@
+﻿@model Proftaakrepos.Models.AgendaSettings
+@{
+    ViewData["Title"] = "Instellingen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.js" integrity="sha256-y1h79SSb3icyBC/BrLCzoexQZAOGwlvoAr85biY4QGw=" crossorigin="anonymous"></script>
+
+@{string[] colours = ViewData["colours"] as string[];}
+<form asp-action="AgendaSettings" asp-controller="Planner">
+    <div class="card-deck">
+        <div class="card" style="width: 100%">
+            <div class="card-header bg-dark text-white">Kleurenschema</div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Standby:</span>
+                    </div>
+                    <input type="text" class="form-control jscolor" asp-for="standbyKleur" value="@colours[0]" />
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Pauze:</span>
+                    </div>
+                    <input type="text" class="form-control jscolor" asp-for="pauzeKleur" value="@colours[1]" />
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Incidenten:</span>
+                    </div>
+                    <input type="text" class="form-control jscolor" asp-for="incidentKleur" value="@colours[2]" />
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Verlof:</span>
+                    </div>
+                    <input type="text" class="form-control jscolor" asp-for="verlofKleur" value="@colours[3]" />
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark btn-block btn-sm">Bevestig</button>
+    </div>
+</form>
+<form asp-action="DeleteColours" asp-controller="Planner">
+    <button type="submit" class="btn btn-dark btn-block btn-sm">Reset</button>
+</form>
