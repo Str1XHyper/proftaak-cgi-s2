@@ -2,14 +2,20 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Proftaakrepos.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.HttpOverrides;
 using System;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
+using Proftaakrepos.Data;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.Extensions.Hosting;
+using Pomelo.EntityFrameworkCore.MySql;
+using Pomelo.EntityFrameworkCore.MySql.Storage;
+
 
 namespace Proftaakrepos
 {
@@ -25,6 +31,22 @@ namespace Proftaakrepos
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"), mysqlOptions =>
+                    {
+                        mysqlOptions
+                            .ServerVersion(new Version(10, 2, 31), ServerType.MySql);
+                    })
+                );
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -62,6 +84,8 @@ namespace Proftaakrepos
             //}
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
             app.UseSession();
@@ -71,6 +95,7 @@ namespace Proftaakrepos
             //});
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
