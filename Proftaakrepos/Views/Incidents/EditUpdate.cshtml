@@ -18,6 +18,12 @@
     <input type="hidden" asp-for="StatusIdIncident" value="@Model.StatusIdIncident" />
     <div class="input-group mb-3">
         <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3" style="width:175px">Status Naam: </span>
+        </div>
+        <input type="text" class="form-control" asp-for="StatusNaam" value="@Model.StatusNaam">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon3">Status Omschrijving: </span>
         </div>
         <input type="text" class="form-control" asp-for="StatusOmschrijving" value="@Model.StatusOmschrijving">
@@ -49,6 +55,6 @@
             $.datetimepicker.setLocale('nl');
         </script>
     </div>
-    <input type="submit" class="btn btn-outline-secondary">
+    <input type="submit" class="btn btn-outline-secondary" value="Wijzig">
     <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@Model.IncidentID">Cancel</a>
 </form>

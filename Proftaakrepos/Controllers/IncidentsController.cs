@@ -19,11 +19,11 @@ namespace Proftaakrepos.Controllers
                 SQLConnection.ExecuteNonSearchQuery($"UPDATE `Incidenten` SET `Afgehandeld`= '{status}' WHERE `IncidentID` = '{statusId}'");
                 if(status == "1")
                 {
-                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`) VALUES ('{statusId}','0','Begonnen aan het incident','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}')");
+                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','0','Begonnen aan het incident','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Begonnen')");
                 } else if (status == "2")
                 {
                     int i = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(`StatusIDIncident`) FROM  `IncidentUpdates` WHERE `IncidentID` = '{statusId}'")[0]);
-                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}')");
+                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Afgehandeld')");
                 }
             }
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
@@ -58,16 +58,16 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUpdate(int incidentId, AddStatusUpdateModel addStatusUpdateModel)
+        public IActionResult AddUpdate(int incidentId, AddStatusUpdateModel model)
         {
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`) VALUES ('{addStatusUpdateModel.IncidentID}','{addStatusUpdateModel.StatusIdIncident}','{addStatusUpdateModel.StatusOmschrijving}','{DateTime.Parse(addStatusUpdateModel.Start).ToString("yyyy/MM/dd HH:mm")}','{DateTime.Parse(addStatusUpdateModel.End).ToString("yyyy/MM/dd HH:mm")}')");
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{model.IncidentID}','{model.StatusIdIncident}','{model.StatusOmschrijving}','{DateTime.Parse(model.Start).ToString("yyyy/MM/dd HH:mm")}','{DateTime.Parse(model.End).ToString("yyyy/MM/dd HH:mm")}', '{model.StatusNaam}')");
             var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}'");
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
             return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = incidentId });
         }
 
-        public IActionResult EditUpdate(int incidentId, int statusIdIncident, string statusOmschrijving, string start, string end)
+        public IActionResult EditUpdate(int incidentId, int statusIdIncident, string statusOmschrijving, string start, string end, string statusNaam)
         {
             AddStatusUpdateModel model = new AddStatusUpdateModel
             {
@@ -75,7 +75,8 @@ namespace Proftaakrepos.Controllers
                 StatusIdIncident = statusIdIncident,
                 StatusOmschrijving = statusOmschrijving,
                 Start = start,
-                End = end
+                End = end,
+                StatusNaam = statusNaam
             };
             return View(model);
         }
@@ -96,7 +97,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult VoegIncidentToe(AddIncidentModel model)
         {
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`) VALUES ('{model.IncidentNaam}')");
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
             return RedirectToAction("Index");
         }
     }
