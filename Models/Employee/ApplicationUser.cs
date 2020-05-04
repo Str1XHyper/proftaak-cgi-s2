@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Proftaakrepos.Models
+﻿namespace Models
 {
     public class ApplicationUser
     {
@@ -17,7 +15,7 @@ namespace Proftaakrepos.Models
 
         public string emailsetting { get; set; }
         public string smssetting { get; set; }
-        public string currentPassword{ get; set; }
+        public string currentPassword { get; set; }
         public string newPassword { get; set; }
         public string ConfirmPassword { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿@model AddEmployee
+﻿@using Models
+@model AddEmployee
 @{
     ViewData["Title"] = "Voeg een werknemer toe";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,108 +13,108 @@
 <div class="form">
     <div style="color: red;">@ViewData["Error"]</div>
 
-<form asp-action="AddEmployee" asp-controller="Employee" method="post">
-    <div class="card-deck">
-        <div class="card">
-            <div class="card-header bg-dark text-white">Basisinformatie</div>
-            <div class="card-body">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Voornaam:</span>
+    <form asp-action="AddEmployee" asp-controller="Employee" method="post">
+        <div class="card-deck">
+            <div class="card">
+                <div class="card-header bg-dark text-white">Basisinformatie</div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Voornaam:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="naam">
                     </div>
-                    <input type="text" class="form-control" asp-for="naam">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Tussenvoegsel:</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Tussenvoegsel:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="tussenvoegsel">
                     </div>
-                    <input type="text" class="form-control" asp-for="tussenvoegsel">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Achternaam:</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Achternaam:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="achternaam">
                     </div>
-                    <input type="text" class="form-control" asp-for="achternaam">
-                </div>
-                <div class="border-top my-3"></div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Rol:</label>
-                    </div>
+                    <div class="border-top my-3"></div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Rol:</label>
+                        </div>
 
-                    <select class="custom-select" id="inputGroupSelect01" name="role">
-                        @{ if (ViewData["roles"] == null) { }
-                            else
-                            {
-                                string[] rollen = ViewData["roles"] as string[];
-                                for (int i = 0; i < rollen.Length; i++)
+                        <select class="custom-select" id="inputGroupSelect01" name="role">
+                            @{ if (ViewData["roles"] == null) { }
+                                else
                                 {
-                                    <option value="@rollen[i]">@rollen[i]</option>
+                                    string[] rollen = ViewData["roles"] as string[];
+                                    for (int i = 0; i < rollen.Length; i++)
+                                    {
+                                        <option value="@rollen[i]">@rollen[i]</option>
+                                    }
                                 }
                             }
-                        }
-                    </select>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header bg-dark text-white">Contactgegevens</div>
-            <div class="card-body">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">E-mail:</span>
+            <div class="card">
+                <div class="card-header bg-dark text-white">Contactgegevens</div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">E-mail:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="eMail">
                     </div>
-                    <input type="text" class="form-control" asp-for="eMail">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Telefoonnummer:</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Telefoonnummer:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="phoneNumber">
                     </div>
-                    <input type="text" class="form-control" asp-for="phoneNumber">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Straatnaam:</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Straatnaam:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="straatnaam">
                     </div>
-                    <input type="text" class="form-control" asp-for="straatnaam">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Huisnummer:</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Huisnummer:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="huisNummer">
                     </div>
-                    <input type="text" class="form-control" asp-for="huisNummer">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Postcode:</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Postcode:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="postcode">
                     </div>
-                    <input type="text" class="form-control" asp-for="postcode">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Woonplaats:</span>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Woonplaats:</span>
+                        </div>
+                        <input type="text" class="form-control" asp-for="woonplaats">
                     </div>
-                    <input type="text" class="form-control" asp-for="woonplaats">
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-header bg-dark text-white">Notificaties</div>
-            <div class="card-body">
-                <div class="custom-control custom-switch">
+            <div class="card">
+                <div class="card-header bg-dark text-white">Notificaties</div>
+                <div class="card-body">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
-                        <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
+                            <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
+                        </div>
+                        <br />
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
+                            <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
+                        </div>
                     </div>
-                    <br />
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
-                        <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
-                    </div>
+                    <button type="submit" class="btn btn-dark btn-block btn-sm">Voeg medewerker toe</button>
                 </div>
-                <button type="submit" class="btn btn-dark btn-block btn-sm">Voeg medewerker toe</button>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 </div>
