@@ -15,10 +15,14 @@
 
         foreach (string[] incident in incidenten)
         {
-            int statusCount = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(StatusIdIncident) FROM IncidentUpdates WHERE IncidentId = '{incident[0]}'; ")[0]);
+            int statusCount = 0;
+            if (incident[2] == "1")
+            {
+                statusCount = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(StatusIdIncident) FROM IncidentUpdates WHERE IncidentId = '{incident[0]}'; ")[0]);
+            }
             <div class="card mb-3">
                 <div class="card-header bg-dark text-white">
-                    Incident ID: @incident[0]
+                    Incident: @incident[3]
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">

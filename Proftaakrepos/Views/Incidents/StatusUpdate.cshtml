@@ -19,7 +19,7 @@
         foreach (string[] statusUpdate in statusUpdates)
         {
             <div class="card mb-3">
-                <div class="card-header bg-dark text-white">StatusUpdate ID: @statusUpdate[2]</div>
+                <div class="card-header bg-dark text-white">Status: @statusUpdate[6]</div>
                 <div class="card-body">
                     <h5 class="card-title">
                         @statusUpdate[3] <br />
@@ -34,7 +34,8 @@
                                asp-route-statusIdIncident="@statusUpdate[2]"
                                asp-route-statusOmschrijving="@statusUpdate[3]"
                                asp-route-start="@statusUpdate[4]"
-                               asp-route-end="@statusUpdate[5]">Edit</a>
+                               asp-route-end="@statusUpdate[5]"
+                               asp-route-statusNaam="@statusUpdate[6]">Edit</a>
                             <a class=" btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId" asp-route-delete="@true" asp-route-updateId="@statusUpdate[0]">Delete</a>
 
                         </div>

@@ -14,6 +14,13 @@
 <script src="~/js/ShiftView.js"></script>
 
 <div class="container-fluid">
+
+    @if (ViewData["Status"] != string.Empty)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewData["Status"]
+        </div>
+    }
     <div class="card mb-4">
         <div class="card-header bg-dark text-white">Ruilverzoek aanmaken</div>
         <div class="card-body">
@@ -22,7 +29,7 @@
                     <input type="hidden" value="@currentId" name="UserID" />
                     <div class="input-group">
                         <select name="EventID" id="EventID" class="custom-select">
-                            <option selected>Kies een dienst</option>
+                            <option value="0" selected>Kies een dienst</option>
                             @{
                                 foreach (string[] dienst in dienstInfo)
                                 {
