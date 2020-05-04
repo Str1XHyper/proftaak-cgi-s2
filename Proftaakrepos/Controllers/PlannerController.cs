@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Models;
+using Models.Agenda;
 
 namespace Proftaakrepos.Controllers
 {
@@ -22,6 +23,7 @@ namespace Proftaakrepos.Controllers
             string[] colours = SQLConnection.ExecuteSearchQuery($"SELECT * FROM ColorScheme").ToArray();
             if(colours.Length == 0)
             {
+                //Default colours to display if none are selected by company
                 colours = new string[4];
                 colours[0] = "3b5a6f";
                 colours[1] = "828a87";
