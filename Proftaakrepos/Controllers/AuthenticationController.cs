@@ -3,6 +3,7 @@ using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Proftaakrepos.Authorize;
 using System;
 
 namespace Proftaakrepos.Controllers
@@ -44,8 +45,7 @@ namespace Proftaakrepos.Controllers
             string userIP = Response.HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
             addLoginLog.NewLogin(authCode, success, userIP, timeNow);
         }
-        
-        [HttpPost]
+        [HttpPost]                              
         public IActionResult ChangePassword(ChangePassword changePassword)
         {
             AddLoginAccount.ChangeLoginAdmin(changePassword.email, changePassword.password);
@@ -64,7 +64,6 @@ namespace Proftaakrepos.Controllers
             AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
             return View("ChangePassword");
         }
-
         public IActionResult LoginNew(string extra)
         {
             if (HttpContext.Session.GetString("UserInfo") != null)

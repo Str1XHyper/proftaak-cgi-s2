@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\AccountFix\AccessDenied.cshtml" />
+    <None Include="Views\Account\AccessDenied.cshtml" />
     <None Include="Views\AccountFix\Login.cshtml" />
     <None Include="Views\AccountFix\Register.cshtml" />
     <None Include="wwwroot\img\img_avatar.png" />

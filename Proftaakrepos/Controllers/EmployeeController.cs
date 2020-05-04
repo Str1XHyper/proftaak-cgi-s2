@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Proftaakrepos.Authorize;
 using System;
 using System.Collections.Generic;
 
@@ -11,6 +12,7 @@ namespace Proftaakrepos.Controllers
     {
         private string _authCode;
         #region Views
+        [ClaimRequirement("Permission", "CanReadResource")]
         public IActionResult Employees()
         {
             return View();

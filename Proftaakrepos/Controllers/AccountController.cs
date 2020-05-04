@@ -1,4 +1,5 @@
 ﻿using ClassLibrary.Classes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -87,6 +88,13 @@ namespace Proftaakrepos.Controllers
 
         [HttpPost]
         public IActionResult PasswordChange(string test)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
         {
             return View();
         }
