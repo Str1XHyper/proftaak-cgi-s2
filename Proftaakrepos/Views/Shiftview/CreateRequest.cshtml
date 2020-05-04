@@ -17,11 +17,8 @@
 
     @if (ViewData["Status"] != string.Empty)
     {
-    <div class="alert alert-danger" role="alert">
-        @ViewData["Status"]
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="alert alert-danger" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
+            @ViewData["Status"]
     </div>
     }
     <div class="card mb-4">
