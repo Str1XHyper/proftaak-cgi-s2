@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Proftaakrepos.Models;
+using Models;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Http;
 using ClassLibrary.Classes;
@@ -26,8 +26,10 @@ namespace Proftaakrepos.Controllers
             else return RedirectToAction("NoAccessIndex", "Home");
         }
 
-        public IActionResult CreateRequest()
+        public IActionResult CreateRequest(string status)
         {
+            if (status != null) ViewData["Status"] = status;
+            else ViewData["Status"] = string.Empty;
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string _authCode = HttpContext.Session.GetString("UserInfo");
             if (CheckIfAllowed.IsAllowed(_authCode, "CreateRequest")) return View();
@@ -37,6 +39,11 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult CreateRequest(string EventID, string UserID)
         {
+            if( EventID == "0")
+            {
+                return RedirectToAction("CreateRequest", new { status = "Geen dienst geselecteerd"});
+            }
+
             string[] roosterData = SQLConnection.ExecuteSearchQuery($"Select * from Rooster where EventId = {EventID}").ToArray();
 
             string[] startDates = new string[3];
@@ -97,9 +104,15 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Block(string UserID, int TradeID, string DisabledIds)
         {
-            SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set DisabledIds = '{DisabledIds},{UserID}'Where TradeId = {TradeID}");
+            SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set DisabledIds = '{DisabledIds},{UserID}' Where TradeId = {TradeID}");
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return Redirect("Incoming");
+        }
+
+        public IActionResult Cancel(string EventID)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `TradeRequest` WHERE `EventID` = {EventID}; UPDATE `Rooster` SET `IsPending` = 0 WHERE `EventId` = {EventID}");
+            return RedirectToAction("CreateRequest", new { status = "U heeft uw aanvraag geannuleerd" });
         }
     }
 }

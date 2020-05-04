@@ -1,7 +1,7 @@
 ﻿using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Proftaakrepos.Models;
+using Models;
 using System;
 using System.Collections.Generic;
 

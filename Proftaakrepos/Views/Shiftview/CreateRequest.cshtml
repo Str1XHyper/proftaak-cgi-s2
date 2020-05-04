@@ -1,7 +1,6 @@
 ﻿@using MySql.Data.MySqlClient;
 @using Microsoft.AspNetCore.Http;
 @using ClassLibrary.Classes;
-@model ShiftViewModel;
 
 @{
     ViewData["Title"] = "Create a Request";
@@ -15,6 +14,13 @@
 <script src="~/js/ShiftView.js"></script>
 
 <div class="container-fluid">
+
+    @if (ViewData["Status"] != string.Empty)
+    {
+        <div class="alert alert-danger fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
+            @ViewData["Status"]
+        </div>
+    }
     <div class="card mb-4">
         <div class="card-header bg-dark text-white">Ruilverzoek aanmaken</div>
         <div class="card-body">
@@ -23,7 +29,7 @@
                     <input type="hidden" value="@currentId" name="UserID" />
                     <div class="input-group">
                         <select name="EventID" id="EventID" class="custom-select">
-                            <option selected>Kies een dienst</option>
+                            <option value="0" selected>Kies een dienst</option>
                             @{
                                 foreach (string[] dienst in dienstInfo)
                                 {
@@ -82,8 +88,10 @@
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             @dienst[2] | @dienst[4] - @dienst[5]
                                             <div class="input-group-append">
-                                                <button class="btn btn-outline-success mr-1" style="width: 50px"><i class="fas fa-check"></i></button>
-                                                <button class="btn btn-outline-danger" style="width: 50px"><i class="fas fa-times"></i></button>
+                                                <form asp-action="Cancel" method="post">
+                                                    <input type="hidden" name="EventID" value="@dienst[0]" />
+                                                    <button type="submit" class="btn btn-outline-danger" style="width: 50px"><i class="fas fa-times"></i></button>
+                                                </form>
                                             </div>
                                         </li>
                                     }
