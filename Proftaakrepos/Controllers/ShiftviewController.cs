@@ -104,9 +104,15 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult Block(string UserID, int TradeID, string DisabledIds)
         {
-            SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set DisabledIds = '{DisabledIds},{UserID}'Where TradeId = {TradeID}");
+            SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set DisabledIds = '{DisabledIds},{UserID}' Where TradeId = {TradeID}");
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return Redirect("Incoming");
+        }
+
+        public IActionResult Cancel(string EventID)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `TradeRequest` WHERE `EventID` = {EventID}; UPDATE `Rooster` SET `IsPending` = 0 WHERE `EventId` = {EventID}");
+            return RedirectToAction("CreateRequest", new { status = "U heeft uw aanvraag geannuleerd" });
         }
     }
 }
