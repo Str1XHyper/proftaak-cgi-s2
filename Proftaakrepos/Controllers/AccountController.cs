@@ -10,7 +10,7 @@ namespace Proftaakrepos.Controllers
 {
     public class AccountController : Controller
     {
-        [ClaimRequirement("LoggedIn", "")]
+        [UserAccess("LoggedIn", "")]
         public IActionResult ChangeSettings()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
@@ -20,13 +20,13 @@ namespace Proftaakrepos.Controllers
             ViewData["Settings"] = data;
             return View();
         }
-        [ClaimRequirement("Iedereen", "")]
+        [UserAccess("Iedereen", "")]
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("UserInfo");
             return RedirectToAction("LoginNew", "Authentication", new {extra = "uitgelogd" });
         }
-        [ClaimRequirement("LoggedIn", "")]
+        [UserAccess("LoggedIn", "")]
         [HttpPost]
         public IActionResult ChangeLeSetting(ApplicationUser model)
         {
@@ -62,7 +62,7 @@ namespace Proftaakrepos.Controllers
                 }
             }
         }
-        [ClaimRequirement("LoggedIn", "")]
+        [UserAccess("LoggedIn", "")]
         private void ChangeVal(ApplicationUser model)
         {
             string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{HttpContext.Session.GetString("UserInfo")}'")[0];

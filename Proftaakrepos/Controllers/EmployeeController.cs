@@ -12,7 +12,7 @@ namespace Proftaakrepos.Controllers
     {
         private string _authCode;
         #region Views
-        [ClaimRequirement("", "ChangeEmployee")]
+        [UserAccess("", "ChangeEmployee")]
         public IActionResult Employees()
         {
             return View();

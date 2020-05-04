@@ -12,9 +12,9 @@ using ClassLibrary.Classes;
 
 namespace Proftaakrepos.Authorize
 {
-    public class ClaimRequirementAttribute : TypeFilterAttribute
+    public class UserAccessAttribute : TypeFilterAttribute
     {
-        public ClaimRequirementAttribute(string type, string pagina) : base(typeof(ClaimRequirementFilter))
+        public UserAccessAttribute(string type, string pagina) : base(typeof(ClaimRequirementFilter))
         {
             Arguments = new object[] { new Claim(type, pagina) };
         }

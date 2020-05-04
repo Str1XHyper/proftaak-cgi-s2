@@ -11,7 +11,7 @@ namespace Proftaakrepos.Controllers
 {
     public class ActivityController : Controller
     {
-        [ClaimRequirement("LoggedIn", "")]
+        [UserAccess("LoggedIn", "")]
         public IActionResult Index()
         {
             string authcode = HttpContext.Session.GetString("UserInfo");
