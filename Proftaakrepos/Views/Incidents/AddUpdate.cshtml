@@ -40,8 +40,15 @@
 </head>
 <h1>Status update toevoegen</h1>
 <form method="post">
+    <div asp-validation-summary="All"></div>
     <input type="hidden" asp-for="IncidentID" value="@ViewBag.IncidentId" />
     <input type="hidden" asp-for="StatusIdIncident" value="@activeStatusID" />
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3" style="width:175px">Status Naam: </span>
+        </div>
+        <input type="text" class="form-control" asp-for="StatusNaam">
+    </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon3" style="width:175px">Status Omschrijving: </span>
@@ -75,7 +82,7 @@
             $.datetimepicker.setLocale('nl');
         </script>
     </div>
-    <input type="submit" class="btn btn-outline-secondary">
+    <input type="submit" class="btn btn-outline-secondary" value="Voeg toe">
     <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId">Cancel</a>
 </form>
 
