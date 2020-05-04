@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(document).ready(function () {
             // Handler for .ready() called.
             $('html, body').animate({
-                scrollTop: $('#button-header').offset().top - 55,
+                scrollTop: $('#button-header').offset().top - 57,
             }, 1000);
         });
         wantedWeekends = false;
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             month: 'Maand',
             week: 'Week',
             day: 'Dag',
-            today: '  ‌‌-  ',
+            today: '  ‌‌▼  ',
         },
         plugins: ['dayGrid', 'bootstrap', 'interaction', 'timeGrid'],
         defaultView: wantedView,
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         //minTime: "06:00:00",
         //maxTime: "24:00:00",
         height: 'auto',
+        firstDay: 1,
         draggable: true,
         lazyFetching: true,
         locale: 'nl',
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         editable: true,
         droppable: true,
         dropAccept: true,
-        longPressDelay: '500',
+        longPressDelay: 500,
         slotLabelFormat: {
             hour: 'numeric',
             minute: '2-digit',
@@ -74,8 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var themeColor = data[6];
                     var fullDay = data[7];
                     var voornaam = data[9];
-                    $('#voornaamField').text = voornaam;
-                    if (fullDay == true) {
+                    if (fullDay == 1) {
                         document.getElementById("fullDayField").selectedIndex = 1;
                     }
                     else {
@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                     var rol = $("#rol").val();
+                    document.getElementById("fullDayField").value = document.getElementById("fullDayField").selectedIndex;
                     document.getElementById("eventIdField").value = eventId;
                     document.getElementById("titleField").value = title;
                     document.getElementById("descriptionField").value = description;
@@ -131,31 +132,51 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         },
         select: function (selectionInfo) {
-            $('#voornaamField').tokenfield('setTokens', []);
-
+            var splitUserIdArray = [];
+            var userIdArray = [];
+            var userIds = "";
+            var currentTokens = $('#voornaamFieldHeader').tokenfield('getTokens');
+            for (var i = 0; i < currentTokens.length; i++) {
+                userIdArray[i] = currentTokens[i].value;
+                splitUserIdArray[i] = userIdArray[i].split(" ")[0];
+            }
+            $('#voornaamField').tokenfield('setTokens', currentTokens);
+            for (var j = 0; j < splitUserIdArray.length; j++) {
+                userIds += splitUserIdArray[j] + ",";
+            }
             var soort = $("#themeColorField option:selected").text();
-            var userId = $("#userIdField1 option:selected").val();
             var themeColor = $("#themeColorField option:selected").val();
             var naam = $("#userIdField1 option:selected").text();
             var start = new Date(selectionInfo.start.valueOf() - selectionInfo.start.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
             var end = new Date(selectionInfo.end.valueOf() - selectionInfo.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
             document.getElementById("eventIdField").value = 0;
-            //document.getElementById("voornaamField").value = naam;
             document.getElementById("titleField").value = soort;
             document.getElementById("descriptionField").value = soort;
             document.getElementById("startField").value = start;
             document.getElementById("endField").value = end;
             document.getElementById("themeColorField").value = themeColor;
             document.getElementById("submitButton").value = "Bevestig";
-            document.getElementById("userIdField2").value = userId;
+            document.getElementById("userIdField2").value = userIds;
             modal.style.display = "block";
         },
         eventDrop: function (eventDropInfo) {
-            $.ajax(
-                {
-                    type: "GET",
-                    url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + eventDropInfo.event.end.toISOString() + '&EventId=' + eventDropInfo.event.id,
-                });
+            if (eventDropInfo.event.allDay == true) {
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: '/Planner/UpdateAllDay?EventId=' + eventDropInfo.event.id + '&allDay=' + eventDropInfo.event.allDay,
+                    });
+            }
+            else {
+                var endTime = eventDropInfo.event.start;
+                endTime.setHours(eventDropInfo.event.start.getHours() + 1);
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: '/Planner/UpdateAgendaTimes?startTime=' + eventDropInfo.event.start.toISOString() + '&endTime=' + endTime.toISOString() + '&EventId=' + eventDropInfo.event.id + '&allDay=' + eventDropInfo.event.allDay,
+                    });
+            }
+            
         },
     });
 
@@ -257,6 +278,7 @@ function HandleRequest() {
             selectedIds += userIdByToken[0] + ",";
         }
         document.getElementById("userIdField2").value = selectedIds;
+        console.log($('#modalForm').serialize());
         $.ajax({
             url: '/Planner/CreateEvent',
             type: 'post',
@@ -265,11 +287,28 @@ function HandleRequest() {
                 CloseModal();
             }
         });
+        //if (Notification.permission === 'granted') {
+        //    navigator.serviceWorker.getRegistration()
+        //        .then(function (reg) {
+        //            var options = {
+        //                body: 'Uw rooster is aangepast',
+        //                icon: 'img/cgi.png',
+        //                data: {
+        //                    dateOfArrival: Date.now(),
+        //                    primaryKey: 1
+        //                }
+        //            };
+        //            reg.showNotification('Event created!', options);
+        //            console.log("Its working tho");
+        //        });
+        //}
     }
     else {
         window.alert("Selecteer een werknemer");
         FetchEvents();
     }
+
+
 }
 function EditTitle(info) {
     document.getElementById("titleField").value = info;
@@ -356,6 +395,16 @@ window.onload = function SetLoggedInUserToken() {
             $('#voornaamFieldHeader').tokenfield('setTokens', splitemployeedata[i]);
             break;
         }
+    }
+
+}
+function changeDivVisibility() {
+    var toolsDiv = document.getElementById("scheduler-tools");
+    if (toolsDiv.style.display == "none") {
+        toolsDiv.style.display = "block";
+    }
+    else {
+        toolsDiv.style.display = "none";
     }
 }
 function FetchEvents() {

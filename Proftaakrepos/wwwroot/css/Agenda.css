@@ -17,6 +17,7 @@
 .calendar {
     background-color: #212529;
 }
+
 .fc-today {
     background-color: rgba(0, 0, 0, 0.25) !important;
 }
@@ -153,7 +154,7 @@
 
 .fc-event {
     font-family: 'Raleway', sans-serif !important;
-    color: #bdbcbc !important;
+    color: lightgrey !important;
     font-weight: 700 !important;
     margin-right: 2% !important;
     /*font-weight: bold;*/
@@ -191,12 +192,34 @@
     line-height: 1em !important;
 }
 
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
+
+/*moving the closebutton right/up a bit.
+modal-content {
+    background-color: white;
+    margin: 15% auto; /* 15% from the top and centered 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size 
+    padding-top: 10px; */
+}
+
+/*The Close Button
+.close {
+    color: black !important;
+    float: right;
+    font-size: 30px !important;
+    font-weight: bold;
+    line-height: 0,7em !important;
+    padding-left: 97.5%;
+    padding-bottom: 5px;
+}*/
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 .input-group-prepend {
     min-width: 115px !important;
@@ -254,6 +277,7 @@
 
 .fc-time {
     font-size: calc(6pt + 0.3vw) !important;
+    line-height: 1.1em;
 }
 
 .fc-previous-button {
@@ -278,6 +302,7 @@
 .fc-title {
     font-size: calc(4pt + 0.4vw) !important;
     min-width: 160px !important;
+    line-height: 1em;
 }
 
 span {
@@ -300,6 +325,9 @@ span {
     box-shadow: inherit;
 }
 
+.fontawesome-i2svg-active {
+}
+
 .tokenfield {
 }
 
@@ -307,6 +335,18 @@ span {
     font-size: calc(6pt + 0.6vw) !important;
 }
 
+.scheduler-tools {
+    display: block;
+}
+
+    .scheduler-tools:hover {
+        background-color: #212529 !important;
+        cursor: pointer;
+    }
+.fc-button-active {
+    background-color: #76828e !important;
+    border-color: #76828e !important;
+}
 
 @media only screen and (max-width: 725px) {
 
@@ -327,14 +367,17 @@ span {
 
     .fc-button-group {
     }
+
     .input-group-prepend {
         min-width: 85px !important;
         width: 85px !important;
     }
+
     .input-group-text {
         min-width: 85px !important;
         width: 85px !important;
     }
+
     .fv-toolbar {
         display: unset !important;
         align-items: center !important;
@@ -412,6 +455,7 @@ span {
         padding-left: 5px !important;
         padding-right: 5px !important;
     }
-    .token-label{
+
+    .token-label {
     }
 }

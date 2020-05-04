@@ -1,0 +1,17 @@
+{
+    "name": "CGI",
+    "short_name": "CGI",
+    "theme_color": "grey",
+    "background_color": "grey",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/Planner/Agenda",
+    "icons": [
+        {
+            "src": "img/cgi.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
+
