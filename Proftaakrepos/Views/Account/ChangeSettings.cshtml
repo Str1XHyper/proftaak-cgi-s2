@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ 
+@{
     string[] test;
     if(ViewData["userInformation"] != null)
     {
@@ -70,7 +70,7 @@
                     <input oninput="checkPass('pw2')" type="password" id="newpass2" class="form-control" asp-for="ConfirmPassword">
                 </div>
                 <div id="PassAlert" class="alert alert-warning alert-dismissible show" role="alert" style="display:none;">
-                <strong>Wachtwoord vereisten:</strong> Minimaal 1 getal, 1 speciaal karakter, 1 kleine  letter, 1 hoofd letter en minimum van 8 karakters.
+                    <strong>Wachtwoord vereisten:</strong> Minimaal 1 getal, 1 speciaal karakter, 1 kleine  letter, 1 hoofd letter en minimum van 8 karakters.
                 </div>
             </div>
         </div>
@@ -122,11 +122,11 @@
                     @{
                         if (setting[1].ToLower() == "true")
                         {
-                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting" checked>
+                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting" checked>
                         }
                         else
                         {
-                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
+                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
                         }
                     }
 
@@ -137,25 +137,29 @@
                     @{
                         if (setting[2].ToLower() == "true")
                         {
-                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting" checked>
+                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting" checked>
                         }
                         else
                         {
-                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
+                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
                         }
                     }
                     <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
                 </div>
-                <div class="input-group float-right">
-                    <a class="btn btn-outline-danger mr-1" method="Post" href="/Account/ChangeSettings">
-                        Reset
-                    </a>
-                    <button class="btn btn-outline-success" method="Post" type="submit">
-                        Pas aan
-                    </button>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-auto">
+                    <div class="input-group float-right">
+                        <a class="btn btn-outline-danger mr-1" method="Post" href="/Account/ChangeSettings">
+                            Reset
+                        </a>
+                        <button class="btn btn-outline-success" method="Post" type="submit">
+                            Pas aan
+                        </button>
+                    </div>
                 </div>
             </div>
-    </div>
+        </div>
 </form>
 
 <script src="~/js/passStrength.js"></script>
