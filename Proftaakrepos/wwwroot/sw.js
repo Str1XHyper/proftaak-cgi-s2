@@ -1,7 +1,6 @@
 var cacheName = 'cgi-pwa';
 var filesToCache = [
     '/',
-    '/Planner/Agenda',
     //'/css/style.css',
     //'/js/main.js'
 ];
