@@ -27,10 +27,16 @@
     }
 }
 <h1>Instellingen</h1>
-@if (ViewData["Error"].ToString() != string.Empty)
+@if (TempData["Error"] as string != null)
 {
     <div class="alert alert-danger fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
-        @ViewData["Error"]
+        @TempData["Error"]
+    </div>
+}
+@if (TempData["Status"] as string != null)
+{
+    <div class="alert alert-success fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
+        @TempData["Status"]
     </div>
 }
 <form asp-action="ChangeLeSetting" asp-controller="Account">
