@@ -2,9 +2,11 @@
 using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models.Authentication;
 using Models;
 using Proftaakrepos.Authorize;
 using System;
+using System.Collections.Generic;
 
 namespace Proftaakrepos.Controllers
 {
@@ -77,9 +79,11 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public ActionResult<bool> CheckPassword(string password)
+        public ActionResult<CheckPasswordModel> CheckPassword(string password)
         {
-            PasswordCheck passwordCheck = new PasswordCheck();
+            List<string> result = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `PasswordRequirements`");
+            CheckPasswordModel cpm = new CheckPasswordModel(Convert.ToBoolean(Convert.ToInt16(result[0])), Convert.ToBoolean(Convert.ToInt16(result[1])), Convert.ToBoolean(Convert.ToInt16(result[2])), Convert.ToBoolean(Convert.ToInt16(result[3])), Convert.ToInt32(result[4]));
+            PasswordCheck passwordCheck = new PasswordCheck(cpm, HttpContext.Session.GetString("UserInfo"));
             return passwordCheck.CheckPassword(password);
         }
     }

@@ -20,6 +20,7 @@ namespace Proftaakrepos.Controllers
             ViewData["Settings"] = data;
             return View();
         }
+
         [UserAccess("Iedereen", "")]
         public IActionResult LogOut()
         {
@@ -42,6 +43,7 @@ namespace Proftaakrepos.Controllers
             }
             else
             {
+                ViewData["Error"] = string.Empty;
                 if (model.newPassword == model.ConfirmPassword)
                 {
                     ChangePasswordFunc changePasswordFunc = new ChangePasswordFunc();

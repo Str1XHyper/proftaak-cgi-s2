@@ -2,36 +2,47 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Models.Authentication;
 
 namespace ClassLibrary.Classes
 {
     public class PasswordCheck
     {
-        private int minLen;
-        public bool CheckPassword(string password)
+        private CheckPasswordModel cpm;
+        private string authCode;
+        public PasswordCheck(CheckPasswordModel cpm, string authCode)
         {
-            bool number = false;
-            bool specChar = false;
-            bool upper = false;
-            bool lower = false;
-            bool length = false;
-            minLen = 6;
+            this.cpm = cpm;
+            this.authCode = authCode;
+        }
 
-            if (ContainsNumber(password))
-                number = true;
-            if (ContainsSpecialChar(password))
-                specChar = true;
-            if (ContainsUpperCase(password))
-                upper = true;
-            if (ContainsLowerCase(password))
-                lower = true;
-            if (HasMinLenght(password))
-                length = true;
-
-            if (lower && upper && number && specChar && length)
-                return true;
-            else
+        public bool CheckCurrentPassword(string password)
+        {
+            List<string> UID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Login` WHERE `Password` = AES_ENCRYPT('{password}', 'CGIKey')");
+            if (UID.Count > 0)
+            {
+                List<string> result = SQLConnection.ExecuteSearchQuery($"SELECT `AuthCode` FROM `Werknemers` WHERE `UserId` = '{UID[0]}'");
+                return result[0] == authCode;
+            } else
+            {
                 return false;
+            }
+        }
+
+        public CheckPasswordModel CheckPassword(string password)
+        {
+            if (ContainsNumber(password) || cpm.NumberRequired == false)
+                cpm.Number = true;
+            if (ContainsSpecialChar(password) || cpm.SpecialCharRequired == false)
+                cpm.SpecialChar = true;
+            if (ContainsUpperCase(password) || cpm.UpperRequired == false)
+                cpm.Upper = true;
+            if (ContainsLowerCase(password) || cpm.LowerRequired == false)
+                cpm.Lower = true;
+            if (HasMinLenght(password))
+                cpm.Length = true;
+
+            return cpm;
         }
 
         #region Logic
@@ -66,7 +77,7 @@ namespace ClassLibrary.Classes
             {
                 counter++;
             }
-            return counter >= minLen;
+            return counter >= cpm.MinLength;
         }
         #endregion
     }
