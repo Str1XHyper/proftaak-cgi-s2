@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Models;
+using Proftaakrepos.Authorize;
 
 namespace Proftaakrepos.Controllers
 {
     public class IncidentsController : Controller
     {
+        [UserAccess("","Incidenten")]
         [HttpGet]
         public IActionResult Index(string? status, int? statusId)
         {
@@ -29,10 +31,10 @@ namespace Proftaakrepos.Controllers
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
             ViewBag.Incidents = incidents;
             string _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "Incident")) return View();
-            else return RedirectToAction("NoAccessIndex", "Home");
+            return View();
         }
 
+        [UserAccess("", "Incidenten")]
         [HttpGet]
         public IActionResult StatusUpdate(int? incidentId, bool delete, int? updateId)
         {
@@ -49,6 +51,7 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
+        [UserAccess("", "Incidenten")]
         public IActionResult AddUpdate(int incidentId)
         {
             var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}'");
@@ -57,6 +60,7 @@ namespace Proftaakrepos.Controllers
             return View();
         }
 
+        [UserAccess("", "Incidenten")]
         [HttpPost]
         public IActionResult AddUpdate(int incidentId, AddStatusUpdateModel model)
         {
@@ -67,6 +71,7 @@ namespace Proftaakrepos.Controllers
             return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = incidentId });
         }
 
+        [UserAccess("", "Incidenten")]
         public IActionResult EditUpdate(int incidentId, int statusIdIncident, string statusOmschrijving, string start, string end, string statusNaam)
         {
             AddStatusUpdateModel model = new AddStatusUpdateModel
@@ -81,6 +86,7 @@ namespace Proftaakrepos.Controllers
             return View(model);
         }
 
+        [UserAccess("", "Incidenten")]
         [HttpPost]
         public IActionResult EditUpdate(AddStatusUpdateModel model)
         {
@@ -89,11 +95,13 @@ namespace Proftaakrepos.Controllers
             return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = model.IncidentID });
         }
 
+        [UserAccess("", "Incidenten")]
         public IActionResult VoegIncidentToe()
         {
             return View();
         }
 
+        [UserAccess("", "Incidenten")]
         [HttpPost]
         public IActionResult VoegIncidentToe(AddIncidentModel model)
         {

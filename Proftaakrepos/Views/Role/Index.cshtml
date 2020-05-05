@@ -1,44 +1,104 @@
-﻿
+﻿@using Models.Settings;
+@model NewPermissions
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Toegang per rol</h1>
 
 @*TODO:
     -Rollen toevoegen
     -Rollen laten zien op de pagina
-    -Rollen in orde kunnen veranderen.*@
-<script src="~/js/lolgetfk.js"></script>
-<link rel="stylesheet" type="text/css" href="~/css/purejS.css">
-
-<div class="container">
-
-    <div>
-        <h3>Sortable List 1</h3>
-        <ul id="list-1" class="sortable">
-            <li id="item-1">Item 01 &nbsp;-&nbsp; <a href="#1">Link 01</a></li>
-            <li id="item-2">Item 02 &nbsp;-&nbsp; <a href="#2">Link 02</a></li>
-            <li id="item-3">Item 03 &nbsp;-&nbsp; <a href="#3">Link 03</a></li>
-            <li id="item-4">Item 04 &nbsp;-&nbsp; <a href="#4">Link 04</a></li>
-            <li id="item-5">Item 05 &nbsp;-&nbsp; <a href="#5">Link 05</a></li>
-            <li id="item-6">Item 06 &nbsp;-&nbsp; <a href="#6">Link 06</a></li>
-        </ul>
-        <button id="sbtn-1" type="button">Serialize</button>
+    -Pagina's laten zien van de  geselecteerde rol*@
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+<script src="uikit/dist/js/uikit-icons.min.js"></script>
+<div class="gridd">
+    <div class="card left">
+        <div class="card-header bg-dark text-white">Rollen</div>
+        <div class="card-body">
+            <ul class="list-group list-group">
+                @{
+                    List<string> rollen = ViewBag.Rollen;
+                    foreach (string rol in rollen)
+                    {
+                        <a href="/Role/GetPermissions/@rol" style="color: inherit"><li class="list-group-item">@rol</li></a>
+                    }
+                }
+            </ul>
+        </div>
     </div>
-
-    <div>
-        <h3>Sortable List 2</h3>
-        <ul id="list-2" class="sortable">
-            <li id="item-7">Item 07 &nbsp;-&nbsp; <a href="#7">Link 07</a></li>
-            <li id="item-8">Item 08 &nbsp;-&nbsp; <a href="#8">Link 08</a></li>
-            <li id="item-9">Item 09 &nbsp;-&nbsp; <a href="#9">Link 09</a></li>
-            <li id="item-10">Item 10 &nbsp;-&nbsp; <a href="#10">Link 10</a></li>
-            <li id="item-11">Item 11 &nbsp;-&nbsp; <a href="#11">Link 11</a></li>
-            <li id="item-12">Item 12 &nbsp;-&nbsp; <a href="#12">Link 12</a></li>
-        </ul>
-        <button id="sbtn-2" type="button">Serialize</button>
+    <div class="card right">
+        <div class="card-header bg-dark text-white">Pagina's</div>
+        <div class="card-body">
+            <form asp-action="ChangePermissions" asp-controller="Role">
+                @{
+                    if (ViewBag.Pages != null)
+                    {
+                        PageModel pModel = ViewBag.Pages;
+                        for (int i = 0; i < pModel.AmountPages; i++)
+                        {
+                            <div class="row mb-1">
+                                <div class="column">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" id="basic-addon1" style="width: 175px">@pModel.PageNames[i + 1]</label> <input type="hidden" asp-for="Pages[i]" value="@pModel.PageNames[i + 1]" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column pt-1 pl-1 border rounded-right border-dark" style="width: 160px">
+                                    <div>
+                                        <div class="pretty p-svg p-toggle p-bigger p-plain">
+                                            @{
+                                                if (pModel.Permissions[i + 1] == "1")
+                                                {
+                                                    <input type="checkbox" class="pl-3" checked asp-for="Permissions[i]" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" class="pl-3" asp-for="Permissions[i]" />
+                                                }
+                                            }
+                                            <div class="state p-on">
+                                                <svg class="svg svg-icon" viewBox="0 0 20 20">
+                                                    <rect fill="none" stroke="#5cb85c" x="3.5" y="8.5" width="13" height="10"></rect>
+                                                    <path fill="none" stroke="#5cb85c" d="M6.5,8.5 L6.5,4.9 C6.5,3 8.1,1.5 10,1.5 C11.9,1.5 13.5,3 13.5,4.9"></path>
+                                                </svg>
+                                                <label class="ml-1">Wel toegang</label>
+                                            </div>
+                                            <div class="state p-off">
+                                                <svg class="svg svg-icon " viewBox="0 0 20 20">
+                                                    <rect fill="none" stroke="red" height="10" width="13" y="8.5" x="3.5"></rect>
+                                                    <path fill="none" stroke="red" d="M6.5,8 L6.5,4.88 C6.5,3.01 8.07,1.5 10,1.5 C11.93,1.5 13.5,3.01 13.5,4.88 L13.5,8"></path>
+                                                </svg>
+                                                <label class="ml-1">Geen toegang</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <button type="submit" class="btn btn-outline-success">Submit</button>
+                        <input type="hidden" asp-for="Rol" value="@pModel.Role"/>
+                    }
+                }
+            </form>
+        </div>
     </div>
-
 </div>
+
+<style>
+    .gridd {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 60vh;
+    }
+
+    .left {
+        grid-column: 1;
+    }
+
+    .right {
+        grid-column: 2;
+    }
+</style>

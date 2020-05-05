@@ -75,8 +75,7 @@ namespace Proftaakrepos.Controllers
                 viewdata.userList.Add(usermodel);
             }
             string _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "Agenda")) return View(viewdata);
-            else return RedirectToAction("NoAccessIndex", "Home");
+            return View(viewdata);
         }
         #endregion
         #region Data Logic
