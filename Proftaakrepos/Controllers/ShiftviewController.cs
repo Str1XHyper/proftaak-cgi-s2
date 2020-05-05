@@ -14,16 +14,13 @@ namespace Proftaakrepos.Controllers
     {
         public IActionResult ShiftviewEmail()
         {
-            string _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "ShiftViewEmail")) return View();
-            else return RedirectToAction("NoAccessIndex", "Home");
+            return View();
         }
         public IActionResult Incoming()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "Incoming")) return View();
-            else return RedirectToAction("NoAccessIndex", "Home");
+            return View();
         }
 
         public IActionResult CreateRequest(string status)
@@ -32,8 +29,7 @@ namespace Proftaakrepos.Controllers
             else ViewData["Status"] = string.Empty;
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "CreateRequest")) return View();
-            else return RedirectToAction("NoAccessIndex", "Home");
+            return View();
         }
 
         [HttpPost]
