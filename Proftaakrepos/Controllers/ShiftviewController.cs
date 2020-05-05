@@ -7,22 +7,25 @@ using Models;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Http;
 using ClassLibrary.Classes;
+using Proftaakrepos.Authorize;
 
 namespace Proftaakrepos.Controllers
 {
     public class ShiftviewController : Controller
     {
+        [UserAccess("", "Reactie op verzoek")]
         public IActionResult ShiftviewEmail()
         {
             return View();
         }
+        [UserAccess("","Inkomend")]
         public IActionResult Incoming()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string _authCode = HttpContext.Session.GetString("UserInfo");
             return View();
         }
-
+        [UserAccess("", "Uitgaand")]
         public IActionResult CreateRequest(string status)
         {
             if (status != null) ViewData["Status"] = status;
@@ -31,7 +34,7 @@ namespace Proftaakrepos.Controllers
             string _authCode = HttpContext.Session.GetString("UserInfo");
             return View();
         }
-
+        [UserAccess("", "Uitgaand")]
         [HttpPost]
         public IActionResult CreateRequest(string EventID, string UserID)
         {
@@ -67,7 +70,7 @@ namespace Proftaakrepos.Controllers
 
             return RedirectToAction("CreateRequest");
         }
-
+        [UserAccess("", "Inkomend")]
         public IActionResult HandleRequest(string UserID, int TradeID, int EventID)
         {
             string nameAcceptor;
@@ -97,14 +100,14 @@ namespace Proftaakrepos.Controllers
             SendMail.Execute(subject, "alex.peek@hotmail.com", htmlMessage, plainMessage);
             return Redirect("Incoming");
         }
-
+        [UserAccess("", "Inkomend")]
         public IActionResult Block(string UserID, int TradeID, string DisabledIds)
         {
             SQLConnection.ExecuteNonSearchQuery($"Update TradeRequest Set DisabledIds = '{DisabledIds},{UserID}' Where TradeId = {TradeID}");
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return Redirect("Incoming");
         }
-
+        [UserAccess("", "Uitgaand")]
         public IActionResult Cancel(string EventID)
         {
             SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `TradeRequest` WHERE `EventID` = {EventID}; UPDATE `Rooster` SET `IsPending` = 0 WHERE `EventId` = {EventID}");
