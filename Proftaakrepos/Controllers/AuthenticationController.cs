@@ -13,7 +13,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            string response =  LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
+            string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
             switch (response)
             {
                 case "redirectHome":
@@ -44,7 +44,7 @@ namespace Proftaakrepos.Controllers
             string userIP = Response.HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
             addLoginLog.NewLogin(authCode, success, userIP, timeNow);
         }
-        [HttpPost]                              
+        [HttpPost]
         public IActionResult ChangePassword(ChangePassword changePassword)
         {
             AddLoginAccount.ChangeLoginAdmin(changePassword.email, changePassword.password);
@@ -74,6 +74,13 @@ namespace Proftaakrepos.Controllers
                 ViewData["Error"] = "Succesvol uitgelogd.";
             }
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult<bool> CheckPassword(string password)
+        {
+            PasswordCheck passwordCheck = new PasswordCheck();
+            return passwordCheck.CheckPassword(password);
         }
     }
 }
