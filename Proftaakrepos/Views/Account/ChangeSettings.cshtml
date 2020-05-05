@@ -55,19 +55,19 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Huidige wachtwoord:</span>
                     </div>
-                    <input type="password" class="form-control" asp-for="currentPassword">
+                    <input type="password" id="CurrentPass" class="form-control" asp-for="currentPassword">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Nieuw wachtwoord:</span>
                     </div>
-                    <input oninput="checkPass('pw1')" type="password" id="newpass1" class="form-control" asp-for="newPassword">
+                    <input type="password" id="newpass1" class="form-control" asp-for="newPassword">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Wachtwoord herhalen:</span>
                     </div>
-                    <input oninput="checkPass('pw2')" type="password" id="newpass2" class="form-control" asp-for="ConfirmPassword">
+                    <input type="password" id="newpass2" class="form-control" asp-for="ConfirmPassword">
                 </div>
                 <div id="PassAlert" class="alert alert-warning alert-dismissible show" role="alert" style="display:none;">
                     <strong>Wachtwoord vereisten:</strong> Minimaal 1 getal, 1 speciaal karakter, 1 kleine  letter, 1 hoofd letter en minimum van 8 karakters.
