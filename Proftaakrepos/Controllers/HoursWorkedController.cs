@@ -22,7 +22,7 @@ namespace Proftaakrepos.Controllers
             return View("Overview");
         }
 
-        public IActionResult Overview(int? projectId) //add user id param here pls :)
+        public IActionResult Overview(int? projectId) 
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             if (projectId != null)
@@ -49,8 +49,13 @@ namespace Proftaakrepos.Controllers
                 ViewData["Collection"] = _overviewCollection;
                 return View("Overview");
             }
+            else
+            {
+                //Make logic/view for when no project id is specified.
+                return View();
+            }
 
-            return View();
+            
         }
 
 
