@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> rollen = ViewBag.Rollen;
 }
 
 <h1>Toegang per rol</h1>
@@ -15,7 +16,6 @@
         <div class="card-body">
             <ul class="list-group list-group">
                 @{
-                    List<string> rollen = ViewBag.Rollen;
                     foreach (string rol in rollen)
                     {
                         <a href="/Role/GetPermissions/@rol" style="color: inherit"><li class="list-group-item">@rol</li></a>
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-header bg-dark text-white">Pagina's</div>
+        <div class="card-header bg-dark text-white">Pagina's (Rol: @rollen[0])</div>
         <div class="card-body">
             <form asp-action="ChangePermissions" asp-controller="Role">
                 @{
