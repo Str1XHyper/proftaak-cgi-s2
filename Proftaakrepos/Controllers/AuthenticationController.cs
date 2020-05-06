@@ -2,9 +2,12 @@
 using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models.Authentication;
 using Models;
 using Proftaakrepos.Authorize;
 using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace Proftaakrepos.Controllers
 {
@@ -36,13 +39,22 @@ namespace Proftaakrepos.Controllers
             return View("LoginNew");
         }
 
-        public void AddLogin(bool success, string username)
+        public async void AddLogin(bool success, string username)
         {
             AddLoginLog addLoginLog = new AddLoginLog();
             string authCode = CreateLoginCookie.getAuthToken(username);
             string timeNow = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-            string userIP = Response.HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
-            addLoginLog.NewLogin(authCode, success, userIP, timeNow);
+            //Response.HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
+            string ip = addLoginLog.CallUrl("https://api.ipify.org/");
+            addLoginLog.NewLogin(authCode, success, ip, timeNow);
+        }
+
+        public async void AddIP(string username, string tijd)
+        {
+            AddLoginLog addLoginLog = new AddLoginLog();
+            string authCode = CreateLoginCookie.getAuthToken(username);
+            string ip = addLoginLog.CallUrl("https://api.ipify.org/");
+            addLoginLog.UpdateLogin(authCode, tijd, ip);
         }
         [HttpPost]
         public IActionResult ChangePassword(ChangePassword changePassword)
@@ -77,9 +89,11 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public ActionResult<bool> CheckPassword(string password)
+        public ActionResult<CheckPasswordModel> CheckPassword(string password)
         {
-            PasswordCheck passwordCheck = new PasswordCheck();
+            List<string> result = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `PasswordRequirements`");
+            CheckPasswordModel cpm = new CheckPasswordModel(Convert.ToBoolean(Convert.ToInt16(result[0])), Convert.ToBoolean(Convert.ToInt16(result[1])), Convert.ToBoolean(Convert.ToInt16(result[2])), Convert.ToBoolean(Convert.ToInt16(result[3])), Convert.ToInt32(result[4]));
+            PasswordCheck passwordCheck = new PasswordCheck(cpm, HttpContext.Session.GetString("UserInfo"));
             return passwordCheck.CheckPassword(password);
         }
     }

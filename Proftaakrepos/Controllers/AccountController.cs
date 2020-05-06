@@ -20,6 +20,7 @@ namespace Proftaakrepos.Controllers
             ViewData["Settings"] = data;
             return View();
         }
+
         [UserAccess("Iedereen", "")]
         public IActionResult LogOut()
         {
@@ -35,9 +36,10 @@ namespace Proftaakrepos.Controllers
                 if(model.currentPassword == null && model.ConfirmPassword == null && model.newPassword == null)
                 {
                     ChangeVal(model);
+                    TempData["Status"] = "Uw gegevens zijn aangepast.";
                     return RedirectToAction("ChangeSettings");
                 }
-                ViewData["Error"] = "Een van de waarden zijn niet ingevuld.";
+                TempData["Error"] = "Een van de waarden zijn niet ingevuld.";
                 return RedirectToAction("ChangeSettings");
             }
             else
@@ -48,16 +50,16 @@ namespace Proftaakrepos.Controllers
                     bool success = changePasswordFunc.ChangePass(model.currentPassword, model.newPassword, GetUserData.UserIDAuth(HttpContext.Session.GetString("UserInfo")));
                     if (!success)
                     {
-                        ViewData["Error"] = "Wachtwoord komt niet overeen.";
+                        TempData["Error"] = "Uw wachtwoord is niet juist.";
                         return RedirectToAction("ChangeSettings");
                     }
-                    ViewData["Success"] = "gelukt!";
+                    TempData["Status"] = "Uw wachtwoord is succesvol aangepast!";
                     ChangeVal(model);
                     return RedirectToAction("ChangeSettings");
                 }
                 else
                 {
-                    ViewData["Error"] = "Wachtwoorden komen niet overeen.";
+                    TempData["Error"] = "Nieuwe wachtwoorden komen niet overeen.";
                     return RedirectToAction("ChangeSettings");
                 }
             }
