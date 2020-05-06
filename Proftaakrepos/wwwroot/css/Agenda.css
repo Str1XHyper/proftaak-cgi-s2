@@ -191,16 +191,12 @@
     font-weight: bold;
     line-height: 1em !important;
 }
+.alert{
+    display: none;
+}
 .pop-up {
-    position: fixed;
-    top: 50px;
     z-index:100;
-    width: 30%;
-    margin-left:35%;
-    
-   
-    
-    
+    width: 100%;
 }
 
 /*moving the closebutton right/up a bit.
