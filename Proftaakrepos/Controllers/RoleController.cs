@@ -25,7 +25,14 @@ namespace Proftaakrepos.Controllers
         public IActionResult ChangePermissions(NewPermissions model)
         {
             List<int> permissions = new List<int>();
-            foreach(string perm in model.Permissions)
+            for (int i = 0; i < model.Pages.Count; i++)
+            {
+                if (model.Pages[i] == "Toegang" && model.Rol.ToLower() == "roostermaker")
+                {
+                    model.Permissions[i] = "true";
+                }
+            }
+            foreach (string perm in model.Permissions)
             {
                 permissions.Add(Convert.ToInt32(Convert.ToBoolean(perm)));
             }
