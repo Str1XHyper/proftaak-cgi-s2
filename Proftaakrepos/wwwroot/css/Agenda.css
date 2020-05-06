@@ -191,7 +191,17 @@
     font-weight: bold;
     line-height: 1em !important;
 }
-
+.pop-up {
+    position: fixed;
+    top: 50px;
+    z-index:100;
+    width: 30%;
+    margin-left:35%;
+    
+   
+    
+    
+}
 
 /*moving the closebutton right/up a bit.
 modal-content {
@@ -338,18 +348,24 @@ span {
 .scheduler-tools {
     display: block;
 }
-
-    .scheduler-tools:hover {
-        background-color: #212529 !important;
-        cursor: pointer;
-    }
+.pop-up {
+    position: fixed !important;
+    top: 100px !important;
+    z-index: 100 !important;
+    width: 30% !important;
+    margin-left: 35% !important;
+}
+.scheduler-tools:hover {
+    background-color: #212529 !important;
+    cursor: pointer;
+}
 .fc-button-active {
     background-color: #76828e !important;
     border-color: #76828e !important;
 }
 
 @media only screen and (max-width: 725px) {
-
+  
     .fc-left {
         position: absolute !important;
         align-content: center !important;
