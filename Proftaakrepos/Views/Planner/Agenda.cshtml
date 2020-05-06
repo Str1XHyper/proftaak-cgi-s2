@@ -30,12 +30,15 @@
 
 </head>
 <body>
-   
-    @{
 
+    @{
+        <div class="alert alert-danger pop-up" role="alert">
+            This is a danger alert—check it out!
+
+        </div>
         string[] colours = ViewData["colours"] as string[];
         string colourString = "";
-        foreach(string s in colours)
+        foreach (string s in colours)
         {
             colourString += "#" + s + ",";
         }
@@ -44,7 +47,7 @@
         <input id="colours" type="hidden" value="@colourString" />
         if (ViewData["rol"].ToString() == "Roostermaker")
         {
-        <input id="rol" type="hidden" value="roostermaker" />
+            <input id="rol" type="hidden" value="roostermaker" />
             int i = 1;
             foreach (UserViewModel um in Model.userList)
             {
@@ -62,43 +65,43 @@
         }
         else
         {
-        <input id="rol" type="hidden" value="overig" />
+            <input id="rol" type="hidden" value="overig" />
         }
         if (ViewData["rol"] as string == "Roostermaker")
         {
-        <div class="card mb-4">
-            <input id="loggedInUser" type="hidden" value="@Model.loggedInUserId" />
-            <input id="naamLijst" type="hidden" value="@voornaamlist" />
-            <div class="popup-window bg-dark text-white" id="popup">Deze gebruiker is al geselecteerd</div>
+            <div class="card mb-4">
+                <input id="loggedInUser" type="hidden" value="@Model.loggedInUserId" />
+                <input id="naamLijst" type="hidden" value="@voornaamlist" />
+                <div class="popup-window bg-dark text-white" id="popup">Deze gebruiker is al geselecteerd</div>
 
-            <div onclick="changeDivVisibility()" class="scheduler-tools card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
-            <div id="scheduler-tools" class="card-body bg-white">
-                <div class="input-group mb-3">
+                <div onclick="changeDivVisibility()" class="scheduler-tools card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
+                <div id="scheduler-tools" class="card-body bg-white">
+                    <div class="input-group mb-3">
 
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
-                    </div>
-                    @{
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
+                        </div>
+                        @{
                             voornaamlist = "\"" + voornaamlist + "\"";
                             userIdList = "\"" + userIdList + "\"";
-                    }
-                    <input onchange="SetUserIDHeader(@voornaamlist,@userIdList); RemoveEvents(); FetchEvents();" type="text" class="form-control" id="voornaamFieldHeader" value="" autocomplete="off" />
-                    <input type="hidden" id="userIdField1" value="@Model.loggedInUserId" />
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Soort:</span>
+                        }
+                        <input onchange="SetUserIDHeader(@voornaamlist,@userIdList); RemoveEvents(); FetchEvents();" type="text" class="form-control" id="voornaamFieldHeader" value="" autocomplete="off" />
+                        <input type="hidden" id="userIdField1" value="@Model.loggedInUserId" />
                     </div>
-                    <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
-                        <option selected value="Allemaal">Allemaal</option>
-                        <option value="#3b5a6f">Stand-by</option>
-                        <option value="#353b45">Incidenten</option>
-                        <option value="#828a87">Pauze</option>
-                        <option value="#830101">Verlof</option>
-                    </select>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Soort:</span>
+                        </div>
+                        <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
+                            <option selected value="Allemaal">Allemaal</option>
+                            <option value="#3b5a6f">Stand-by</option>
+                            <option value="#353b45">Incidenten</option>
+                            <option value="#828a87">Pauze</option>
+                            <option value="#830101">Verlof</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
         }
     }
     <div class="card mb-4">
@@ -117,13 +120,13 @@
                             <input id="eventIdField" type="hidden" asp-for="@newmodel.eventId" value="0" />
                             if (ViewData["rol"].ToString() == "Roostermaker")
                             {
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon3">Werknemer: </span>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">Werknemer: </span>
+                                    </div>
+                                    <input onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
+                                    <input type="hidden" asp-for="@newmodel.userId" id="userIdField2" />
                                 </div>
-                                <input onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
-                                <input type="hidden" asp-for="@newmodel.userId" id="userIdField2" />
-                            </div>
                             }
                         }
                         <div class="input-group mb-3">
@@ -180,12 +183,12 @@
                         @if (ViewData["rol"].ToString() == "Roostermaker")
                         {
 
-                        <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent(); RemoveEvents(); CloseModal();" style="border-color: black; background-color:#660000 !important" />
-                        <input type="button" id="submitButton" onclick="HandleRequest(); RemoveEvents();" value="Wijzig" class="btn btn-light additional-buttons" style="border-color: black !important" />
+                            <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent(); RemoveEvents(); CloseModal();" style="border-color: black; background-color:#660000 !important" />
+                            <input type="button" id="submitButton" onclick="HandleRequest(); RemoveEvents();" value="Wijzig" class="btn btn-light additional-buttons" style="border-color: black !important" />
                         }
                         else
                         {
-                        <input type="button" value="Ruilverzoek Aanvragen" class="btn btn-outline-secondary" onclick="TradeEvent(); RemoveEvents();" />
+                            <input type="button" value="Ruilverzoek Aanvragen" class="btn btn-outline-secondary" onclick="TradeEvent(); RemoveEvents();" />
                         }
                     </form>
 
