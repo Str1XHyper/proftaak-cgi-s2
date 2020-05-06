@@ -5,13 +5,14 @@
 }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.js" integrity="sha256-y1h79SSb3icyBC/BrLCzoexQZAOGwlvoAr85biY4QGw=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
 <link href="~/css/Settings.css" rel="stylesheet" />
 @{string[] colours = ViewData["colours"] as string[];}
-<form asp-action="AgendaSettings" asp-controller="Planner">
-    <div class="card-deck">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">Kleurenschema</div>
-            <div class="card-body">
+<div class="card-deck">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">Kleurenschema</div>
+        <div class="card-body">
+            <form asp-action="AgendaSettings" asp-controller="Planner">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Standby:</span>
@@ -38,7 +39,123 @@
                 </div>
                 <input type="submit" id="submitButton" value="Wijzig" class="btn btn-light additional-buttons" />
                 <input asp-action="DeleteColours" type="submit" value="Herstel" class="btn btn-danger additional-buttons" style="background-color:#660000 !important" />
-            </div>
+            </form>
         </div>
     </div>
-</form>
+    <br />
+    <div class="card">
+        <div class="card-header bg-dark text-white">Wachtwoord vereisten</div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+
+                    <div class="column mb-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Min. karakters</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                        <div>
+                            <input type="number" style="width: 68px; border: none;"/>
+                        </div>
+                    </div>
+
+                    <div class="column mb-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Nummer</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                        <div>
+                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                <input type="checkbox" class="pl-3" checked />
+                                <div class="state p-on">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                    <label class="ml-1">Wel</label>
+                                </div>
+                                <div class="state p-off">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                    <label class="ml-1">Niet</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column mb-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Speciaal karakter</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                        <div>
+                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                <input type="checkbox" class="pl-3" checked />
+                                <div class="state p-on">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                    <label class="ml-1">Wel</label>
+                                </div>
+                                <div class="state p-off">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                    <label class="ml-1">Niet</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column mb-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Hoofdletter</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                        <div>
+                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                <input type="checkbox" class="pl-3" checked />
+                                <div class="state p-on">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                    <label class="ml-1">Wel</label>
+                                </div>
+                                <div class="state p-off">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                    <label class="ml-1">Niet</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column mb-1">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Kleine letter</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                        <div>
+                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                <input type="checkbox" class="pl-3" checked />
+                                <div class="state p-on">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                    <label class="ml-1">Wel</label>
+                                </div>
+                                <div class="state p-off">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                    <label class="ml-1">Niet</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
