@@ -5,7 +5,7 @@
 }
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.js" integrity="sha256-y1h79SSb3icyBC/BrLCzoexQZAOGwlvoAr85biY4QGw=" crossorigin="anonymous"></script>
-
+<link href="~/css/Settings.css" rel="stylesheet" />
 @{string[] colours = ViewData["colours"] as string[];}
 <form asp-action="AgendaSettings" asp-controller="Planner">
     <div class="card-deck">
@@ -36,11 +36,10 @@
                     </div>
                     <input type="text" class="form-control jscolor" asp-for="verlofKleur" value="@colours[3]" />
                 </div>
+                <input type="submit" id="submitButton" value="Wijzig" class="btn btn-light additional-buttons" />
+                <input asp-action="DeleteColours" type="submit" value="Herstel" class="btn btn-danger additional-buttons" style="background-color:#660000 !important" />
             </div>
         </div>
-        <button type="submit" class="btn btn-dark btn-block btn-sm">Bevestig</button>
     </div>
-</form>
-<form asp-action="DeleteColours" asp-controller="Planner">
-    <button type="submit" class="btn btn-dark btn-block btn-sm">Reset</button>
+    
 </form>
