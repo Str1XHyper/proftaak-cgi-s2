@@ -389,6 +389,12 @@ function InitHeaderTokenField(data) {
         }, 0)
     });
 }
+$(document).ready(function () {
+    $('.pop-up').slideDown(1000);
+});
+function slideUpDiv() {
+    $('.pop-up').slideUp(1000);
+}
 window.onload = function SetLoggedInUserToken() {
     var loggedUser = document.getElementById("loggedInUser").value;
     var employeedata = document.getElementById("naamLijst").value;

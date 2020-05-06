@@ -354,6 +354,7 @@ span {
     z-index: 100 !important;
     width: 30% !important;
     margin-left: 35% !important;
+    display: none;
 }
 .scheduler-tools:hover {
     background-color: #212529 !important;
