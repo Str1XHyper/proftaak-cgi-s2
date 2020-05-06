@@ -345,15 +345,15 @@ span {
     font-size: calc(6pt + 0.6vw) !important;
 }
 
-.scheduler-tools {
-    display: block;
+
+.werknemer-header{
 }
 .pop-up {
     position: fixed !important;
-    top: 100px !important;
+    top: 50px !important;
     z-index: 100 !important;
-    width: 30% !important;
-    margin-left: 35% !important;
+    width: 25% !important;
+    margin-left: 30% !important;
     display: none;
 }
 .scheduler-tools:hover {
@@ -366,7 +366,12 @@ span {
 }
 
 @media only screen and (max-width: 725px) {
-  
+    .pop-up {
+        z-index: 100 !important;
+        width: 100vw !important;
+        margin-left: 0% !important;
+        display: none;
+    }
     .fc-left {
         position: absolute !important;
         align-content: center !important;

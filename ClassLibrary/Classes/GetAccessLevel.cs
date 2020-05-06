@@ -13,5 +13,10 @@ namespace ClassLibrary.Classes
             authentication.RemoveAt(0);
             return authentication;
         }
+        public static string GetRol(string authCode)
+        {
+            string rol = SQLConnection.ExecuteSearchQuery($"SELECT `Rol` FROM `Werknemers` WHERE `AuthCode` = '{authCode}'")[0];
+            return rol;
+        }
     }
 }

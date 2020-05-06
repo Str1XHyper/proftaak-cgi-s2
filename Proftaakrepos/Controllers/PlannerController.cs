@@ -48,12 +48,18 @@ namespace Proftaakrepos.Controllers
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             string var = HttpContext.Session.GetString("UserInfo");
+            string[] verlof = null;
             string[] themeColours = SQLConnection.ExecuteSearchQuery($"select * from ColorScheme").ToArray();
             string[] loggedUserData = SQLConnection.ExecuteSearchQuery($"Select Rol,UserId From Werknemers Where AuthCode = '{var}'").ToArray();
             userId = loggedUserData[1];
             rol = loggedUserData[0];
+            if (rol.ToLower() == "roostermaker")
+            {
+                verlof = SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen").ToArray();
+            }
             ViewData["colours"] = themeColours;
             ViewData["rol"] = rol;
+            ViewData["verlof"] = verlof;
             ViewData["userId"] = userId;
             AgendaViewModel viewdata = new AgendaViewModel(userId);
             string[] roosterData = SQLConnection.ExecuteSearchQuery($"Select Rooster.*, Werknemers.Voornaam From Rooster INNER JOIN Werknemers ON Werknemers.UserId = Rooster.UserId").ToArray();
