@@ -7,7 +7,7 @@
 
 @{
     string[] test;
-    if(ViewData["userInformation"] != null)
+    if (ViewData["userInformation"] != null)
     {
         test = ViewData["userInformation"] as string[];
     }
@@ -17,7 +17,7 @@
     }
 
     string[] setting;
-    if(ViewData["Settings"] != null)
+    if (ViewData["Settings"] != null)
     {
         setting = ViewData["Settings"] as string[];
     }
@@ -27,6 +27,18 @@
     }
 }
 <h1>Instellingen</h1>
+@if (TempData["Error"] as string != null)
+{
+    <div class="alert alert-danger fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
+        @TempData["Error"]
+    </div>
+}
+@if (TempData["Status"] as string != null)
+{
+    <div class="alert alert-success fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
+        @TempData["Status"]
+    </div>
+}
 <form asp-action="ChangeLeSetting" asp-controller="Account">
     <div class="card-deck">
         <div class="card">
@@ -55,22 +67,19 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Huidige wachtwoord:</span>
                     </div>
-                    <input type="password" class="form-control" asp-for="currentPassword">
+                    <input type="password" id="CurrentPass" class="form-control" asp-for="currentPassword">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Nieuw wachtwoord:</span>
                     </div>
-                    <input oninput="checkPass('pw1')" type="password" id="newpass1" class="form-control" asp-for="newPassword">
+                    <input type="password" id="newpass1" class="form-control" asp-for="newPassword">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Wachtwoord herhalen:</span>
                     </div>
-                    <input oninput="checkPass('pw2')" type="password" id="newpass2" class="form-control" asp-for="ConfirmPassword">
-                </div>
-                <div id="PassAlert" class="alert alert-warning alert-dismissible show" role="alert" style="display:none;">
-                    <strong>Wachtwoord vereisten:</strong> Minimaal 1 getal, 1 speciaal karakter, 1 kleine  letter, 1 hoofd letter en minimum van 8 karakters.
+                    <input type="password" id="newpass2" class="form-control" asp-for="ConfirmPassword">
                 </div>
             </div>
         </div>
@@ -122,11 +131,11 @@
                     @{
                         if (setting[1].ToLower() == "true")
                         {
-                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting" checked>
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting" checked>
                         }
                         else
                         {
-                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
                         }
                     }
 
@@ -137,11 +146,11 @@
                     @{
                         if (setting[2].ToLower() == "true")
                         {
-                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting" checked>
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting" checked>
                         }
                         else
                         {
-                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
                         }
                     }
                     <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
@@ -150,16 +159,28 @@
             <div class="row justify-content-end">
                 <div class="col-auto">
                     <div class="input-group float-right">
-                        <a class="btn btn-outline-danger mr-1" method="Post" href="/Account/ChangeSettings">
+                        <a class="btn btn-outline-danger mr-1" method="Post" id="reset" href="/Account/ChangeSettings">
                             Reset
                         </a>
-                        <button class="btn btn-outline-success" method="Post" type="submit">
+                        <button class="btn btn-outline-success" method="Post" id="submit" type="submit">
                             Pas aan
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="card-deck">
+        <div class="card border-0">
+            <div id="PassAlert" class=" alert alert-warning alert-dismissible show mt-3" role="alert" style="display:none;">
+                <strong>Wachtwoord vereisten:</strong> Minimaal 1 getal, 1 speciaal karakter, 1 kleine  letter, 1 hoofd letter en minimum van 8 karakters.
+            </div>
+        </div>
+        <div class="card border-0 hide">
+        </div>
+        <div class="card border-0 hide ">
+        </div>
+    </div>
 </form>
 
 <script src="~/js/passStrength.js"></script>

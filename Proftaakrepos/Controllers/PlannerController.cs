@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Models;
 using Models.Agenda;
+using Proftaakrepos.Authorize;
 
 namespace Proftaakrepos.Controllers
 {
@@ -18,6 +19,7 @@ namespace Proftaakrepos.Controllers
         private static string rol;
         private List<EventModel> eventList;
         #region Views
+        [UserAccess("", "Bedrijfsinstellingen")]
         public IActionResult AgendaSettings()
         {
             string[] colours = SQLConnection.ExecuteSearchQuery($"SELECT * FROM ColorScheme").ToArray();
@@ -33,6 +35,7 @@ namespace Proftaakrepos.Controllers
             ViewData["colours"] = colours;
             return View();
         }
+        [UserAccess("", "Bedrijfsinstellingen")]
         [HttpPost]
         public IActionResult AgendaSettings(AgendaSettings settings)
         {
@@ -40,6 +43,7 @@ namespace Proftaakrepos.Controllers
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO ColorScheme (StandBy,Incidenten,Pauze,Verlof) VALUES ('{settings.standbyKleur}','{settings.incidentKleur}','{settings.pauzeKleur}','{settings.verlofKleur}')");
             return RedirectToAction("Agenda");
         }
+        [UserAccess("","Rooster")]
         public IActionResult Agenda()
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
@@ -75,8 +79,7 @@ namespace Proftaakrepos.Controllers
                 viewdata.userList.Add(usermodel);
             }
             string _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "Agenda")) return View(viewdata);
-            else return RedirectToAction("NoAccessIndex", "Home");
+            return View(viewdata);
         }
         #endregion
         #region Data Logic

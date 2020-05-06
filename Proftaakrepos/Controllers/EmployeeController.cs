@@ -12,24 +12,22 @@ namespace Proftaakrepos.Controllers
     {
         private string _authCode;
         #region Views
-        [UserAccess("", "ChangeEmployee")]
+        [UserAccess("", "Werknemers")]
         public IActionResult Employees()
         {
             return View();
         }
+        [UserAccess("", "Voeg werknemer toe")]
         public IActionResult AddEmployee()
         {
-            _authCode = HttpContext.Session.GetString("UserInfo");
-            if (CheckIfAllowed.IsAllowed(_authCode, "AddEmployee"))
-            {
                 List<string> typeOfRoles = SQLConnection.ExecuteSearchQuery($"SELECT `Naam` from `Rollen`");
                 ViewData["roles"] = typeOfRoles.ToArray();
                 return View();
-            }
-            else return RedirectToAction("NoAccessIndex", "Home");
         }
         #endregion
         #region Logic
+
+        [UserAccess("", "Voeg werknemer toe")]
         [HttpPost]
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
@@ -41,6 +39,7 @@ namespace Proftaakrepos.Controllers
             return View(addEmployeeModel);
         }
 
+        [UserAccess("", "Werknemers")]
         [HttpPost]
         public IActionResult UpdateEmployee(AddEmployee addEmployeeModel, string oldEmail)
         {
@@ -55,6 +54,7 @@ namespace Proftaakrepos.Controllers
             return View("Employees");
         }
 
+        [UserAccess("", "Werknemers")]
         [HttpPost]
         public IActionResult GetEmployeeInfo(string employee)
         {
