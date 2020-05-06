@@ -191,7 +191,17 @@
     font-weight: bold;
     line-height: 1em !important;
 }
-
+.pop-up {
+    position: fixed;
+    top: 50px;
+    z-index:100;
+    width: 30%;
+    margin-left:35%;
+    
+   
+    
+    
+}
 
 /*moving the closebutton right/up a bit.
 modal-content {
@@ -349,7 +359,7 @@ span {
 }
 
 @media only screen and (max-width: 725px) {
-
+  
     .fc-left {
         position: absolute !important;
         align-content: center !important;
