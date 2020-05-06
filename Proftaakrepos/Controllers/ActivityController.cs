@@ -6,7 +6,7 @@ using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Proftaakrepos.Authorize;
-
+using ClassLibrary.Classes;
 namespace Proftaakrepos.Controllers
 {
     public class ActivityController : Controller
@@ -17,6 +17,8 @@ namespace Proftaakrepos.Controllers
             string authcode = HttpContext.Session.GetString("UserInfo");
             List<string[]> responseRecords = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `Logins` WHERE `AuthCode` = '{authcode}'");
             ViewData["records"] = responseRecords;
+            AddLoginLog addLoginLog = new AddLoginLog();
+            ViewData["ip"] = addLoginLog.CallUrl("https://api.ipify.org/");
             return View();
         }
     }

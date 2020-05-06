@@ -4,5 +4,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Uw verlof aanvragen</h1>
 
+<div class="card mb-4">
+    <div class="card-header bg-dark text-white">Verlofverzoek aanmaken</div>
+    <div class="card-body">
+        <div class="container-fluid">
+            <form asp-action="CreateRequest" asp-controller="Shiftview" method="post">
+                <input type="hidden" value="dank" name="UserID" />
+                <div class="input-group">
+                    <select name="EventID" id="EventID" class="custom-select">
+                        <option value="0" selected>Kies een dienst</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary">Verlofverzoek aanmaken</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

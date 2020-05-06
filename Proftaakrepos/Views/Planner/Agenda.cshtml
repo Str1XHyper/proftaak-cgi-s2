@@ -30,18 +30,23 @@
 
 </head>
 <body>
+
     @{
+        string[] verlofCount = ViewData["verlof"] as string[];
         string[] colours = ViewData["colours"] as string[];
         string colourString = "";
-        foreach(string s in colours)
+        foreach (string s in colours)
         {
             colourString += "#" + s + ",";
         }
         string voornaamlist = "";
         string userIdList = "";
-        <input id="colours" type="hidden" value="@colourString"/>
+        <input id="colours" type="hidden" value="@colourString" />
         if (ViewData["rol"].ToString() == "Roostermaker")
         {
+            <div onclick="slideUpDiv()" id="pop-up" class="alert alert-danger" role="alert">
+                Er staan nog @verlofCount[0] verlofaanvragen open.
+            </div>
             <input id="rol" type="hidden" value="roostermaker" />
             int i = 1;
             foreach (UserViewModel um in Model.userList)
@@ -69,8 +74,8 @@
                 <input id="naamLijst" type="hidden" value="@voornaamlist" />
                 <div class="popup-window bg-dark text-white" id="popup">Deze gebruiker is al geselecteerd</div>
 
-                <div onclick="changeDivVisibility()" class="scheduler-tools card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
-                <div id="scheduler-tools" class="card-body bg-white">
+                <div class="scheduler-tools card-header bg-dark text-white" onclick="toggleDiv()" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
+                <div id="scheduler-tools" class="card-body bg-white werknemer-header">
                     <div class="input-group mb-3">
 
                         <div class="input-group-prepend">

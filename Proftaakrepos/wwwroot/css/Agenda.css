@@ -191,7 +191,13 @@
     font-weight: bold;
     line-height: 1em !important;
 }
-
+.alert{
+    display: none;
+}
+.pop-up {
+    z-index:100;
+    width: 100%;
+}
 
 /*moving the closebutton right/up a bit.
 modal-content {
@@ -335,21 +341,33 @@ span {
     font-size: calc(6pt + 0.6vw) !important;
 }
 
-.scheduler-tools {
-    display: block;
-}
 
-    .scheduler-tools:hover {
-        background-color: #212529 !important;
-        cursor: pointer;
-    }
+.werknemer-header{
+}
+.pop-up {
+    position: fixed !important;
+    top: 50px !important;
+    z-index: 100 !important;
+    width: 25% !important;
+    margin-left: 30% !important;
+    display: none;
+}
+.scheduler-tools:hover {
+    background-color: #212529 !important;
+    cursor: pointer;
+}
 .fc-button-active {
     background-color: #76828e !important;
     border-color: #76828e !important;
 }
 
 @media only screen and (max-width: 725px) {
-
+    .pop-up {
+        z-index: 100 !important;
+        width: 100vw !important;
+        margin-left: 0% !important;
+        display: none;
+    }
     .fc-left {
         position: absolute !important;
         align-content: center !important;

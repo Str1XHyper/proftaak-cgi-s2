@@ -389,6 +389,13 @@ function InitHeaderTokenField(data) {
         }, 0)
     });
 }
+$(document).ready(function () {
+    $('.alert').slideDown(1000);
+    $('.alert').delay(5000).slideUp(1000);
+});
+function slideUpDiv() {
+    $('.alert').slideUp(1000);
+}
 window.onload = function SetLoggedInUserToken() {
     var loggedUser = document.getElementById("loggedInUser").value;
     var employeedata = document.getElementById("naamLijst").value;
@@ -405,14 +412,25 @@ window.onload = function SetLoggedInUserToken() {
     }
 
 }
+function toggleDiv() {
+    $('.werknemer-header').slideToggle();
+}
 function changeDivVisibility() {
-    var toolsDiv = document.getElementById("scheduler-tools");
-    if (toolsDiv.style.display == "none") {
-        toolsDiv.style.display = "block";
+    var header = document.getElementById("scheduler-tools");
+    if (header.style.display == "none") {
+        $('.werknemer-header').slideDown(1000);
     }
     else {
-        toolsDiv.style.display = "none";
+        $('.werknemer-header').slideUp(1000);
+
     }
+    //var toolsDiv = document.getElementById("scheduler-tools");
+    //if (toolsDiv.style.display == "none") {
+    //    toolsDiv.style.display = "block";
+    //}
+    //else {
+    //    toolsDiv.style.display = "none";
+    //}
 }
 
 function FetchEvents() {

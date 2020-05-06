@@ -3,23 +3,19 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> rollen = ViewBag.Rollen;
 }
 
 <h1>Toegang per rol</h1>
 
-@*TODO:
-    -Rollen toevoegen
-    -Rollen laten zien op de pagina
-    -Pagina's laten zien van de  geselecteerde rol*@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
 <script src="uikit/dist/js/uikit-icons.min.js"></script>
-<div class="gridd">
-    <div class="card left">
+<div class="card-deck">
+    <div class="card">
         <div class="card-header bg-dark text-white">Rollen</div>
         <div class="card-body">
             <ul class="list-group list-group">
                 @{
-                    List<string> rollen = ViewBag.Rollen;
                     foreach (string rol in rollen)
                     {
                         <a href="/Role/GetPermissions/@rol" style="color: inherit"><li class="list-group-item">@rol</li></a>
@@ -28,8 +24,8 @@
             </ul>
         </div>
     </div>
-    <div class="card right">
-        <div class="card-header bg-dark text-white">Pagina's</div>
+    <div class="card">
+        <div class="card-header bg-dark text-white">Pagina's (Rol: @rollen[0])</div>
         <div class="card-body">
             <form asp-action="ChangePermissions" asp-controller="Role">
                 @{

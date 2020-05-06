@@ -34,7 +34,7 @@ namespace ClassLibrary.Classes
             List<string> final = new List<string>();
             for(int i = 0; i < pages.Count; i++)
             {
-                final.Add(pages[i] + " = '" + permissions[i] + "'");
+                final.Add("`" + pages[i] + "` = '" + permissions[i] + "'");
             }
             sql = string.Join(",", final);
             sql = $"UPDATE Rollen SET " + sql + "WHERE Naam = '" + rol + "'";
