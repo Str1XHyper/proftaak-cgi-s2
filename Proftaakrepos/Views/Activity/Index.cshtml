@@ -7,8 +7,7 @@
 
 <h1>Laatste accountactiviteit</h1>
 
-<div class="alert alert-info" role="alert">
-    <center>Uw ip addres is: <b>@ip</b></center>
+<div class="alert alert-info" id="IPAlert" role="alert">
 </div>
 
 <table class="table table-striped">
@@ -24,20 +23,22 @@
             List<string[]> records = ViewData["records"] as List<string[]>;
             for (int i = 0; i < records.Count(); i++)
             {
-                <tr>
-                    <th scope="row">@records[i][2].Substring(0, records[i][2].Length - 3)</th>
-                    <td>@records[i][3]</td>
-                    @{ if (@records[i][1].ToLower() == "true")
+            <tr>
+                <th scope="row">@records[i][2].Substring(0, records[i][2].Length - 3)</th>
+                <td>@records[i][3]</td>
+                @{ if (@records[i][1].ToLower() == "true")
                         {
-                            <td>Ja</td>
+                    <td>Ja</td>
                         }
                         else
                         {
-                            <td>Nee</td>
+                    <td>Nee</td>
                         }
-                    }
-                </tr>
+                }
+            </tr>
             }
         }
     </tbody>
 </table>
+
+<script src="~/js/activity.js"></script>

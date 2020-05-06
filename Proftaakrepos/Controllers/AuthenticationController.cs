@@ -22,11 +22,11 @@ namespace Proftaakrepos.Controllers
                 case "redirectHome":
                     string authCode = CreateLoginCookie.getAuthToken(model.Username);
                     HttpContext.Session.SetString("UserInfo", authCode);
-                    AddLogin(true, model.Username);
+                    AddLogin(true, model.Username, model.IP);
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
-                    AddLogin(false, model.Username);
+                    AddLogin(false, model.Username, model.IP);
                     break;
                 case "multipleEntries":
                     ViewData["Error"] = "Meerdere accounts gevonden met dit e-mail.";
@@ -39,13 +39,12 @@ namespace Proftaakrepos.Controllers
             return View("LoginNew");
         }
 
-        public void AddLogin(bool success, string username)
+        public void AddLogin(bool success, string username, string ip)
         {
             AddLoginLog addLoginLog = new AddLoginLog();
             string authCode = CreateLoginCookie.getAuthToken(username);
             string timeNow = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-            string ip = addLoginLog.CallUrl("https://api.ipify.org/");
-            addLoginLog.NewLogin(authCode, success, ip, timeNow);
+            addLoginLog.NewLogin(authCode, success, ip,  timeNow);
         }
 
         [HttpPost]

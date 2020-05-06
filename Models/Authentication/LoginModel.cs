@@ -12,5 +12,8 @@ namespace Models
         [DataType(DataType.Password)]
         public string Password{ get; set; }
 
+        [Required]
+        public string IP { get; set; }
+
     }
 }
