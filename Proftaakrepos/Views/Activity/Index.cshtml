@@ -2,9 +2,14 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string ip = ViewData["ip"] as string;
 }
 
-    <h1>Laatste accountactiviteit</h1>
+<h1>Laatste accountactiviteit</h1>
+
+<div class="alert alert-info" role="alert">
+    <center>Uw ip addres is: <b>@ip</b></center>
+</div>
 
 <table class="table table-striped">
     <thead class="thead-dark">

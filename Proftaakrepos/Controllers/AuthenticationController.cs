@@ -39,23 +39,15 @@ namespace Proftaakrepos.Controllers
             return View("LoginNew");
         }
 
-        public async void AddLogin(bool success, string username)
+        public void AddLogin(bool success, string username)
         {
             AddLoginLog addLoginLog = new AddLoginLog();
             string authCode = CreateLoginCookie.getAuthToken(username);
             string timeNow = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-            //Response.HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
             string ip = addLoginLog.CallUrl("https://api.ipify.org/");
             addLoginLog.NewLogin(authCode, success, ip, timeNow);
         }
 
-        public async void AddIP(string username, string tijd)
-        {
-            AddLoginLog addLoginLog = new AddLoginLog();
-            string authCode = CreateLoginCookie.getAuthToken(username);
-            string ip = addLoginLog.CallUrl("https://api.ipify.org/");
-            addLoginLog.UpdateLogin(authCode, tijd, ip);
-        }
         [HttpPost]
         public IActionResult ChangePassword(ChangePassword changePassword)
         {

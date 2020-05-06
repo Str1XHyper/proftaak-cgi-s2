@@ -348,11 +348,17 @@ span {
 .scheduler-tools {
     display: block;
 }
-
-    .scheduler-tools:hover {
-        background-color: #212529 !important;
-        cursor: pointer;
-    }
+.pop-up {
+    position: fixed !important;
+    top: 100px !important;
+    z-index: 100 !important;
+    width: 30% !important;
+    margin-left: 35% !important;
+}
+.scheduler-tools:hover {
+    background-color: #212529 !important;
+    cursor: pointer;
+}
 .fc-button-active {
     background-color: #76828e !important;
     border-color: #76828e !important;
