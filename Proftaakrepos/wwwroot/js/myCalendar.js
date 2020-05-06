@@ -390,11 +390,11 @@ function InitHeaderTokenField(data) {
     });
 }
 $(document).ready(function () {
-    $('.pop-up').slideDown(1000);
-    $('.pop-up').delay(3000).slideUp(1000);
+    $('.alert').slideDown(1000);
+    $('.alert').delay(5000).slideUp(1000);
 });
 function slideUpDiv() {
-    $('.pop-up').slideUp(1000);
+    $('.alert').slideUp(1000);
 }
 window.onload = function SetLoggedInUserToken() {
     var loggedUser = document.getElementById("loggedInUser").value;
