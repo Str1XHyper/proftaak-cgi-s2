@@ -10,13 +10,14 @@ namespace Proftaakrepos.Controllers
 {
     public class EmployeeController : Controller
     {
-        private string _authCode;
         #region Views
+
         [UserAccess("", "Werknemers")]
         public IActionResult Employees()
         {
             return View();
         }
+
         [UserAccess("", "Voeg werknemer toe")]
         public IActionResult AddEmployee()
         {
