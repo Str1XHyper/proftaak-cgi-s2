@@ -1,4 +1,5 @@
-﻿@model Proftaakrepos.Models.AgendaSettings
+﻿@using Models.Settings;
+@model Models.Settings.SettingsPageModel
 @{
     ViewData["Title"] = "Instellingen";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,30 +13,30 @@
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">Kleurenschema</div>
         <div class="card-body">
-            <form asp-action="AgendaSettings" asp-controller="Planner">
+            <form asp-action="AgendaSettings" asp-controller="Bedrijf">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Standby:</span>
                     </div>
-                    <input type="text" class="form-control jscolor" asp-for="standbyKleur" value="@colours[0]" />
+                    <input type="text" class="form-control jscolor" asp-for="model2.standbyKleur" value="@colours[0]" />
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Pauze:</span>
                     </div>
-                    <input type="text" class="form-control jscolor" asp-for="pauzeKleur" value="@colours[1]" />
+                    <input type="text" class="form-control jscolor" asp-for="model2.pauzeKleur" value="@colours[1]" />
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Incidenten:</span>
                     </div>
-                    <input type="text" class="form-control jscolor" asp-for="incidentKleur" value="@colours[2]" />
+                    <input type="text" class="form-control jscolor" asp-for="model2.incidentKleur" value="@colours[2]" />
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Verlof:</span>
                     </div>
-                    <input type="text" class="form-control jscolor" asp-for="verlofKleur" value="@colours[3]" />
+                    <input type="text" class="form-control jscolor" asp-for="model2.verlofKleur" value="@colours[3]" />
                 </div>
                 <input type="submit" id="submitButton" value="Wijzig" class="btn btn-light additional-buttons" />
                 <input asp-action="DeleteColours" type="submit" value="Herstel" class="btn btn-danger additional-buttons" style="background-color:#660000 !important" />
@@ -46,113 +47,152 @@
     <div class="card">
         <div class="card-header bg-dark text-white">Wachtwoord vereisten</div>
         <div class="card-body">
-            <form>
+            <form asp-action="PasswordSettings" asp-controller="Bedrijf">
                 <div class="row">
+                    @{
+                        PasswordSettingsModel Pmodel = ViewBag.Password;
+                        <div class="column mb-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="basic-addon1" style="width: 175px">Min. karakters</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                            <div>
+                                <input type="number" style="width: 68px; border: none;" asp-for="model1.Karakters" value="@Pmodel.Karakters"/>
+                            </div>
+                        </div>
 
-                    <div class="column mb-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Min. karakters</label>
+                        <div class="column mb-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="basic-addon1" style="width: 175px">Nummer</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                        <div>
-                            <input type="number" style="width: 68px; border: none;"/>
+                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                            <div>
+                                <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                    @{
+                                        if (Pmodel.Nummer == true)
+                                        {
+                                            <input type="checkbox" class="pl-3" checked asp-for="model1.Nummer" />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="pl-3" asp-for="model1.Nummer" />
+                                        }
+                                    }
+                                    <div class="state p-on">
+                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                        <label class="ml-1">Wel</label>
+                                    </div>
+                                    <div class="state p-off">
+                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                        <label class="ml-1">Niet</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="column mb-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Nummer</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                        <div>
-                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
-                                <input type="checkbox" class="pl-3" checked />
-                                <div class="state p-on">
-                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
-                                    <label class="ml-1">Wel</label>
-                                </div>
-                                <div class="state p-off">
-                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
-                                    <label class="ml-1">Niet</label>
+                        <div class="column mb-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="basic-addon1" style="width: 175px">Speciaal karakter</label>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                            <div>
+                                <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                    @{
+                                        if (Pmodel.Speciaal == true)
+                                        {
+                                            <input type="checkbox" class="pl-3" checked asp-for="model1.Speciaal" />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="pl-3" asp-for="model1.Speciaal" />
+                                        }
+                                    }
+                                    <div class="state p-on">
+                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                        <label class="ml-1">Wel</label>
+                                    </div>
+                                    <div class="state p-off">
+                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                        <label class="ml-1">Niet</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="column mb-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Speciaal karakter</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                        <div>
-                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
-                                <input type="checkbox" class="pl-3" checked />
-                                <div class="state p-on">
-                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
-                                    <label class="ml-1">Wel</label>
-                                </div>
-                                <div class="state p-off">
-                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
-                                    <label class="ml-1">Niet</label>
+                        <div class="column mb-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="basic-addon1" style="width: 175px">Hoofdletter</label>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                            <div>
+                                <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                    @{
+                                        if (Pmodel.Hoofdletter == true)
+                                        {
+                                            <input type="checkbox" class="pl-3" checked asp-for="model1.Hoofdletter" />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="pl-3" asp-for="model1.Hoofdletter" />
+                                        }
+                                    }
+                                    <div class="state p-on">
+                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                        <label class="ml-1">Wel</label>
+                                    </div>
+                                    <div class="state p-off">
+                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                        <label class="ml-1">Niet</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="column mb-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Hoofdletter</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                        <div>
-                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
-                                <input type="checkbox" class="pl-3" checked />
-                                <div class="state p-on">
-                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
-                                    <label class="ml-1">Wel</label>
-                                </div>
-                                <div class="state p-off">
-                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
-                                    <label class="ml-1">Niet</label>
+                        <div class="column mb-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="basic-addon1" style="width: 175px">Kleine letter</label>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="column mb-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" id="basic-addon1" style="width: 175px">Kleine letter</label>
+                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
+                            <div>
+                                <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                    @{
+                                        if (Pmodel.KleineLetter == true)
+                                        {
+                                            <input type="checkbox" class="pl-3" checked asp-for="model1.KleineLetter" />
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" class="pl-3" asp-for="model1.KleineLetter" />
+                                        }
+                                    }
+                                    <div class="state p-on">
+                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                        <label class="ml-1">Wel</label>
+                                    </div>
+                                    <div class="state p-off">
+                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                        <label class="ml-1">Niet</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                        <div>
-                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
-                                <input type="checkbox" class="pl-3" checked />
-                                <div class="state p-on">
-                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="red" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
-                                    <label class="ml-1">Wel</label>
-                                </div>
-                                <div class="state p-off">
-                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="green" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="green" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
-                                    <label class="ml-1">Niet</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <div class="column"><button type="submit" class="btn btn-outline-success" style="width:250px">Pas instellingen aan</button></div>
+                    }
                 </div>
             </form>
         </div>
