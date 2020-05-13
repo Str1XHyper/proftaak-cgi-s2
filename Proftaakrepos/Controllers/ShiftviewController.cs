@@ -1,12 +1,24 @@
 ﻿using ClassLibrary.Classes;
+using CookieManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models.Authentication;
 using Proftaakrepos.Authorize;
 
 namespace Proftaakrepos.Controllers
 {
     public class ShiftviewController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public ShiftviewController(ICookieManager cookiemanager)
+        {
+            _cookieManager = cookiemanager;
+        }
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         [UserAccess("", "Reactie op verzoek")]
         public IActionResult ShiftviewEmail()
         {

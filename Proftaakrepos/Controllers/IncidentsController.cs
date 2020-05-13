@@ -7,11 +7,23 @@ using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Models;
 using Proftaakrepos.Authorize;
+using CookieManager;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models.Authentication;
 
 namespace Proftaakrepos.Controllers
 {
     public class IncidentsController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public IncidentsController(ICookieManager cookiemanager)
+        {
+            _cookieManager = cookiemanager;
+        }
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         [UserAccess("","Incidenten")]
         [HttpGet]
         public IActionResult Index(string? status, int? statusId)

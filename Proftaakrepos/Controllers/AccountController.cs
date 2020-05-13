@@ -20,15 +20,9 @@ namespace Proftaakrepos.Controllers
             _cookieManager = cookieManager;
         }
 
-        public async Task OnActionExecutionAsync(ActionExecutingContext context,
-                                         ActionExecutionDelegate next)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            // logic before action goes here
             TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
-
-            await next(); // the actual action
-
-            // logic after the action goes here
         }
         [UserAccess("LoggedIn", "")]
         public IActionResult ChangeSettings()
