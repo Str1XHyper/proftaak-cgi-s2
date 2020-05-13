@@ -2,19 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using System;
 using Microsoft.AspNetCore.Http;
-using Proftaakrepos.Data;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Hosting;
-using Pomelo.EntityFrameworkCore.MySql;
-using Pomelo.EntityFrameworkCore.MySql.Storage;
 
 
 namespace Proftaakrepos
@@ -44,6 +32,13 @@ namespace Proftaakrepos
             {
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+            });
+
+            services.AddCookieManager(options =>
+            {
+                options.AllowEncryption = true;
+                options.ThrowForPartialCookies = true;
+                options.DefaultExpireTimeInDays = 10;
             });
 
             services.AddDistributedMemoryCache();

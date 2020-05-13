@@ -8,14 +8,33 @@ using Proftaakrepos.Authorize;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using CookieManager;
+using System.Data.Common;
 
 namespace Proftaakrepos.Controllers
 {
     public class AuthenticationController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        private readonly ICookie _cookie;
+
+        public AuthenticationController(ICookieManager cookieManager, ICookie cookie)
+        {
+            this._cookieManager = cookieManager;
+            this._cookie = cookie;
+        }
+
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
+            CookieModel cookie = new CookieModel()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Identifier = "asdfasdfasdfasdfasdfasdfasdf",
+                Date = DateTime.Now
+            };
+            _cookieManager.Set("Key", cookie);
+
             string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
             switch (response)
             {
