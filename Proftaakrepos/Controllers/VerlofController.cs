@@ -10,9 +10,16 @@ namespace Proftaakrepos.Controllers
     public class VerlofController : Controller
     {
         // GET: Verlof
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Aanvragen()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RequestLeave()
+        {
+            return View("Aanvragen");
         }
     }
 }
