@@ -3,9 +3,12 @@ using CookieManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
+using Models.Authentication;
 using Proftaakrepos.Authorize;
 using System;
+using System.Threading.Tasks;
 
 namespace Proftaakrepos.Controllers
 {
@@ -15,6 +18,17 @@ namespace Proftaakrepos.Controllers
         public AccountController(ICookieManager cookieManager)
         {
             _cookieManager = cookieManager;
+        }
+
+        public async Task OnActionExecutionAsync(ActionExecutingContext context,
+                                         ActionExecutionDelegate next)
+        {
+            // logic before action goes here
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+
+            await next(); // the actual action
+
+            // logic after the action goes here
         }
         [UserAccess("LoggedIn", "")]
         public IActionResult ChangeSettings()

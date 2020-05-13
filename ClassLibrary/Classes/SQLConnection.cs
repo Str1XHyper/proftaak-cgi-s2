@@ -56,7 +56,7 @@ namespace ClassLibrary.Classes
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
             cmd.Connection = cnn;
-            cnn.Open();
+           cnn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
             values.Clear();
             try

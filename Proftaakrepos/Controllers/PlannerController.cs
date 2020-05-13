@@ -12,6 +12,7 @@ using Models.Agenda;
 using Proftaakrepos.Authorize;
 using CookieManager;
 using Models.Authentication;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Proftaakrepos.Controllers
 {
@@ -24,11 +25,18 @@ namespace Proftaakrepos.Controllers
         public PlannerController(ICookieManager cookieManager)
         {
             _cookieManager = cookieManager;
+
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
         }
         #region Views
-        [UserAccess("","Rooster")]
+        //[UserAccess("","Rooster")]
         public IActionResult Agenda()
         {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
             string var = _cookieManager.Get<CookieModel>("BIER.User").Identifier;
             ViewData["UserInfo"] = var;
             string[] verlof = null;
@@ -67,7 +75,6 @@ namespace Proftaakrepos.Controllers
                 UserViewModel usermodel = new UserViewModel(userData[i], userData[i + 1], userData[i + 2], userData[i + 3], userData[i + 4]);
                 viewdata.userList.Add(usermodel);
             }
-            string _authCode = HttpContext.Session.GetString("UserInfo");
             return View(viewdata);
         }
         #endregion
