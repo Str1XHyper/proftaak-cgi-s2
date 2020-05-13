@@ -1,6 +1,6 @@
 ﻿@using ClassLibrary.Classes;
 @using Microsoft.AspNetCore.Http;
-@using Models
+@using Models.Authentication;
 @using CookieManager;
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +18,8 @@
 </head>
 <body class="sb-nav-fixed">
     @{
-        string usercode = Context.Session.GetString("UserInfo");
+        CookieModel cookieMonster = TempData["CookieMonster"] as CookieModel;
+        string usercode = cookieMonster.Identifier;
         string rol = string.Empty;
         List<string> rollen = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'");
         if (rollen.Count == 1) rol = rollen[0];

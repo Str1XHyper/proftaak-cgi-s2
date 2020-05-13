@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Net;
 using CookieManager;
 using System.Data.Common;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Proftaakrepos.Controllers
 {
@@ -23,7 +24,10 @@ namespace Proftaakrepos.Controllers
             this._cookieManager = cookieManager;
             this._cookie = cookie;
         }
-
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
