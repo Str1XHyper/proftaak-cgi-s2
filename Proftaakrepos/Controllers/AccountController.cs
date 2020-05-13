@@ -84,5 +84,27 @@ namespace Proftaakrepos.Controllers
             ViewData["email"] = email;
             return View("ChangePassword");
         }
+
+        public IActionResult PasswordChange(string authcode)
+        {
+            ViewData["auth"] = authcode;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(RestorePasswordModel model)
+        {
+            ChangePasswordFunc changePassword = new ChangePasswordFunc();
+            if(changePassword.ChangePassAuthCode(model.ConfirmPassword, model.NewPassword, model.HiddenEmail) == true)
+            {
+                TempData["success"] = "Wachtwoord is aangepast, u kunt nu inloggen.";
+                return RedirectToAction("LoginNew", "Authentication");
+            }
+            else
+            {
+                TempData["success"] = "Wachtwoorden waren niet gelijk, vraag een nieuwe resetlink aan.";
+                return View();
+            }
+        }
     }
 }

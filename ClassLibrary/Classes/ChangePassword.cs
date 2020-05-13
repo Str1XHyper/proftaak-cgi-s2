@@ -21,5 +21,20 @@ namespace ClassLibrary.Classes
         {
             SQLConnection.ExecuteNonSearchQuery($"UPDATE `Login` SET `Password` = AES_ENCRYPT('{newPassword}', 'CGIKey') WHERE `UserId` = '{userID}'");
         }
+
+        public bool ChangePassAuthCode(string confPass, string newPassword, string authCode)
+        {
+            List<string> userIDs = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
+            if(userIDs.Count > 0)
+            {
+                string userID = userIDs[0];
+                if (confPass == newPassword)
+                {
+                    Change(newPassword, userID);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

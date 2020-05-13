@@ -22,9 +22,5 @@ namespace Proftaakrepos.Models
             this.incidentKleur = incidentKleur;
             this.verlofKleur = verlofKleur;
         }
-        public AgendaSettings()
-        {
-
-        }
     }
 }
