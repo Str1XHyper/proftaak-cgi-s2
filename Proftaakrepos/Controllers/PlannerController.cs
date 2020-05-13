@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using Models;
 using Models.Agenda;
 using Proftaakrepos.Authorize;
+using CookieManager;
+using Models.Authentication;
 
 namespace Proftaakrepos.Controllers
 {
@@ -18,12 +20,17 @@ namespace Proftaakrepos.Controllers
         private static string userId;
         private static string rol;
         private List<EventModel> eventList;
+        private readonly ICookieManager _cookieManager;
+        public PlannerController(ICookieManager cookieManager)
+        {
+            _cookieManager = cookieManager;
+        }
         #region Views
         [UserAccess("","Rooster")]
         public IActionResult Agenda()
         {
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            string var = HttpContext.Session.GetString("UserInfo");
+            string var = _cookieManager.Get<CookieModel>("BIER.User").Identifier;
+            ViewData["UserInfo"] = var;
             string[] verlof = null;
             string[] themeColours = SQLConnection.ExecuteSearchQuery($"select * from ColorScheme").ToArray();
             string[] loggedUserData = SQLConnection.ExecuteSearchQuery($"Select Rol,UserId From Werknemers Where AuthCode = '{var}'").ToArray();

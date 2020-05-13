@@ -1,4 +1,5 @@
 ﻿using ClassLibrary.Classes;
+using CookieManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,11 @@ namespace Proftaakrepos.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public AccountController(ICookieManager cookieManager)
+        {
+            _cookieManager = cookieManager;
+        }
         [UserAccess("LoggedIn", "")]
         public IActionResult ChangeSettings()
         {
@@ -24,7 +30,7 @@ namespace Proftaakrepos.Controllers
         [UserAccess("Iedereen", "")]
         public IActionResult LogOut()
         {
-            HttpContext.Session.Remove("UserInfo");
+            _cookieManager.Remove("BIER.User");
             return RedirectToAction("LoginNew", "Authentication", new {extra = "uitgelogd" });
         }
         [UserAccess("LoggedIn", "")]

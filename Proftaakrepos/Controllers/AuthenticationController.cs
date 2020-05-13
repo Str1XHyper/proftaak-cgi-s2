@@ -30,18 +30,25 @@ namespace Proftaakrepos.Controllers
             CookieModel cookie = new CookieModel()
             {
                 Id = Guid.NewGuid().ToString(),
-                Identifier = "asdfasdfasdfasdfasdfasdfasdf",
+                Identifier = null,
                 Date = DateTime.Now
             };
-            _cookieManager.Set("Key", cookie);
 
             string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
             switch (response)
             {
                 case "redirectHome":
                     string authCode = CreateLoginCookie.getAuthToken(model.Username);
-                    HttpContext.Session.SetString("UserInfo", authCode);
                     AddLogin(true, model.Username, model.IP);
+                    cookie.Identifier = authCode;
+                    if (!model.Remember)
+                    {
+                        _cookieManager.Set("BIER.User", cookie, 1440);
+                    }
+                    else
+                    {
+                        _cookieManager.Set("BIER.User", cookie, 30*1440);
+                    }
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
@@ -88,6 +95,10 @@ namespace Proftaakrepos.Controllers
         public IActionResult LoginNew(string extra)
         {
             if (HttpContext.Session.GetString("UserInfo") != null)
+            {
+                return RedirectToAction("Agenda", "Planner");
+            }
+            if (_cookieManager.Get<CookieModel>("BIER.User") != null)
             {
                 return RedirectToAction("Agenda", "Planner");
             }
