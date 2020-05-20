@@ -54,6 +54,11 @@ namespace Proftaakrepos.Controllers
         #region Data Logic
         public void DeleteEvent(int EventId)
         {
+            List<string[]> doesExists = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `Verlofaanvragen` WHERE `EventID`='{EventId}'");
+            if (doesExists.Count > 0)
+            {
+                SQLConnection.ExecuteNonSearchQuery($"DELETE FROM Verlofaanvragen WHERE EventId = {EventId}");
+            }
             SQLConnection.ExecuteNonSearchQuery($"DELETE FROM Rooster WHERE EventId = {EventId}");
         }
         public ActionResult GetEventInfo(int EventId)
@@ -129,8 +134,11 @@ namespace Proftaakrepos.Controllers
                     sqlquery += $"('{useridArray[i]}', '{emdb.title}', '{emdb.description}', '{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{emdb.themeColor}', '{(emdb.isFullDay)}', '{(emdb.isPending ? 1 : 0)}')";
                 }
                 SQLConnection.ExecuteNonSearchQuery(sqlquery);
-                string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0]; //Aanmaken van verlofverzoek
-                SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Verlofaanvragen (UserID, EventID) VALUES ('{userId}', '{eventID}')");
+                if(emdb.themeColor.ToLower() == "verlof")
+                {
+                    string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0]; //Aanmaken van verlofverzoek
+                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Verlofaanvragen (UserID, EventID) VALUES ('{userId}', '{eventID}')");
+                }
             }
             return RedirectToAction("CreateEvent", "Planner");
         }
