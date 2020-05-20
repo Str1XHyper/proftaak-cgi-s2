@@ -19,6 +19,7 @@ namespace Proftaakrepos.Controllers
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
+
         [UserAccess("","Incidenten")]
         [HttpGet]
         public IActionResult Index(string? status, int? statusId)
@@ -37,7 +38,6 @@ namespace Proftaakrepos.Controllers
             }
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
             ViewBag.Incidents = incidents;
-            string _authCode = HttpContext.Session.GetString("UserInfo");
             return View();
         }
 
@@ -114,6 +114,13 @@ namespace Proftaakrepos.Controllers
         {
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
             bool succeeded = await NotificationsStandBy.NotifyStandyBy(model);
+            if (succeeded)
+            {
+                Console.WriteLine("Mail has been sent");
+            } else
+            {
+                Console.WriteLine("No user found that is stand by");
+            }
             return RedirectToAction("Index");
         }
     }
