@@ -1,5 +1,6 @@
 ﻿using ClassLibrary.Classes;
 using CookieManager;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Agenda;
@@ -13,14 +14,9 @@ namespace Proftaakrepos.Controllers
 {
     public class BedrijfController : Controller
     {
-        private readonly ICookieManager _cookieManager;
-        public BedrijfController(ICookieManager cookiemanager)
-        {
-            _cookieManager = cookiemanager;
-        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
         [UserAccess("", "Bedrijfsinstellingen")]
         public IActionResult AgendaSettings()

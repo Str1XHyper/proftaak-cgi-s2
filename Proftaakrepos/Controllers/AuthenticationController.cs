@@ -41,14 +41,8 @@ namespace Proftaakrepos.Controllers
                     string authCode = CreateLoginCookie.getAuthToken(model.Username);
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
-                    if (!model.Remember)
-                    {
-                        _cookieManager.Set("BIER.User", cookie, 1440);
-                    }
-                    else
-                    {
-                        _cookieManager.Set("BIER.User", cookie, 30*1440);
-                    }
+                    if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
+                    HttpContext.Session.SetString("UserInfo", authCode);
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
