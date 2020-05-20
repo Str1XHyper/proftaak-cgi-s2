@@ -18,20 +18,22 @@
                     {
                         areThereRequests = true;
 
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <label>Van: <strong>@array[0]</strong></label>
-                            <div class="input-group-append">
-                                <a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Verlof" asp-action="Goedkeuren" asp-route-verlofID="@array[1]" method="post">
-            <i class="fas fa-check"></i>
-        </a>
-                                @*<a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Shiftview" asp-action="HandleRequest" asp-route-UserID="0" asp-route-TradeID="0" asp-route-EventID="0" method="Post">
-                                    <i class="fas fa-check"></i>
-                                </a>*@
-                                <a class="btn btn-outline-danger" style="width: 50px" asp-controller="Verlof" asp-action="Afwijzen" asp-route-verlofID="@array[1]" method="post">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </div>
-                        </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="row">
+                                        <div class="column col-md-6"><label>Medewerker: <strong>@array[0]</strong></label></div>
+                                        <div class="column col-sm-6"><label>Van: <strong>@array[6]</strong>&nbsp;Tot: <strong>@array[7]</strong></label></div>
+                                        <div class="column col-md-6"><label>Reden: <strong>@array[5]</strong></label></div>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Verlof" asp-action="Goedkeuren" asp-route-verlofID="@array[1]" method="post">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                        
+                                        <a class="btn btn-outline-danger" style="width: 50px" asp-controller="Verlof" asp-action="Afwijzen" asp-route-verlofID="@array[1]" method="post">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </div>
+                                </li>
                     }
                     if (!areThereRequests)
                     {
