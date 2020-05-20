@@ -18,8 +18,7 @@
 </head>
 <body class="sb-nav-fixed">
     @{
-        CookieModel cookieMonster = TempData["CookieMonster"] as CookieModel;
-        string usercode = cookieMonster.Identifier;
+        string usercode = TempData["Cookie"] as string;
         string rol = string.Empty;
         List<string> rollen = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'");
         if (rollen.Count == 1) rol = rollen[0];

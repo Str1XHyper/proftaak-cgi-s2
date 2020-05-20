@@ -17,7 +17,7 @@ namespace Proftaakrepos.Controllers
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
         [UserAccess("", "Reactie op verzoek")]
         public IActionResult ShiftviewEmail()
@@ -27,8 +27,7 @@ namespace Proftaakrepos.Controllers
         [UserAccess("","Inkomend")]
         public IActionResult Incoming()
         {
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            string _authCode = HttpContext.Session.GetString("UserInfo");
+            //ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         [UserAccess("", "Uitgaand")]
@@ -36,8 +35,7 @@ namespace Proftaakrepos.Controllers
         {
             if (status != null) ViewData["Status"] = status;
             else ViewData["Status"] = string.Empty;
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            string _authCode = HttpContext.Session.GetString("UserInfo");
+            //ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         [UserAccess("", "Uitgaand")]

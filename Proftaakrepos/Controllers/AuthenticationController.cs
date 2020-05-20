@@ -24,10 +24,6 @@ namespace Proftaakrepos.Controllers
             this._cookieManager = cookieManager;
             this._cookie = cookie;
         }
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
-        }
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
@@ -87,6 +83,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult ChangePassword()
         {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
             return View();
         }
 
@@ -104,6 +101,7 @@ namespace Proftaakrepos.Controllers
             }
             if (_cookieManager.Get<CookieModel>("BIER.User") != null)
             {
+                HttpContext.Session.SetString("UserInfo", _cookieManager.Get<CookieModel>("BIER.User").Identifier);
                 return RedirectToAction("Agenda", "Planner");
             }
             if (extra != null)
