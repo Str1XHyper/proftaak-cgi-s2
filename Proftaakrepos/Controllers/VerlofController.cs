@@ -23,9 +23,16 @@ namespace Proftaakrepos.Controllers
             TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
         }
         // GET: Verlof
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult Aanvragen()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RequestLeave()
+        {
+            return View("Aanvragen");
         }
     }
 }
