@@ -61,6 +61,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
+        public static string Application {
+            get {
+                return ResourceManager.GetString("Application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company settings.
         /// </summary>
         public static string Bedrijfsinstellingen {
@@ -147,6 +156,15 @@ namespace Proftaakrepos.Resources {
         public static string Toegang {
             get {
                 return ResourceManager.GetString("Toegang", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trade requests.
+        /// </summary>
+        public static string TradeRequests {
+            get {
+                return ResourceManager.GetString("TradeRequests", resourceCulture);
             }
         }
         

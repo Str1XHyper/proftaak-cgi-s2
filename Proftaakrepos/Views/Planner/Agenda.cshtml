@@ -67,11 +67,11 @@
         {
             <input id="rol" type="hidden" value="overig" />
         }
+        <input id="loggedInUser" type="hidden" value="@Model.loggedInUserId" />
+        <input id="naamLijst" type="hidden" value="@voornaamlist" />
         if (ViewData["rol"] as string == "Roostermaker")
         {
             <div class="card mb-4">
-                <input id="loggedInUser" type="hidden" value="@Model.loggedInUserId" />
-                <input id="naamLijst" type="hidden" value="@voornaamlist" />
                 <div class="popup-window bg-dark text-white" id="popup">Deze gebruiker is al geselecteerd</div>
 
                 <div class="scheduler-tools card-header bg-dark text-white" onclick="toggleDiv()" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">@Proftaakrepos.Resources.lang.Employee:</div>
@@ -94,10 +94,10 @@
                         </div>
                         <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
                             <option selected value="Allemaal">Allemaal</option>
-                            <option value="#3b5a6f">Stand-by</option>
-                            <option value="#353b45">Incidenten</option>
-                            <option value="#828a87">Pauze</option>
-                            <option value="#830101">Verlof</option>
+                            <option value="Stand-by">Stand-by</option>
+                            <option value="Incidenten">Incidenten</option>
+                            <option value="Pauze">Pauze</option>
+                            <option value="Verlof">Verlof</option>
                         </select>
                     </div>
                 </div>
@@ -134,10 +134,10 @@
                                 <span class="input-group-text" id="basic-addon3">Type: </span>
                             </div>
                             <select onChange="EditTitle(this.options[this.selectedIndex].text)" asp-for="@newmodel.themeColor" class="form-control" id="themeColorField">
-                                <option value="#3b5a6f">Stand-by</option>
-                                <option value="#353b45">Incidenten</option>
-                                <option value="#828a87">Pauze</option>
-                                <option value="#830101">Verlof</option>
+                                <option value="Stand-by">Stand-by</option>
+                                <option value="Incidenten">Incidenten</option>
+                                <option value="Pauze">Pauze</option>
+                                <option value="Verlof">Verlof</option>
                             </select>
                             <span asp-validation-for="@newmodel.themeColor" class="text-danger"></span>
                         </div>

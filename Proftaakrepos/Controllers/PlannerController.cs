@@ -43,11 +43,12 @@ namespace Proftaakrepos.Controllers
             string var = HttpContext.Session.GetString("UserInfo");
             string[] loggedUserData = agendamanager.GetLoggedInUserData(var);
             rol = loggedUserData[0];
+            userId = loggedUserData[1];
             AgendaViewModel viewdata = agendamanager.SetAgendaViewModel(loggedUserData[1]);
             ViewData["colours"] = agendamanager.GetThemeColours();
             ViewData["verlof"] = agendamanager.GetVerlofCount(loggedUserData[0]);
             ViewData["rol"] = rol;
-            ViewData["userId"] = loggedUserData[1];
+            ViewData["userId"] = userId;
             return View(viewdata);
         }
         #endregion

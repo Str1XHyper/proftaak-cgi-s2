@@ -258,18 +258,18 @@ function DeleteEvent() {
     console.log("Delete event");
 }
 function TradeEvent(info) {
-    var selectedTokens = $('#voornaamField').tokenfield('getTokens');
-    var employeedata = document.getElementById("naamLijst").value;
-    var splitemployeedata = employeedata.split(",");
-    for (var i = 0; i < employeedata.length; i++) {
-        var userIdByToken = splitemployeedata[i].split(" ");
-        if (userIdByToken[0] == loggedUser) {
-            $('#voornaamField').tokenfield('setTokens', splitemployeedata[i]);
-            break;
-        }
-    }
+    //var selectedTokens = $('#voornaamField').tokenfield('getTokens');
+    //var employeedata = document.getElementById("naamLijst").value;
+    //var splitemployeedata = employeedata.split(",");
+    //for (var i = 0; i < employeedata.length; i++) {
+    //    var userIdByToken = splitemployeedata[i].split(" ");
+    //    if (userIdByToken[0] == loggedUser) {
+    //        $('#voornaamField').tokenfield('setTokens', splitemployeedata[i]);
+    //        break;
+    //    }
+    //}
     var eventId = $("#eventIdField").val();
-    var userId = $("#userIdField").val();
+    var userId = $("#loggedInUser").val();
     $.ajax(
         {
             type: "POST",
@@ -447,6 +447,7 @@ function FetchEvents() {
         type: 'GET',
         dataType: 'json',
         success: function (data) {
+            console.log(data);
             var list = data;
             var d = new Date();
             var n = d.getTime();
@@ -456,14 +457,24 @@ function FetchEvents() {
                     continue;
                 }
                 if (colours != "") {
-                    if (list[i].themeColor == "#3b5a6f")
+                    if (list[i].themeColor == "Stand-by")
                         list[i].themeColor = colourArray[0];
-                    else if (list[i].themeColor == "#828a87")
+                    else if (list[i].themeColor == "Incidenten")
                         list[i].themeColor = colourArray[1];
-                    else if (list[i].themeColor == "#353b45")
+                    else if (list[i].themeColor == "Pauze")
                         list[i].themeColor = colourArray[2];
-                    else if (list[i].themeColor == "#ea4335")
+                    else if (list[i].themeColor == "Verlof")
                         list[i].themeColor = colourArray[3];
+                }
+                else {
+                    if (list[i].themeColor == "Stand-by")
+                        list[i].themeColor = "#3b5a6f";
+                    else if (list[i].themeColor == "Incidenten")
+                        list[i].themeColor = "#353b45";
+                    else if (list[i].themeColor == "Pauze")
+                        list[i].themeColor = "#828a87";
+                    else if (list[i].themeColor == "Verlof")
+                        list[i].themeColor = "#830101";
                 }
                 var obj = {
                     id: list[i].eventId,
