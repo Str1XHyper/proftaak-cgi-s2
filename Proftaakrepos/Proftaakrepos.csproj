@@ -6,14 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
     <Compile Remove="TagHelpers\**" />
     <Compile Remove="Views\Employees\**" />
+    <Content Remove="Models\**" />
     <Content Remove="TagHelpers\**" />
     <Content Remove="Views\Employees\**" />
+    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="TagHelpers\**" />
     <EmbeddedResource Remove="Views\Employees\**" />
+    <None Remove="Models\**" />
     <None Remove="TagHelpers\**" />
     <None Remove="Views\Employees\**" />
+    <TypeScriptCompile Remove="Models\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -350,10 +355,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
 

@@ -15,5 +15,7 @@ namespace Models
         [Required]
         public string IP { get; set; }
 
+        public bool Remember { get; set; }
+
     }
 }

@@ -1,7 +1,10 @@
 ﻿using ClassLibrary.Classes;
+using CookieManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
+using Models.Authentication;
 using Proftaakrepos.Authorize;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,15 @@ namespace Proftaakrepos.Controllers
 {
     public class EmployeeController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public EmployeeController(ICookieManager cookiemanager)
+        {
+            _cookieManager = cookiemanager;
+        }
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         #region Views
 
         [UserAccess("", "Werknemers")]

@@ -1,15 +1,29 @@
 ﻿using ClassLibrary.Classes;
+using CookieManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
+using Models.Authentication;
 using Proftaakrepos.Authorize;
 using System;
+using System.Threading.Tasks;
 
 namespace Proftaakrepos.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public AccountController(ICookieManager cookieManager)
+        {
+            _cookieManager = cookieManager;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         [UserAccess("LoggedIn", "")]
         public IActionResult ChangeSettings()
         {
@@ -24,7 +38,7 @@ namespace Proftaakrepos.Controllers
         [UserAccess("Iedereen", "")]
         public IActionResult LogOut()
         {
-            HttpContext.Session.Remove("UserInfo");
+            _cookieManager.Remove("BIER.User");
             return RedirectToAction("LoginNew", "Authentication", new {extra = "uitgelogd" });
         }
         [UserAccess("LoggedIn", "")]
@@ -47,7 +61,8 @@ namespace Proftaakrepos.Controllers
                 if (model.newPassword == model.ConfirmPassword)
                 {
                     ChangePasswordFunc changePasswordFunc = new ChangePasswordFunc();
-                    bool success = changePasswordFunc.ChangePass(model.currentPassword, model.newPassword, GetUserData.UserIDAuth(HttpContext.Session.GetString("UserInfo")));
+                    GetUserData userData = new GetUserData();
+                    bool success = changePasswordFunc.ChangePass(model.currentPassword, model.newPassword, userData.UserIDAuth(HttpContext.Session.GetString("UserInfo")));
                     if (!success)
                     {
                         TempData["Error"] = "Uw wachtwoord is niet juist.";

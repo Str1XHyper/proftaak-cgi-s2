@@ -1,6 +1,9 @@
 ﻿using ClassLibrary.Classes;
+using CookieManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models.Authentication;
 using Models.Settings;
 using Proftaakrepos.Authorize;
 using System;
@@ -10,6 +13,15 @@ namespace Proftaakrepos.Controllers
 {
     public class RoleController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public RoleController(ICookieManager cookiemanager)
+        {
+            _cookieManager = cookiemanager;
+        }
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         private GetPageInformation getPage;
         public RoleController()
         {

@@ -1,6 +1,7 @@
 ﻿@using ClassLibrary.Classes;
 @using Microsoft.AspNetCore.Http;
-@using Models
+@using Models.Authentication;
+@using CookieManager;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +18,8 @@
 </head>
 <body class="sb-nav-fixed">
     @{
-        string usercode = Context.Session.GetString("UserInfo");
+        CookieModel cookieMonster = TempData["CookieMonster"] as CookieModel;
+        string usercode = cookieMonster.Identifier;
         string rol = string.Empty;
         List<string> rollen = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'");
         if (rollen.Count == 1) rol = rollen[0];
@@ -52,6 +54,10 @@
                         <a class="nav-link" href="/Planner/Agenda">
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
                             Rooster
+                        </a>
+                        <a class="nav-link" href="/Verlof/Aanvragen">
+                            <div class="sb-nav-link-icon"><i class="far fa-calendar-minus"></i></div>
+                            Verlof Aanvragen
                         </a>
                         <div class="sb-sidenav-menu-heading">Incidenten</div>
                         <a class="nav-link" asp-controller="Incidents" asp-action="Index">
