@@ -11,6 +11,8 @@ using System.Net;
 using CookieManager;
 using System.Data.Common;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading;
+using System.Globalization;
 
 namespace Proftaakrepos.Controllers
 {
@@ -23,6 +25,7 @@ namespace Proftaakrepos.Controllers
         {
             this._cookieManager = cookieManager;
             this._cookie = cookie;
+
         }
         [HttpPost]
         public IActionResult Login(LoginModel model)

@@ -74,12 +74,12 @@
                 <input id="naamLijst" type="hidden" value="@voornaamlist" />
                 <div class="popup-window bg-dark text-white" id="popup">Deze gebruiker is al geselecteerd</div>
 
-                <div class="scheduler-tools card-header bg-dark text-white" onclick="toggleDiv()" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Werknemer:</div>
+                <div class="scheduler-tools card-header bg-dark text-white" onclick="toggleDiv()" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">@Proftaakrepos.Resources.lang.Employee:</div>
                 <div id="scheduler-tools" class="card-body bg-white werknemer-header">
                     <div class="input-group mb-3">
 
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Werknemer:</span>
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Employee:</span>
                         </div>
                         @{
                             voornaamlist = "\"" + voornaamlist + "\"";
@@ -90,7 +90,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Soort:</span>
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Type:</span>
                         </div>
                         <select onchange="FetchEvents(); RemoveEvents();" on class="form-control" id="soortDienstField">
                             <option selected value="Allemaal">Allemaal</option>
@@ -105,7 +105,7 @@
         }
     }
     <div class="card mb-4">
-        <div id="button-header" class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">Rooster:</div>
+        <div id="button-header" class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">@Proftaakrepos.Resources.lang.Rooster:</div>
         <div class="card-body bg-white">
 
             <div id="calendar"></div>
