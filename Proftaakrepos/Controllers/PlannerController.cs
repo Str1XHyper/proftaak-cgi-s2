@@ -55,7 +55,7 @@ namespace Proftaakrepos.Controllers
             rol = loggedUserData[0];
             if (rol.ToLower() == "roostermaker")
             {
-                verlof = SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen").ToArray();
+                verlof = SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen where Behandeld = '0'").ToArray();
             }
             ViewData["colours"] = themeColours;
             ViewData["rol"] = rol;
@@ -89,6 +89,7 @@ namespace Proftaakrepos.Controllers
         }
         #endregion
         #region Data Logic
+        [UserAccess("", "Rooster wijzigen")]
         public IActionResult DeleteColours()
         {
             SQLConnection.ExecuteNonSearchQuery($"DELETE FROM ColorScheme");
@@ -107,6 +108,7 @@ namespace Proftaakrepos.Controllers
             eventData[5] = end.ToString("yyyy-MM-dd'T'HH:mm");
             return Json(eventData);
         }
+        [UserAccess("", "Rooster wijzigen")]
         [HttpPost]
         public void CreateEvent(EventModel newmodel)
         {
@@ -124,6 +126,7 @@ namespace Proftaakrepos.Controllers
                 }
             }
         }
+        [UserAccess("", "Rooster wijzigen")]
         public void HandleEditEventRequest(EventModel emdb)
         {
             emdb.userId = emdb.userId.Substring(0, emdb.userId.Length);
@@ -140,6 +143,7 @@ namespace Proftaakrepos.Controllers
             }
             SQLConnection.ExecuteNonSearchQuery(sqlquery);
         }
+        [UserAccess("", "Rooster wijzigen")]
         [HttpPost]
         public IActionResult HandleEventRequest(EventModel emdb, string[] useridArray)
         {
