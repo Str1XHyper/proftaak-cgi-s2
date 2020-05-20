@@ -97,12 +97,15 @@ namespace Proftaakrepos.Controllers
         {
             ViewData["conf"] = "good";
             ViewData["email"] = email;
+            PasswordResetHandler resetHandler = new PasswordResetHandler();
+            resetHandler.AddPasswordReset(email);
             return View("ChangePassword");
         }
 
-        public IActionResult PasswordChange(string authcode)
+        public IActionResult PasswordChange(string authcode, string code)
         {
             ViewData["auth"] = authcode;
+            ViewData["code"] = code;
             return View();
         }
 
@@ -110,7 +113,7 @@ namespace Proftaakrepos.Controllers
         public IActionResult ChangePassword(RestorePasswordModel model)
         {
             ChangePasswordFunc changePassword = new ChangePasswordFunc();
-            if(changePassword.ChangePassAuthCode(model.ConfirmPassword, model.NewPassword, model.HiddenEmail) == true)
+            if(changePassword.ChangePassAuthCode(model.ConfirmPassword, model.NewPassword, model.HiddenEmail, model.PasswordCode))
             {
                 TempData["success"] = "Wachtwoord is aangepast, u kunt nu inloggen.";
                 return RedirectToAction("LoginNew", "Authentication");

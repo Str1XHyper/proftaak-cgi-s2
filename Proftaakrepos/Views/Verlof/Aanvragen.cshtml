@@ -2,20 +2,29 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> stonkers = ViewData["events"] as List<string>;
 }
 
-<h1>Uw verlof aanvragen</h1>
+<h1>Openstaande verlof aanvragen</h1>
 
 <div class="card mb-4">
     <div class="card-header bg-dark text-white">Verlofverzoek aanmaken</div>
     <div class="card-body">
         <div class="container-fluid">
-            <form method="post">
-                <input type="hidden" value="dank" name="UserID" />
-                <div class="input-group">
-                    @*Variabel aanmaken van de inkomende verlofaanvragen*@
-                </div>
-            </form>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    
+                    @stonkers[0]
+                    <div class="input-group-append">
+                        <a class="btn btn-outline-success mr-1" style="width: 50px">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a class="btn btn-outline-danger" style="width: 50px">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

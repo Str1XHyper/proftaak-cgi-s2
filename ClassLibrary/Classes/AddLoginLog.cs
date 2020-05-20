@@ -9,7 +9,7 @@ namespace ClassLibrary.Classes
         public void NewLogin(string authCode, bool succes, string ip, string tijd)
         {
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Logins`(`AuthCode`, `Succes`, `Tijd`, `IP`) VALUES ('{authCode}',{succes},'{tijd}','{ip}')");
-            SendMail.Help();
+            //SendMail.Help();
         }
 
         public void UpdateLogin(string authcode, string tijd, string IP)

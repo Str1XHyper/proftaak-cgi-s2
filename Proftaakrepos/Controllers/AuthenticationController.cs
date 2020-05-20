@@ -43,6 +43,11 @@ namespace Proftaakrepos.Controllers
                     cookie.Identifier = authCode;
                     if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
                     HttpContext.Session.SetString("UserInfo", authCode);
+                    List<string> UInfo = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
+                    string UserID = UInfo[0];
+                    string Name = UInfo[1] + UInfo[2] + UInfo[3];
+                    HttpContext.Session.SetInt32("UserInfo.ID", Convert.ToInt32(UserID));
+                    HttpContext.Session.SetString("UserInfo.Name", Name);
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
