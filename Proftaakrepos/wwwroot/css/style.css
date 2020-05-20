@@ -19,10 +19,13 @@
     height: 5vh;
 }
 .image-flag{
-    height: 15px;
+    height: 18px;
     width: auto;
     margin-right: 8px;
     margin-top: 10px;
+    cursor: pointer;
+    background-color: grey;
+    padding: 1px;
 }
 .left{
     grid-column: 1;

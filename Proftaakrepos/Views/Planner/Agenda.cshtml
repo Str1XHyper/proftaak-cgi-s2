@@ -39,32 +39,33 @@
         {
             colourString += "#" + s + ",";
         }
+        int i = 1;
         string voornaamlist = "";
         string userIdList = "";
+        foreach (UserViewModel um in Model.userList)
+        {
+            if (um.tussenvoegsel != "")
+            {
+                voornaamlist += i + " - " + um.voornaam + " " + um.tussenvoegsel + " " + um.achternaam + ",";
+            }
+            else
+            {
+                voornaamlist += i + " - " + um.voornaam + " " + um.achternaam + ",";
+            }
+            userIdList += um.userId + ",";
+            i++;
+        }
+
         <input id="colours" type="hidden" value="@colourString" />
         if (ViewData["rol"].ToString() == "Roostermaker")
         {
-            if(verlofCount[0] != "0")
+            if (verlofCount[0] != "0")
             {
-<div onclick="slideUpDiv()" id="pop-up" class="alert alert-danger" role="alert">
-    Er staan nog <strong>@verlofCount[0]</strong> verlofaanvragen open.
-</div>
+                <div onclick="slideUpDiv()" id="pop-up" class="alert alert-danger" role="alert">
+                    Er staan nog <strong>@verlofCount[0]</strong> verlofaanvragen open.
+                </div>
             }
             <input id="rol" type="hidden" value="roostermaker" />
-            int i = 1;
-            foreach (UserViewModel um in Model.userList)
-            {
-                if (um.tussenvoegsel != "")
-                {
-                    voornaamlist += i + " - " + um.voornaam + " " + um.tussenvoegsel + " " + um.achternaam + ",";
-                }
-                else
-                {
-                    voornaamlist += i + " - " + um.voornaam + " " + um.achternaam + ",";
-                }
-                userIdList += um.userId + ",";
-                i++;
-            }
         }
         else
         {
@@ -105,7 +106,7 @@
                     </div>
                 </div>
             </div>
-        }
+                            }
     }
     <div class="card mb-4">
         <div id="button-header" class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">@Proftaakrepos.Resources.lang.Rooster:</div>
@@ -119,7 +120,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         @{EventModel newmodel = new EventModel();}
                         @{
-
+                            <input type="hidden" asp-for="@newmodel.userId" id="userIdField2" value="@Model.loggedInUserId" />
                             <input id="eventIdField" type="hidden" asp-for="@newmodel.eventId" value="0" />
                             if (ViewData["rol"].ToString() == "Roostermaker")
                             {
@@ -128,7 +129,6 @@
                                         <span class="input-group-text" id="basic-addon3">Werknemer: </span>
                                     </div>
                                     <input onchange="SetUserID(@voornaamlist, @userIdList)" type="text" class="form-control" id="voornaamField" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
-                                    <input type="hidden" asp-for="@newmodel.userId" id="userIdField2" />
                                 </div>
                             }
                         }
@@ -186,13 +186,14 @@
                         @if (ViewData["rol"].ToString() == "Roostermaker")
                         {
 
-                            <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent(); RemoveEvents(); CloseModal();" style="border-color: black; background-color:#660000 !important" />
-                            <input type="button" id="submitButton" onclick="HandleRequest(); RemoveEvents();" value="Wijzig" class="btn btn-light additional-buttons" style="border-color: black !important" />
+                            <input type="button" value="Verwijder" class="btn btn-danger additional-buttons" onclick="DeleteEvent()" style="border-color: black; background-color:#660000 !important" />
+                            <input type="button" id="submitButton" onclick="HandleRequest(); RemoveEvents();" value="Bevestig" class="btn btn-light additional-buttons" style="border-color: black !important" />
                         }
                         else
                         {
-                            <input type="button" value="Ruilverzoek Aanvragen" class="btn btn-outline-secondary" onclick="TradeEvent(); RemoveEvents();" />
+                            <input type="button" id="employee-func-btn-verlof" value="Verlof aanvragen" class="btn btn-outline-secondary" onclick="HandleRequest(); RemoveEvents;" style="display: none" />
                         }
+                        <input type="button" id="employee-func-btn" value="Ruilverzoek aanmaken" class="btn btn-outline-secondary" onclick="TradeEvent(); RemoveEvents();" style="display: none" />
                     </form>
 
                 </div>

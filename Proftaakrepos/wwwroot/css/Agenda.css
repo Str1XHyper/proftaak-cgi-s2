@@ -107,6 +107,10 @@
         background-color: #343a40;
     }
 
+.fc-time-grid-container {
+    overflow: hidden !important;
+}
+
 .fc-time-grid .fc-slats td {
     height: 2em;
 }
@@ -191,11 +195,13 @@
     font-weight: bold;
     line-height: 1em !important;
 }
-.alert{
+
+.alert {
     display: none;
 }
+
 .pop-up {
-    z-index:100;
+    z-index: 100;
     width: 100%;
 }
 
@@ -342,8 +348,9 @@ span {
 }
 
 
-.werknemer-header{
+.werknemer-header {
 }
+
 .pop-up {
     position: fixed !important;
     top: 50px !important;
@@ -352,10 +359,12 @@ span {
     margin-left: 30% !important;
     display: none;
 }
+
 .scheduler-tools:hover {
     background-color: #212529 !important;
     cursor: pointer;
 }
+
 .fc-button-active {
     background-color: #76828e !important;
     border-color: #76828e !important;
@@ -368,6 +377,7 @@ span {
         margin-left: 0% !important;
         display: none;
     }
+
     .fc-left {
         position: absolute !important;
         align-content: center !important;
