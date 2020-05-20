@@ -103,9 +103,10 @@ namespace Proftaakrepos.Controllers
 
         [UserAccess("", "Incidenten")]
         [HttpPost]
-        public IActionResult VoegIncidentToe(AddIncidentModel model)
+        public async Task<IActionResult> VoegIncidentToe(AddIncidentModel model)
         {
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
+            bool succeeded = await NotificationsStandBy.NotifyStandyBy(model);
             return RedirectToAction("Index");
         }
     }
