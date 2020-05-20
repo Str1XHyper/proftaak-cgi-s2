@@ -19,11 +19,6 @@ namespace Proftaakrepos.Controllers
         {
             _cookieManager = cookieManager;
         }
-
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
-        }
         [UserAccess("LoggedIn", "")]
         public IActionResult ChangeSettings()
         {
@@ -45,6 +40,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult ChangeLeSetting(ApplicationUser model)
         {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
             if (model.currentPassword == null || model.ConfirmPassword == null || model.newPassword == null)
             {
                 if(model.currentPassword == null && model.ConfirmPassword == null && model.newPassword == null)
@@ -53,7 +49,7 @@ namespace Proftaakrepos.Controllers
                     TempData["Status"] = "Uw gegevens zijn aangepast.";
                     return RedirectToAction("ChangeSettings");
                 }
-                TempData["Error"] = "Een van de waarden zijn niet ingevuld.";
+                TempData["Error"] = "Een van de waarden is niet ingevuld.";
                 return RedirectToAction("ChangeSettings");
             }
             else
@@ -82,6 +78,7 @@ namespace Proftaakrepos.Controllers
         [UserAccess("LoggedIn", "")]
         private void ChangeVal(ApplicationUser model)
         {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
             string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{HttpContext.Session.GetString("UserInfo")}'")[0];
             string[] queries = { $"UPDATE `Werknemers` SET `Voornaam`='{model.naam}',`Tussenvoegsel`='{model.tussenvoegsel}',`Achternaam`='{model.achternaam}',`Email`='{model.eMail.ToLower()}',`Telefoonnummer`='{model.phoneNumber}',`Straatnaam`='{model.straatnaam}',`Huisnummer`='{model.huisNummer}',`Postcode`='{model.postcode}',`Woonplaats`='{model.woonplaats}' WHERE `UserId` = '{userID}'", $"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(model.emailsetting)?1:0)}',`ReceiveSMS`='{(Convert.ToBoolean(model.smssetting) ? 1 : 0)}' WHERE `UserId` = '{userID}'", $"UPDATE `Login` SET `Username` = '{model.eMail}' WHERE `UserId` = '{userID}'" };
             SQLConnection.ExecuteNonSearchQueryArray(queries);

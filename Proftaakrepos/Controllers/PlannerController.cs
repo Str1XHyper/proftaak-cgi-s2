@@ -21,23 +21,16 @@ namespace Proftaakrepos.Controllers
         private static string userId;
         private static string rol;
         private List<EventModel> eventList;
-        private readonly ICookieManager _cookieManager;
-        public PlannerController(ICookieManager cookieManager)
-        {
-            _cookieManager = cookieManager;
-
-        }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
         #region Views
         //[UserAccess("","Rooster")]
         public IActionResult Agenda()
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
-            string var = _cookieManager.Get<CookieModel>("BIER.User").Identifier;
+            string var = HttpContext.Session.GetString("UserInfo");
             ViewData["UserInfo"] = var;
             string[] verlof = null;
             string[] themeColours = SQLConnection.ExecuteSearchQuery($"select * from ColorScheme").ToArray();
@@ -46,7 +39,7 @@ namespace Proftaakrepos.Controllers
             rol = loggedUserData[0];
             if (rol.ToLower() == "roostermaker")
             {
-                verlof = SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen").ToArray();
+                verlof = SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen where Behandeld = '0'").ToArray();
             }
             ViewData["colours"] = themeColours;
             ViewData["rol"] = rol;

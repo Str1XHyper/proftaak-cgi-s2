@@ -14,18 +14,15 @@ namespace Proftaakrepos.Controllers
     public class RoleController : Controller
     {
         private readonly ICookieManager _cookieManager;
+        private GetPageInformation getPage;
         public RoleController(ICookieManager cookiemanager)
         {
             _cookieManager = cookiemanager;
+            getPage = new GetPageInformation();
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
-        }
-        private GetPageInformation getPage;
-        public RoleController()
-        {
-            getPage = new GetPageInformation();
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
         [UserAccess("", "Toegang")]
         public IActionResult Index()

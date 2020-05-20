@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Create a Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string authCode = ViewData["UserInfo"].ToString();
+    string authCode = TempData["Cookie"].ToString();
     string currentId = ShiftView.GetLoggedInUserId(authCode);
     List<string[]> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId));
     List<string[]> tradeRequests = ShiftView.GetRequests();

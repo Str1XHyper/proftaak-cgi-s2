@@ -15,14 +15,9 @@ namespace Proftaakrepos.Controllers
 {
     public class IncidentsController : Controller
     {
-        private readonly ICookieManager _cookieManager;
-        public IncidentsController(ICookieManager cookiemanager)
-        {
-            _cookieManager = cookiemanager;
-        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
 
         [UserAccess("","Incidenten")]
