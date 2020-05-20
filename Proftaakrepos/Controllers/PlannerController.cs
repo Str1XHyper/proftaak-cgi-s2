@@ -32,7 +32,7 @@ namespace Proftaakrepos.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
         #region Views
         //[UserAccess("","Rooster")]

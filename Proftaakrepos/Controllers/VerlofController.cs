@@ -13,14 +13,9 @@ namespace Proftaakrepos.Controllers
 
     public class VerlofController : Controller
     {
-        private readonly ICookieManager _cookieManager;
-        public VerlofController(ICookieManager cookiemanager)
-        {
-            _cookieManager = cookiemanager;
-        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
         // GET: Verlof
         [HttpGet]

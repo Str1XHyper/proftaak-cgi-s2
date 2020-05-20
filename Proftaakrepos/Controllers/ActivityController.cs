@@ -14,14 +14,9 @@ namespace Proftaakrepos.Controllers
 {
     public class ActivityController : Controller
     {
-        private readonly ICookieManager _cookieManager;
-        public ActivityController(ICookieManager cookiemanager)
-        {
-            _cookieManager = cookiemanager;
-        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
         [UserAccess("LoggedIn", "")]
         public IActionResult Index()

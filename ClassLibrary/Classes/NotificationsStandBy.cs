@@ -12,24 +12,77 @@ namespace ClassLibrary.Classes
         {
             string mailBody1 = $"<div div class='container mt-5'><div class='card'><div class='card-header bg-dark text-white'><div>Incident: {model.IncidentNaam}</div></div><div class='Card-body'><h5 class='card-title'>Er is een incident<br /> Omschrijving: {model.IncidentOmschrijving}</h5></div></div></div>";
             List<string[]> users = GetStandByEmployees();
-            foreach (string[] user in users)
+            if(users.Count > 0)
             {
-                var email = user[0];
-                bool succeeded = await SendMail.Execute("Incident", "tijn.vanveghel@student.fontys.nl", mailBody1, "Error sending email");
-                if (!succeeded)
+                foreach (string[] user in users)
                 {
-                    Console.WriteLine("Error while sending email");
+                    var email = user[0];
+                    bool succeeded = await SendMail.Execute("Incident", "tijn.vanveghel@student.fontys.nl", mailBody1, "Error sending email");
+                    if (!succeeded)
+                    {
+                        Console.WriteLine("Error while sending email");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Email sent to {user[1]}");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine($"Email sent to {user[1]}");
-                }
+            } else
+            {
+                return false;
             }
-            return false;
+            return true;
         }
 
         public static List<string[]> GetStandByEmployees()
         {
+            List<string[]> roosterData = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Start,End FROM Rooster");
+            List<string[]> userData = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Email,Voornaam FROM Werknemers");
+            List<string[]> users = new List<string[]>();
+
+            foreach(string[] roosterEvent in roosterData)
+            {
+                DateTime start = DateTime.Parse(roosterEvent[1]);
+                DateTime end = DateTime.Parse(roosterEvent[2]);
+                if(DateTime.Compare(start, DateTime.Now) > 0 && DateTime.Compare(end, DateTime.Now) < 0)
+                {
+                    bool userInList = false;
+                    foreach(string[] userInfo in userData)
+                    {
+                        if(userInfo[0] == roosterEvent[0])
+                        {
+                            if (users.Count > 0)
+                            {
+                                foreach (string[] user in users)
+                                {
+                                    if(user[0] == userInfo[0])
+                                    {
+                                        userInList = true;
+                                        break;
+                                    }
+                                    users.Add(userInfo);
+                                }
+                                if (userInList)
+                                {
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                users.Add(userInfo);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return users;
+
+
+
+
+
+
             List<string[]> employeeData = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Start,End FROM Rooster");
             int standbyUserCount = 0;
             string sqlquery = ($"SELECT Distinct Email,Voornaam FROM Werknemers WHERE UserId='");
@@ -46,7 +99,7 @@ namespace ClassLibrary.Classes
                 sqlquery.Substring(0, sqlquery.Length - 12);
                 return SQLConnection.ExecuteSearchQueryWithArrayReturn(sqlquery);
             }
-            return null;
+            return new List<string[]>();
         }
     }
 }

@@ -19,10 +19,9 @@ namespace Proftaakrepos.Controllers
         {
             _cookieManager = cookieManager;
         }
-
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
         }
         [UserAccess("LoggedIn", "")]
         public IActionResult ChangeSettings()
@@ -39,6 +38,7 @@ namespace Proftaakrepos.Controllers
         public IActionResult LogOut()
         {
             _cookieManager.Remove("BIER.User");
+            HttpContext.Session.Remove("UserInfo");
             return RedirectToAction("LoginNew", "Authentication", new {extra = "uitgelogd" });
         }
         [UserAccess("LoggedIn", "")]
@@ -53,7 +53,7 @@ namespace Proftaakrepos.Controllers
                     TempData["Status"] = "Uw gegevens zijn aangepast.";
                     return RedirectToAction("ChangeSettings");
                 }
-                TempData["Error"] = "Een van de waarden zijn niet ingevuld.";
+                TempData["Error"] = "Een van de waarden is niet ingevuld.";
                 return RedirectToAction("ChangeSettings");
             }
             else

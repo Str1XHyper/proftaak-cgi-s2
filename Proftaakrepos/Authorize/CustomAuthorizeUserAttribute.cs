@@ -34,7 +34,7 @@ namespace Proftaakrepos.Authorize
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            string authCode = _cookieManager.Get<CookieModel>("Bier.User").Identifier;
+            string authCode = context.HttpContext.Session.GetString("UserInfo");
             if (_claim.Type.ToLower() == "iedereen")
             {
 

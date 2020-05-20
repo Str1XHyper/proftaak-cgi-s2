@@ -24,10 +24,6 @@ namespace Proftaakrepos.Controllers
             this._cookieManager = cookieManager;
             this._cookie = cookie;
         }
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
-        }
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
@@ -45,14 +41,8 @@ namespace Proftaakrepos.Controllers
                     string authCode = CreateLoginCookie.getAuthToken(model.Username);
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
-                    if (!model.Remember)
-                    {
-                        _cookieManager.Set("BIER.User", cookie, 1440);
-                    }
-                    else
-                    {
-                        _cookieManager.Set("BIER.User", cookie, 30*1440);
-                    }
+                    if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
+                    HttpContext.Session.SetString("UserInfo", authCode);
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
@@ -87,6 +77,7 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult ChangePassword()
         {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
             return View();
         }
 
@@ -104,6 +95,7 @@ namespace Proftaakrepos.Controllers
             }
             if (_cookieManager.Get<CookieModel>("BIER.User") != null)
             {
+                HttpContext.Session.SetString("UserInfo", _cookieManager.Get<CookieModel>("BIER.User").Identifier);
                 return RedirectToAction("Agenda", "Planner");
             }
             if (extra != null)
