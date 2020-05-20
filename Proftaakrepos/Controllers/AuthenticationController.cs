@@ -45,7 +45,7 @@ namespace Proftaakrepos.Controllers
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
                     if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
-                    HttpContext.Session.SetString("UserInfo", authCode);
+                    SetSession(authCode);
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
@@ -60,6 +60,19 @@ namespace Proftaakrepos.Controllers
 
             }
             return View("LoginNew");
+        }
+
+        private void SetSession(string authCode)
+        {
+            HttpContext.Session.SetString("UserInfo", authCode);
+            List<string> UInfo = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
+            string UserID = UInfo[0];
+            string Name = string.Empty;
+            if (UInfo[2] != string.Empty) Name = UInfo[1] + " " + UInfo[2] + " " + UInfo[3];
+            else Name = UInfo[1] + " " + UInfo[3];
+            HttpContext.Session.SetInt32("UserInfo.ID", Convert.ToInt32(UserID));
+            HttpContext.Session.SetString("UserInfo.Name", Name);
+
         }
 
         public void AddLogin(bool success, string username, string ip)
@@ -98,7 +111,7 @@ namespace Proftaakrepos.Controllers
             }
             if (_cookieManager.Get<CookieModel>("BIER.User") != null)
             {
-                HttpContext.Session.SetString("UserInfo", _cookieManager.Get<CookieModel>("BIER.User").Identifier);
+                SetSession(_cookieManager.Get<CookieModel>("BIER.User").Identifier);
                 return RedirectToAction("Agenda", "Planner");
             }
             if (extra != null)

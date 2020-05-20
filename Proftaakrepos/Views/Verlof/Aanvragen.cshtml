@@ -2,20 +2,45 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string[]> stonkers = ViewData["events"] as List<string[]>;
 }
 
-<h1>Uw verlof aanvragen</h1>
+<h1>Openstaande verlof aanvragen</h1>
 
 <div class="card mb-4">
-    <div class="card-header bg-dark text-white">Verlofverzoek aanmaken</div>
+    <div class="card-header bg-dark text-white">Verlofverzoeken accepteren</div>
     <div class="card-body">
         <div class="container-fluid">
-            <form method="post">
-                <input type="hidden" value="dank" name="UserID" />
-                <div class="input-group">
-                    @*Variabel aanmaken van de inkomende verlofaanvragen*@
-                </div>
-            </form>
+            <ul class="list-group">
+                @{
+                    bool areThereRequests = false;
+                    foreach (string[] array in stonkers)
+                    {
+                        areThereRequests = true;
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <label>Van: <strong>@array[0]</strong></label>
+                            <div class="input-group-append">
+                                <a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Verlof" asp-action="Goedkeuren" asp-route-verlofID="@array[1]" method="post">
+            <i class="fas fa-check"></i>
+        </a>
+                                @*<a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Shiftview" asp-action="HandleRequest" asp-route-UserID="0" asp-route-TradeID="0" asp-route-EventID="0" method="Post">
+                                    <i class="fas fa-check"></i>
+                                </a>*@
+                                <a class="btn btn-outline-danger" style="width: 50px" asp-controller="Verlof" asp-action="Afwijzen" asp-route-verlofID="@array[1]" method="post">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </div>
+                        </li>
+                    }
+                    if (!areThereRequests)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                Er zijn geen verlofverzoeken.
+                        </li>
+                    }
+                }
+            </ul>
         </div>
     </div>
 </div>

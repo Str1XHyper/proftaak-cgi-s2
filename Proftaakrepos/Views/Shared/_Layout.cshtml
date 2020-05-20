@@ -1,7 +1,5 @@
 ﻿@using ClassLibrary.Classes;
 @using Microsoft.AspNetCore.Http;
-@using Models.Authentication;
-@using CookieManager;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,8 +104,8 @@
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">@Proftaakrepos.Resources.lang.LoggedInAs:</div>
-                    @GetUserData.UserNameAuth(usercode)
+                    <div class="small">Ingelogd als:</div>
+                    @Context.Session.GetString("UserInfo.Name")
                 </div>
             </nav>
         </div>

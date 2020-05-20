@@ -32,7 +32,7 @@ namespace ClassLibrary.Classes
         public static string GetUniqueKeyOriginal_BIASED(int size)
         {
             char[] chars =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-".ToCharArray();
             byte[] data = new byte[size];
             using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
             {

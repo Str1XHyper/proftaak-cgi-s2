@@ -22,16 +22,26 @@ namespace ClassLibrary.Classes
             SQLConnection.ExecuteNonSearchQuery($"UPDATE `Login` SET `Password` = AES_ENCRYPT('{newPassword}', 'CGIKey') WHERE `UserId` = '{userID}'");
         }
 
-        public bool ChangePassAuthCode(string confPass, string newPassword, string authCode)
+        public bool ChangePassAuthCode(string confPass, string newPassword, string authCode, string secretCode)
         {
             List<string> userIDs = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
             if(userIDs.Count > 0)
             {
                 string userID = userIDs[0];
-                if (confPass == newPassword)
+                List<string> EndDate = SQLConnection.ExecuteSearchQuery($"SELECT `EindTijd` FROM `ResetRequest` WHERE `UserID`='{userID}' AND `ResetCode`='{secretCode}'");
+                if(EndDate.Count > 0)
                 {
-                    Change(newPassword, userID);
-                    return true;
+                    DateTime dagLimit = DateTime.Parse(EndDate[0]);
+                    if(dagLimit > DateTime.Now)
+                    {
+                        if (confPass == newPassword)
+                        {
+                            Change(newPassword, userID);
+                            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `ResetRequest` WHERE `ResetCode`='{secretCode}'");
+                            return true;
+                        }
+                        SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `ResetRequest` WHERE `ResetCode`='{secretCode}'");
+                    }
                 }
             }
             return false;

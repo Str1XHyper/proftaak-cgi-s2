@@ -11,5 +11,6 @@ namespace Models
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }
         public string HiddenEmail { get; set; }
+        public string PasswordCode { get; set; }
     }
 }
