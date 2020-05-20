@@ -40,5 +40,20 @@ namespace ClassLibrary.Classes
             sql = $"UPDATE Rollen SET " + sql + "WHERE Naam = '" + rol + "'";
             SQLConnection.ExecuteNonSearchQuery(sql);
         }
+
+        public PasswordSettingsModel GetSettings()
+        {
+            PasswordSettingsModel model = new PasswordSettingsModel();
+            List<string> response = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `PasswordRequirements`");
+            if(response.Count > 0)
+            {
+                model.Nummer = Convert.ToBoolean(Convert.ToInt32(response[0]));
+                model.Speciaal = Convert.ToBoolean(Convert.ToInt32(response[1]));
+                model.Hoofdletter = Convert.ToBoolean(Convert.ToInt32(response[2]));
+                model.KleineLetter = Convert.ToBoolean(Convert.ToInt32(response[3]));
+                model.Karakters = Convert.ToInt32(response[4]);
+            }
+            return model;
+        }
     }
 }

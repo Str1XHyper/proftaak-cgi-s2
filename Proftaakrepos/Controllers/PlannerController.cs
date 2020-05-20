@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 using Models;
 using Models.Agenda;
 using Proftaakrepos.Authorize;
+using CookieManager;
+using Models.Authentication;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Proftaakrepos.Controllers
 {
@@ -18,36 +21,24 @@ namespace Proftaakrepos.Controllers
         private static string userId;
         private static string rol;
         private List<EventModel> eventList;
+        private readonly ICookieManager _cookieManager;
+        public PlannerController(ICookieManager cookieManager)
+        {
+            _cookieManager = cookieManager;
+
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         #region Views
-        [UserAccess("", "Bedrijfsinstellingen")]
-        public IActionResult AgendaSettings()
-        {
-            string[] colours = SQLConnection.ExecuteSearchQuery($"SELECT * FROM ColorScheme").ToArray();
-            if(colours.Length == 0)
-            {
-                //Default colours to display if none are selected by company
-                colours = new string[4];
-                colours[0] = "3b5a6f";
-                colours[1] = "828a87";
-                colours[2] = "353b45";
-                colours[3] = "830101";
-            }
-            ViewData["colours"] = colours;
-            return View();
-        }
-        [UserAccess("", "Bedrijfsinstellingen")]
-        [HttpPost]
-        public IActionResult AgendaSettings(AgendaSettings settings)
-        {
-            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM ColorScheme");
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO ColorScheme (StandBy,Incidenten,Pauze,Verlof) VALUES ('{settings.standbyKleur}','{settings.incidentKleur}','{settings.pauzeKleur}','{settings.verlofKleur}')");
-            return RedirectToAction("Agenda");
-        }
-        [UserAccess("","Rooster")]
+        //[UserAccess("","Rooster")]
         public IActionResult Agenda()
         {
-            ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
-            string var = HttpContext.Session.GetString("UserInfo");
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            string var = _cookieManager.Get<CookieModel>("BIER.User").Identifier;
+            ViewData["UserInfo"] = var;
             string[] verlof = null;
             string[] themeColours = SQLConnection.ExecuteSearchQuery($"select * from ColorScheme").ToArray();
             string[] loggedUserData = SQLConnection.ExecuteSearchQuery($"Select Rol,UserId From Werknemers Where AuthCode = '{var}'").ToArray();
@@ -84,17 +75,10 @@ namespace Proftaakrepos.Controllers
                 UserViewModel usermodel = new UserViewModel(userData[i], userData[i + 1], userData[i + 2], userData[i + 3], userData[i + 4]);
                 viewdata.userList.Add(usermodel);
             }
-            string _authCode = HttpContext.Session.GetString("UserInfo");
             return View(viewdata);
         }
         #endregion
         #region Data Logic
-        [UserAccess("", "Rooster wijzigen")]
-        public IActionResult DeleteColours()
-        {
-            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM ColorScheme");
-            return RedirectToAction("Agenda");
-        }
         public void DeleteEvent(int EventId)
         {
             SQLConnection.ExecuteNonSearchQuery($"DELETE FROM Rooster WHERE EventId = {EventId}");
@@ -108,7 +92,6 @@ namespace Proftaakrepos.Controllers
             eventData[5] = end.ToString("yyyy-MM-dd'T'HH:mm");
             return Json(eventData);
         }
-        [UserAccess("", "Rooster wijzigen")]
         [HttpPost]
         public void CreateEvent(EventModel newmodel)
         {
@@ -126,7 +109,6 @@ namespace Proftaakrepos.Controllers
                 }
             }
         }
-        [UserAccess("", "Rooster wijzigen")]
         public void HandleEditEventRequest(EventModel emdb)
         {
             emdb.userId = emdb.userId.Substring(0, emdb.userId.Length);
@@ -143,7 +125,6 @@ namespace Proftaakrepos.Controllers
             }
             SQLConnection.ExecuteNonSearchQuery(sqlquery);
         }
-        [UserAccess("", "Rooster wijzigen")]
         [HttpPost]
         public IActionResult HandleEventRequest(EventModel emdb, string[] useridArray)
         {

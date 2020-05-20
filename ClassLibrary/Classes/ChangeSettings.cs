@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ClassLibrary.Classes;
+using Models.Settings;
 
 namespace ClassLibrary.Classes
 {
@@ -37,6 +38,11 @@ namespace ClassLibrary.Classes
         public static string[] getSettings(string userID)
         {
             return SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Settings` WHERE `UserId` = {userID}").ToArray();
+        }
+
+        public void SetPasswordSettings(List<string> values)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"UPDATE `PasswordRequirements` SET `NumberRequired` = '{values[0]}', `SpecialCharRequired` = '{values[1]}', `UpperRequired` = '{values[2]}', `LowerRequired` = '{values[3]}', `MinimumLength` = '{values[4]}'");
         }
     }
 }

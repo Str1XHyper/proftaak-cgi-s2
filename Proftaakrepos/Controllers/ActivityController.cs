@@ -6,11 +6,23 @@ using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Proftaakrepos.Authorize;
-using ClassLibrary.Classes;
+using CookieManager;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models.Authentication;
+
 namespace Proftaakrepos.Controllers
 {
     public class ActivityController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public ActivityController(ICookieManager cookiemanager)
+        {
+            _cookieManager = cookiemanager;
+        }
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         [UserAccess("LoggedIn", "")]
         public IActionResult Index()
         {

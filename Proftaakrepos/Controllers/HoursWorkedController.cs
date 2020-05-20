@@ -10,6 +10,9 @@ using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Http;
 using ClassLibrary.Classes;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models.Authentication;
+using CookieManager;
 
 namespace Proftaakrepos.Controllers
 {
@@ -17,12 +20,20 @@ namespace Proftaakrepos.Controllers
     {
         private HoursWorkedModel _overview;
         private List<HoursWorkedModel> _overviewCollection = new List<HoursWorkedModel>();
+        private readonly ICookieManager _cookieManager;
+        public HoursWorkedController(ICookieManager cookiemanager)
+        {
+            _cookieManager = cookiemanager;
+        }
         public IActionResult Index()
         {
             return View("Overview");
         }
-
-        public IActionResult Overview(int? projectId) //add user id param here pls :)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
+        public IActionResult Overview(int? projectId) 
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             if (projectId != null)
@@ -49,8 +60,13 @@ namespace Proftaakrepos.Controllers
                 ViewData["Collection"] = _overviewCollection;
                 return View("Overview");
             }
+            else
+            {
+                //Make logic/view for when no project id is specified.
+                return View();
+            }
 
-            return View();
+            
         }
 
 

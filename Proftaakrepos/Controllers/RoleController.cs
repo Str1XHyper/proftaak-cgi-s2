@@ -1,6 +1,9 @@
 ﻿using ClassLibrary.Classes;
+using CookieManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models.Authentication;
 using Models.Settings;
 using Proftaakrepos.Authorize;
 using System;
@@ -10,6 +13,15 @@ namespace Proftaakrepos.Controllers
 {
     public class RoleController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public RoleController(ICookieManager cookiemanager)
+        {
+            _cookieManager = cookiemanager;
+        }
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         private GetPageInformation getPage;
         public RoleController()
         {
@@ -25,7 +37,14 @@ namespace Proftaakrepos.Controllers
         public IActionResult ChangePermissions(NewPermissions model)
         {
             List<int> permissions = new List<int>();
-            foreach(string perm in model.Permissions)
+            for (int i = 0; i < model.Pages.Count; i++)
+            {
+                if (model.Pages[i] == "Toegang" && model.Rol.ToLower() == "roostermaker")
+                {
+                    model.Permissions[i] = "true";
+                }
+            }
+            foreach (string perm in model.Permissions)
             {
                 permissions.Add(Convert.ToInt32(Convert.ToBoolean(perm)));
             }

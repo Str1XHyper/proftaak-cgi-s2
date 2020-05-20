@@ -9,6 +9,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ClassLibrary.Classes;
+using CookieManager;
+using Models.Authentication;
 
 namespace Proftaakrepos.Authorize
 {
@@ -22,27 +24,29 @@ namespace Proftaakrepos.Authorize
     public class ClaimRequirementFilter : IAuthorizationFilter
     {
         readonly Claim _claim;
+        private readonly ICookieManager _cookieManager;
 
-        public ClaimRequirementFilter(Claim claim)
+        public ClaimRequirementFilter(Claim claim, ICookieManager cookieManager)
         {
             _claim = claim;
+            _cookieManager = cookieManager;
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            string authCode = _cookieManager.Get<CookieModel>("Bier.User").Identifier;
             if (_claim.Type.ToLower() == "iedereen")
             {
 
             }else if (_claim.Type.ToLower() == "loggedin")
             {
-                if(context.HttpContext.Session.GetString("UserInfo") == null)
+                if(authCode == null)
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Error", action = "Error401" }));
                 }
             }
             else
             {
-                string authCode = context.HttpContext.Session.GetString("UserInfo");
                 string pagina = _claim.Value;
                 string rol;
                 if (authCode != null)

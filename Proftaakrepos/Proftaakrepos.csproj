@@ -6,14 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\**" />
     <Compile Remove="TagHelpers\**" />
     <Compile Remove="Views\Employees\**" />
+    <Content Remove="Models\**" />
     <Content Remove="TagHelpers\**" />
     <Content Remove="Views\Employees\**" />
+    <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="TagHelpers\**" />
     <EmbeddedResource Remove="Views\Employees\**" />
+    <None Remove="Models\**" />
     <None Remove="TagHelpers\**" />
     <None Remove="Views\Employees\**" />
+    <TypeScriptCompile Remove="Models\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -143,6 +148,7 @@
     <PackageReference Include="Bootstrap.v3.Datetimepicker" Version="4.17.45" />
     <PackageReference Include="Bootstrap.v3.Datetimepicker.CSS" Version="4.17.45" />
     <PackageReference Include="ClassLibrary" Version="1.0.0" />
+    <PackageReference Include="CookieManager" Version="2.0.0" />
     <PackageReference Include="fullcalendar" Version="3.9.0" />
     <PackageReference Include="FullCalendar.MVC5" Version="1.0.7" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.44.1.1893" />

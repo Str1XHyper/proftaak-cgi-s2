@@ -1,12 +1,24 @@
 ﻿using ClassLibrary.Classes;
+using CookieManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models.Authentication;
 using Proftaakrepos.Authorize;
 
 namespace Proftaakrepos.Controllers
 {
     public class ShiftviewController : Controller
     {
+        private readonly ICookieManager _cookieManager;
+        public ShiftviewController(ICookieManager cookiemanager)
+        {
+            _cookieManager = cookiemanager;
+        }
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+        }
         [UserAccess("", "Reactie op verzoek")]
         public IActionResult ShiftviewEmail()
         {
@@ -83,15 +95,6 @@ namespace Proftaakrepos.Controllers
             {
                 nameAcceptor = userData[1] + " " + userData[2] + " " + userData[3];
             }
-            #region htmlContent
-            string htmlMessage = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
-            htmlMessage += "<HTML><HEAD><META http-equiv=Content-Type content=\"text/html; charset=iso-8859-1\">";
-            htmlMessage += "</HEAD><BODY><DIV><FONT face=Arial color=#ff0000 size=2>this is some HTML text";
-            htmlMessage += "</FONT></DIV></BODY></HTML>";
-            #endregion
-            string subject = "Ruilverzoek geaccepteerd";
-            string plainMessage = $"Test message plz plz plz work {nameAcceptor} accepted your request";
-            SendMail.Execute(subject, "alex.peek@hotmail.com", htmlMessage, plainMessage);
             return Redirect("Incoming");
         }
         [UserAccess("", "Inkomend")]
