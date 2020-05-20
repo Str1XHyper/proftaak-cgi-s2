@@ -63,6 +63,8 @@ namespace Proftaakrepos.Controllers
         public IActionResult Afwijzen(string verlofID)
         {
             SQLConnection.ExecuteNonSearchQuery($"UPDATE `Verlofaanvragen` SET `Geaccepteerd`='0' WHERE `VerlofID` = '{verlofID}'");
+            List<string> response = SQLConnection.ExecuteSearchQuery($"SELECT `EventID` FROM `Verlofaanvragen` WHERE `VerlofID`='{verlofID}'");
+            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `Agenda` WHERE `EventID` = '{response[0]}'");
             return RedirectToAction("Aanvragen");
         }
 
