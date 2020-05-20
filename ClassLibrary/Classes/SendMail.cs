@@ -50,7 +50,7 @@ namespace ClassLibrary.Classes
             var request = new RestRequest(Method.POST);
             request.AddHeader("content-type", "application/json");
             request.AddHeader("authorization", "Bearer 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");
-            request.AddParameter("application/json", "{\"personalizations\":[{\"to\":[{\"email\":\"bartdgp@outlook.com\",\"name\":\"Bart Vermeulen\"}],\"dynamic_template_data\":{\"firstName\":\"Brutus\",\"href\":\"https://bier-1.democgi.com\"},\"subject\":\"Wachtwoord reset\"}],\"from\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"reply_to\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"template_id\":\"d-901d6b18be644d54864577cb680cd3be\"}", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{\"personalizations\":[{\"to\":[{\"email\":\"alex.peek@hotmail.com\",\"name\":\"Bart Vermeulen\"}],\"dynamic_template_data\":{\"firstName\":\"<3 groetjes bart\",\"href\":\"https://bier-1.democgi.com\"},\"subject\":\"Wachtwoord reset\"}],\"from\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"reply_to\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"template_id\":\"d-901d6b18be644d54864577cb680cd3be\"}", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
         }
     }
