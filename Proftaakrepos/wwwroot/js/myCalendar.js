@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var wantedView = 'timeGridWeek';
     var wantedDur = '01:00:00';
     if (windowWidth < 725) {
-        $(document).ready(function () {
-            // Handler for .ready() called.
-            $('html, body').animate({
-                scrollTop: $('#button-header').offset().top - 57,
-            }, 1000);
-        });
+        //$(document).ready(function () {
+        //    // Handler for .ready() called.
+        //    $('html, body').animate({
+        //        scrollTop: $('#button-header').offset().top - 57,
+        //    }, 1000);
+        //});
         wantedWeekends = false;
     }
     var calendarEl = document.getElementById('calendar');
@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         views: {
             dayGrid: {
                 titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' },
+                displayEventEnd: true,
             },
             timeGrid: {
                 titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' },
@@ -189,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calendar.setOption('locale', 'nl');
     FetchEvents();
+    
     calendar.render();
 
 });
@@ -262,7 +264,6 @@ function TradeEvent(info) {
     for (var i = 0; i < employeedata.length; i++) {
         var userIdByToken = splitemployeedata[i].split(" ");
         if (userIdByToken[0] == loggedUser) {
-            console.log(splitemployeedata[i]);
             $('#voornaamField').tokenfield('setTokens', splitemployeedata[i]);
             break;
         }
@@ -285,7 +286,6 @@ function HandleRequest() {
             selectedIds += userIdByToken[0] + ",";
         }
         document.getElementById("userIdField2").value = selectedIds;
-        console.log($('#modalForm').serialize());
         $.ajax({
             url: '/Planner/CreateEvent',
             type: 'post',
@@ -389,6 +389,7 @@ function InitHeaderTokenField(data) {
         }, 0)
     });
 }
+//test
 $(document).ready(function () {
     $('.alert').slideDown(1000);
     $('.alert').delay(5000).slideUp(1000);
@@ -405,7 +406,6 @@ window.onload = function SetLoggedInUserToken() {
     for (var i = 0; i < employeedata.length; i++) {
         var userIdByToken = splitemployeedata[i].split(" ");
         if (userIdByToken[0] == loggedUser) {
-            console.log(splitemployeedata[i]);
             $('#voornaamFieldHeader').tokenfield('setTokens', splitemployeedata[i]);
             break;
         }
@@ -447,7 +447,6 @@ function FetchEvents() {
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            console.log(data);
             var list = data;
             var d = new Date();
             var n = d.getTime();
@@ -478,13 +477,14 @@ function FetchEvents() {
                 if (rol != "roostermaker") {
                     obj.editable = false;
                 }
+                if (obj.allDay) {
+                    
+                }
                 objarray.push(obj);
             }
             calendar.addEventSource(objarray);
-            console.log(calendar.eventSources);
             var e = new Date();
             var o = e.getTime();
-            console.log(o - n);
         }
     });
 

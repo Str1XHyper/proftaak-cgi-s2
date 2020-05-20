@@ -39,7 +39,7 @@ namespace Proftaakrepos.Controllers
             rol = loggedUserData[0];
             if (rol.ToLower() == "roostermaker")
             {
-                verlof = SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen").ToArray();
+                verlof = SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen where Behandeld = '0'").ToArray();
             }
             ViewData["colours"] = themeColours;
             ViewData["rol"] = rol;
