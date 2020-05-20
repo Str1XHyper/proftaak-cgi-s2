@@ -22,14 +22,8 @@ namespace Proftaakrepos.Controllers
         private static string userId;
         private static string rol;
         private List<EventModel> eventList;
-        private readonly ICookieManager _cookieManager;
         private AgendaManager agendamanager = new AgendaManager();
         private EventManager eventmanager = new EventManager();
-        public PlannerController(ICookieManager cookieManager)
-        {
-            _cookieManager = cookieManager;
-        }
-
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
@@ -38,12 +32,10 @@ namespace Proftaakrepos.Controllers
         //[UserAccess("","Rooster")]
         public IActionResult Agenda()
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
-            string var = _cookieManager.Get<CookieModel>("BIER.User").Identifier;
+            string var = HttpContext.Session.GetString("UserInfo");
             string[] loggedUserData = agendamanager.GetLoggedInUserData(var);
             rol = loggedUserData[0];
             AgendaViewModel viewdata = agendamanager.SetAgendaViewModel(loggedUserData[1]);
-            ViewData["UserInfo"] = var;
             ViewData["colours"] = agendamanager.GetThemeColours();
             ViewData["verlof"] = agendamanager.GetVerlofCount(loggedUserData[0]);
             ViewData["rol"] = rol;
