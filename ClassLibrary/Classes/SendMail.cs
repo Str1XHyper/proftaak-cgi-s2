@@ -22,7 +22,7 @@ namespace ClassLibrary.Classes
                 var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
                 await client.SendEmailAsync(msg);
                 return true;
-            } 
+            }
             catch
             {
                 return false;
@@ -43,8 +43,17 @@ namespace ClassLibrary.Classes
             var response = client.Get(request);
         }
         //{"from":{"email":"noreply@cgi.com"},"personalizations":[{"to":[{"email":"bartdgp@outlook.com"}],"dynamic_template_data":{"firstName":"Bart","href":"https://bier-1.democgi.com/"}}],"template_id":"d-901d6b18be644d54864577cb680cd3be"}
-    }
 
+        public static void Help()
+        {
+            var client = new RestClient("https://api.sendgrid.com/v3/mail/send");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", "Bearer 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");
+            request.AddParameter("application/json", "{\"personalizations\":[{\"to\":[{\"email\":\"bartdgp@outlook.com\",\"name\":\"Bart Vermeulen\"}],\"dynamic_template_data\":{\"firstName\":\"Brutus\",\"href\":\"https://bier-1.democgi.com\"},\"subject\":\"Wachtwoord reset\"}],\"from\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"reply_to\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"template_id\":\"d-901d6b18be644d54864577cb680cd3be\"}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+        }
+    }
     internal class MyClass
     {
         public string[] from { get; set; } = new string[2];
