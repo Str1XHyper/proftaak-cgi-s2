@@ -23,7 +23,7 @@ namespace Proftaakrepos.Controllers
         public ActionResult Aanvragen()
         {
             int? UserID = HttpContext.Session.GetInt32("UserInfo.ID");
-            List<string[]> requests = SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * FROM `Verlofaanvragen` WHERE UserID = {UserID}");
+            List<string[]> requests = SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * FROM `Verlofaanvragen` WHERE `Geaccepteerd`='-1'");
             List<string[]> names = SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select `UserId`, `Voornaam`, `Tussenvoegsel`, `Achternaam` FROM `Werknemers`");
             List<string[]> RequestData = new List<string[]>();
             foreach (string[] request in requests)
@@ -50,6 +50,18 @@ namespace Proftaakrepos.Controllers
             }
             ViewData["events"] = RequestData;
             return View();
+        }
+
+        public IActionResult Afwijzen(string verlofID)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Verlofaanvragen` SET `Geaccepteerd`='0' WHERE `VerlofID` = '{verlofID}'");
+            return RedirectToAction("Aanvragen");
+        }
+
+        public IActionResult Goedkeuren(string verlofID)
+        {
+            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Verlofaanvragen` SET `Geaccepteerd` = '1' WHERE `VerlofID` = '{verlofID}'");
+            return RedirectToAction("Aanvragen");
         }
     }
 }

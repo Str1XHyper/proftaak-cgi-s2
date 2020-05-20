@@ -57,7 +57,7 @@ namespace ClassLibrary.Planner
         public string[] GetVerlofCount(string rol)
         {
             if (rol.ToLower() == "roostermaker")
-                return SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen where Behandeld = '0'").ToArray();
+                return SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen where Geaccepteerd = '-1'").ToArray();
             return null;
         }
     }
