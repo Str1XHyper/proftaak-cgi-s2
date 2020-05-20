@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ClassLibrary.Classes;
+﻿using ClassLibrary.Classes;
 using CookieManager;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,6 +6,8 @@ using Models.Agenda;
 using Models.Authentication;
 using Models.Settings;
 using Proftaakrepos.Authorize;
+using System;
+using System.Collections.Generic;
 
 namespace Proftaakrepos.Controllers
 {

@@ -61,7 +61,8 @@ namespace Proftaakrepos.Controllers
                 if (model.newPassword == model.ConfirmPassword)
                 {
                     ChangePasswordFunc changePasswordFunc = new ChangePasswordFunc();
-                    bool success = changePasswordFunc.ChangePass(model.currentPassword, model.newPassword, GetUserData.UserIDAuth(HttpContext.Session.GetString("UserInfo")));
+                    GetUserData userData = new GetUserData();
+                    bool success = changePasswordFunc.ChangePass(model.currentPassword, model.newPassword, userData.UserIDAuth(HttpContext.Session.GetString("UserInfo")));
                     if (!success)
                     {
                         TempData["Error"] = "Uw wachtwoord is niet juist.";
