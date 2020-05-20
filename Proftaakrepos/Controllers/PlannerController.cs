@@ -105,6 +105,8 @@ namespace Proftaakrepos.Controllers
                 for (int i = 0; i < userCount; i++)
                 {
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{i}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{(emdb.isFullDay)}','{(emdb.isPending ? 1 : 0)}')");
+                    List<string> reponse = SQLConnection.ExecuteSearchQuery($"SELECT LAST (EventId) FROM Rooster"); //Aanmaken van verlofverzoek
+
                 }
             }
             else
@@ -119,6 +121,8 @@ namespace Proftaakrepos.Controllers
                     sqlquery += $"('{useridArray[i]}', '{emdb.title}', '{emdb.description}', '{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{emdb.themeColor}', '{(emdb.isFullDay)}', '{(emdb.isPending ? 1 : 0)}')";
                 }
                 SQLConnection.ExecuteNonSearchQuery(sqlquery);
+                string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0]; //Aanmaken van verlofverzoek
+                SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Verlofaanvragen (UserID, EventID) VALUES ('{userId}', '{eventID}')");
             }
             return RedirectToAction("CreateEvent", "Planner");
         }

@@ -44,9 +44,12 @@
         <input id="colours" type="hidden" value="@colourString" />
         if (ViewData["rol"].ToString() == "Roostermaker")
         {
-            <div onclick="slideUpDiv()" id="pop-up" class="alert alert-danger" role="alert">
-                Er staan nog @verlofCount[0] verlofaanvragen open.
-            </div>
+            if(verlofCount[0] != "0")
+            {
+<div onclick="slideUpDiv()" id="pop-up" class="alert alert-danger" role="alert">
+    Er staan nog <strong>@verlofCount[0]</strong> verlofaanvragen open.
+</div>
+            }
             <input id="rol" type="hidden" value="roostermaker" />
             int i = 1;
             foreach (UserViewModel um in Model.userList)
