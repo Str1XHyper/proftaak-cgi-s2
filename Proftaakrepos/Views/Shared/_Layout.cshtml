@@ -30,13 +30,17 @@
         <!-- Navbar-->
         <div class="position-absolute" style="right: 0px;">
             <ul class="navbar-nav ml-auto ml-md-0 ">
+                
+                
+                <li><a asp-action="Index" asp-controller="Language" asp-route-language="en" asp-route-currentPage="@Context.Request.Path.Value"><img src="~/img/united-states-of-america-flag-icon-256.png" class="image-flag" /></a></li>
+                <li><a asp-action="Index" asp-controller="Language" asp-route-language="nl" asp-route-currentPage="@Context.Request.Path.Value"><img src="~/img/netherlands-flag-xl.png" class="image-flag" /></a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="/Account/ChangeSettings"><i class="fas fa-user-cog"></i>&nbsp;Instellingen</a>
-                        <a class="dropdown-item" href="/Activity/Index"><i class="fas fa-chart-line"></i>&nbsp;Laatste accountactiviteit</a>
+                        <a class="dropdown-item" href="/Account/ChangeSettings"><i class="fas fa-user-cog"></i>&nbsp;@Proftaakrepos.Resources.lang.Settings</a>
+                        <a class="dropdown-item" href="/Activity/Index"><i class="fas fa-chart-line"></i>&nbsp;@Proftaakrepos.Resources.lang.LastActivity</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/Account/LogOut"><i class="fas fa-sign-out-alt"></i>&nbsp;Uitloggen</a>
+                        <a class="dropdown-item" href="/Account/LogOut"><i class="fas fa-sign-out-alt"></i>&nbsp;@Proftaakrepos.Resources.lang.Logout</a>
                     </div>
                 </li>
             </ul>
@@ -50,25 +54,25 @@
                         <div class="sb-sidenav-menu-heading">Rooster</div>
                         <a class="nav-link" href="/Planner/Agenda">
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
-                            Rooster
+                            @Proftaakrepos.Resources.lang.Rooster
                         </a>
                         <a class="nav-link" href="/Verlof/Aanvragen">
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-minus"></i></div>
-                            Verlof Aanvragen
+                            @Proftaakrepos.Resources.lang.VerlofAanvragen
                         </a>
                         <div class="sb-sidenav-menu-heading">Incidenten</div>
                         <a class="nav-link" asp-controller="Incidents" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-exclamation"></i></div>
-                            Incidenten
+                            @Proftaakrepos.Resources.lang.Incidenten
                         </a>
                         <div class="sb-sidenav-menu-heading">Ruilaanvragen</div>
                         <a class="nav-link collapsed" href="/ShiftView/Incoming">
                             <div class="sb-nav-link-icon"><i class="far fa-calendar"></i></div>
-                            Inkomend
+                            @Proftaakrepos.Resources.lang.Inkomend
                         </a>
                         <a class="nav-link collapsed" href="/ShiftView/CreateRequest">
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-plus"></i></div>
-                            Uitgaand
+                            @Proftaakrepos.Resources.lang.Uitgaand
                         </a>
                         @{
 
@@ -77,21 +81,21 @@
                                 <div class="sb-sidenav-menu-heading">Werknemers</div>
                                 <a class="nav-link collapsed" href="/Employee/Employees">
                                     <div class="sb-nav-link-icon"><i class="fas fa-user-edit"></i></div>
-                                    Werknemers
+                                    @Proftaakrepos.Resources.lang.Werknemers
                                 </a>
                                 <a class="nav-link collapsed" href="/Employee/AddEmployee">
                                     <div class="sb-nav-link-icon"><i class="fas fa-user-plus"></i></div>
-                                    Voeg werknemer toe
+                                    @Proftaakrepos.Resources.lang.WerknemerToevoegen
                                 </a>
 
                                 <div class="sb-sidenav-menu-heading">Applicatie</div>
                                 <a class="nav-link collapsed" href="/Role/Index">
                                     <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div>
-                                    Toegang
+                                    @Proftaakrepos.Resources.lang.Toegang
                                 </a>
                                 <a class="nav-link collapsed" href="/Bedrijf/AgendaSettings">
                                     <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
-                                    Bedrijfsinstellingen
+                                    @Proftaakrepos.Resources.lang.Bedrijfsinstellingen
                                 </a>
                             }
 

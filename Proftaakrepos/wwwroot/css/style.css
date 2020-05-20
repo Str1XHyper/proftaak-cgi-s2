@@ -18,7 +18,12 @@
     width: 100%;
     height: 5vh;
 }
-
+.image-flag{
+    height: 15px;
+    width: auto;
+    margin-right: 8px;
+    margin-top: 10px;
+}
 .left{
     grid-column: 1;
 }

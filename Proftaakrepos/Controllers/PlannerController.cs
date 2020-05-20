@@ -14,6 +14,8 @@ using Models.Authentication;
 using Microsoft.AspNetCore.Mvc.Filters;
 using CookieManager;
 using ClassLibrary.Planner;
+using System.Threading;
+using System.Globalization;
 
 namespace Proftaakrepos.Controllers
 {
@@ -27,6 +29,12 @@ namespace Proftaakrepos.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
+            string language = HttpContext.Session.GetString("Culture");
+            if (!string.IsNullOrEmpty(language))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+            }
         }
         #region Views
         //[UserAccess("","Rooster")]
