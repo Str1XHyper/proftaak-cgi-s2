@@ -55,6 +55,11 @@ namespace Proftaakrepos.Controllers
                 ViewData["language"] = HttpContext.Session.GetString("Culture");
             return View(viewdata);
         }
+
+        public IActionResult TestAgenda()
+        {
+            return View();
+        }
         #endregion
         #region Data Logic
         public void DeleteEvent(int EventId)
