@@ -33,7 +33,7 @@ namespace Proftaakrepos.Controllers
             int? UserID = HttpContext.Session.GetInt32("UserInfo.ID");
             List<string[]> requests = SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * FROM `Verlofaanvragen` WHERE `Geaccepteerd`='-1'");
             List<string[]> names = SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select `UserId`, `Voornaam`, `Tussenvoegsel`, `Achternaam` FROM `Werknemers`");
-            List<string[]> info = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT `UserId`, `Description`, `Start`, `End`, `IsFullDay` FROM `Rooster` WHERE `ThemeColor`='Verlof'");
+            List<string[]> info = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT `EventID`, `Description`, `Start`, `End`, `IsFullDay` FROM `Rooster` WHERE `ThemeColor`='Verlof'");
             List<string[]> RequestData = new List<string[]>();
             foreach (string[] request in requests)
             {
@@ -56,7 +56,7 @@ namespace Proftaakrepos.Controllers
                         }
                         foreach(string[] array in info)
                         {
-                            if(request[1] == array[0])
+                            if(request[2] == array[0])
                             {
                                 temp[temp.Length - 3] = array[1];
                                 temp[temp.Length - 2] = array[2];

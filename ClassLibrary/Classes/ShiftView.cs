@@ -24,7 +24,7 @@ namespace ClassLibrary.Classes
             List<string[]> returns = new List<string[]>();
             try
             {
-                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Rooster Where UserId = {UserID} ORDER BY `Start` ASC");
+                return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Rooster Where UserId = {UserID} AND NOT ThemeColor='Verlof' ORDER BY `Start` ASC");
             }
             catch (Exception ex)
             {

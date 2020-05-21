@@ -4,7 +4,7 @@
     ViewData["Title"] = "ChangeSettings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+    <link rel="stylesheet" type="text/css" href="~/css/RadioCSS.css">
 @{
     string[] test;
     if (ViewData["userInformation"] != null)
@@ -157,29 +157,19 @@
                 </div>
                 <br />
                 <label for="basic-url">Heads-up notificatie bij inplanning</label>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" asp-for="ValueOfNoti">
-                    <select class="custom-select" id="inputGroupSelect01" asp-for="TypeOfAge">
-                        <option value="1">Dag(en)</option>
-                        <option value="2">Week(en)</option>
-                        <option value="3">Maand(en)</option>
-                    </select>
-                </div>
-
-            </div>
-            <div class="row justify-content-end">
-                <div class="col-auto">
-                    <div class="input-group float-right">
-                        <a class="btn btn-outline-danger mr-1" method="Post" id="reset" href="/Account/ChangeSettings">
-                            Reset
-                        </a>
-                        <button class="btn btn-outline-success" method="Post" id="submit" type="submit">
-                            Pas aan
-                        </button>
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <div class="input-group float-right">
+                            <a class="btn btn-outline-danger mr-1" method="Post" id="reset" href="/Account/ChangeSettings">
+                                Reset
+                            </a>
+                            <button class="btn btn-outline-success" method="Post" id="submit" type="submit">
+                                Pas aan
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
     <div class="card-deck">
         <div class="card border-0">

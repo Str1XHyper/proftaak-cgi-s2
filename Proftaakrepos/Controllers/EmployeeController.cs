@@ -27,10 +27,15 @@ namespace Proftaakrepos.Controllers
         }
         #region Views
 
-        [UserAccess("", "Werknemers")]
         public IActionResult Employees()
         {
-            return View();
+            return RedirectToAction("GetEmployeeInfo");
+        }
+
+        [UserAccess("", "Werknemers")]
+        public IActionResult EmployeesView()
+        {
+            return View("Employees");
         }
 
         [UserAccess("", "Voeg werknemer toe")]
@@ -71,9 +76,9 @@ namespace Proftaakrepos.Controllers
         }
 
         [UserAccess("", "Werknemers")]
-        [HttpPost]
         public IActionResult GetEmployeeInfo(string employee)
         {
+            if (employee == null) employee = "1";
             List<string> totalRoles = new List<string>();
             string[] data = SQLConnection.ExecuteSearchQuery($"Select * from `Werknemers` where UserId = {employee}").ToArray();
             ViewData["EmployeeInfo"] = data;
