@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "TestAgenda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+<link href="~/js/fullcalendar/core/main.css" rel="stylesheet" />
+<link href="~/js/fullcalendar/daygrid/main.css" rel="stylesheet" />
+<link href="~/js/fullcalendar/timegrid/main.css" rel="stylesheet" />
+<link href="~/js/fullcalendar/bootstrap/main.css" rel="stylesheet" />
+
+
+<h1>TestAgenda</h1>
+
+<input type="hidden" id="UserID" value="@Context.Session.GetInt32("UserInfo.ID")" />
+<div id="calendar"></div>
+
+<script src="~/js/fullcalendar/core/main.js"></script>
+<script src="~/js/fullcalendar/daygrid/main.js"></script>
+<script src="~/js/fullcalendar/timegrid/main.js"></script>
+<script src="~/js/fullcalendar/bootstrap/main.min.js"></script>
+<script src="~/js/fullcalendar/interaction/main.js"></script>
+<script src="~/js/TestCalendar.js"></script>

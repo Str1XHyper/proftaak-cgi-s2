@@ -51,6 +51,11 @@ namespace Proftaakrepos.Controllers
             ViewData["userId"] = userId;
             return View(viewdata);
         }
+
+        public IActionResult TestAgenda()
+        {
+            return View();
+        }
         #endregion
         #region Data Logic
         public void DeleteEvent(int EventId)
