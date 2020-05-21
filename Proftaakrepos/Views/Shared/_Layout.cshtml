@@ -17,9 +17,7 @@
 <body class="sb-nav-fixed">
     @{
         string usercode = TempData["Cookie"] as string;
-        string rol = string.Empty;
-        List<string> rollen = SQLConnection.ExecuteSearchQuery($"SELECT Rol FROM Werknemers WHERE `authCode` = '{usercode}'");
-        if (rollen.Count == 1) rol = rollen[0];
+        string rol = Context.Session.GetString("Rol");
     }
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <button class="btn btn-link btn-sm order-1 order-lg-0 sidebar-toggle text-decoration-none" id="sidebarToggle" href="#">
@@ -56,10 +54,15 @@
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
                             @Proftaakrepos.Resources.lang.Rooster
                         </a>
-                        <a class="nav-link" href="/Verlof/Aanvragen">
-                            <div class="sb-nav-link-icon"><i class="far fa-calendar-minus"></i></div>
-                            @Proftaakrepos.Resources.lang.VerlofAanvragen
-                        </a>
+                        @{
+                            if (rol.ToLower() == "roostermaker")
+                            {
+                                <a class="nav-link" href="/Verlof/Aanvragen">
+                                    <div class="sb-nav-link-icon"><i class="far fa-calendar-minus"></i></div>
+                                    @Proftaakrepos.Resources.lang.VerlofAanvragen
+                                </a>
+                            }
+                        }
                         <div class="sb-sidenav-menu-heading">Incidenten</div>
                         <a class="nav-link" asp-controller="Incidents" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-exclamation"></i></div>
@@ -75,7 +78,6 @@
                             @Proftaakrepos.Resources.lang.Uitgaand
                         </a>
                         @{
-
                             if (rol.ToLower() == "roostermaker")
                             {
                                 <div class="sb-sidenav-menu-heading">Werknemers</div>
@@ -98,7 +100,6 @@
                                     @Proftaakrepos.Resources.lang.Bedrijfsinstellingen
                                 </a>
                             }
-
                         }
 
                     </div>

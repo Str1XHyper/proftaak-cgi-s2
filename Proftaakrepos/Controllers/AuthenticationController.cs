@@ -35,7 +35,8 @@ namespace Proftaakrepos.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 Identifier = null,
-                Date = DateTime.Now
+                Date = DateTime.Now,
+                Role = null
             };
 
             string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
@@ -45,6 +46,7 @@ namespace Proftaakrepos.Controllers
                     string authCode = CreateLoginCookie.getAuthToken(model.Username);
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
+                    cookie.Role = GetAccessLevel.GetRol(authCode);
                     if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
                     SetSession(authCode);
                     return RedirectToAction("Agenda", "Planner");
@@ -75,6 +77,8 @@ namespace Proftaakrepos.Controllers
             HttpContext.Session.SetString("UserInfo.Name", Name);
             if(_cookieManager.Get<LanguageCookieModel>("BIER.User.Culture") != null) HttpContext.Session.SetString("Culture", _cookieManager.Get<LanguageCookieModel>("BIER.User.Culture").Language);
             else HttpContext.Session.SetString("Culture", "en");
+            if (_cookieManager.Get<CookieModel>("BIER.User") != null) HttpContext.Session.SetString("Rol", _cookieManager.Get<CookieModel>("BIER.User").Role);
+            else HttpContext.Session.SetString("Rol", "Medewerker");
 
         }
 
