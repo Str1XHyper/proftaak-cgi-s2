@@ -121,7 +121,7 @@ namespace Proftaakrepos.Controllers
         public async Task<IActionResult> VoegIncidentToe(AddIncidentModel model)
         {
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
-            bool succeeded = await NotificationsStandBy.NotifyStandyBy(model);
+            bool succeeded = NotificationsStandBy.NotifyStandyBy(model);
             if (succeeded)
             {
                 Console.WriteLine("Mail has been sent");
