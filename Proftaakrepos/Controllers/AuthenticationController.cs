@@ -13,6 +13,7 @@ using System.Data.Common;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading;
 using System.Globalization;
+using Models.Language;
 
 namespace Proftaakrepos.Controllers
 {
@@ -72,6 +73,8 @@ namespace Proftaakrepos.Controllers
             else Name = UInfo[1] + " " + UInfo[3];
             HttpContext.Session.SetInt32("UserInfo.ID", Convert.ToInt32(UserID));
             HttpContext.Session.SetString("UserInfo.Name", Name);
+            if(_cookieManager.Get<LanguageCookieModel>("BIER.User.Culture") != null) HttpContext.Session.SetString("Culture", _cookieManager.Get<LanguageCookieModel>("BIER.User.Culture").Language);
+            else HttpContext.Session.SetString("Culture", "en");
 
         }
 

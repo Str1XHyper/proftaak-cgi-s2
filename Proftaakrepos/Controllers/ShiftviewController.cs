@@ -35,7 +35,6 @@ namespace Proftaakrepos.Controllers
         [UserAccess("","Inkomend")]
         public IActionResult Incoming()
         {
-            //ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         [UserAccess("", "Uitgaand")]
@@ -43,7 +42,6 @@ namespace Proftaakrepos.Controllers
         {
             if (status != null) ViewData["Status"] = status;
             else ViewData["Status"] = string.Empty;
-            //ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         [UserAccess("", "Uitgaand")]

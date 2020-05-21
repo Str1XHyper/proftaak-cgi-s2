@@ -28,7 +28,7 @@ namespace ClassLibrary.Classes
             }
             catch (Exception ex)
             {
-                return returns;//new string[] { "Can not open connection ! " + ex.Message.ToString() };
+                return returns;
             }
         }
 
@@ -42,7 +42,7 @@ namespace ClassLibrary.Classes
             }
             catch (Exception ex)
             {
-                return returns;//{ "Can not open connection ! " + ex.Message.ToString() };
+                return returns;
             }
         }
 
@@ -68,7 +68,7 @@ namespace ClassLibrary.Classes
             }
             catch (Exception ex)
             {
-                return returns;//new string[] { "Can not open connection ! " + ex.Message.ToString() };
+                return returns;
             }
         }
 
