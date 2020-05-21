@@ -44,11 +44,15 @@ namespace Proftaakrepos.Controllers
             string[] loggedUserData = agendamanager.GetLoggedInUserData(var);
             rol = loggedUserData[0];
             userId = loggedUserData[1];
+            string defaultLang = "nl";
             AgendaViewModel viewdata = agendamanager.SetAgendaViewModel(loggedUserData[1]);
             ViewData["colours"] = agendamanager.GetThemeColours();
             ViewData["verlof"] = agendamanager.GetVerlofCount(loggedUserData[0]);
             ViewData["rol"] = rol;
             ViewData["userId"] = userId;
+            ViewData["language"] = defaultLang;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Culture")))
+                ViewData["language"] = HttpContext.Session.GetString("Culture");
             return View(viewdata);
         }
         #endregion
@@ -135,7 +139,7 @@ namespace Proftaakrepos.Controllers
                     sqlquery += $"('{useridArray[i]}', '{emdb.title}', '{emdb.description}', '{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{emdb.themeColor}', '{(emdb.isFullDay)}', '{(emdb.isPending ? 1 : 0)}')";
                 }
                 SQLConnection.ExecuteNonSearchQuery(sqlquery);
-                if(emdb.themeColor.ToLower() == "verlof")
+                if (emdb.themeColor.ToLower() == "verlof")
                 {
                     string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0]; //Aanmaken van verlofverzoek
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Verlofaanvragen (UserID, EventID) VALUES ('{userId}', '{eventID}')");
@@ -162,7 +166,7 @@ namespace Proftaakrepos.Controllers
         {
             SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set IsFullDay = '{Convert.ToInt32(allDay)}' Where EventId = {EventId}");
         }
-#endregion
+        #endregion
     }
 }
 #region Easteregg

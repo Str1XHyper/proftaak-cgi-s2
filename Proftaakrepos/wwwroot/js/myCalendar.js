@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('descriptionField').readOnly = true;
                 document.getElementById('startField').readOnly = true;
                 document.getElementById('endField').readOnly = true;
-                document.getElementById('themeColorField').disabled = false;
+                document.getElementById('themeColorField').disabled = true;
                 document.getElementById('employee-func-btn-verlof').style.display = "block";
             }
             else {
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         },
     });
-    calendar.setOption('locale', 'nl');
+    calendar.setOption('locale', document.getElementById("language").value);
     FetchEvents();
     calendar.render();
 });
@@ -269,6 +269,7 @@ function TradeEvent(info) {
 function HandleRequest() {
     var selectedIds = "";
     var selectedTokens = $('#voornaamField').tokenfield('getTokens');
+    document.getElementById('themeColorField').disabled = false;
     if (selectedTokens.length > 0) {
         
         for (var i = 0; i < selectedTokens.length; i++) {
@@ -297,6 +298,7 @@ function HandleRequest() {
             type: 'post',
             data: $('#modalForm').serialize(),
             success: function () {
+                RemoveEvents();
                 CloseModal();
             }
         });

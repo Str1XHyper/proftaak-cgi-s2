@@ -45,7 +45,8 @@ namespace Proftaakrepos.Controllers
                         if (name[2] != string.Empty)
                         {
                             temp[0] = name[1] + " " + name[2] + " " + name[3];
-                        } else
+                        } 
+                        else
                         {
                             temp[0] = name[1] + " " + name[3];
                         }
@@ -60,6 +61,8 @@ namespace Proftaakrepos.Controllers
                                 temp[temp.Length - 3] = array[1];
                                 temp[temp.Length - 2] = array[2];
                                 temp[temp.Length - 1] = array[3];
+                                info.Remove(array);
+                                break;
                             }
                         }
                         RequestData.Add(temp);
