@@ -31,7 +31,7 @@
                 
                 
                 <li><a asp-action="Index" asp-controller="Language" asp-route-language="en" asp-route-currentPage="@Context.Request.Path.Value"><img src="~/img/united-states-of-america-flag-icon-256.png" class="image-flag" /></a></li>
-                <li><a asp-action="Index" asp-controller="Language" asp-route-language="nl" asp-route-currentPage="@Context.Request.Path.Value"><img src="~/img/netherlands-flag-xl.png" class="image-flag" /></a></li>
+                <li><a asp-action="Index" asp-controller="Language" asp-route-language="nl" asp-route-currentPage="@Context.Request.Path.Value"><img src="~/img/netherlands-flag-xl.png" class="image-flag" style="width:32.34px"/></a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -49,7 +49,7 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Rooster</div>
+                        <div class="sb-sidenav-menu-heading">@Proftaakrepos.Resources.lang.RoosterHeader</div>
                         <a class="nav-link" href="/Planner/Agenda">
                             <div class="sb-nav-link-icon"><i class="far fa-calendar-alt"></i></div>
                             @Proftaakrepos.Resources.lang.Rooster
@@ -63,12 +63,12 @@
                                 </a>
                             }
                         }
-                        <div class="sb-sidenav-menu-heading">Incidenten</div>
+                    <div class="sb-sidenav-menu-heading">@Proftaakrepos.Resources.lang.IncidentenHeader</div>
                         <a class="nav-link" asp-controller="Incidents" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-exclamation"></i></div>
                             @Proftaakrepos.Resources.lang.Incidenten
                         </a>
-                        <div class="sb-sidenav-menu-heading">Ruilaanvragen</div>
+                        <div class="sb-sidenav-menu-heading">@Proftaakrepos.Resources.lang.RuilaanvragenHeader</div>
                         <a class="nav-link collapsed" href="/ShiftView/Incoming">
                             <div class="sb-nav-link-icon"><i class="far fa-calendar"></i></div>
                             @Proftaakrepos.Resources.lang.Inkomend
@@ -80,7 +80,7 @@
                         @{
                             if (rol.ToLower() == "roostermaker")
                             {
-                                <div class="sb-sidenav-menu-heading">Werknemers</div>
+                                                <div class="sb-sidenav-menu-heading">@Proftaakrepos.Resources.lang.WerknemersHeader</div>
                                 <a class="nav-link collapsed" href="/Employee/Employees">
                                     <div class="sb-nav-link-icon"><i class="fas fa-user-edit"></i></div>
                                     @Proftaakrepos.Resources.lang.Werknemers
@@ -90,7 +90,7 @@
                                     @Proftaakrepos.Resources.lang.WerknemerToevoegen
                                 </a>
 
-                                <div class="sb-sidenav-menu-heading">Applicatie</div>
+                                <div class="sb-sidenav-menu-heading">@Proftaakrepos.Resources.lang.ApplicatieHeader</div>
                                 <a class="nav-link collapsed" href="/Role/Index">
                                     <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div>
                                     @Proftaakrepos.Resources.lang.Toegang
@@ -105,7 +105,7 @@
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
-                    <div class="small">Ingelogd als:</div>
+                    <div class="small">@Proftaakrepos.Resources.lang.LoggedInAs:</div>
                     @Context.Session.GetString("UserInfo.Name")
                 </div>
             </nav>
