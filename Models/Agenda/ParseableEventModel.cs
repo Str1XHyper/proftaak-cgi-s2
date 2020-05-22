@@ -14,5 +14,7 @@ namespace Models.Agenda
         public string backgroundColor { get; set; }
         public string description { get; set; }
         public string borderColor { get; set; }
+        public string userId { get; set; }
+        public string soort { get; set; }
     }
 }

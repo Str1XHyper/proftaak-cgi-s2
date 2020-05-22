@@ -274,7 +274,7 @@
     <value>Absence</value>
   </data>
   <data name="VerlofAanvragen" xml:space="preserve">
-    <value>Request absence</value>
+    <value>Absence requests</value>
   </data>
   <data name="VerlopenAanvragen" xml:space="preserve">
     <value>Expired requests</value>

@@ -71,6 +71,7 @@ namespace Proftaakrepos.Controllers
             List<string> UInfo = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
             string UserID = UInfo[0];
             string Name = string.Empty;
+            string rol = UInfo[11];
             if (UInfo[2] != string.Empty) Name = UInfo[1] + " " + UInfo[2] + " " + UInfo[3];
             else Name = UInfo[1] + " " + UInfo[3];
             HttpContext.Session.SetInt32("UserInfo.ID", Convert.ToInt32(UserID));

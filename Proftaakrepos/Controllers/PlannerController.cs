@@ -47,7 +47,8 @@ namespace Proftaakrepos.Controllers
             string defaultLang = "nl";
             AgendaViewModel viewdata = agendamanager.SetAgendaViewModel(loggedUserData[1]);
             ViewData["colours"] = agendamanager.GetThemeColours();
-            ViewData["verlof"] = agendamanager.GetVerlofCount(loggedUserData[0]);
+            if (rol.ToLower() == "roostermaker")
+                ViewData["verlof"] = agendamanager.GetVerlofCount();
             ViewData["rol"] = rol;
             ViewData["userId"] = userId;
             ViewData["language"] = defaultLang;
@@ -58,6 +59,10 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult TestAgenda()
         {
+            ViewData["rol"] = rol;
+            //Data for scheduler
+            if (rol.ToLower() == "roostermaker")
+                ViewData["verlof"] = agendamanager.GetVerlofCount();
             return View();
         }
         #endregion
@@ -129,7 +134,6 @@ namespace Proftaakrepos.Controllers
                 {
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Rooster (UserId,Subject,Description,Start,End,ThemeColor,IsFullDay,IsPending) VALUES ('{i}','{emdb.title}','{emdb.description}','{emdb.startDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.endDate.ToString("yyyy/MM/dd HH:mm:ss")}','{emdb.themeColor}','{(emdb.isFullDay)}','{(emdb.isPending ? 1 : 0)}')");
                     List<string> reponse = SQLConnection.ExecuteSearchQuery($"SELECT LAST (EventId) FROM Rooster"); //Aanmaken van verlofverzoek
-
                 }
             }
             else

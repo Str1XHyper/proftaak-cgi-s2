@@ -7,9 +7,6 @@ var loggedUser;
 document.addEventListener('DOMContentLoaded', function () {
     modal = document.getElementById("myModal");
     span = document.getElementsByClassName("close")[0];
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
     var windowWidth = window.innerWidth;
     var wantedWeekends = true;
     var wantedView = 'timeGridWeek';
@@ -37,15 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
         draggable: true,
         contentHeight: 'auto',
         lazyFetching: true,
-        locale: 'nl',
         slotDuration: wantedDur,
         selectable: true,
-        selectHelper: true,
         eventLimit: true,
         editable: true,
         droppable: true,
         dropAccept: true,
-        longPressDelay: 500,
         slotLabelFormat: {
             hour: 'numeric',
             minute: '2-digit',
