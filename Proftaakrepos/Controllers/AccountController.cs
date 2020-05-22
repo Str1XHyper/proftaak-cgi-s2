@@ -83,7 +83,7 @@ namespace Proftaakrepos.Controllers
         private void ChangeVal(ApplicationUser model)
         {
             string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{HttpContext.Session.GetString("UserInfo")}'")[0];
-            string[] queries = { $"UPDATE `Werknemers` SET `Voornaam`='{model.naam}',`Tussenvoegsel`='{model.tussenvoegsel}',`Achternaam`='{model.achternaam}',`Email`='{model.eMail.ToLower()}',`Telefoonnummer`='{model.phoneNumber}',`Straatnaam`='{model.straatnaam}',`Huisnummer`='{model.huisNummer}',`Postcode`='{model.postcode}',`Woonplaats`='{model.woonplaats}' WHERE `UserId` = '{userID}'", $"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(model.emailsetting)?1:0)}',`ReceiveSMS`='{(Convert.ToBoolean(model.smssetting) ? 1 : 0)}' WHERE `UserId` = '{userID}'", $"UPDATE `Login` SET `Username` = '{model.eMail}' WHERE `UserId` = '{userID}'" };
+            string[] queries = { $"UPDATE `Werknemers` SET `Voornaam`='{model.naam}',`Tussenvoegsel`='{model.tussenvoegsel}',`Achternaam`='{model.achternaam}',`Email`='{model.eMail.ToLower()}',`Telefoonnummer`='{model.phoneNumber}',`Straatnaam`='{model.straatnaam}',`Huisnummer`='{model.huisNummer}',`Postcode`='{model.postcode}',`Woonplaats`='{model.woonplaats}' WHERE `UserId` = '{userID}'", $"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(model.emailsetting)?1:0)}',`ReceiveSMS`='{(Convert.ToBoolean(model.smssetting) ? 1 : 0)}' WHERE `UserId` = '{userID}'", $"UPDATE `Login` SET `Username` = '{model.eMail}' WHERE `UserId` = '{userID}'", $"UPDATE `HeadsUpSetting` SET `UserID`='{userID}', `Amount`='{model.ValueOfNoti}', `Type`='{model.TypeOfAge}'" };
             SQLConnection.ExecuteNonSearchQueryArray(queries);
         }
 
@@ -97,12 +97,15 @@ namespace Proftaakrepos.Controllers
         {
             ViewData["conf"] = "good";
             ViewData["email"] = email;
+            PasswordResetHandler resetHandler = new PasswordResetHandler();
+            resetHandler.AddPasswordReset(email);
             return View("ChangePassword");
         }
 
-        public IActionResult PasswordChange(string authcode)
+        public IActionResult PasswordChange(string authcode, string code)
         {
             ViewData["auth"] = authcode;
+            ViewData["code"] = code;
             return View();
         }
 
@@ -110,7 +113,7 @@ namespace Proftaakrepos.Controllers
         public IActionResult ChangePassword(RestorePasswordModel model)
         {
             ChangePasswordFunc changePassword = new ChangePasswordFunc();
-            if(changePassword.ChangePassAuthCode(model.ConfirmPassword, model.NewPassword, model.HiddenEmail) == true)
+            if(changePassword.ChangePassAuthCode(model.ConfirmPassword, model.NewPassword, model.HiddenEmail, model.PasswordCode))
             {
                 TempData["success"] = "Wachtwoord is aangepast, u kunt nu inloggen.";
                 return RedirectToAction("LoginNew", "Authentication");

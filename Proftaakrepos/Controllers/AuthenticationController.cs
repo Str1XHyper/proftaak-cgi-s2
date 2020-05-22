@@ -11,6 +11,9 @@ using System.Net;
 using CookieManager;
 using System.Data.Common;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading;
+using System.Globalization;
+using Models.Language;
 
 namespace Proftaakrepos.Controllers
 {
@@ -23,6 +26,7 @@ namespace Proftaakrepos.Controllers
         {
             this._cookieManager = cookieManager;
             this._cookie = cookie;
+
         }
         [HttpPost]
         public IActionResult Login(LoginModel model)
@@ -31,7 +35,8 @@ namespace Proftaakrepos.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 Identifier = null,
-                Date = DateTime.Now
+                Date = DateTime.Now,
+                Role = null
             };
 
             string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
@@ -41,8 +46,9 @@ namespace Proftaakrepos.Controllers
                     string authCode = CreateLoginCookie.getAuthToken(model.Username);
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
+                    cookie.Role = GetAccessLevel.GetRol(authCode);
                     if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
-                    HttpContext.Session.SetString("UserInfo", authCode);
+                    SetSession(authCode);
                     return RedirectToAction("Agenda", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
@@ -57,6 +63,24 @@ namespace Proftaakrepos.Controllers
 
             }
             return View("LoginNew");
+        }
+
+        private void SetSession(string authCode)
+        {
+            HttpContext.Session.SetString("UserInfo", authCode);
+            List<string> UInfo = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
+            string UserID = UInfo[0];
+            string Name = string.Empty;
+            string rol = UInfo[11];
+            if (UInfo[2] != string.Empty) Name = UInfo[1] + " " + UInfo[2] + " " + UInfo[3];
+            else Name = UInfo[1] + " " + UInfo[3];
+            HttpContext.Session.SetInt32("UserInfo.ID", Convert.ToInt32(UserID));
+            HttpContext.Session.SetString("UserInfo.Name", Name);
+            if(_cookieManager.Get<LanguageCookieModel>("BIER.User.Culture") != null) HttpContext.Session.SetString("Culture", _cookieManager.Get<LanguageCookieModel>("BIER.User.Culture").Language);
+            else HttpContext.Session.SetString("Culture", "en");
+            if (_cookieManager.Get<CookieModel>("BIER.User") != null) HttpContext.Session.SetString("Rol", _cookieManager.Get<CookieModel>("BIER.User").Role);
+            else HttpContext.Session.SetString("Rol", UInfo[11]);
+
         }
 
         public void AddLogin(bool success, string username, string ip)
@@ -95,7 +119,7 @@ namespace Proftaakrepos.Controllers
             }
             if (_cookieManager.Get<CookieModel>("BIER.User") != null)
             {
-                HttpContext.Session.SetString("UserInfo", _cookieManager.Get<CookieModel>("BIER.User").Identifier);
+                SetSession(_cookieManager.Get<CookieModel>("BIER.User").Identifier);
                 return RedirectToAction("Agenda", "Planner");
             }
             if (extra != null)

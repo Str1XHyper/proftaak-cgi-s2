@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
 using Proftaakrepos.Authorize;
+using System.Globalization;
+using System.Threading;
 
 namespace Proftaakrepos.Controllers
 {
@@ -18,6 +20,12 @@ namespace Proftaakrepos.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
+            string language = HttpContext.Session.GetString("Culture");
+            if (!string.IsNullOrEmpty(language))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+            }
         }
         [UserAccess("", "Reactie op verzoek")]
         public IActionResult ShiftviewEmail()
@@ -27,7 +35,6 @@ namespace Proftaakrepos.Controllers
         [UserAccess("","Inkomend")]
         public IActionResult Incoming()
         {
-            //ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         [UserAccess("", "Uitgaand")]
@@ -35,7 +42,6 @@ namespace Proftaakrepos.Controllers
         {
             if (status != null) ViewData["Status"] = status;
             else ViewData["Status"] = string.Empty;
-            //ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             return View();
         }
         [UserAccess("", "Uitgaand")]
@@ -69,7 +75,7 @@ namespace Proftaakrepos.Controllers
                 endTime = roosterData[5].Split(" ")[1];
             }
 
-            SQLConnection.ExecuteNonSearchQuery($"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`,`EventID`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', -1, 0, '{EventID}')");
+            SQLConnection.ExecuteNonSearchQuery($"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`,`EventID`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{endDates[2]}-{endDates[1]}-{endDates[0]} {endTime}', -1, 0, '{EventID}')");
             SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set IsPending = 1 where EventId = {EventID}");
 
             return RedirectToAction("CreateRequest");

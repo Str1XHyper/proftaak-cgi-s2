@@ -10,6 +10,8 @@ using Proftaakrepos.Authorize;
 using CookieManager;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
+using System.Globalization;
+using System.Threading;
 
 namespace Proftaakrepos.Controllers
 {
@@ -18,6 +20,12 @@ namespace Proftaakrepos.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
+            string language = HttpContext.Session.GetString("Culture");
+            if (!string.IsNullOrEmpty(language))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+            }
         }
 
         [UserAccess("","Incidenten")]
@@ -34,6 +42,7 @@ namespace Proftaakrepos.Controllers
                 {
                     int i = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(`StatusIDIncident`) FROM  `IncidentUpdates` WHERE `IncidentID` = '{statusId}'")[0]);
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Afgehandeld')");
+                    NotificationsStandBy.NotifySolved();
                 }
             }
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
@@ -110,10 +119,10 @@ namespace Proftaakrepos.Controllers
 
         [UserAccess("", "Incidenten")]
         [HttpPost]
-        public async Task<IActionResult> VoegIncidentToe(AddIncidentModel model)
+        public ActionResult VoegIncidentToe(AddIncidentModel model)
         {
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
-            bool succeeded = await NotificationsStandBy.NotifyStandyBy(model);
+            bool succeeded = NotificationsStandBy.NotifyStandyBy(model);
             if (succeeded)
             {
                 Console.WriteLine("Mail has been sent");

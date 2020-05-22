@@ -2,25 +2,47 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string[]> stonkers = ViewData["events"] as List<string[]>;
 }
 
-<h1>Uw verlof aanvragen</h1>
+<h1>Openstaande verlof aanvragen</h1>
 
 <div class="card mb-4">
-    <div class="card-header bg-dark text-white">Verlofverzoek aanmaken</div>
+    <div class="card-header bg-dark text-white">Verlofverzoeken accepteren</div>
     <div class="card-body">
         <div class="container-fluid">
-            <form method="post">
-                <input type="hidden" value="dank" name="UserID" />
-                <div class="input-group">
-                    <select name="EventID" id="EventID" class="custom-select">
-                        <option value="0" selected>Kies een dienst</option>
-                    </select>
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-outline-secondary">Verlofverzoek aanmaken</button>
-                    </div>
-                </div>
-            </form>
+            <ul class="list-group">
+                @{
+                    bool areThereRequests = false;
+                    foreach (string[] array in stonkers)
+                    {
+                        areThereRequests = true;
+
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="row">
+                                        <div class="column col-md-6"><label>Medewerker: <strong>@array[0]</strong></label></div>
+                                        <div class="column col-sm-6"><label>Van: <strong>@array[6]</strong>&nbsp;Tot: <strong>@array[7]</strong></label></div>
+                                        <div class="column col-md-6"><label>Reden: <strong>@array[5]</strong></label></div>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Verlof" asp-action="Goedkeuren" asp-route-verlofID="@array[1]" method="post">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                        
+                                        <a class="btn btn-outline-danger" style="width: 50px" asp-controller="Verlof" asp-action="Afwijzen" asp-route-verlofID="@array[1]" method="post">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                    }
+                    if (!areThereRequests)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                Er zijn geen verlofverzoeken.
+                        </li>
+                    }
+                }
+            </ul>
         </div>
     </div>
 </div>

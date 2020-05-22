@@ -18,5 +18,7 @@
         public string currentPassword { get; set; }
         public string newPassword { get; set; }
         public string ConfirmPassword { get; set; }
+        public string ValueOfNoti { get; set; }
+        public string TypeOfAge { get; set; }
     }
 }

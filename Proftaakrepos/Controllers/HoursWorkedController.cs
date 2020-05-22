@@ -13,6 +13,8 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
 using CookieManager;
+using System.Globalization;
+using System.Threading;
 
 namespace Proftaakrepos.Controllers
 {
@@ -32,6 +34,12 @@ namespace Proftaakrepos.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
+            string language = HttpContext.Session.GetString("Culture");
+            if (!string.IsNullOrEmpty(language))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+            }
         }
         public IActionResult Overview(int? projectId) 
         {

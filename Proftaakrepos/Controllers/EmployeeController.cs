@@ -8,6 +8,8 @@ using Models.Authentication;
 using Proftaakrepos.Authorize;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 
 namespace Proftaakrepos.Controllers
 {
@@ -16,13 +18,24 @@ namespace Proftaakrepos.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
+            string language = HttpContext.Session.GetString("Culture");
+            if (!string.IsNullOrEmpty(language))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+            }
         }
         #region Views
 
-        [UserAccess("", "Werknemers")]
         public IActionResult Employees()
         {
-            return View();
+            return RedirectToAction("GetEmployeeInfo");
+        }
+
+        [UserAccess("", "Werknemers")]
+        public IActionResult EmployeesView()
+        {
+            return View("Employees");
         }
 
         [UserAccess("", "Voeg werknemer toe")]
@@ -63,9 +76,9 @@ namespace Proftaakrepos.Controllers
         }
 
         [UserAccess("", "Werknemers")]
-        [HttpPost]
         public IActionResult GetEmployeeInfo(string employee)
         {
+            if (employee == null) employee = "1";
             List<string> totalRoles = new List<string>();
             string[] data = SQLConnection.ExecuteSearchQuery($"Select * from `Werknemers` where UserId = {employee}").ToArray();
             ViewData["EmployeeInfo"] = data;

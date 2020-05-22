@@ -18,6 +18,11 @@ namespace ClassLibrary.Classes
             return SQLConnection.ExecuteSearchQuery("SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam` FROM `Werknemers`").ToArray();
         }
 
+        public List<string[]> NamesTest()
+        {
+            return SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam`, `UserId` FROM `Werknemers`");
+        }
+
         public string[] EmployeeInfo(string name)
         {
             return countResults;

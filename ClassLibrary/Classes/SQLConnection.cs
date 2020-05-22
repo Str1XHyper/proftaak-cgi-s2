@@ -12,9 +12,11 @@ namespace ClassLibrary.Classes
         {
             MySqlConnection cnn;
             //for debugging
-            string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
+            //string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
             //for release
             //string connetionString = $"server=localhost;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
+            //for anti-
+            string connetionString = $"server=185.182.56.248;database=bartvur381_proftaak;uid=bartvur381_proftaak;pwd=KjYD1zjZ;";
             cnn = new MySqlConnection(connetionString);
             return cnn;
         }
@@ -56,7 +58,7 @@ namespace ClassLibrary.Classes
             MySqlCommand cmd = new MySqlCommand();
             cmd.CommandText = query;
             cmd.Connection = cnn;
-           cnn.Open();
+            cnn.Open();
             MySqlDataReader reader = cmd.ExecuteReader();
             values.Clear();
             try
@@ -88,7 +90,7 @@ namespace ClassLibrary.Classes
                 cmd[i].Connection = cnn;
             }
             cnn.Open();
-            for(int i = 0; i < cmd.Length; i++)
+            for (int i = 0; i < cmd.Length; i++)
             {
                 MySqlDataReader reader = cmd[i].ExecuteReader();
                 values[i].Clear();
@@ -107,7 +109,7 @@ namespace ClassLibrary.Classes
                     string eString = e.ToString();
                 }
             }
-            
+
             cnn.Close();
             return values;
         }
@@ -129,14 +131,14 @@ namespace ClassLibrary.Classes
             MySqlConnection cnn = CreateConnection();
 
             MySqlCommand[] cmd = new MySqlCommand[query.Length];
-            for (int i = 0; i<cmd.Length; i++)
+            for (int i = 0; i < cmd.Length; i++)
             {
                 cmd[i] = new MySqlCommand();
                 cmd[i].CommandText = query[i];
                 cmd[i].Connection = cnn;
             }
             cnn.Open();
-            for(int i = 0; i<cmd.Length; i++)
+            for (int i = 0; i < cmd.Length; i++)
             {
                 cmd[i].ExecuteNonQuery();
             }
@@ -155,7 +157,7 @@ namespace ClassLibrary.Classes
             values.Clear();
             while (reader.Read())
             {
-                
+
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
                     values.Add(reader.GetString(i));

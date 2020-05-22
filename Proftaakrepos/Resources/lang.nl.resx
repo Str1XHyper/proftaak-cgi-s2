@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Achternaam" xml:space="preserve">
+    <value>Achternaam</value>
+  </data>
+  <data name="ActieveAanvragen" xml:space="preserve">
+    <value>Actieve aanvragen</value>
+  </data>
+  <data name="Allemaal" xml:space="preserve">
+    <value>Allemaal</value>
+  </data>
+  <data name="ApplicatieHeader" xml:space="preserve">
+    <value>Applicatie</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Applicatie</value>
+  </data>
+  <data name="Basisinformatie" xml:space="preserve">
+    <value>Basisinformatie</value>
+  </data>
+  <data name="Bedrijfsinstellingen" xml:space="preserve">
+    <value>Bedrijfsinstellingen</value>
+  </data>
+  <data name="Contactgegevens" xml:space="preserve">
+    <value>Contactgegevens</value>
+  </data>
+  <data name="Dag" xml:space="preserve">
+    <value>Dag</value>
+  </data>
+  <data name="Dagen" xml:space="preserve">
+    <value>Dag(en)</value>
+  </data>
+  <data name="EmailNotificaties" xml:space="preserve">
+    <value>E-mail notificaties ontvangen</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Werknemer</value>
+  </data>
+  <data name="HeadsUp" xml:space="preserve">
+    <value>Heads-up notificatie bij inplanning</value>
+  </data>
+  <data name="Herstel" xml:space="preserve">
+    <value>Herstel</value>
+  </data>
+  <data name="Huisnummer" xml:space="preserve">
+    <value>Huisnummer</value>
+  </data>
+  <data name="Incidenten" xml:space="preserve">
+    <value>Incidenten</value>
+  </data>
+  <data name="IncidentenHeader" xml:space="preserve">
+    <value>Incidenten</value>
+  </data>
+  <data name="Inkomend" xml:space="preserve">
+    <value>Inkomend</value>
+  </data>
+  <data name="Instellingen" xml:space="preserve">
+    <value>Pas instellingen aan</value>
+  </data>
+  <data name="JouwVerzoeken" xml:space="preserve">
+    <value>U heeft geen actieve aanvragen</value>
+  </data>
+  <data name="KiesDienst" xml:space="preserve">
+    <value>Kies een dienst</value>
+  </data>
+  <data name="Kleurenschema" xml:space="preserve">
+    <value>Kleurenschema</value>
+  </data>
+  <data name="LastActivity" xml:space="preserve">
+    <value>Laatste account activiteit</value>
+  </data>
+  <data name="LoggedInAs" xml:space="preserve">
+    <value>Ingelogd als</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Uitloggen</value>
+  </data>
+  <data name="Maand" xml:space="preserve">
+    <value>Maand</value>
+  </data>
+  <data name="Maanden" xml:space="preserve">
+    <value>Maand(en)</value>
+  </data>
+  <data name="Niet" xml:space="preserve">
+    <value>Niet</value>
+  </data>
+  <data name="NoActiveIncidents" xml:space="preserve">
+    <value>Er zijn geen actieve incidenten op dit moment</value>
+  </data>
+  <data name="Notificaties" xml:space="preserve">
+    <value>Notificaties</value>
+  </data>
+  <data name="Pagina's" xml:space="preserve">
+    <value>Pagina's</value>
+  </data>
+  <data name="Pauze" xml:space="preserve">
+    <value>Pauze</value>
+  </data>
+  <data name="Postcode" xml:space="preserve">
+    <value>Postcode</value>
+  </data>
+  <data name="Rol" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="Rollen" xml:space="preserve">
+    <value>Rollen</value>
+  </data>
+  <data name="Rooster" xml:space="preserve">
+    <value>Rooster</value>
+  </data>
+  <data name="RoosterHeader" xml:space="preserve">
+    <value>Rooster</value>
+  </data>
+  <data name="Roostermaker" xml:space="preserve">
+    <value>Roostermaker</value>
+  </data>
+  <data name="RuilaanvragenHeader" xml:space="preserve">
+    <value>Ruilaanvragen</value>
+  </data>
+  <data name="ruilverzoeken" xml:space="preserve">
+    <value>Uw ruilverzoeken</value>
+  </data>
+  <data name="RuilverzoekenAanmaken" xml:space="preserve">
+    <value>Ruilverzoeken aanmaken</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="SMSNotificatie" xml:space="preserve">
+    <value>SMS-berichten ontvangen</value>
+  </data>
+  <data name="Straatnaam" xml:space="preserve">
+    <value>Straatnaam</value>
+  </data>
+  <data name="Telefoonnummer" xml:space="preserve">
+    <value>Telefoonnummer</value>
+  </data>
+  <data name="Toegang" xml:space="preserve">
+    <value>Toegang</value>
+  </data>
+  <data name="ToegangPerRol" xml:space="preserve">
+    <value>Toegang per rol</value>
+  </data>
+  <data name="TradeRequests" xml:space="preserve">
+    <value>Ruilverzoeken</value>
+  </data>
+  <data name="Tussenvoegsel" xml:space="preserve">
+    <value>Tussenvoegsel</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Soort</value>
+  </data>
+  <data name="Uitgaand" xml:space="preserve">
+    <value>Uitgaand</value>
+  </data>
+  <data name="Verlof" xml:space="preserve">
+    <value>Verlof</value>
+  </data>
+  <data name="VerlofAanvragen" xml:space="preserve">
+    <value>Verlof aanvragen</value>
+  </data>
+  <data name="VerlopenAanvragen" xml:space="preserve">
+    <value>Verlopen aanvragen</value>
+  </data>
+  <data name="VoegToe" xml:space="preserve">
+    <value>Voeg toe</value>
+  </data>
+  <data name="Voornaam" xml:space="preserve">
+    <value>Voornaam</value>
+  </data>
+  <data name="WachtwoordVereisten" xml:space="preserve">
+    <value>Wachtwoord vereisten</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="Weken" xml:space="preserve">
+    <value>Week(en)</value>
+  </data>
+  <data name="Wel" xml:space="preserve">
+    <value>Wel</value>
+  </data>
+  <data name="Werknemers" xml:space="preserve">
+    <value>Werknemers</value>
+  </data>
+  <data name="WerknemersHeader" xml:space="preserve">
+    <value>Werknemers</value>
+  </data>
+  <data name="WerknemerToevoegen" xml:space="preserve">
+    <value>Voeg werknemer toe</value>
+  </data>
+  <data name="Wijzig" xml:space="preserve">
+    <value>Wijzig</value>
+  </data>
+  <data name="WijzigGegevens" xml:space="preserve">
+    <value>Wijzig gegevens</value>
+  </data>
+  <data name="Woonplaats" xml:space="preserve">
+    <value>Woonplaats</value>
+  </data>
+</root>

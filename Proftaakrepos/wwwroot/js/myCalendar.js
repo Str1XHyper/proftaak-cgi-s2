@@ -1,23 +1,17 @@
 ﻿var calendar;
 var selectedEventID;
-
+var rol;
+var modal;
+var span;
+var loggedUser;
 document.addEventListener('DOMContentLoaded', function () {
-    var modal = document.getElementById("myModal");
-    var span = document.getElementsByClassName("close")[0];
-    span.onclick = function () {
-        modal.style.display = "none";
-    }
+    modal = document.getElementById("myModal");
+    span = document.getElementsByClassName("close")[0];
     var windowWidth = window.innerWidth;
     var wantedWeekends = true;
     var wantedView = 'timeGridWeek';
     var wantedDur = '01:00:00';
     if (windowWidth < 725) {
-        //$(document).ready(function () {
-        //    // Handler for .ready() called.
-        //    $('html, body').animate({
-        //        scrollTop: $('#button-header').offset().top - 57,
-        //    }, 1000);
-        //});
         wantedWeekends = false;
     }
     var calendarEl = document.getElementById('calendar');
@@ -35,21 +29,17 @@ document.addEventListener('DOMContentLoaded', function () {
         plugins: ['dayGrid', 'bootstrap', 'interaction', 'timeGrid'],
         defaultView: wantedView,
         nowIndicator: 'true',
-        //minTime: "06:00:00",
-        //maxTime: "24:00:00",
         height: 'auto',
         firstDay: 1,
         draggable: true,
+        contentHeight: 'auto',
         lazyFetching: true,
-        locale: 'nl',
         slotDuration: wantedDur,
         selectable: true,
-        selectHelper: true,
         eventLimit: true,
         editable: true,
         droppable: true,
         dropAccept: true,
-        longPressDelay: 500,
         slotLabelFormat: {
             hour: 'numeric',
             minute: '2-digit',
@@ -58,63 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
             center: 'prev,today,next',
             left: 'title',
-        },
-        eventClick: function (info) {
-            $.ajax({
-                url: '/Planner/GetEventInfo',
-                type: 'GET',
-                data: { EventId: info.event.id },
-                success: function (data) {
-                    var eventId = data[0];
-                    var userId = data[1];
-                    selectedEventID = eventId;
-                    var title = data[2];
-                    var description = data[3];
-                    var start = data[4];
-                    var end = data[5];
-                    var themeColor = data[6];
-                    var fullDay = data[7];
-                    var voornaam = data[9];
-                    if (fullDay == 1) {
-                        document.getElementById("fullDayField").selectedIndex = 1;
-                    }
-                    else {
-                        document.getElementById("fullDayField").selectedIndex = 0;
-                    }
-                    var currentTokens = $('#voornaamFieldHeader').tokenfield('getTokens');
-
-                    for (var i = 0; i < currentTokens.length; i++) {
-                        var userIdByToken = currentTokens[i].value.split(" ");
-                        if (userIdByToken[0] == userId) {
-                            $('#voornaamField').tokenfield('setTokens', currentTokens[i].value);
-                            break;
-                        }
-                    }
-                    var rol = $("#rol").val();
-                    document.getElementById("fullDayField").value = document.getElementById("fullDayField").selectedIndex;
-                    document.getElementById("eventIdField").value = eventId;
-                    document.getElementById("titleField").value = title;
-                    document.getElementById("descriptionField").value = description;
-                    document.getElementById("startField").value = start;
-                    document.getElementById("endField").value = end;
-                    document.getElementById("themeColorField").value = themeColor;
-                    if (rol == "roostermaker") {
-                        document.getElementById("userIdField2").value = userId;
-                        document.getElementById("voornaamField").value = voornaam;
-                    }
-                    else {
-                        document.getElementById("fullDayField").disabled = true;
-                        document.getElementById('eventIdField').readOnly = true;
-                        document.getElementById('titleField').readOnly = true;
-                        document.getElementById('descriptionField').readOnly = true;
-                        document.getElementById('startField').readOnly = true;
-                        document.getElementById('endField').readOnly = true;
-                        document.getElementById('themeColorField').disabled = true;
-                    }
-                }
-            });
-            modal.style.display = "block";
-
         },
         views: {
             dayGrid: {
@@ -132,6 +65,53 @@ document.addEventListener('DOMContentLoaded', function () {
                     url: '/Planner/UpdateAgendaTimes?startTime=' + eventResizeInfo.event.start.toISOString() + '&endTime=' + eventResizeInfo.event.end.toISOString() + '&EventId=' + eventResizeInfo.event.id,
                 });
         },
+        eventClick: function (info) {
+            $.ajax({
+                url: '/Planner/GetEventInfo',
+                type: 'GET',
+                data: { EventId: info.event.id },
+                success: function (data) {
+                    console.log(data);
+                    selectedEventID = data[0];
+                    data[7] == 1 ? document.getElementById("fullDayField").selectedIndex = 1 : document.getElementById("fullDayField").selectedIndex = 0;
+                    var currentTokens = $('#voornaamFieldHeader').tokenfield('getTokens');
+                    for (var i = 0; i < currentTokens.length; i++) {
+                        var userIdByToken = currentTokens[i].value.split(" ");
+                        if (userIdByToken[0] == data[1]) {
+                            $('#voornaamField').tokenfield('setTokens', currentTokens[i].value);
+                            break;
+                        }
+                    }
+                    var rol = $("#rol").val();
+                    document.getElementById("fullDayField").value = document.getElementById("fullDayField").selectedIndex;
+                    document.getElementById("eventIdField").value = data[0];
+                    document.getElementById("titleField").value = data[2];
+                    document.getElementById("descriptionField").value = data[3];
+                    document.getElementById("startField").value = data[4];
+                    document.getElementById("endField").value = data[5];
+                    console.log(data[6]);
+                    document.getElementById("themeColorField").value = data[6];
+                    document.getElementById("themeColorField").text = data[6];
+                    if (rol == "roostermaker") {
+                        document.getElementById("userIdField2").value = data[1];
+                        document.getElementById("voornaamField").value = data[9];
+                    }
+                    else {
+                        document.getElementById('eventIdField').readOnly = true;
+                        document.getElementById('titleField').readOnly = true;
+                        document.getElementById('descriptionField').readOnly = true;
+                        document.getElementById('startField').readOnly = true;
+                        document.getElementById('endField').readOnly = true;
+                        document.getElementById('themeColorField').disabled = true;
+                        document.getElementById('employee-func-btn-verlof').style.display = "none";
+                        document.getElementById('employee-func-btn').style.display = "block";
+
+                    }
+                }
+            });
+            modal.style.display = "block";
+
+        },
         select: function (selectionInfo) {
             var splitUserIdArray = [];
             var userIdArray = [];
@@ -146,7 +126,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 userIds += splitUserIdArray[j] + ",";
             }
             var soort = $("#themeColorField option:selected").text();
-            var themeColor = $("#themeColorField option:selected").val();
             var naam = $("#userIdField1 option:selected").text();
             var start = new Date(selectionInfo.start.valueOf() - selectionInfo.start.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
             var end = new Date(selectionInfo.end.valueOf() - selectionInfo.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", "");
@@ -155,9 +134,26 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById("descriptionField").value = soort;
             document.getElementById("startField").value = start;
             document.getElementById("endField").value = end;
-            document.getElementById("themeColorField").value = themeColor;
-            document.getElementById("submitButton").value = "Bevestig";
-            document.getElementById("userIdField2").value = userIds;
+            document.getElementById("themeColorField").value = soort;
+            document.getElementById("themeColorField").text = soort;
+            if (rol != "roostermaker") {
+
+                document.getElementById('eventIdField').readOnly = true;
+                document.getElementById("themeColorField").selectedIndex = 3;
+                document.getElementById("titleField").value = "Verlof";
+                document.getElementById("descriptionField").value = "Verlof";
+                document.getElementById('titleField').readOnly = true;
+                document.getElementById('descriptionField').readOnly = true;
+                document.getElementById('startField').readOnly = true;
+                document.getElementById('endField').readOnly = true;
+                document.getElementById('themeColorField').disabled = true;
+                document.getElementById('employee-func-btn-verlof').style.display = "block";
+            }
+            else {
+                document.getElementById("userIdField2").value = userIds;
+            }
+            document.getElementById('employee-func-btn').style.display = "none";
+            
             modal.style.display = "block";
         },
         eventDrop: function (eventDropInfo) {
@@ -187,16 +183,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         },
     });
-
-    calendar.setOption('locale', 'nl');
+    calendar.setOption('locale', document.getElementById("language").value);
     FetchEvents();
-    
     calendar.render();
-
 });
 
 function CloseModal() {
-    var modal = document.getElementById("myModal");
     modal.style.display = "none";
     $('#voornaamField').tokenfield('setTokens', []);
     FetchEvents();
@@ -204,10 +196,8 @@ function CloseModal() {
 function SetUserID(namen, userids) {
     var selectednamen = document.getElementById("voornaamField").value;
     var selectednamenArray = selectednamen.split(",");
-
     var namenArray = namen.split(",");
     var useridsArray = userids.split(",");
-
     var userIds = "";
     if (useridsArray.length == namenArray.length) {
         for (var j = 0; j < selectednamenArray.length; j++) {
@@ -254,22 +244,15 @@ function DeleteEvent() {
         {
             type: "GET",
             url: '/Planner/DeleteEvent?EventId=' + selectedEventID,
+            success: function () {
+                RemoveEvents();
+                CloseModal();
+            }
         });
-    console.log("Delete event");
 }
 function TradeEvent(info) {
-    var selectedTokens = $('#voornaamField').tokenfield('getTokens');
-    var employeedata = document.getElementById("naamLijst").value;
-    var splitemployeedata = employeedata.split(",");
-    for (var i = 0; i < employeedata.length; i++) {
-        var userIdByToken = splitemployeedata[i].split(" ");
-        if (userIdByToken[0] == loggedUser) {
-            $('#voornaamField').tokenfield('setTokens', splitemployeedata[i]);
-            break;
-        }
-    }
     var eventId = $("#eventIdField").val();
-    var userId = $("#userIdField").val();
+    var userId = $("#loggedInUser").val();
     $.ajax(
         {
             type: "POST",
@@ -280,7 +263,9 @@ function TradeEvent(info) {
 function HandleRequest() {
     var selectedIds = "";
     var selectedTokens = $('#voornaamField').tokenfield('getTokens');
+    document.getElementById('themeColorField').disabled = false;
     if (selectedTokens.length > 0) {
+        
         for (var i = 0; i < selectedTokens.length; i++) {
             var userIdByToken = selectedTokens[i].value.split(" ");
             selectedIds += userIdByToken[0] + ",";
@@ -294,28 +279,24 @@ function HandleRequest() {
                 CloseModal();
             }
         });
-        //if (Notification.permission === 'granted') {
-        //    navigator.serviceWorker.getRegistration()
-        //        .then(function (reg) {
-        //            var options = {
-        //                body: 'Uw rooster is aangepast',
-        //                icon: 'img/cgi.png',
-        //                data: {
-        //                    dateOfArrival: Date.now(),
-        //                    primaryKey: 1
-        //                }
-        //            };
-        //            reg.showNotification('Event created!', options);
-        //            console.log("Its working tho");
-        //        });
-        //}
     }
-    else {
+    else if (selectedTokens.length == 0 && rol == "roostermaker") {
         window.alert("Selecteer een werknemer");
         FetchEvents();
     }
-
-
+    else {
+        document.getElementById("userIdField2").value = loggedUser + ",";
+        console.log($('#modalForm').serialize());
+        $.ajax({
+            url: '/Planner/CreateEvent',
+            type: 'post',
+            data: $('#modalForm').serialize(),
+            success: function () {
+                RemoveEvents();
+                CloseModal();
+            }
+        });
+    }
 }
 function EditTitle(info) {
     document.getElementById("titleField").value = info;
@@ -389,7 +370,6 @@ function InitHeaderTokenField(data) {
         }, 0)
     });
 }
-//test
 $(document).ready(function () {
     $('.alert').slideDown(1000);
     $('.alert').delay(5000).slideUp(1000);
@@ -398,7 +378,7 @@ function slideUpDiv() {
     $('.alert').slideUp(1000);
 }
 window.onload = function SetLoggedInUserToken() {
-    var loggedUser = document.getElementById("loggedInUser").value;
+    loggedUser = document.getElementById("loggedInUser").value;
     var employeedata = document.getElementById("naamLijst").value;
     this.InitTokenField(employeedata);
     this.InitHeaderTokenField(employeedata);
@@ -417,24 +397,12 @@ function toggleDiv() {
 }
 function changeDivVisibility() {
     var header = document.getElementById("scheduler-tools");
-    if (header.style.display == "none") {
-        $('.werknemer-header').slideDown(1000);
-    }
-    else {
-        $('.werknemer-header').slideUp(1000);
-
-    }
-    //var toolsDiv = document.getElementById("scheduler-tools");
-    //if (toolsDiv.style.display == "none") {
-    //    toolsDiv.style.display = "block";
-    //}
-    //else {
-    //    toolsDiv.style.display = "none";
-    //}
+    header.style.display == "none" ? $('.werknemer-header').slideDown(1000) : $('.werknemer-header').slideUp(1000);
 }
 
 function FetchEvents() {
-    var rol = $("#rol").val();
+
+    rol = document.getElementById("rol").value;
     var colours = document.getElementById("colours").value;
     var colourArray = colours.split(",");
     var selectedIndex = "0";
@@ -456,14 +424,24 @@ function FetchEvents() {
                     continue;
                 }
                 if (colours != "") {
-                    if (list[i].themeColor == "#3b5a6f")
+                    if (list[i].themeColor == "Stand-by")
                         list[i].themeColor = colourArray[0];
-                    else if (list[i].themeColor == "#828a87")
+                    else if (list[i].themeColor == "Incidenten")
                         list[i].themeColor = colourArray[1];
-                    else if (list[i].themeColor == "#353b45")
+                    else if (list[i].themeColor == "Pauze")
                         list[i].themeColor = colourArray[2];
-                    else if (list[i].themeColor == "#ea4335")
+                    else if (list[i].themeColor == "Verlof")
                         list[i].themeColor = colourArray[3];
+                }
+                else {
+                    if (list[i].themeColor == "Stand-by")
+                        list[i].themeColor = "#3b5a6f";
+                    else if (list[i].themeColor == "Incidenten")
+                        list[i].themeColor = "#353b45";
+                    else if (list[i].themeColor == "Pauze")
+                        list[i].themeColor = "#828a87";
+                    else if (list[i].themeColor == "Verlof")
+                        list[i].themeColor = "#830101";
                 }
                 var obj = {
                     id: list[i].eventId,
@@ -478,10 +456,11 @@ function FetchEvents() {
                     obj.editable = false;
                 }
                 if (obj.allDay) {
-                    
+
                 }
                 objarray.push(obj);
             }
+            console.warn(objarray)
             calendar.addEventSource(objarray);
             var e = new Date();
             var o = e.getTime();
