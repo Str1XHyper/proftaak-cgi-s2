@@ -1,6 +1,8 @@
-﻿using ClassLibrary.Classes;
+﻿using ClassLibrary;
+using ClassLibrary.Classes;
 using CookieManager;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -8,6 +10,7 @@ using Models;
 using Models.Authentication;
 using Proftaakrepos.Authorize;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Proftaakrepos.Controllers
@@ -15,9 +18,11 @@ namespace Proftaakrepos.Controllers
     public class AccountController : Controller
     {
         private readonly ICookieManager _cookieManager;
-        public AccountController(ICookieManager cookieManager)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public AccountController(ICookieManager cookieManager, IHostingEnvironment _hostingEnvironment)
         {
             _cookieManager = cookieManager;
+            this._hostingEnvironment = _hostingEnvironment;
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -43,13 +48,19 @@ namespace Proftaakrepos.Controllers
         }
         [UserAccess("LoggedIn", "")]
         [HttpPost]
-        public IActionResult ChangeLeSetting(ApplicationUser model)
+        public async Task<IActionResult> ChangeLeSetting(ApplicationUser model, IFormFile image)
         {
+            string filename = "";
+            if (image != null)
+            {
+                filename = ImageManager.GetImageName(image.ContentType);
+                await ImageManager.SaveImage(image, Path.Combine(_hostingEnvironment.WebRootPath, "uploadedimages"), filename);
+            }
             if (model.currentPassword == null || model.ConfirmPassword == null || model.newPassword == null)
             {
                 if(model.currentPassword == null && model.ConfirmPassword == null && model.newPassword == null)
                 {
-                    ChangeVal(model);
+                    ChangeVal(model, filename);
                     TempData["Status"] = "Uw gegevens zijn aangepast.";
                     return RedirectToAction("ChangeSettings");
                 }
@@ -69,7 +80,7 @@ namespace Proftaakrepos.Controllers
                         return RedirectToAction("ChangeSettings");
                     }
                     TempData["Status"] = "Uw wachtwoord is succesvol aangepast!";
-                    ChangeVal(model);
+                    ChangeVal(model, filename);
                     return RedirectToAction("ChangeSettings");
                 }
                 else
@@ -80,10 +91,16 @@ namespace Proftaakrepos.Controllers
             }
         }
         [UserAccess("LoggedIn", "")]
-        private void ChangeVal(ApplicationUser model)
+        private void ChangeVal(ApplicationUser model, string imagepath)
         {
+            if(imagepath != "")
+                HttpContext.Session.SetString("Image", imagepath);
+            else
+            {
+                imagepath= HttpContext.Session.GetString("Image");
+            }
             string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{HttpContext.Session.GetString("UserInfo")}'")[0];
-            string[] queries = { $"UPDATE `Werknemers` SET `Voornaam`='{model.naam}',`Tussenvoegsel`='{model.tussenvoegsel}',`Achternaam`='{model.achternaam}',`Email`='{model.eMail.ToLower()}',`Telefoonnummer`='{model.phoneNumber}',`Straatnaam`='{model.straatnaam}',`Huisnummer`='{model.huisNummer}',`Postcode`='{model.postcode}',`Woonplaats`='{model.woonplaats}' WHERE `UserId` = '{userID}'", $"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(model.emailsetting)?1:0)}',`ReceiveSMS`='{(Convert.ToBoolean(model.smssetting) ? 1 : 0)}' WHERE `UserId` = '{userID}'", $"UPDATE `Login` SET `Username` = '{model.eMail}' WHERE `UserId` = '{userID}'", $"UPDATE `HeadsUpSetting` SET `UserID`='{userID}', `Amount`='{model.ValueOfNoti}', `Type`='{model.TypeOfAge}'" };
+            string[] queries = { $"UPDATE `Werknemers` SET `Voornaam`='{model.naam}',`Tussenvoegsel`='{model.tussenvoegsel}',`Achternaam`='{model.achternaam}',`Email`='{model.eMail.ToLower()}',`Telefoonnummer`='{model.phoneNumber}',`Straatnaam`='{model.straatnaam}',`Huisnummer`='{model.huisNummer}',`Postcode`='{model.postcode}',`Woonplaats`='{model.woonplaats}', ProfielFoto='{imagepath}' WHERE `UserId` = '{userID}'", $"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(model.emailsetting)?1:0)}',`ReceiveSMS`='{(Convert.ToBoolean(model.smssetting) ? 1 : 0)}' WHERE `UserId` = '{userID}'", $"UPDATE `Login` SET `Username` = '{model.eMail}' WHERE `UserId` = '{userID}'", $"UPDATE `HeadsUpSetting` SET `UserID`='{userID}', `Amount`='{model.ValueOfNoti}', `Type`='{model.TypeOfAge}'" };
             SQLConnection.ExecuteNonSearchQueryArray(queries);
         }
 

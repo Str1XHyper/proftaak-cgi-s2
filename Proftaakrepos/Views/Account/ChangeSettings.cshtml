@@ -39,7 +39,7 @@
         @TempData["Status"]
     </div>
 }
-<form asp-action="ChangeLeSetting" asp-controller="Account">
+<form asp-action="ChangeLeSetting" asp-controller="Account" enctype="multipart/form-data">
     <div class="card-deck">
         <div class="card">
             <div class="card-header bg-dark text-white">Basisinformatie</div>
@@ -61,6 +61,12 @@
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Achternaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="achternaam" value="@test[3]">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">Image: </span>
+                    </div>
+                    <input class="form-control" type="file" id="image" name="image"/>
                 </div>
                 <div class="border-top my-3"></div>
                 <div class="input-group mb-3">

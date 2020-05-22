@@ -250,7 +250,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Colorscheme.
+        ///   Looks up a localized string similar to Colourscheme.
         /// </summary>
         public static string Kleurenschema {
             get {
@@ -349,7 +349,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Postalcode.
+        ///   Looks up a localized string similar to Zip code.
         /// </summary>
         public static string Postcode {
             get {
@@ -394,7 +394,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Planner.
+        ///   Looks up a localized string similar to Scheduler.
         /// </summary>
         public static string Roostermaker {
             get {
@@ -529,7 +529,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request absence.
+        ///   Looks up a localized string similar to Absence requests.
         /// </summary>
         public static string VerlofAanvragen {
             get {

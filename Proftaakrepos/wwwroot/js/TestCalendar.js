@@ -2,6 +2,7 @@
 var calendar;
 var UserIDs;
 var modal;
+var modalUIDs;
 var uname = [];
 var uid = [];
 
