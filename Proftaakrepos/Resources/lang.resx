@@ -160,7 +160,7 @@
     <value>Outgoing</value>
   </data>
   <data name="VerlofAanvragen" xml:space="preserve">
-    <value>Request absence</value>
+    <value>Absence requests</value>
   </data>
   <data name="Werknemers" xml:space="preserve">
     <value>Employees</value>

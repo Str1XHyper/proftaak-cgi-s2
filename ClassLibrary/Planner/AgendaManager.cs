@@ -54,11 +54,9 @@ namespace ClassLibrary.Planner
             viewdata.userList = GetAllUserData();
             return viewdata;
         }
-        public string[] GetVerlofCount(string rol)
+        public string[] GetVerlofCount()
         {
-            if (rol.ToLower() == "roostermaker")
                 return SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen where Geaccepteerd = '-1'").ToArray();
-            return null;
         }
     }
 }

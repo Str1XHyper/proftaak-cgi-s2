@@ -187,7 +187,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Request absence.
+        ///   Looks up a localized string similar to Absence requests.
         /// </summary>
         public static string VerlofAanvragen {
             get {
