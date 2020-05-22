@@ -49,7 +49,14 @@
                                     string[] rollen = ViewData["roles"] as string[];
                                     for (int i = 0; i < rollen.Length; i++)
                                     {
-                                        <option value="@rollen[i]">@rollen[i]</option>
+                                        if (rollen[i].ToLower() == "roostermaker")
+                                        {
+                                            <option value="@rollen[i]">@Proftaakrepos.Resources.lang.Roostermaker</option>
+                                        }
+                                        else if (rollen[i].ToLower() == "medewerker")
+                                        {
+                                            <option value="@rollen[i]">@Proftaakrepos.Resources.lang.Employee</option>
+                                        }
                                     }
                                 }
                             }

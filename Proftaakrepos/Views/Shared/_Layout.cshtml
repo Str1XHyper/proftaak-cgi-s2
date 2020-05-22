@@ -18,6 +18,7 @@
     @{
         string usercode = TempData["Cookie"] as string;
         string rol = Context.Session.GetString("Rol");
+        string imagepath = Context.Session.GetString("Image");
     }
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <button class="btn btn-link btn-sm order-1 order-lg-0 sidebar-toggle text-decoration-none" id="sidebarToggle" href="#">
@@ -28,12 +29,10 @@
         <!-- Navbar-->
         <div class="position-absolute" style="right: 0px;">
             <ul class="navbar-nav ml-auto ml-md-0 ">
-                
-                
-                <li><a asp-action="Index" asp-controller="Language" asp-route-language="en" asp-route-currentPage="@Context.Request.Path.Value"><img src="~/img/united-states-of-america-flag-icon-256.png" class="image-flag" /></a></li>
+                <li><a asp-action="Index" asp-controller="Language" asp-route-language="en" asp-route-currentPage="@Context.Request.Path.Value"><img src="~/img/the-united-kingdom-flag.jpg" class="image-flag" /></a></li>
                 <li><a asp-action="Index" asp-controller="Language" asp-route-language="nl" asp-route-currentPage="@Context.Request.Path.Value"><img src="~/img/netherlands-flag-xl.png" class="image-flag" style="width:32.34px"/></a></li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <a class="nav-link dropdown-toggle profile-pic-navbar-box" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="d-block profile-pic-navbar" src="~/uploadedimages/@imagepath" alt="user_img" />@*<i class="fas fa-user fa-fw"></i>*@</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="/Account/ChangeSettings"><i class="fas fa-user-cog"></i>&nbsp;@Proftaakrepos.Resources.lang.Settings</a>
                         <a class="dropdown-item" href="/Activity/Index"><i class="fas fa-chart-line"></i>&nbsp;@Proftaakrepos.Resources.lang.LastActivity</a>

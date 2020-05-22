@@ -94,17 +94,13 @@
                 if (rol.ToLower() == "roostermaker")
                 {
                 <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">Werknemer: </span>
-                    </div>
+                    <div class="input-group-prepend"><span class="input-group-text" id="basic-addon3">Werknemer: </span></div>
                     <input type="text" class="form-control" id="modalUserTokens" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
                 </div>
                 }
             }
             <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">Type: </span>
-                </div>
+                <div class="input-group-prepend"><span class="input-group-text" id="basic-addon3">Type: </span></div>
                 <select asp-for="@newmodel.themeColor" class="form-control" id="themeColorField">
                     <option value="Stand-by">Stand-by</option>
                     <option value="Incidenten">Incidenten</option>

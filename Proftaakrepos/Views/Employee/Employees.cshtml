@@ -25,8 +25,8 @@
             <div class="input-group">
                 <select class="custom-select" id="inputGroupSelect04" name="employee" onchange="execForm()">
                     @{
-                        
-                    Employees employees = new Employees();
+
+                        Employees employees = new Employees();
                         List<string[]> Werknemers = employees.NamesTest();
                         foreach (string[] array in Werknemers)
                         {
@@ -100,7 +100,16 @@
                                 string[] roles = ViewData["roles"] as string[];
                                 for (int i = 0; i < roles.Length; i++)
                                 {
-                                    <option value="@roles[i]">@roles[i]</option>
+                                    if (@roles[i].ToLower() == "roostermaker")
+                                    {
+                                        <option value="@roles[i]">@Proftaakrepos.Resources.lang.Roostermaker</option>
+
+                                    }
+                                    else if (@roles[i].ToLower() == "medewerker")
+                                    {
+                                        <option value="@roles[i]">@Proftaakrepos.Resources.lang.Employee</option>
+
+                                    }
                                 }
                             }
                         }

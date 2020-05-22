@@ -44,6 +44,7 @@ namespace Proftaakrepos.Controllers
             string[] loggedUserData = agendamanager.GetLoggedInUserData(var);
             rol = loggedUserData[0];
             userId = loggedUserData[1];
+            HttpContext.Session.SetString("Image", loggedUserData[2]);
             string defaultLang = "nl";
             AgendaViewModel viewdata = agendamanager.SetAgendaViewModel(loggedUserData[1]);
             ViewData["colours"] = agendamanager.GetThemeColours();

@@ -181,7 +181,7 @@
     <value>Pick a shift</value>
   </data>
   <data name="Kleurenschema" xml:space="preserve">
-    <value>Colorscheme</value>
+    <value>Colourscheme</value>
   </data>
   <data name="LastActivity" xml:space="preserve">
     <value>Last account activity</value>
@@ -214,7 +214,7 @@
     <value>Break</value>
   </data>
   <data name="Postcode" xml:space="preserve">
-    <value>Postalcode</value>
+    <value>Zip code</value>
   </data>
   <data name="Rol" xml:space="preserve">
     <value>Role</value>
@@ -229,7 +229,7 @@
     <value>Schedule</value>
   </data>
   <data name="Roostermaker" xml:space="preserve">
-    <value>Planner</value>
+    <value>Scheduler</value>
   </data>
   <data name="RuilaanvragenHeader" xml:space="preserve">
     <value>Trade requests</value>
