@@ -42,8 +42,7 @@ namespace Proftaakrepos.Controllers
                 {
                     int i = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(`StatusIDIncident`) FROM  `IncidentUpdates` WHERE `IncidentID` = '{statusId}'")[0]);
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Afgehandeld')");
-                    SendMail.SendEmployeeIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "Lorem Ipsum Test Titel", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
-                    SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "Lorem Ipsum Test Titel", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
+                    NotificationsStandBy.NotifySolved();
                 }
             }
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
