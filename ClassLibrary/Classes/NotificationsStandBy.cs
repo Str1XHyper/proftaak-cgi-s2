@@ -27,6 +27,12 @@ namespace ClassLibrary.Classes
             return true;
         }
 
+        public static void NotifySolved()
+        {
+            SendMail.SendEmployeeIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "Lorem Ipsum Test Titel", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
+            SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "Lorem Ipsum Test Titel", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
+        }
+
         public static List<string[]> GetStandByEmployees()
         {
             List<string[]> roosterData = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Start,End FROM Rooster");
