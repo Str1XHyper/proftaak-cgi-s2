@@ -63,6 +63,15 @@ namespace Proftaakrepos.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Application.
         /// </summary>
+        public static string ApplicatieHeader {
+            get {
+                return ResourceManager.GetString("ApplicatieHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
         public static string Application {
             get {
                 return ResourceManager.GetString("Application", resourceCulture);
@@ -93,6 +102,15 @@ namespace Proftaakrepos.Resources {
         public static string Incidenten {
             get {
                 return ResourceManager.GetString("Incidenten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incidents.
+        /// </summary>
+        public static string IncidentenHeader {
+            get {
+                return ResourceManager.GetString("IncidentenHeader", resourceCulture);
             }
         }
         
@@ -138,6 +156,24 @@ namespace Proftaakrepos.Resources {
         public static string Rooster {
             get {
                 return ResourceManager.GetString("Rooster", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule.
+        /// </summary>
+        public static string RoosterHeader {
+            get {
+                return ResourceManager.GetString("RoosterHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trade requests.
+        /// </summary>
+        public static string RuilaanvragenHeader {
+            get {
+                return ResourceManager.GetString("RuilaanvragenHeader", resourceCulture);
             }
         }
         
@@ -201,6 +237,15 @@ namespace Proftaakrepos.Resources {
         public static string Werknemers {
             get {
                 return ResourceManager.GetString("Werknemers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employees.
+        /// </summary>
+        public static string WerknemersHeader {
+            get {
+                return ResourceManager.GetString("WerknemersHeader", resourceCulture);
             }
         }
         

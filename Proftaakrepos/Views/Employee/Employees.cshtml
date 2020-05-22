@@ -16,7 +16,6 @@
         EmployeeInfo = new string[12];
     }
 }
-<h1>Wijzig gegevens van werknemers</h1>
 <p style="color: green; font-size: 20px;">@ViewData["msg"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <div class="card mb-3">
@@ -26,34 +25,33 @@
             <div class="input-group">
                 <select class="custom-select" id="inputGroupSelect04" name="employee" onchange="execForm()">
                     @{
-                        int count = 1;
-                        Employees employees = new Employees();
-                        string[] employeeNames = employees.Names();
-                        for (int i = 1; i <= employees.Count() * 3; i += 3)
+                        
+                    Employees employees = new Employees();
+                        List<string[]> Werknemers = employees.NamesTest();
+                        foreach (string[] array in Werknemers)
                         {
-                            if (employeeNames[i - 1] == EmployeeInfo[1] && employeeNames[i] == EmployeeInfo[2] && employeeNames[i + 1] == EmployeeInfo[3])
+                            if (array[3] == EmployeeInfo[0])
                             {
-                                if (employeeNames[i] != null)
+                                if (array[1] != null)
                                 {
-                                    <option value="@count" selected>@employeeNames[i - 1] @employeeNames[i] @employeeNames[i + 1]</option>
+                                    <option value="@array[3]" selected>@array[0] @array[1] @array[2]</option>
                                 }
                                 else
                                 {
-                                    <option value="@count" selected>@employeeNames[i - 1] @employeeNames[i + 1]</option>
+                                    <option value="@array[3]" selected>@array[0] @array[2]</option>
                                 }
                             }
                             else
                             {
-                                if (employeeNames[i] != null)
+                                if (array[1] != null)
                                 {
-                                    <option value="@count">@employeeNames[i - 1] @employeeNames[i] @employeeNames[i + 1]</option>
+                                    <option value="@array[3]">@array[0] @array[1] @array[2]</option>
                                 }
                                 else
                                 {
-                                    <option value="@count">@employeeNames[i - 1] @employeeNames[i + 1]</option>
+                                    <option value="@array[3]">@array[0] @array[2]</option>
                                 }
                             }
-                            count++;
                         }
                     }
                 </select>

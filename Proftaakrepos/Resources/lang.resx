@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicatieHeader" xml:space="preserve">
+    <value>Application</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
@@ -127,6 +130,9 @@
     <value>Employee</value>
   </data>
   <data name="Incidenten" xml:space="preserve">
+    <value>Incidents</value>
+  </data>
+  <data name="IncidentenHeader" xml:space="preserve">
     <value>Incidents</value>
   </data>
   <data name="Inkomend" xml:space="preserve">
@@ -143,6 +149,12 @@
   </data>
   <data name="Rooster" xml:space="preserve">
     <value>Schedule</value>
+  </data>
+  <data name="RoosterHeader" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="RuilaanvragenHeader" xml:space="preserve">
+    <value>Trade requests</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
@@ -163,6 +175,9 @@
     <value>Absence requests</value>
   </data>
   <data name="Werknemers" xml:space="preserve">
+    <value>Employees</value>
+  </data>
+  <data name="WerknemersHeader" xml:space="preserve">
     <value>Employees</value>
   </data>
   <data name="WerknemerToevoegen" xml:space="preserve">

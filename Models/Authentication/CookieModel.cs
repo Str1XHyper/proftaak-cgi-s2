@@ -9,5 +9,6 @@ namespace Models.Authentication
         public string Id { get; set; }
         public DateTime Date { get; set; }
         public string Identifier { get; set; }
+        public string Role { get; set; }
     }
 }

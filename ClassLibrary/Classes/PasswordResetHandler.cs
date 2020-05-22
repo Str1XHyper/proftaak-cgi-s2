@@ -16,7 +16,7 @@ namespace ClassLibrary.Classes
                 SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `ResetRequest` VALUES ('{userID[0]}', '{datumPlusVijf}', '{customCode}')");
                 List<string[]> response = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam`, `AuthCode` FROM `Werknemers` WHERE `Email`='{email.ToLower()}'");
                 string name = $"{response[0][0]} {response[0][1]} {response[0][2]}";
-                SendMail.Help(email, name, response[0][0], response[0][3], customCode);
+                SendMail.SendReset(email, name, response[0][0], response[0][3], customCode);
             }
         }
     }
