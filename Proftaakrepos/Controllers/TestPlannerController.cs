@@ -68,7 +68,7 @@ namespace Proftaakrepos.Controllers
             {
                 int index = Array.IndexOf(c, row[6]);
                 string title = row[2];
-                if (HttpContext.Session.GetString("UserInfo.Role").ToLower() == "roostermaker")
+                if (HttpContext.Session.GetString("Rol").ToLower() == "roostermaker")
                 {
                     foreach(string[] name in names)
                     {

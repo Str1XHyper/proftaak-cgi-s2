@@ -79,7 +79,7 @@ namespace Proftaakrepos.Controllers
             if(_cookieManager.Get<LanguageCookieModel>("BIER.User.Culture") != null) HttpContext.Session.SetString("Culture", _cookieManager.Get<LanguageCookieModel>("BIER.User.Culture").Language);
             else HttpContext.Session.SetString("Culture", "en");
             if (_cookieManager.Get<CookieModel>("BIER.User") != null) HttpContext.Session.SetString("Rol", _cookieManager.Get<CookieModel>("BIER.User").Role);
-            else HttpContext.Session.SetString("Role", UInfo[11]);
+            else HttpContext.Session.SetString("Rol", UInfo[11]);
 
         }
 
