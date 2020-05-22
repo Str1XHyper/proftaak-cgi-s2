@@ -19,7 +19,7 @@
 <p style="color: green; font-size: 20px;">@ViewData["msg"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <div class="card mb-3">
-    <div class="card-header bg-dark text-white">Werknemer:</div>
+    <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Werknemer:</div>
     <div class="card-body">
         <form asp-action="GetEmployeeInfo" asp-controller="Employee" method="post" id="getEmployee">
             <div class="input-group">
@@ -63,23 +63,23 @@
 <form asp-action="UpdateEmployee" asp-controller="Employee">
     <div class="card-deck">
         <div class="card">
-            <div class="card-header bg-dark text-white">Basisinformatie</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Basisinformatie</div>
             <div class="card-body">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Voornaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Voornaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="naam" value="@EmployeeInfo[1]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Tussenvoegsel:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Tussenvoegsel:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="tussenvoegsel" value="@EmployeeInfo[2]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Achternaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Achternaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="achternaam" value="@EmployeeInfo[3]">
                 </div>
@@ -109,7 +109,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-dark text-white">Contactgegevens</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Contactgegevens</div>
             <div class="card-body">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -119,38 +119,38 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Telefoonnummer:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Telefoonnummer:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="phoneNumber" value="@EmployeeInfo[5]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Straatnaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Straatnaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="straatnaam" value="@EmployeeInfo[6]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Huisnummer:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Huisnummer:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="huisNummer" value="@EmployeeInfo[7]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Postcode:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Postcode:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="postcode" value="@EmployeeInfo[8]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Woonplaats:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Woonplaats:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="woonplaats" value="@EmployeeInfo[9]">
                 </div>
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-dark text-white">Notificaties</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Notificaties</div>
             <div class="card-body">
                 <div class="custom-control custom-switch">
                     @{
@@ -164,7 +164,7 @@
                                 {
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting" checked>
-                                        <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
+                                        <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
                                     </div>
                                     <br />
                                 }
@@ -172,7 +172,7 @@
                                 {
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
-                                        <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
+                                        <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
                                     </div>
                                     <br />
                                 }
@@ -180,14 +180,14 @@
                                 {
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting" checked>
-                                        <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
+                                        <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
-                                        <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
+                                        <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
                                     </div>
                                 }
                             }
@@ -196,12 +196,12 @@
                         {
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
-                                <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
+                                <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
                             </div>
                             <br />
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
-                                <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
+                                <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
                             </div>
                         }
                         <br />
@@ -209,9 +209,9 @@
                         <div class="input-group mb-3">
                             <input type="text" class="form-control">
                             <select class="custom-select" id="inputGroupSelect01">
-                                <option value="1">Dag(en)</option>
-                                <option value="2">Week(en)</option>
-                                <option value="3">Maand(en)</option>
+                                <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
                             </select>
                         </div>
                     }
@@ -222,7 +222,7 @@
                 <div class="col-auto">
                     <div class="input-group float-right">
                         <button class="btn btn-outline-success mb-1 mr-1" method="post" type="submit">
-                            Wijzig gegevens
+                            @Proftaakrepos.Resources.lang.WijzigGegevens
                         </button>
                     </div>
                 </div>

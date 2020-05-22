@@ -117,17 +117,50 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Achternaam" xml:space="preserve">
+    <value>Achternaam</value>
+  </data>
+  <data name="ActieveAanvragen" xml:space="preserve">
+    <value>Actieve aanvragen</value>
+  </data>
+  <data name="Allemaal" xml:space="preserve">
+    <value>Allemaal</value>
+  </data>
   <data name="ApplicatieHeader" xml:space="preserve">
     <value>Applicatie</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Applicatie</value>
   </data>
+  <data name="Basisinformatie" xml:space="preserve">
+    <value>Basisinformatie</value>
+  </data>
   <data name="Bedrijfsinstellingen" xml:space="preserve">
     <value>Bedrijfsinstellingen</value>
   </data>
+  <data name="Contactgegevens" xml:space="preserve">
+    <value>Contactgegevens</value>
+  </data>
+  <data name="Dag" xml:space="preserve">
+    <value>Dag</value>
+  </data>
+  <data name="Dagen" xml:space="preserve">
+    <value>Dag(en)</value>
+  </data>
+  <data name="EmailNotificaties" xml:space="preserve">
+    <value>E-mail notificaties ontvangen</value>
+  </data>
   <data name="Employee" xml:space="preserve">
     <value>Werknemer</value>
+  </data>
+  <data name="HeadsUp" xml:space="preserve">
+    <value>Heads-up notificatie bij inplanning</value>
+  </data>
+  <data name="Herstel" xml:space="preserve">
+    <value>Herstel</value>
+  </data>
+  <data name="Huisnummer" xml:space="preserve">
+    <value>Huisnummer</value>
   </data>
   <data name="Incidenten" xml:space="preserve">
     <value>Incidenten</value>
@@ -138,6 +171,18 @@
   <data name="Inkomend" xml:space="preserve">
     <value>Inkomend</value>
   </data>
+  <data name="Instellingen" xml:space="preserve">
+    <value>Pas instellingen aan</value>
+  </data>
+  <data name="JouwVerzoeken" xml:space="preserve">
+    <value>U heeft geen actieve aanvragen</value>
+  </data>
+  <data name="KiesDienst" xml:space="preserve">
+    <value>Kies een dienst</value>
+  </data>
+  <data name="Kleurenschema" xml:space="preserve">
+    <value>Kleurenschema</value>
+  </data>
   <data name="LastActivity" xml:space="preserve">
     <value>Laatste account activiteit</value>
   </data>
@@ -147,23 +192,77 @@
   <data name="Logout" xml:space="preserve">
     <value>Uitloggen</value>
   </data>
+  <data name="Maand" xml:space="preserve">
+    <value>Maand</value>
+  </data>
+  <data name="Maanden" xml:space="preserve">
+    <value>Maand(en)</value>
+  </data>
+  <data name="Niet" xml:space="preserve">
+    <value>Niet</value>
+  </data>
+  <data name="NoActiveIncidents" xml:space="preserve">
+    <value>Er zijn geen actieve incidenten op dit moment</value>
+  </data>
+  <data name="Notificaties" xml:space="preserve">
+    <value>Notificaties</value>
+  </data>
+  <data name="Pagina's" xml:space="preserve">
+    <value>Pagina's</value>
+  </data>
+  <data name="Pauze" xml:space="preserve">
+    <value>Pauze</value>
+  </data>
+  <data name="Postcode" xml:space="preserve">
+    <value>Postcode</value>
+  </data>
+  <data name="Rol" xml:space="preserve">
+    <value>Rol</value>
+  </data>
+  <data name="Rollen" xml:space="preserve">
+    <value>Rollen</value>
+  </data>
   <data name="Rooster" xml:space="preserve">
     <value>Rooster</value>
   </data>
   <data name="RoosterHeader" xml:space="preserve">
     <value>Rooster</value>
   </data>
+  <data name="Roostermaker" xml:space="preserve">
+    <value>Roostermaker</value>
+  </data>
   <data name="RuilaanvragenHeader" xml:space="preserve">
     <value>Ruilaanvragen</value>
+  </data>
+  <data name="ruilverzoeken" xml:space="preserve">
+    <value>Uw ruilverzoeken</value>
+  </data>
+  <data name="RuilverzoekenAanmaken" xml:space="preserve">
+    <value>Ruilverzoeken aanmaken</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Instellingen</value>
   </data>
+  <data name="SMSNotificatie" xml:space="preserve">
+    <value>SMS-berichten ontvangen</value>
+  </data>
+  <data name="Straatnaam" xml:space="preserve">
+    <value>Straatnaam</value>
+  </data>
+  <data name="Telefoonnummer" xml:space="preserve">
+    <value>Telefoonnummer</value>
+  </data>
   <data name="Toegang" xml:space="preserve">
     <value>Toegang</value>
   </data>
+  <data name="ToegangPerRol" xml:space="preserve">
+    <value>Toegang per rol</value>
+  </data>
   <data name="TradeRequests" xml:space="preserve">
     <value>Ruilverzoeken</value>
+  </data>
+  <data name="Tussenvoegsel" xml:space="preserve">
+    <value>Tussenvoegsel</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Soort</value>
@@ -171,8 +270,32 @@
   <data name="Uitgaand" xml:space="preserve">
     <value>Uitgaand</value>
   </data>
+  <data name="Verlof" xml:space="preserve">
+    <value>Verlof</value>
+  </data>
   <data name="VerlofAanvragen" xml:space="preserve">
     <value>Verlof aanvragen</value>
+  </data>
+  <data name="VerlopenAanvragen" xml:space="preserve">
+    <value>Verlopen aanvragen</value>
+  </data>
+  <data name="VoegToe" xml:space="preserve">
+    <value>Voeg toe</value>
+  </data>
+  <data name="Voornaam" xml:space="preserve">
+    <value>Voornaam</value>
+  </data>
+  <data name="WachtwoordVereisten" xml:space="preserve">
+    <value>Wachtwoord vereisten</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="Weken" xml:space="preserve">
+    <value>Week(en)</value>
+  </data>
+  <data name="Wel" xml:space="preserve">
+    <value>Wel</value>
   </data>
   <data name="Werknemers" xml:space="preserve">
     <value>Werknemers</value>
@@ -182,5 +305,14 @@
   </data>
   <data name="WerknemerToevoegen" xml:space="preserve">
     <value>Voeg werknemer toe</value>
+  </data>
+  <data name="Wijzig" xml:space="preserve">
+    <value>Wijzig</value>
+  </data>
+  <data name="WijzigGegevens" xml:space="preserve">
+    <value>Wijzig gegevens</value>
+  </data>
+  <data name="Woonplaats" xml:space="preserve">
+    <value>Woonplaats</value>
   </data>
 </root>
