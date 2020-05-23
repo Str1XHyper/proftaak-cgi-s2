@@ -70,12 +70,14 @@ namespace Proftaakrepos.Controllers
                 string title = row[2];
                 if (HttpContext.Session.GetString("Rol").ToLower() == "roostermaker")
                 {
-                    foreach(string[] name in names)
+                    foreach (string[] name in names)
                     {
-                        if(row[1] == name[3])
+                        if (row[1] == name[3])
                             title = name[0] + " - " + title;
                     }
                 }
+
+                bool editable = HttpContext.Session.GetString("Rol").ToLower() == "roostermaker";
                 ParseableEventModel em = new ParseableEventModel
                 {
                     id = Convert.ToInt32(row[0]),
@@ -88,6 +90,7 @@ namespace Proftaakrepos.Controllers
                     borderColor = "#010203",
                     soort = row[6],
                     userId = row[1],
+                    editable = editable,
                 };
                 returnList.Add(em);
             }
@@ -118,13 +121,17 @@ namespace Proftaakrepos.Controllers
                 string sqlquery = $"INSERT INTO Rooster(UserId, Subject, Description, Start, End, ThemeColor, IsFullDay, IsPending) VALUES ";
                 for (int i = 0; i < uids.Length; i++)
                 {
-                    if (i > 0)
-                    {
+                    if (i > 0 && !string.IsNullOrEmpty(uids[i]))
                         sqlquery += ",";
-                    }
-                    sqlquery += $"('{uids[i]}', '{newmodel.title}', '{newmodel.description}', '{newmodel.startDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{newmodel.endDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{newmodel.themeColor}', '{(newmodel.isFullDay)}', '{(newmodel.isPending ? 1 : 0)}')";
+                    if (!string.IsNullOrEmpty(uids[i]))
+                        sqlquery += $"('{uids[i]}', '{newmodel.title}', '{newmodel.description}', '{newmodel.startDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{newmodel.endDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{newmodel.themeColor}', '{(newmodel.isFullDay)}', '{(newmodel.isPending ? 1 : 0)}')";
                 }
                 SQLConnection.ExecuteNonSearchQuery(sqlquery);
+                if (newmodel.themeColor.ToLower() == "verlof")
+                {
+                    string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0]; //Aanmaken van verlofverzoek
+                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Verlofaanvragen (UserID, EventID) VALUES ('{newmodel.userId}', '{eventID}')");
+                }
             }
         }
 

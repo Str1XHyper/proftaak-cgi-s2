@@ -53,6 +53,11 @@ namespace Proftaakrepos.Controllers
             string filename = "";
             if (image != null)
             {
+                string prevImg = HttpContext.Session.GetString("Image");
+                if (!string.IsNullOrEmpty(prevImg))
+                {
+                    ImageManager.DeleteImage(prevImg);
+                }
                 filename = ImageManager.GetImageName(image.ContentType);
                 await ImageManager.SaveImage(image, Path.Combine(_hostingEnvironment.WebRootPath, "uploadedimages"), filename);
             }

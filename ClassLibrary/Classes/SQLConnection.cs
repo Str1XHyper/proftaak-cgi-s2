@@ -12,11 +12,11 @@ namespace ClassLibrary.Classes
         {
             MySqlConnection cnn;
             //for debugging
-            //string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
+            string connetionString = $"server=bier-1.democgi.com;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
             //for release
             //string connetionString = $"server=localhost;database=PlannerApplicatie;uid=nova;pwd=AkXxYFSD03oFLHmV;";
             //for anti-
-            string connetionString = $"server=185.182.56.248;database=bartvur381_proftaak;uid=bartvur381_proftaak;pwd=KjYD1zjZ;";
+            //string connetionString = $"server=185.182.56.248;database=bartvur381_proftaak;uid=bartvur381_proftaak;pwd=KjYD1zjZ;";
             cnn = new MySqlConnection(connetionString);
             return cnn;
         }

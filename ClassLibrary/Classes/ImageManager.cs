@@ -23,6 +23,11 @@ namespace ClassLibrary
                 }
             }
         }
+        public static void DeleteImage(string filename)
+        {
+            string filePath = $"wwwroot/uploadedimages/{filename}";
+            File.Delete(filePath);
+        }
         public static string GetImageName(string imagetype)
         {
             if (imagetype != null && imagetype.Length > 0)
