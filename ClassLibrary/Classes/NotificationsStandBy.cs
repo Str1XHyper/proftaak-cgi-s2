@@ -29,8 +29,8 @@ namespace ClassLibrary.Classes
 
         public static void NotifySolved()
         {
-            SendMail.SendEmployeeIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "Lorem Ipsum Test Titel", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
-            SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "Lorem Ipsum Test Titel", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
+            SendMail.SendEmployeeIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "msg", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
+            SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "msg", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
         }
 
         public static List<string[]> GetStandByEmployees()
@@ -76,24 +76,6 @@ namespace ClassLibrary.Classes
             }
 
             return users;
-
-            //List<string[]> employeeData = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Start,End FROM Rooster");
-            //int standbyUserCount = 0;
-            //string sqlquery = ($"SELECT Distinct Email,Voornaam FROM Werknemers WHERE UserId='");
-            //foreach (string[] data in employeeData)
-            //{
-            //    if (DateTime.Now >= Convert.ToDateTime(data[1]) && Convert.ToDateTime(data[2]) >= DateTime.Now)
-            //    {
-            //        standbyUserCount++;
-            //        sqlquery += data[0] + "' OR UserId='";
-            //    }
-            //}
-            //if (standbyUserCount > 0)
-            //{
-            //    sqlquery.Substring(0, sqlquery.Length - 12);
-            //    return SQLConnection.ExecuteSearchQueryWithArrayReturn(sqlquery);
-            //}
-            //return new List<string[]>();
         }
     }
 }
