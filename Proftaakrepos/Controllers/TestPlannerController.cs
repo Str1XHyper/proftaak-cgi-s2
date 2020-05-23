@@ -130,7 +130,10 @@ namespace Proftaakrepos.Controllers
 
         public string[] GetUsers()
         {
+            // Get names from database
             List<string[]> names = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT `UserId`, `Voornaam`, `Tussenvoegsel`, `Achternaam` FROM `Werknemers` ORDER BY `UserId` ASC");
+
+            // Put names in correct format
             string[] parsedNames = new string[names.Count];
             for (int i = 0; i < names.Count; i++)
             {
@@ -142,6 +145,8 @@ namespace Proftaakrepos.Controllers
                 completeName.Trim();
                 parsedNames[i] = completeName;
             }
+
+            // Return name array.
             return parsedNames;
         }
 
