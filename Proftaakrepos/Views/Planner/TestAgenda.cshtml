@@ -18,11 +18,13 @@
     string[] verlofCount = ViewData["verlof"] as string[];
     string rol = ViewData["rol"].ToString();
     string loggedInUserID = Context.Session.GetInt32("UserInfo.ID").ToString();
+    string language = ViewData["language"] as string;
 }
 @*Hidden inputs*@
 <input type="hidden" id="eventIdField" />
 <input type="hidden" id="UserID" value="@loggedInUserID" />
 <input id="rol" type="hidden" value="@rol.ToLower()" />
+<input type="hidden" id="language" value="@language" />
 @*Scheduler Tools*@
 @{
     if (rol.ToLower() == "roostermaker")
@@ -45,7 +47,7 @@
         }
         @*Selecting what/whose events to display*@
         <div class="card mb-4">
-            <div class="scheduler-tools card-header bg-dark text-white" onclick="toggleDiv()" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">@Proftaakrepos.Resources.lang.Employee:</div>
+            <div id="schedulerToolsHeader" class="scheduler-tools card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">@Proftaakrepos.Resources.lang.Employee:</div>
             <div id="scheduler-tools" class="card-body bg-white werknemer-header">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -91,7 +93,7 @@
             @{
                 @*Hidden inputs*@
                 <input type="hidden" asp-for="@newmodel.userId" id="modalUserID" value="@loggedInUserID" />
-                <input id="eventIdField" type="hidden" asp-for="@newmodel.eventId" value="0" />
+                <input id="eventIdField" type="hidden" asp-for="@newmodel.eventId" />
 
                 @*Input fields*@
                 if (rol.ToLower() == "roostermaker")
@@ -139,8 +141,8 @@
             </div>
             @if (rol.ToLower() == "roostermaker")
             {
-                <input type="button" value="Verwijder" onclick="deleteEvent()" class="btn btn-danger additional-buttons" style="border-color: black; background-color:#660000 !important" />
-                <input type="button" id="submitButton" onclick="createCalendarEvent()" value="Bevestig" class="btn btn-light additional-buttons" style="border-color: black !important" />
+                <input type="button" id="deletebtn" value="Verwijder" class="btn btn-danger additional-buttons" style="border-color: black; background-color:#660000 !important" />
+                <input type="button" id="submitButton" value="Bevestig" class="btn btn-light additional-buttons" style="border-color: black !important" />
             }
             else
             {

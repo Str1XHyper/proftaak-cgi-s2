@@ -111,13 +111,15 @@ namespace Proftaakrepos.Controllers
             // Update event
             SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set Start = '{startTime}',End = '{endTime}',IsFullDay = '{Convert.ToInt32(allday)}' Where EventId = '{eventid}'");
         }
-
         [HttpPost]
         public void CreateEvent(EventModel newmodel)
         {
             if (!string.IsNullOrEmpty(newmodel.userId))
             {
+                // Get selected userIDs
                 string[] uids = SterilizeInput(newmodel.userId);
+
+                // Create sql query
                 string sqlquery = $"INSERT INTO Rooster(UserId, Subject, Description, Start, End, ThemeColor, IsFullDay, IsPending) VALUES ";
                 for (int i = 0; i < uids.Length; i++)
                 {
@@ -127,6 +129,8 @@ namespace Proftaakrepos.Controllers
                         sqlquery += $"('{uids[i]}', '{newmodel.title}', '{newmodel.description}', '{newmodel.startDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{newmodel.endDate.ToString("yyyy/MM/dd HH:mm:ss")}', '{newmodel.themeColor}', '{(newmodel.isFullDay)}', '{(newmodel.isPending ? 1 : 0)}')";
                 }
                 SQLConnection.ExecuteNonSearchQuery(sqlquery);
+
+                // When an event has type "Verlof" it creates a new Absence request
                 if (newmodel.themeColor.ToLower() == "verlof")
                 {
                     string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0]; //Aanmaken van verlofverzoek

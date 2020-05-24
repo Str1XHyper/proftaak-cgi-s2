@@ -61,6 +61,9 @@ namespace Proftaakrepos.Controllers
         public IActionResult TestAgenda()
         {
             ViewData["rol"] = rol;
+            ViewData["language"] = "nl";
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Culture")))
+                ViewData["language"] = HttpContext.Session.GetString("Culture");
             //Data for scheduler
             if (rol.ToLower() == "roostermaker")
                 ViewData["verlof"] = agendamanager.GetVerlofCount();

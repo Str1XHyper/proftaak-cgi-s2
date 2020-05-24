@@ -5,14 +5,15 @@ var modal;
 var modalUIDs;
 var uname = [];
 var uid = [];
+var origin;
 
 // Load calendar
 $(document).ready(async () => {
+    initCalendar();
     modal = $("#eventModal")[0];
     await initTokenField();
     initModalTokenField();
     SetUserIDs();
-    initCalendar();
 });
 
 //Calendar functions
@@ -29,7 +30,7 @@ function initCalendar() {
         editable: true,
         firstDay: 1,
         height: "auto",
-        locale: 'nl',
+        locale: $('#language').val(),
         longPressDelay: 500,
         navLinks: true,
         nowIndicator: true,
@@ -89,6 +90,7 @@ function initCalendar() {
             $('#startField').val(new Date(info.start.valueOf() - info.start.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", ""));
             $('#endField').val(new Date(info.end.valueOf() - info.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", ""));
             info.allDay == true ? $('#fullDayField').val(1) : $('#fullDayField').val(0);
+            origin = "select"; 
             setModalValues(info);
             setEmployeeElements("select");
             changeModalState();
@@ -100,6 +102,7 @@ function initCalendar() {
             if (info.event.allDay != true) $('#endField').val(new Date(info.event.end.valueOf() - info.event.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", ""));
             $("#eventIdField").val(info.event.id);
             info.event.allDay == true ? $('#fullDayField').val(1) : $('#fullDayField').val(0);
+            origin = "click"; 
             setModalValues(info.event);
             setEmployeeElements("click");
             changeModalState();
@@ -161,6 +164,21 @@ function createCalendarEvent() {
     });
     setEmployeeElements();
 }
+function modifyEvent() {
+    SetModalUserIDs();
+    enableInputs();
+    deleteEvent();
+    createCalendarEvent();
+    setEmployeeElements();
+}
+function chooseFunc() {
+    if (origin == "select") {
+        createCalendarEvent();
+    }
+    else if (origin == "click") {
+        modifyEvent();
+    }
+}
 function moveEvent(eventDropInfo) {
     // Execute when you finish dropping an event
     var endtime = eventDropInfo.event.end;
@@ -181,7 +199,6 @@ function resizeEvent(eventResizeInfo) {
 function deleteEvent() {
     // Deletes an event
     $.post('/Planner/DeleteEvent', { EventId: $("#eventIdField").val() }, (data) => {
-        changeModalState();
         calendar.refetchEvents();
     });
 }
@@ -214,7 +231,6 @@ function changeModalState() {
 }
 function setModalValues(info) {
     // Set input fields in modal
-    console.log(info);
     if (info != null) {
         $("#modalUserTokens").val(UserIDs);
         typeof info.extendedProps !== 'undefined' ? $("#themeColorField").val(info.extendedProps.soort) : $("#themeColorField").val("Stand-by");
@@ -228,6 +244,14 @@ function enableInputs() {
     $("#themeColorField").removeAttr('disabled');
     $("#fullDayField").removeAttr('disabled');
 }
+function slideTools() {
+    if ($('#scheduler-tools').css("display") == "none") {
+        $('#scheduler-tools').slideDown(100);
+    }
+    else {
+        $('#scheduler-tools').slideUp(100);
+    }
+}
 
 //Tokenfield functions
 async function initModalTokenField() {
@@ -235,7 +259,8 @@ async function initModalTokenField() {
     await $.get("/TestPlanner/GetUsers", (data) => {
         Array.from(data).forEach(name => {
             uid.push(name.split(" ")[0]);
-            uname.push(name.split(/\d+/)[1].trim());
+            //uname.push(name.split(/\d+/)[1].trim());
+            uname.push(name.trim().replace(' ', ' - '));
         });
     });
 
@@ -255,7 +280,8 @@ async function initTokenField() {
     await $.get("/TestPlanner/GetUsers", (data) => {
         Array.from(data).forEach(name => {
             uid.push(name.split(" ")[0]);
-            uname.push(name.split(/\d+/)[1].trim());
+            //uname.push(name.split(/\d+/)[1].trim());
+            uname.push(name.trim().replace(' ', ' - '));
         });
     });
 
@@ -386,6 +412,11 @@ function setEmployeeElements(origin) {
 
 //Element stuffz
 $("#verlofbtn").click(createCalendarEvent);
+$("#submitButton").click(chooseFunc);
+$("#deletebtn").click(() => {
+    deleteEvent();
+    changeModalState();
+});
 $("#themeColorField").change(() => {
     var defaults = ["Stand-by", "Incidenten", "Verlof", "Pauze"];
     var title = $("#titleField").val();
@@ -397,6 +428,8 @@ $("#themeColorField").change(() => {
         $("#descriptionField").val($("#themeColorField")[0].selectedOptions[0].value);
     }
 });
+$("#schedulerToolsHeader").click(slideTools);
+
 
 /*Bugs below*/
 //                        /'.    /|   .'\
