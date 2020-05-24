@@ -49,7 +49,7 @@ namespace Proftaakrepos.Controllers
                     cookie.Role = GetAccessLevel.GetRol(authCode);
                     if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
                     SetSession(authCode);
-                    return RedirectToAction("Agenda", "Planner");
+                    return RedirectToAction("Schedule", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
                     AddLogin(false, model.Username, model.IP);
@@ -115,12 +115,12 @@ namespace Proftaakrepos.Controllers
         {
             if (HttpContext.Session.GetString("UserInfo") != null)
             {
-                return RedirectToAction("Agenda", "Planner");
+                return RedirectToAction("Schedule", "Planner");
             }
             if (_cookieManager.Get<CookieModel>("BIER.User") != null)
             {
                 SetSession(_cookieManager.Get<CookieModel>("BIER.User").Identifier);
-                return RedirectToAction("Agenda", "Planner");
+                return RedirectToAction("Schedule", "Planner");
             }
             if (extra != null)
             {

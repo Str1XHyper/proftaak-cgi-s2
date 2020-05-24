@@ -1,6 +1,6 @@
 ﻿// Init global variables
 var calendar;
-var UserIDs;
+var UserIDs = $('UserID').val() + ",";
 var modal;
 var modalUIDs;
 var uname = [];
@@ -9,11 +9,12 @@ var origin;
 
 // Load calendar
 $(document).ready(async () => {
-    initCalendar();
     modal = $("#eventModal")[0];
     await initTokenField();
     initModalTokenField();
     SetUserIDs();
+    initCalendar();
+    handleAbsenceAlert();
 });
 
 //Calendar functions
@@ -39,9 +40,18 @@ function initCalendar() {
         selectHelper: true,
         selectMirror: true,
         slotDuration: '01:00:00',
+        slotLabelFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+        },
         timeZone: 'local',
         weekends: wantedWeekends,
         weekNumbers: true,
+
+        // Set events
+        events: (info, succesCallback, failureCallback) => {
+            getEvents(info, succesCallback, failureCallback);
+        },
 
         // Set button text
         buttonText:
@@ -90,7 +100,7 @@ function initCalendar() {
             $('#startField').val(new Date(info.start.valueOf() - info.start.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", ""));
             $('#endField').val(new Date(info.end.valueOf() - info.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", ""));
             info.allDay == true ? $('#fullDayField').val(1) : $('#fullDayField').val(0);
-            origin = "select"; 
+            origin = "select";
             setModalValues(info);
             setEmployeeElements("select");
             changeModalState();
@@ -102,7 +112,7 @@ function initCalendar() {
             if (info.event.allDay != true) $('#endField').val(new Date(info.event.end.valueOf() - info.event.end.getTimezoneOffset() * 60000).toISOString().replace(":00.000Z", ""));
             $("#eventIdField").val(info.event.id);
             info.event.allDay == true ? $('#fullDayField').val(1) : $('#fullDayField').val(0);
-            origin = "click"; 
+            origin = "click";
             setModalValues(info.event);
             setEmployeeElements("click");
             changeModalState();
@@ -123,10 +133,7 @@ function initCalendar() {
         eventResize: (eventResizeInfo) => {
             resizeEvent(eventResizeInfo);
         },
-        // Set events
-        events: (info, succesCallback, failureCallback) => {
-            getEvents(info, succesCallback, failureCallback);
-        }
+        
     });
 
     // Display calendar
@@ -158,7 +165,7 @@ function createCalendarEvent() {
     // Called when dragging in the callendar is completed
     SetModalUserIDs();
     enableInputs();
-    $.post("/TestPlanner/CreateEvent", $('#eventForm').serialize()).done(() => {
+    $.post("/Planner/CreateEvent", $('#eventForm').serialize()).done(() => {
         changeModalState();
         calendar.refetchEvents();
     });
@@ -186,13 +193,13 @@ function moveEvent(eventDropInfo) {
         endtime = eventDropInfo.event.start;
         endtime.setHours(endtime.getHours() + 1);
     }
-    $.get("/TestPlanner/UpdateEvent?start=" + eventDropInfo.event.start.toISOString() + "&end=" + endtime.toISOString() + "&eventid=" + eventDropInfo.event.id + "&allday=" + eventDropInfo.event.allDay, (data) => {
+    $.get("/Planner/UpdateEvent?start=" + eventDropInfo.event.start.toISOString() + "&end=" + endtime.toISOString() + "&eventid=" + eventDropInfo.event.id + "&allday=" + eventDropInfo.event.allDay, (data) => {
         console.log("updated");
     })
 }
 function resizeEvent(eventResizeInfo) {
     // Execute when you finish dropping an event
-    $.get("/TestPlanner/UpdateEvent?start=" + eventResizeInfo.event.start.toISOString() + "&end=" + eventResizeInfo.event.end.toISOString() + "&eventid=" + eventResizeInfo.event.id + "&allday=" + eventResizeInfo.event.allDay, (data) => {
+    $.get("/Planner/UpdateEvent?start=" + eventResizeInfo.event.start.toISOString() + "&end=" + eventResizeInfo.event.end.toISOString() + "&eventid=" + eventResizeInfo.event.id + "&allday=" + eventResizeInfo.event.allDay, (data) => {
         console.log("updated");
     })
 }
@@ -206,7 +213,7 @@ function getEvents(info, succesCallback, failureCallback) {
     // Put events in calendar
     var soort = $("#eventType")[0].selectedOptions[0].value;
     var events;
-    $.get('/TestPlanner/FetchAllEvents?userIds=' + UserIDs + "&type=" + soort, (data) => {
+    $.get('/Planner/FetchAllEvents?userIds=' + UserIDs + "&type=" + soort, (data) => {
         console.log(data);
         events = data;
     }).done(() => {
@@ -252,18 +259,12 @@ function slideTools() {
         $('#scheduler-tools').slideUp(100);
     }
 }
+function handleAbsenceAlert() {
+    $('#pop-up').slideDown(1000);
+}
 
 //Tokenfield functions
 async function initModalTokenField() {
-    // Init tokenfield with users
-    await $.get("/TestPlanner/GetUsers", (data) => {
-        Array.from(data).forEach(name => {
-            uid.push(name.split(" ")[0]);
-            //uname.push(name.split(/\d+/)[1].trim());
-            uname.push(name.trim().replace(' ', ' - '));
-        });
-    });
-
     // Set tokenfield
     $('#modalUserTokens').tokenfield({
         autocomplete: {
@@ -275,9 +276,30 @@ async function initModalTokenField() {
     // Set user in tokenfield
     $('#modalUserTokens').tokenfield('setTokens', $('#UIDTokenField').tokenfield('getTokens'));
 }
+$("#modalUserTokens").on('tokenfield:createtoken', (event) => {
+    // When token added to token field
+
+    // Check to see if token is already in tokenfield
+    var exists = false;
+    uname.forEach(name => {
+        var values = event.currentTarget.value.split(", ");
+        if (values.includes(event.attrs.value)) {
+            exists = true;
+        }
+    });
+
+    // If token in tokenfield, don't add it to tokenfield
+    if (exists) {
+        event.preventDefault();
+    }
+
+    // Refocus tokenfield
+    setTimeout(function () {
+        $("#modalUserTokens-tokenfield").blur();
+    }, 0);
+})
 async function initTokenField() {
-    // Init tokenfield with users
-    await $.get("/TestPlanner/GetUsers", (data) => {
+    await $.get("/Planner/GetUsers", (data) => {
         Array.from(data).forEach(name => {
             uid.push(name.split(" ")[0]);
             //uname.push(name.split(/\d+/)[1].trim());
@@ -315,8 +337,7 @@ $('#UIDTokenField').on('tokenfield:createtoken', (event) => {
 
     // Refocus tokenfield
     setTimeout(function () {
-        $('#UIDTokenField').blur();
-        $('#UIDTokenField').focus();
+        $("#UIDTokenField-tokenfield").blur();
     }, 0);
 })
 $('#UIDTokenField').on('tokenfield:createdtoken', (event) => {
@@ -418,6 +439,7 @@ $("#deletebtn").click(() => {
     changeModalState();
 });
 $("#themeColorField").change(() => {
+    $("#modalUserTokens").tokenfield('enable');
     var defaults = ["Stand-by", "Incidenten", "Verlof", "Pauze"];
     var title = $("#titleField").val();
     var description = $("#descriptionField").val();
@@ -427,9 +449,15 @@ $("#themeColorField").change(() => {
     if (defaults.includes(description)) {
         $("#descriptionField").val($("#themeColorField")[0].selectedOptions[0].value);
     }
+    if ($("#themeColorField")[0].selectedOptions[0].value == "Verlof") {
+        $("#modalUserTokens").tokenfield('setTokens', uname[$("#UserID")[0].value - 1]);
+        $("#modalUserTokens").tokenfield('disable');
+    }
 });
 $("#schedulerToolsHeader").click(slideTools);
-
+$("#pop-up").click(() => {
+    $('#pop-up').slideUp(100);
+});
 
 /*Bugs below*/
 //                        /'.    /|   .'\

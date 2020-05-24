@@ -337,7 +337,7 @@
     <Content Update="wwwroot\js\moment.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\js\myCalendar.js">
+    <Content Update="wwwroot\js\myCalendar_backup.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\js\MySQLManager.js">

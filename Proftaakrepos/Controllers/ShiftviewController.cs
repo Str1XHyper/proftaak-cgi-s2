@@ -49,6 +49,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult CreateRequest(string EventID, string UserID)
         {
+            if (UserID.EndsWith(",")) UserID = UserID.Substring(0, UserID.Length - 1);
             if( EventID == "0")
             {
                 return RedirectToAction("CreateRequest", new { status = "Geen dienst geselecteerd"});
