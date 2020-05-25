@@ -46,7 +46,7 @@ namespace Proftaakrepos.Controllers
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             if (projectId != null)
             {
-                List<string> result = SQLConnection.ExecuteSearchQuery($"SELECT `UserId`, `WeekNumber`, `BeginTime`, `EndTime`, `HoursWorked`, `TotalTime`, `Overtime` FROM `Overview` WHERE `ProjectId` = '{projectId}'");
+                List<string> result = SQLConnection.ExecuteSearchQuery($"SELECT Overview.OverviewId, Overview.UserId, WorkDay.StartTime, WorkDay.EndTime, Overview.HoursWorked, Overview.TotalTime, Overview.Overtime FROM ((Overview INNER JOIN WorkDay ON Overview.ProjectId = WorkDay.ProjectId))  WHERE Overview.ProjectId = '{projectId}'");
 
                for (int i = 0; i <= result.Count; i++)
                {
