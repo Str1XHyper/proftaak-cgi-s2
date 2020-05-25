@@ -250,6 +250,7 @@ function enableInputs() {
     $("#descriptionField").removeAttr('disabled');
     $("#themeColorField").removeAttr('disabled');
     $("#fullDayField").removeAttr('disabled');
+    $("#modalUserTokens").tokenfield('enable');
 }
 function slideTools() {
     if ($('#scheduler-tools').css("display") == "none") {

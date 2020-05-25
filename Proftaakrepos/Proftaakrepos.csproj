@@ -373,6 +373,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>lang.nl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\lang.ja.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
