@@ -6,19 +6,19 @@
     List<string> rollen = ViewBag.Rollen;
 }
 
-<h1>Toegang per rol</h1>
+
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
 <script src="uikit/dist/js/uikit-icons.min.js"></script>
 <div class="card-deck">
     <div class="card">
-        <div class="card-header bg-dark text-white">Rollen</div>
+        <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Rollen</div>
         <div class="card-body">
             <ul class="list-group list-group">
                 @{
                     foreach (string rol in rollen)
                     {
-                        <a href="/Role/GetPermissions/@rol" style="color: inherit"><li class="list-group-item">@rol</li></a>
+                    <a href="/Role/GetPermissions/@rol" style="color: inherit"><li class="list-group-item">@rol</li></a>
                     }
                 }
             </ul>
@@ -28,11 +28,11 @@
         @{
             if (ViewBag.Pages != null)
             {
-                <div class="card-header bg-dark text-white">Pagina's (Rol: @ViewBag.Pages.Role)</div>
+            <div class="card-header bg-dark text-white">Pagina's (@Proftaakrepos.Resources.lang.Rol: @ViewBag.Pages.Role)</div>
             }
             else
             {
-                <div class="card-header bg-dark text-white">Pagina's</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Paginas</div>
             }
         }
         <div class="card-body">
@@ -40,58 +40,58 @@
                 @{
                     if (ViewBag.Pages != null)
                     {
-                        <div class="row">
-                            @{
-                                PageModel pModel = ViewBag.Pages;
-                                for (int i = 0; i < pModel.AmountPages; i++)
-                                {
-                                    <div class="column mb-1">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <label class="input-group-text" id="basic-addon1" style="width: 175px">@pModel.PageNames[i + 1]</label> <input type="hidden" asp-for="Pages[i]" value="@pModel.PageNames[i + 1]" />
-                                            </div>
+                    <div class="row">
+                        @{
+                            PageModel pModel = ViewBag.Pages;
+                            for (int i = 0; i < pModel.AmountPages; i++)
+                            {
+                            <div class="column mb-1">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" id="basic-addon1" style="width: 175px">@pModel.PageNames[i + 1]</label> <input type="hidden" asp-for="Pages[i]" value="@pModel.PageNames[i + 1]" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 160px">
+                                <div>
+                                    <div class="pretty p-svg p-toggle p-bigger p-plain">
+                                        @{
+                                            if (pModel.Permissions[i + 1] == "1")
+                                            {
+                                            <input type="checkbox" class="pl-3" checked asp-for="Permissions[i]" />
+                                            }
+                                            else
+                                            {
+                                            <input type="checkbox" class="pl-3" asp-for="Permissions[i]" />
+                                            }
+                                        }
+                                        <div class="state p-on">
+                                            <svg class="svg svg-icon" viewBox="0 0 20 20">
+                                                <rect fill="none" stroke="#5cb85c" x="3.5" y="8.5" width="13" height="10"></rect>
+                                                <path fill="none" stroke="#5cb85c" d="M6.5,8.5 L6.5,4.9 C6.5,3 8.1,1.5 10,1.5 C11.9,1.5 13.5,3 13.5,4.9"></path>
+                                            </svg>
+                                            <label class="ml-1">Wel toegang</label>
+                                        </div>
+                                        <div class="state p-off">
+                                            <svg class="svg svg-icon " viewBox="0 0 20 20">
+                                                <rect fill="none" stroke="red" height="10" width="13" y="8.5" x="3.5"></rect>
+                                                <path fill="none" stroke="red" d="M6.5,8 L6.5,4.88 C6.5,3.01 8.07,1.5 10,1.5 C11.93,1.5 13.5,3.01 13.5,4.88 L13.5,8"></path>
+                                            </svg>
+                                            <label class="ml-1">@Proftaakrepos.Resources.lang.GeenToegang</label>
                                         </div>
                                     </div>
-                                    <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 160px">
-                                        <div>
-                                            <div class="pretty p-svg p-toggle p-bigger p-plain">
-                                                @{
-                                                    if (pModel.Permissions[i + 1] == "1")
-                                                    {
-                                                        <input type="checkbox" class="pl-3" checked asp-for="Permissions[i]" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="checkbox" class="pl-3" asp-for="Permissions[i]" />
-                                                    }
-                                                }
-                                                <div class="state p-on">
-                                                    <svg class="svg svg-icon" viewBox="0 0 20 20">
-                                                        <rect fill="none" stroke="#5cb85c" x="3.5" y="8.5" width="13" height="10"></rect>
-                                                        <path fill="none" stroke="#5cb85c" d="M6.5,8.5 L6.5,4.9 C6.5,3 8.1,1.5 10,1.5 C11.9,1.5 13.5,3 13.5,4.9"></path>
-                                                    </svg>
-                                                    <label class="ml-1">Wel toegang</label>
-                                                </div>
-                                                <div class="state p-off">
-                                                    <svg class="svg svg-icon " viewBox="0 0 20 20">
-                                                        <rect fill="none" stroke="red" height="10" width="13" y="8.5" x="3.5"></rect>
-                                                        <path fill="none" stroke="red" d="M6.5,8 L6.5,4.88 C6.5,3.01 8.07,1.5 10,1.5 C11.93,1.5 13.5,3.01 13.5,4.88 L13.5,8"></path>
-                                                    </svg>
-                                                    <label class="ml-1">Geen toegang</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+                                </div>
+                            </div>
                             }
+                        }
                         <input type="hidden" asp-for="Rol" value="@pModel.Role" />
                         <button class="btn btn-outline-secondary" method="post" type="submit">
-                            Wijzig toegang
+                            @Proftaakrepos.Resources.lang.WijzigToegang
                         </button>
-                </div>
-            }
+                    </div>
+                    }
                 }
-                </form>
-            </div>
-                </div>
-            </div>
+            </form>
+        </div>
+    </div>
+</div>

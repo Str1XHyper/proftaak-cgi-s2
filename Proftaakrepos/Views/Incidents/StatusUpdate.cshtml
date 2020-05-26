@@ -11,7 +11,7 @@
     List<string[]> statusUpdates = ViewBag.StatusUpdates;
 }
 <div class="mb-3">
-    <a class="btn btn-outline-secondary" asp-action="AddUpdate" asp-route-incidentId="@ViewBag.IncidentId">Voeg toe</a>
+    <a class="btn btn-outline-secondary" asp-action="AddUpdate" asp-route-incidentId="@ViewBag.IncidentId">@Proftaakrepos.Resources.lang.VoegToe</a>
 </div>
 @{
     if (statusUpdates.Count > 0)
@@ -47,7 +47,7 @@
     else
     {
         <div class="card mb-3">
-            <div class="card-header bg-dark text-white">Geen status updates</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.ErZijnGeenIncidentenOpDitMoment</div>
             <div class="card-body">
                 <h5 class="card-title">
                     Er zijn nog geen status updates voor dit incident.

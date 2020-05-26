@@ -42,23 +42,23 @@
 <form asp-action="ChangeLeSetting" asp-controller="Account" enctype="multipart/form-data">
     <div class="card-deck">
         <div class="card">
-            <div class="card-header bg-dark text-white">Basisinformatie</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Basisinformatie</div>
             <div class="card-body">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Voornaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Voornaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="naam" value="@test[1]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Tussenvoegsel:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Tussenvoegsel:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="tussenvoegsel" value="@test[2]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Achternaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Achternaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="achternaam" value="@test[3]">
                 </div>
@@ -90,7 +90,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-dark text-white">Contactgegevens</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Contactgegevens</div>
             <div class="card-body">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -100,31 +100,31 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Telefoonnummer:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Telefoonnummer:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="phoneNumber" value="@test[5]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Straatnaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Straatnaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="straatnaam" value="@test[6]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Huisnummer:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Huisnummer:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="huisNummer" value="@test[7]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Postcode:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Postcode:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="postcode" value="@test[8]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Woonplaats:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Woonplaats:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="woonplaats" value="@test[9]">
                 </div>
@@ -145,7 +145,7 @@
                         }
                     }
 
-                    <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
+                <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
                 </div>
                 <br />
                 <div class="custom-control custom-switch">
@@ -159,10 +159,10 @@
                             <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
                         }
                     }
-                    <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
+                    <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSBerichtOntvangen</label>
                 </div>
                 <br />
-                <label for="basic-url">Heads-up notificatie bij inplanning</label>
+                <label for="basic-url">@Proftaakrepos.Resources.lang.HeadsUp</label>
                 </div>
                 <div class="card-footer">
                     <div class="row justify-content-end">
@@ -172,7 +172,7 @@
                                     Reset
                                 </a>
                                 <button class="btn btn-outline-success" method="Post" id="submit" type="submit">
-                                    Pas aan
+                                    @Proftaakrepos.Resources.lang.PasAan
                                 </button>
                             </div>
                         </div>
@@ -181,7 +181,7 @@
     <div class="card-deck">
         <div class="card border-0">
             <div id="PassAlert" class=" alert alert-warning alert-dismissible show mt-3" role="alert" style="display:none;">
-                <strong>Wachtwoord vereisten:</strong> Minimaal 1 getal, 1 speciaal karakter, 1 kleine  letter, 1 hoofd letter en minimum van 8 karakters.
+                <strong>@Proftaakrepos.Resources.lang.WachtwoordVereisten:</strong>@Proftaakrepos.Resources.lang.Minimaal1Getal
             </div>
         </div>
         <div class="card border-0 hide">

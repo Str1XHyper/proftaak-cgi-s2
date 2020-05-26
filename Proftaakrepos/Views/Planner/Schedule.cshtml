@@ -58,11 +58,11 @@
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Type:</span>
                     </div>
                     <select class="form-control" id="eventType">
-                        <option selected value="all">Allemaal</option>
+                        <option selected value="all">@Proftaakrepos.Resources.lang.Allemaal</option>
                         <option value="Stand-by">Stand-by</option>
-                        <option value="Incidenten">Incidenten</option>
-                        <option value="Pauze">Pauze</option>
-                        <option value="Verlof">Verlof</option>
+                        <option value="Incidenten">@Proftaakrepos.Resources.lang.Incidenten</option>
+                        <option value="Pauze">@Proftaakrepos.Resources.lang.Pauze</option>
+                        <option value="Verlof">@Proftaakrepos.Resources.lang.Verlof</option>
                     </select>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                 if (rol.ToLower() == "roostermaker")
                 {
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend"><span class="input-group-text" id="basic-addon3">Werknemer: </span></div>
+                        <div class="input-group-prepend"><span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.Werknemer: </span></div>
                         <input type="hidden" class="form-control" id="modalUserTokens" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
                     </div>
                 }
@@ -106,22 +106,22 @@
                 <div class="input-group-prepend"><span class="input-group-text" id="basic-addon3">Type: </span></div>
                 <select asp-for="@newmodel.themeColor" class="form-control" id="themeColorField">
                     <option selected value="Stand-by">Stand-by</option>
-                    <option value="Incidenten">Incidenten</option>
-                    <option value="Pauze">Pauze</option>
-                    <option value="Verlof">Verlof</option>
+                    <option value="Incidenten">@Proftaakrepos.Resources.lang.Incidenten</option>
+                    <option value="Pauze">@Proftaakrepos.Resources.lang.Pauze</option>
+                    <option value="Verlof">@Proftaakrepos.Resources.lang.Verlof</option>
                 </select>
                 <span asp-validation-for="@newmodel.themeColor" class="text-danger"></span>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">Titel: </span>
+                    <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.Titel: </span>
                 </div>
                 <input id="titleField" asp-for="@newmodel.title" class="form-control" value="" />
                 <span asp-validation-for="@newmodel.title" class="text-danger"></span>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">Beschrijving: </span>
+                    <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.Beschrijving: </span>
                 </div>
                 <input id="descriptionField" asp-for="@newmodel.description" class="form-control" value="" />
                 <span asp-validation-for="@newmodel.description" class="text-danger"></span>
@@ -130,17 +130,17 @@
             <input type="hidden" id="endField" asp-for="@newmodel.endDate" class="form-control" />
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon3">Hele dag: </span>
+                    <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.HeleDag: </span>
                 </div>
                 <select asp-for="@newmodel.isFullDay" class="form-control" id="fullDayField">
-                    <option selected value="0">Nee</option>
-                    <option value="1">Ja</option>
+                    <option selected value="0">@Proftaakrepos.Resources.lang.Nee</option>
+                    <option value="1">@Proftaakrepos.Resources.lang.Ja</option>
                 </select>
             </div>
             @if (rol.ToLower() == "roostermaker")
             {
-                <input type="button" id="deletebtn" value="Verwijder" class="btn btn-danger additional-buttons" style="border-color: black; background-color:#660000 !important" />
-                <input type="button" id="submitButton" value="Bevestig" class="btn btn-light additional-buttons" style="border-color: black !important" />
+                <input type="button" id="deletebtn" value="@Proftaakrepos.Resources.lang.Verwijder class="btn btn-danger additional-buttons" style="border-color: black; background-color:#660000 !important" />
+                <input type="button" id="submitButton" value="@Proftaakrepos.Resources.lang.Bevestig" class="btn btn-light additional-buttons" style="border-color: black !important" />
             }
             else
             {
