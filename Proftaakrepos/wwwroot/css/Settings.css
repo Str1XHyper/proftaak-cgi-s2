@@ -3,3 +3,33 @@
     width: 125px; 
     margin-right: 10px;
 }
+.password-setting{
+    min-width: 100%;
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+.password-setting-container{
+    min-width: 49%;
+    width: 49%;
+    float: left;
+    margin-right: 5px;
+}
+@media only screen and (max-width: 1375px) {
+    .password-setting-container {
+        width: 100%;
+        margin-right: 0px;
+    }
+}
+@media only screen and (max-width: 860px) {
+    .password-setting-container {
+        width: 100%;
+        margin-right: 0px;
+        font-size: 13px;
+    }
+    .input-group-text {
+        width: 130px !important;
+        font-size: 12px;
+    }
+}
