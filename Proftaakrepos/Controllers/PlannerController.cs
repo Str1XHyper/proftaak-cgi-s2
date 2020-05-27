@@ -33,7 +33,7 @@ namespace Proftaakrepos.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
-            TempData["test"] = _cookieManager.Get<CookieModel>("BIER.User") != null;
+            TempData["test"] = _cookieManager.Get<CookieModel>("BIER.User").ToString();
             string language = HttpContext.Session.GetString("Culture");
             if (!string.IsNullOrEmpty(language))
             {

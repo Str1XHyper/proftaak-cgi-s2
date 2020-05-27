@@ -111,7 +111,8 @@ namespace Proftaakrepos.Controllers
             AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
             return View("ChangePassword");
         }
-        public IActionResult LoginNew(string? extra)
+        [HttpGet]
+        public IActionResult LoginNew(string extra)
         {
             if (HttpContext.Session.GetString("UserInfo") != null)
             {
@@ -127,6 +128,11 @@ namespace Proftaakrepos.Controllers
                 ViewData["Error"] = "Succesvol uitgelogd.";
             }
             return View();
+        }
+
+        public IActionResult Login()
+        {
+            return RedirectToAction("LoginNew");
         }
 
         [HttpPost]
