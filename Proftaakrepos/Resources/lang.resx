@@ -145,7 +145,10 @@
     <value>Day</value>
   </data>
   <data name="Dagen" xml:space="preserve">
-    <value>Day(s)</value>
+    <value>Day(s) ahead</value>
+  </data>
+  <data name="Direct" xml:space="preserve">
+    <value>Immediately after scheduling</value>
   </data>
   <data name="EmailNotificaties" xml:space="preserve">
     <value>Receive E-mail notifications</value>
@@ -196,7 +199,7 @@
     <value>Month</value>
   </data>
   <data name="Maanden" xml:space="preserve">
-    <value>Month(s)</value>
+    <value>Month(s)  ahead</value>
   </data>
   <data name="Niet" xml:space="preserve">
     <value>No</value>
@@ -292,7 +295,7 @@
     <value>Week</value>
   </data>
   <data name="Weken" xml:space="preserve">
-    <value>Week(s)</value>
+    <value>Week(s)  ahead</value>
   </data>
   <data name="Wel" xml:space="preserve">
     <value>Yes</value>
@@ -308,6 +311,9 @@
   </data>
   <data name="WerknemerToevoegen" xml:space="preserve">
     <value>Add employee</value>
+  </data>
+  <data name="Whatsapp" xml:space="preserve">
+    <value>Receive WhatsApp messages</value>
   </data>
   <data name="Wijzig" xml:space="preserve">
     <value>Change</value>

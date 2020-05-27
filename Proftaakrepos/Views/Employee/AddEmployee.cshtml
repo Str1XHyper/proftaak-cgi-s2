@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h1>@Proftaakrepos.Resources.lang.WerknemerToevoegen</h1>
+<h1>@Proftaakrepos.Resources.lang.WerknemerToevoegen</h1>
 <p style="color: red;">@ViewData["result"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -109,37 +109,58 @@
                 <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Notificaties</div>
                 <div class="card-body">
                     <div class="custom-control custom-switch">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
-                            <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
-                        </div>
-                        <br />
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
-                            <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
-                        </div>
+                                <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
+                        <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
+                    </div>
+                    @*<br />*@
+                    <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
+                        <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
+                    </div>
+                    <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch3" asp-for="whatsappSetting">
+
+                        <label class="custom-control-label" for="customSwitch3">@Proftaakrepos.Resources.lang.Whatsapp</label>
                     </div>
                     <br />
                     <label for="basic-url">@Proftaakrepos.Resources.lang.HeadsUp</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control">
-                        <select class="custom-select" id="inputGroupSelect01">
-                            <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
-                            <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
-                            <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
+                        <div class="input-group-prepend">
+                            <input type="number" class="form-control" asp-for="ValueOfNoti" value="0" min="0" id="inputValue">
+                        </div>
+                        <select class="custom-select" id="ageSelect" asp-for="TypeOfAge" onchange="OnChange()">
+                                        <option value="0" selected>@Proftaakrepos.Resources.lang.Direct</option>
+                                        <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                        <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                        <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
+
                         </select>
                     </div>
                 </div>
-                <div class="row justify-content-end">
-                    <div class="col-auto">
-                        <div class="input-group float-right">
-                            <button class="btn btn-outline-success mb-1 mr-1" method="post" type="submit">
-                                @Proftaakrepos.Resources.lang.WerknemerToevoegen
-                            </button>
+                <div class="card-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <div class="input-group float-right">
+                                <button class="btn btn-outline-success mb-1 mr-1" method="post" type="submit">
+                                    @Proftaakrepos.Resources.lang.VoegToe
+                                </button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </form>
 </div>
+
+<script>
+    function OnChange() {
+        if ($("#ageSelect").val() == 0) {
+            $("#inputValue").hide()
+        } else {
+            $("#inputValue").show()
+        }
+    }
+    OnChange()
+</script>

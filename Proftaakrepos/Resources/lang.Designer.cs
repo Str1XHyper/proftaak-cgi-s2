@@ -142,11 +142,20 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Day(s).
+        ///   Looks up a localized string similar to Day(s) ahead.
         /// </summary>
         public static string Dagen {
             get {
                 return ResourceManager.GetString("Dagen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Immediately after scheduling.
+        /// </summary>
+        public static string Direct {
+            get {
+                return ResourceManager.GetString("Direct", resourceCulture);
             }
         }
         
@@ -295,7 +304,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Month(s).
+        ///   Looks up a localized string similar to Month(s)  ahead.
         /// </summary>
         public static string Maanden {
             get {
@@ -583,7 +592,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Week(s).
+        ///   Looks up a localized string similar to Week(s)  ahead.
         /// </summary>
         public static string Weken {
             get {
@@ -633,6 +642,15 @@ namespace Proftaakrepos.Resources {
         public static string WerknemerToevoegen {
             get {
                 return ResourceManager.GetString("WerknemerToevoegen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Receive WhatsApp messages.
+        /// </summary>
+        public static string Whatsapp {
+            get {
+                return ResourceManager.GetString("Whatsapp", resourceCulture);
             }
         }
         

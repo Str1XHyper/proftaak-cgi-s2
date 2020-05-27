@@ -147,7 +147,7 @@
 
                     <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
                 </div>
-                <br />
+                @*<br />*@
                 <div class="custom-control custom-switch">
                     @{
                         if (setting[2].ToLower() == "true")
@@ -161,9 +161,58 @@
                     }
                     <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
                 </div>
+                <div class="custom-control custom-switch">
+                    @{
+                        if (setting[3].ToLower() == "true")
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch3" asp-for="whatsappSetting" checked>
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch3" asp-for="whatsappSetting">
+                        }
+                    }
+                    <label class="custom-control-label" for="customSwitch3">Whatsapp bericht ontvangen</label>
+                </div>
                 <br />
                 <label for="basic-url">Heads-up notificatie bij inplanning</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <input type="number" class="form-control" asp-for="ValueOfNoti" value="@setting[4]" min="0" id="inputValue">
+                    </div>
+                    <select class="custom-select" id="ageSelect" asp-for="TypeOfAge" onchange="OnChange()">
+                        @{
+                            switch (setting[5])
+                            {
+                                case "0":
+                                    <option value="0" selected>Direct bij inplanning</option>
+                                    <option value="1">Dag(en) vantevoren</option>
+                                    <option value="2">Week(en) vantevoren</option>
+                                    <option value="3">Maand(en) vantevoren</option>
+                                    break;
+                                case "1":
+                                    <option value="0">Direct bij inplanning</option>
+                                    <option value="1" selected>Dag(en) vantevoren</option>
+                                    <option value="2">Week(en) vantevoren</option>
+                                    <option value="3">Maand(en) vantevoren</option>
+                                    break;
+                                case "2":
+                                    <option value="0">Direct bij inplanning</option>
+                                    <option value="1">Dag(en) vantevoren</option>
+                                    <option value="2" selected>Week(en) vantevoren</option>
+                                    <option value="3">Maand(en) vantevoren</option>
+                                    break;
+                                case "3":
+                                    <option value="0">Direct bij inplanning</option>
+                                    <option value="1">Dag(en) vantevoren</option>
+                                    <option value="2">Week(en) vantevoren</option>
+                                    <option value="3" selected>Maand(en) vantevoren</option>
+                                    break;
+                            }
+                        }
+                    </select>
                 </div>
+            </div>
                 <div class="card-footer">
                     <div class="row justify-content-end">
                         <div class="col-auto">
@@ -178,6 +227,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
     <div class="card-deck">
         <div class="card border-0">
             <div id="PassAlert" class=" alert alert-warning alert-dismissible show mt-3" role="alert" style="display:none;">
@@ -192,3 +242,13 @@
 </form>
 
 <script src="~/js/passStrength.js"></script>
+<script>
+    function OnChange() {
+        if ($("#ageSelect").val() == 0) {
+            $("#inputValue").hide()
+        } else {
+            $("#inputValue").show()
+        }
+    }
+    OnChange()
+</script>
