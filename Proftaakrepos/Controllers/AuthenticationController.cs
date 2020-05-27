@@ -131,7 +131,7 @@ namespace Proftaakrepos.Controllers
             TempData["test"] = _cookieManager.Get<CookieModel>("BIER.User") != null;
             return View();
         }
-
+        [Route("")]
         public IActionResult Login()
         {
             return RedirectToAction("LoginNew");
