@@ -33,9 +33,9 @@
                                         <div class="form-group"><label class="small mb-1" for="inputPassword">Wachtwoord</label><input class="form-control py-4" asp-for="Password" id="inputPassword" type="password" placeholder="Wachtwoord" /></div>
                                         <input type="hidden" id="IP" asp-for="IP"/>
                                         <div class="form-group">
-                                            <div class="custom-control custom-checkbox"><input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" asp-for="Remember"/><label class="custom-control-label" for="rememberPasswordCheck">Wachtwoord onthouden</label></div>
+                                            <div class="custom-control custom-checkbox"><input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" asp-for="Remember"/><label class="custom-control-label" for="rememberPasswordCheck">@Proftaakrepos.Resources.lang.WachtwoordOnthouden</label></div>
                                         </div>
-                                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"><a class="small text-secondary" href="/Account/ChangePassword"><u>Wachtwoord vergeten?</u></a><input type="submit" class="btn btn-outline-secondary" value="Inloggen" /> </div>
+                                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"><a class="small text-secondary" href="/Account/ChangePassword"><u>@Proftaakrepos.Resources.lang.WachtwoordVergeten</u></a><input type="submit" class="btn btn-outline-secondary" value="Inloggen" /> </div>
                                     </form>
                                 </div>
                             </div>

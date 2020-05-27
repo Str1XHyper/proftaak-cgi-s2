@@ -117,14 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="1Jaar" xml:space="preserve">
+    <value>1 year</value>
+  </data>
+  <data name="1maand" xml:space="preserve">
+    <value>1 month</value>
+  </data>
+  <data name="1Week" xml:space="preserve">
+    <value>1 week</value>
+  </data>
+  <data name="2Weken" xml:space="preserve">
+    <value>2 weeks</value>
+  </data>
+  <data name="AantalUpdates" xml:space="preserve">
+    <value>Number of updates</value>
+  </data>
   <data name="Achternaam" xml:space="preserve">
     <value>Surname</value>
   </data>
   <data name="ActieveAanvragen" xml:space="preserve">
     <value>Active requests</value>
   </data>
+  <data name="Afgehandeld" xml:space="preserve">
+    <value>Finished</value>
+  </data>
   <data name="Allemaal" xml:space="preserve">
     <value>All</value>
+  </data>
+  <data name="Altijd" xml:space="preserve">
+    <value>Always</value>
   </data>
   <data name="ApplicatieHeader" xml:space="preserve">
     <value>Application</value>
@@ -132,11 +153,23 @@
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
+  <data name="AutomatischUitgelogdOfNietIngelogd" xml:space="preserve">
+    <value>You might have been logged out automatically or you haven't logged in yet.</value>
+  </data>
   <data name="Basisinformatie" xml:space="preserve">
     <value>Basic information</value>
   </data>
   <data name="Bedrijfsinstellingen" xml:space="preserve">
     <value>Company settings</value>
+  </data>
+  <data name="Beschrijving" xml:space="preserve">
+    <value>description</value>
+  </data>
+  <data name="BesteWerknemer" xml:space="preserve">
+    <value>Dear Employee, Someone responded to your traderequest, You do not have to take further action.</value>
+  </data>
+  <data name="Bevestig" xml:space="preserve">
+    <value>Confirm</value>
   </data>
   <data name="Contactgegevens" xml:space="preserve">
     <value>Credentials</value>
@@ -150,17 +183,71 @@
   <data name="Direct" xml:space="preserve">
     <value>Immediately after scheduling</value>
   </data>
+  <data name="Dinsdag" xml:space="preserve">
+    <value>Thuesday</value>
+  </data>
+  <data name="Donderdag" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="EindDatumEnTijd" xml:space="preserve">
+    <value>End date and time</value>
+  </data>
+  <data name="Einde" xml:space="preserve">
+    <value>End</value>
+  </data>
   <data name="EmailNotificaties" xml:space="preserve">
     <value>Receive E-mail notifications</value>
   </data>
   <data name="Employee" xml:space="preserve">
     <value>Employee</value>
   </data>
+  <data name="ErZijnGeenIncidentenOpDitMoment" xml:space="preserve">
+    <value>There are no incidents at this moment</value>
+  </data>
+  <data name="ErZijnNogGeenRuilaanvragen" xml:space="preserve">
+    <value>There are no traderequests</value>
+  </data>
+  <data name="FoutDataBase" xml:space="preserve">
+    <value>There has been an error in our database.</value>
+  </data>
+  <data name="GeaccepteerdDoor" xml:space="preserve">
+    <value>Accepted by</value>
+  </data>
+  <data name="GeaccepteerdeAanvragen" xml:space="preserve">
+    <value>Accepted requests</value>
+  </data>
+  <data name="GeenActieveAanvragen" xml:space="preserve">
+    <value>No active requests</value>
+  </data>
+  <data name="GeenIncidenten" xml:space="preserve">
+    <value>No incidents.</value>
+  </data>
+  <data name="GeenStatusUpdates" xml:space="preserve">
+    <value>There are no status updates at this time</value>
+  </data>
+  <data name="GeenToegang" xml:space="preserve">
+    <value>You do not have permission to access this page!</value>
+  </data>
+  <data name="GeenVerlopenAanvragen" xml:space="preserve">
+    <value>You do not have expired requests</value>
+  </data>
+  <data name="Gelukt" xml:space="preserve">
+    <value>Succesfull</value>
+  </data>
+  <data name="GewerkteUren" xml:space="preserve">
+    <value>Worked hours</value>
+  </data>
   <data name="HeadsUp" xml:space="preserve">
     <value>Receive Heads-up when being scheduled</value>
   </data>
+  <data name="HeleDag" xml:space="preserve">
+    <value>All day</value>
+  </data>
   <data name="Herstel" xml:space="preserve">
     <value>Recover</value>
+  </data>
+  <data name="HuidigWachtwoord" xml:space="preserve">
+    <value>Current password</value>
   </data>
   <data name="Huisnummer" xml:space="preserve">
     <value>Number</value>
@@ -171,11 +258,20 @@
   <data name="IncidentenHeader" xml:space="preserve">
     <value>Incidents</value>
   </data>
+  <data name="IncidentNaam" xml:space="preserve">
+    <value>Incident name</value>
+  </data>
+  <data name="IncidentOmschrijving" xml:space="preserve">
+    <value>Incident description</value>
+  </data>
   <data name="Inkomend" xml:space="preserve">
     <value>Incoming</value>
   </data>
   <data name="Instellingen" xml:space="preserve">
     <value>Adjust settings</value>
+  </data>
+  <data name="Ja" xml:space="preserve">
+    <value>Yes</value>
   </data>
   <data name="JouwVerzoeken" xml:space="preserve">
     <value>You have no active requests</value>
@@ -198,26 +294,59 @@
   <data name="Maand" xml:space="preserve">
     <value>Month</value>
   </data>
+  <data name="Maandag" xml:space="preserve">
+    <value>Monday</value>
+  </data>
   <data name="Maanden" xml:space="preserve">
     <value>Month(s)  ahead</value>
+  </data>
+  <data name="MailGestuurdAlsAccGevonden" xml:space="preserve">
+    <value>If we found an account with this e-mail  ,we sent an e-mail with instructions</value>
+  </data>
+  <data name="Minimaal1Getal" xml:space="preserve">
+    <value>Minimum of 1 number, 1 special character, 1 baseletter, 1 capitalletter and a minimum of 8 characters</value>
+  </data>
+  <data name="MinKarakters" xml:space="preserve">
+    <value>Min. Characters</value>
+  </data>
+  <data name="Nee" xml:space="preserve">
+    <value>No</value>
   </data>
   <data name="Niet" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="NieuwWachtwoord" xml:space="preserve">
+    <value>New password</value>
+  </data>
   <data name="NoActiveIncidents" xml:space="preserve">
     <value>There are no active incidents at this time</value>
+  </data>
+  <data name="Nog niet begonnen" xml:space="preserve">
+    <value>Not started yet.</value>
+  </data>
+  <data name="Noodgevallen" xml:space="preserve">
+    <value>Emergencies</value>
   </data>
   <data name="Notificaties" xml:space="preserve">
     <value>Notifications</value>
   </data>
+  <data name="Overuren" xml:space="preserve">
+    <value>Overtime</value>
+  </data>
   <data name="Paginas" xml:space="preserve">
     <value>Pages</value>
+  </data>
+  <data name="PasAan" xml:space="preserve">
+    <value>Adjust</value>
   </data>
   <data name="Pauze" xml:space="preserve">
     <value>Break</value>
   </data>
   <data name="Postcode" xml:space="preserve">
     <value>Zip code</value>
+  </data>
+  <data name="ResetPass" xml:space="preserve">
+    <value>Reset password</value>
   </data>
   <data name="Rol" xml:space="preserve">
     <value>Role</value>
@@ -246,20 +375,68 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SMSBerichtOntvangen" xml:space="preserve">
+    <value>Received textmessage</value>
+  </data>
   <data name="SMSNotificatie" xml:space="preserve">
     <value>Receive textmessages</value>
+  </data>
+  <data name="Spaghet" xml:space="preserve">
+    <value>Oh no! Our spaghetticode seems to have stopped working, we'll be right back!</value>
+  </data>
+  <data name="SpecKarakter" xml:space="preserve">
+    <value>Special character</value>
+  </data>
+  <data name="StartDatumEnTijd" xml:space="preserve">
+    <value>Start date and time</value>
+  </data>
+  <data name="Starten" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="StatusAanpassen" xml:space="preserve">
+    <value>Change status</value>
+  </data>
+  <data name="StatusNaam" xml:space="preserve">
+    <value>Status name</value>
+  </data>
+  <data name="StatusOmschrijving" xml:space="preserve">
+    <value>Status description</value>
   </data>
   <data name="Straatnaam" xml:space="preserve">
     <value>Street</value>
   </data>
+  <data name="SubtotaalvanWeek" xml:space="preserve">
+    <value>Subtotal of the week</value>
+  </data>
   <data name="Telefoonnummer" xml:space="preserve">
     <value>Phonenumber</value>
+  </data>
+  <data name="TerugNaarInlog" xml:space="preserve">
+    <value>Back to Login</value>
+  </data>
+  <data name="TerugNaarLogin" xml:space="preserve">
+    <value>Back to Login</value>
+  </data>
+  <data name="Tijd" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Titel" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="Toegang" xml:space="preserve">
     <value>Access</value>
   </data>
+  <data name="ToegangGeweigerd" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
   <data name="ToegangPerRol" xml:space="preserve">
     <value>Access per role</value>
+  </data>
+  <data name="Tot" xml:space="preserve">
+    <value>Untill</value>
+  </data>
+  <data name="TotaleTijd" xml:space="preserve">
+    <value>Total time</value>
   </data>
   <data name="TradeRequests" xml:space="preserve">
     <value>Trade requests</value>
@@ -270,8 +447,17 @@
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="UHeeftNogGeenAanvragenGeaccepteerd" xml:space="preserve">
+    <value>You haven't accepted requests yet.</value>
+  </data>
   <data name="Uitgaand" xml:space="preserve">
     <value>Outgoing</value>
+  </data>
+  <data name="Van" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="VeranderInlog" xml:space="preserve">
+    <value>Change Login</value>
   </data>
   <data name="Verlof" xml:space="preserve">
     <value>Absence</value>
@@ -282,14 +468,32 @@
   <data name="VerlopenAanvragen" xml:space="preserve">
     <value>Expired requests</value>
   </data>
+  <data name="Verwijder" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="VoegToe" xml:space="preserve">
     <value>Add</value>
   </data>
   <data name="Voornaam" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Vrijdag" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="WachtwoordEisen" xml:space="preserve">
+    <value>Password requirements</value>
+  </data>
+  <data name="WachtwoordHerhalen" xml:space="preserve">
+    <value>Repeat password</value>
+  </data>
+  <data name="WachtwoordOnthouden" xml:space="preserve">
+    <value>Remember password</value>
+  </data>
   <data name="WachtwoordVereisten" xml:space="preserve">
     <value>Password requirements</value>
+  </data>
+  <data name="WachtwoordVergeten" xml:space="preserve">
+    <value>Forgot password?</value>
   </data>
   <data name="Week" xml:space="preserve">
     <value>Week</value>
@@ -299,6 +503,9 @@
   </data>
   <data name="Wel" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="WelToegang" xml:space="preserve">
+    <value>Access granted</value>
   </data>
   <data name="Werknemer" xml:space="preserve">
     <value>Employee</value>
@@ -321,7 +528,25 @@
   <data name="WijzigGegevens" xml:space="preserve">
     <value>Change data</value>
   </data>
+  <data name="WijzigToegang" xml:space="preserve">
+    <value>Change access</value>
+  </data>
+  <data name="Woensdag" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
   <data name="Woonplaats" xml:space="preserve">
     <value>City</value>
+  </data>
+  <data name="WordtAanGewerkt" xml:space="preserve">
+    <value>In progress.</value>
+  </data>
+  <data name="Zaterdag" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="ZoekProject" xml:space="preserve">
+    <value>Search Project</value>
+  </data>
+  <data name="Zondag" xml:space="preserve">
+    <value>Sunday</value>
   </data>
 </root>

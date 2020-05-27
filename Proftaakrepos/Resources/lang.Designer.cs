@@ -61,6 +61,51 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 1 year.
+        /// </summary>
+        public static string _1Jaar {
+            get {
+                return ResourceManager.GetString("1Jaar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1 month.
+        /// </summary>
+        public static string _1maand {
+            get {
+                return ResourceManager.GetString("1maand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1 week.
+        /// </summary>
+        public static string _1Week {
+            get {
+                return ResourceManager.GetString("1Week", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2 weeks.
+        /// </summary>
+        public static string _2Weken {
+            get {
+                return ResourceManager.GetString("2Weken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of updates.
+        /// </summary>
+        public static string AantalUpdates {
+            get {
+                return ResourceManager.GetString("AantalUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Surname.
         /// </summary>
         public static string Achternaam {
@@ -79,11 +124,29 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finished.
+        /// </summary>
+        public static string Afgehandeld {
+            get {
+                return ResourceManager.GetString("Afgehandeld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string Allemaal {
             get {
                 return ResourceManager.GetString("Allemaal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Always.
+        /// </summary>
+        public static string Altijd {
+            get {
+                return ResourceManager.GetString("Altijd", resourceCulture);
             }
         }
         
@@ -106,6 +169,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You might have been logged out automatically or you haven&apos;t logged in yet..
+        /// </summary>
+        public static string AutomatischUitgelogdOfNietIngelogd {
+            get {
+                return ResourceManager.GetString("AutomatischUitgelogdOfNietIngelogd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Basic information.
         /// </summary>
         public static string Basisinformatie {
@@ -120,6 +192,33 @@ namespace Proftaakrepos.Resources {
         public static string Bedrijfsinstellingen {
             get {
                 return ResourceManager.GetString("Bedrijfsinstellingen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to description.
+        /// </summary>
+        public static string Beschrijving {
+            get {
+                return ResourceManager.GetString("Beschrijving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dear Employee, Someone responded to your traderequest, You do not have to take further action..
+        /// </summary>
+        public static string BesteWerknemer {
+            get {
+                return ResourceManager.GetString("BesteWerknemer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string Bevestig {
+            get {
+                return ResourceManager.GetString("Bevestig", resourceCulture);
             }
         }
         
@@ -142,7 +241,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Day(s) ahead.
+        ///   Looks up a localized string similar to Day(s).
         /// </summary>
         public static string Dagen {
             get {
@@ -151,11 +250,38 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Immediately after scheduling.
+        ///   Looks up a localized string similar to Thuesday.
         /// </summary>
-        public static string Direct {
+        public static string Dinsdag {
             get {
-                return ResourceManager.GetString("Direct", resourceCulture);
+                return ResourceManager.GetString("Dinsdag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thursday.
+        /// </summary>
+        public static string Donderdag {
+            get {
+                return ResourceManager.GetString("Donderdag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date and time.
+        /// </summary>
+        public static string EindDatumEnTijd {
+            get {
+                return ResourceManager.GetString("EindDatumEnTijd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End.
+        /// </summary>
+        public static string Einde {
+            get {
+                return ResourceManager.GetString("Einde", resourceCulture);
             }
         }
         
@@ -178,6 +304,114 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no incidents at this moment.
+        /// </summary>
+        public static string ErZijnGeenIncidentenOpDitMoment {
+            get {
+                return ResourceManager.GetString("ErZijnGeenIncidentenOpDitMoment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no traderequests.
+        /// </summary>
+        public static string ErZijnNogGeenRuilaanvragen {
+            get {
+                return ResourceManager.GetString("ErZijnNogGeenRuilaanvragen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There has been an error in our database..
+        /// </summary>
+        public static string FoutDataBase {
+            get {
+                return ResourceManager.GetString("FoutDataBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accepted by.
+        /// </summary>
+        public static string GeaccepteerdDoor {
+            get {
+                return ResourceManager.GetString("GeaccepteerdDoor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accepted requests.
+        /// </summary>
+        public static string GeaccepteerdeAanvragen {
+            get {
+                return ResourceManager.GetString("GeaccepteerdeAanvragen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No active requests.
+        /// </summary>
+        public static string GeenActieveAanvragen {
+            get {
+                return ResourceManager.GetString("GeenActieveAanvragen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No incidents..
+        /// </summary>
+        public static string GeenIncidenten {
+            get {
+                return ResourceManager.GetString("GeenIncidenten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no status updates at this time.
+        /// </summary>
+        public static string GeenStatusUpdates {
+            get {
+                return ResourceManager.GetString("GeenStatusUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You do not have permission to access this page!.
+        /// </summary>
+        public static string GeenToegang {
+            get {
+                return ResourceManager.GetString("GeenToegang", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You do not have expired requests.
+        /// </summary>
+        public static string GeenVerlopenAanvragen {
+            get {
+                return ResourceManager.GetString("GeenVerlopenAanvragen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Succesfull.
+        /// </summary>
+        public static string Gelukt {
+            get {
+                return ResourceManager.GetString("Gelukt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Worked hours.
+        /// </summary>
+        public static string GewerkteUren {
+            get {
+                return ResourceManager.GetString("GewerkteUren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Receive Heads-up when being scheduled.
         /// </summary>
         public static string HeadsUp {
@@ -187,11 +421,29 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All day.
+        /// </summary>
+        public static string HeleDag {
+            get {
+                return ResourceManager.GetString("HeleDag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Recover.
         /// </summary>
         public static string Herstel {
             get {
                 return ResourceManager.GetString("Herstel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current password.
+        /// </summary>
+        public static string HuidigWachtwoord {
+            get {
+                return ResourceManager.GetString("HuidigWachtwoord", resourceCulture);
             }
         }
         
@@ -223,6 +475,24 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incident name.
+        /// </summary>
+        public static string IncidentNaam {
+            get {
+                return ResourceManager.GetString("IncidentNaam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incident description.
+        /// </summary>
+        public static string IncidentOmschrijving {
+            get {
+                return ResourceManager.GetString("IncidentOmschrijving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incoming.
         /// </summary>
         public static string Inkomend {
@@ -237,6 +507,15 @@ namespace Proftaakrepos.Resources {
         public static string Instellingen {
             get {
                 return ResourceManager.GetString("Instellingen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Ja {
+            get {
+                return ResourceManager.GetString("Ja", resourceCulture);
             }
         }
         
@@ -304,11 +583,56 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Month(s)  ahead.
+        ///   Looks up a localized string similar to Monday.
+        /// </summary>
+        public static string Maandag {
+            get {
+                return ResourceManager.GetString("Maandag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Month(s).
         /// </summary>
         public static string Maanden {
             get {
                 return ResourceManager.GetString("Maanden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If we found an account with this e-mail  ,we sent an e-mail with instructions.
+        /// </summary>
+        public static string MailGestuurdAlsAccGevonden {
+            get {
+                return ResourceManager.GetString("MailGestuurdAlsAccGevonden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum of 1 number, 1 special character, 1 baseletter, 1 capitalletter and a minimum of 8 characters.
+        /// </summary>
+        public static string Minimaal1Getal {
+            get {
+                return ResourceManager.GetString("Minimaal1Getal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min. Characters.
+        /// </summary>
+        public static string MinKarakters {
+            get {
+                return ResourceManager.GetString("MinKarakters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string Nee {
+            get {
+                return ResourceManager.GetString("Nee", resourceCulture);
             }
         }
         
@@ -322,11 +646,38 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New password.
+        /// </summary>
+        public static string NieuwWachtwoord {
+            get {
+                return ResourceManager.GetString("NieuwWachtwoord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no active incidents at this time.
         /// </summary>
         public static string NoActiveIncidents {
             get {
                 return ResourceManager.GetString("NoActiveIncidents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not started yet..
+        /// </summary>
+        public static string Nog_niet_begonnen {
+            get {
+                return ResourceManager.GetString("Nog niet begonnen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Emergencies.
+        /// </summary>
+        public static string Noodgevallen {
+            get {
+                return ResourceManager.GetString("Noodgevallen", resourceCulture);
             }
         }
         
@@ -340,11 +691,29 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Overtime.
+        /// </summary>
+        public static string Overuren {
+            get {
+                return ResourceManager.GetString("Overuren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pages.
         /// </summary>
         public static string Paginas {
             get {
                 return ResourceManager.GetString("Paginas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adjust.
+        /// </summary>
+        public static string PasAan {
+            get {
+                return ResourceManager.GetString("PasAan", resourceCulture);
             }
         }
         
@@ -363,6 +732,15 @@ namespace Proftaakrepos.Resources {
         public static string Postcode {
             get {
                 return ResourceManager.GetString("Postcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset password.
+        /// </summary>
+        public static string ResetPass {
+            get {
+                return ResourceManager.GetString("ResetPass", resourceCulture);
             }
         }
         
@@ -448,11 +826,83 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Received textmessage.
+        /// </summary>
+        public static string SMSBerichtOntvangen {
+            get {
+                return ResourceManager.GetString("SMSBerichtOntvangen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Receive textmessages.
         /// </summary>
         public static string SMSNotificatie {
             get {
                 return ResourceManager.GetString("SMSNotificatie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oh no! Our spaghetticode seems to have stopped working, we&apos;ll be right back!.
+        /// </summary>
+        public static string Spaghet {
+            get {
+                return ResourceManager.GetString("Spaghet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special character.
+        /// </summary>
+        public static string SpecKarakter {
+            get {
+                return ResourceManager.GetString("SpecKarakter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start date and time.
+        /// </summary>
+        public static string StartDatumEnTijd {
+            get {
+                return ResourceManager.GetString("StartDatumEnTijd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Starten {
+            get {
+                return ResourceManager.GetString("Starten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change status.
+        /// </summary>
+        public static string StatusAanpassen {
+            get {
+                return ResourceManager.GetString("StatusAanpassen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status name.
+        /// </summary>
+        public static string StatusNaam {
+            get {
+                return ResourceManager.GetString("StatusNaam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status description.
+        /// </summary>
+        public static string StatusOmschrijving {
+            get {
+                return ResourceManager.GetString("StatusOmschrijving", resourceCulture);
             }
         }
         
@@ -466,11 +916,56 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Subtotal of the week.
+        /// </summary>
+        public static string SubtotaalvanWeek {
+            get {
+                return ResourceManager.GetString("SubtotaalvanWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phonenumber.
         /// </summary>
         public static string Telefoonnummer {
             get {
                 return ResourceManager.GetString("Telefoonnummer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to Login.
+        /// </summary>
+        public static string TerugNaarInlog {
+            get {
+                return ResourceManager.GetString("TerugNaarInlog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to Login.
+        /// </summary>
+        public static string TerugNaarLogin {
+            get {
+                return ResourceManager.GetString("TerugNaarLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Tijd {
+            get {
+                return ResourceManager.GetString("Tijd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Titel {
+            get {
+                return ResourceManager.GetString("Titel", resourceCulture);
             }
         }
         
@@ -484,11 +979,38 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Access Denied.
+        /// </summary>
+        public static string ToegangGeweigerd {
+            get {
+                return ResourceManager.GetString("ToegangGeweigerd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Access per role.
         /// </summary>
         public static string ToegangPerRol {
             get {
                 return ResourceManager.GetString("ToegangPerRol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Untill.
+        /// </summary>
+        public static string Tot {
+            get {
+                return ResourceManager.GetString("Tot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total time.
+        /// </summary>
+        public static string TotaleTijd {
+            get {
+                return ResourceManager.GetString("TotaleTijd", resourceCulture);
             }
         }
         
@@ -520,11 +1042,38 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You haven&apos;t accepted requests yet..
+        /// </summary>
+        public static string UHeeftNogGeenAanvragenGeaccepteerd {
+            get {
+                return ResourceManager.GetString("UHeeftNogGeenAanvragenGeaccepteerd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Outgoing.
         /// </summary>
         public static string Uitgaand {
             get {
                 return ResourceManager.GetString("Uitgaand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From.
+        /// </summary>
+        public static string Van {
+            get {
+                return ResourceManager.GetString("Van", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Login.
+        /// </summary>
+        public static string VeranderInlog {
+            get {
+                return ResourceManager.GetString("VeranderInlog", resourceCulture);
             }
         }
         
@@ -556,6 +1105,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Verwijder {
+            get {
+                return ResourceManager.GetString("Verwijder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         public static string VoegToe {
@@ -574,11 +1132,56 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Friday.
+        /// </summary>
+        public static string Vrijdag {
+            get {
+                return ResourceManager.GetString("Vrijdag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password requirements.
+        /// </summary>
+        public static string WachtwoordEisen {
+            get {
+                return ResourceManager.GetString("WachtwoordEisen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repeat password.
+        /// </summary>
+        public static string WachtwoordHerhalen {
+            get {
+                return ResourceManager.GetString("WachtwoordHerhalen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember password.
+        /// </summary>
+        public static string WachtwoordOnthouden {
+            get {
+                return ResourceManager.GetString("WachtwoordOnthouden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password requirements.
         /// </summary>
         public static string WachtwoordVereisten {
             get {
                 return ResourceManager.GetString("WachtwoordVereisten", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot password?.
+        /// </summary>
+        public static string WachtwoordVergeten {
+            get {
+                return ResourceManager.GetString("WachtwoordVergeten", resourceCulture);
             }
         }
         
@@ -592,7 +1195,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Week(s)  ahead.
+        ///   Looks up a localized string similar to Week(s).
         /// </summary>
         public static string Weken {
             get {
@@ -606,6 +1209,15 @@ namespace Proftaakrepos.Resources {
         public static string Wel {
             get {
                 return ResourceManager.GetString("Wel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Access granted.
+        /// </summary>
+        public static string WelToegang {
+            get {
+                return ResourceManager.GetString("WelToegang", resourceCulture);
             }
         }
         
@@ -646,15 +1258,6 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Receive WhatsApp messages.
-        /// </summary>
-        public static string Whatsapp {
-            get {
-                return ResourceManager.GetString("Whatsapp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Change.
         /// </summary>
         public static string Wijzig {
@@ -673,11 +1276,65 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change access.
+        /// </summary>
+        public static string WijzigToegang {
+            get {
+                return ResourceManager.GetString("WijzigToegang", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wednesday.
+        /// </summary>
+        public static string Woensdag {
+            get {
+                return ResourceManager.GetString("Woensdag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to City.
         /// </summary>
         public static string Woonplaats {
             get {
                 return ResourceManager.GetString("Woonplaats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In progress..
+        /// </summary>
+        public static string WordtAanGewerkt {
+            get {
+                return ResourceManager.GetString("WordtAanGewerkt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saturday.
+        /// </summary>
+        public static string Zaterdag {
+            get {
+                return ResourceManager.GetString("Zaterdag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Project.
+        /// </summary>
+        public static string ZoekProject {
+            get {
+                return ResourceManager.GetString("ZoekProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sunday.
+        /// </summary>
+        public static string Zondag {
+            get {
+                return ResourceManager.GetString("Zondag", resourceCulture);
             }
         }
     }
