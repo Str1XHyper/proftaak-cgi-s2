@@ -127,6 +127,7 @@ namespace Proftaakrepos.Controllers
             {
                 ViewData["Error"] = "Succesvol uitgelogd.";
             }
+            TempData["test"] = _cookieManager.Get<CookieModel>("BIER.User") != null;
             return View();
         }
 
