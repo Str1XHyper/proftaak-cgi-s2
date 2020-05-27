@@ -19,6 +19,8 @@
     string language = ViewData["language"] as string;
 }
 @*Hidden inputs*@
+<h1>@TempData["test"]</h1>
+
 <input type="hidden" id="eventIdField" />
 <input type="hidden" id="UserID" value="@loggedInUserID" />
 <input id="rol" type="hidden" value="@rol.ToLower()" />
@@ -33,7 +35,7 @@
             if (verlofCount[0] == "1")
             {
                 <div id="pop-up" class="alert alert-danger" role="alert">
-                     Er staat nog <a style="color: white" href="/Verlof/Aanvragen">@verlofCount[0] verlofaanvraag</a> open. 
+                    Er staat nog <a style="color: white" href="/Verlof/Aanvragen">@verlofCount[0] verlofaanvraag</a> open.
                 </div>
             }
             else

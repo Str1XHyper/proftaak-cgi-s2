@@ -7,11 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using ClassLibrary.Classes;
 using ClassLibrary.Planner;
+using CookieManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using Models.Agenda;
+using Models.Authentication;
 using Ubiety.Dns.Core.Records.NotUsed;
 
 namespace Proftaakrepos.Controllers
@@ -19,11 +21,19 @@ namespace Proftaakrepos.Controllers
     public class PlannerController : Controller
     {
         private static string userId;
+        private readonly ICookieManager _cookieManager;
+        private readonly ICookie _cookie;
         private static string rol;
         private AgendaManager agendamanager = new AgendaManager();
+        public PlannerController(ICookieManager cookieManager, ICookie cookie)
+        {
+            this._cookieManager = cookieManager;
+            this._cookie = cookie;
+        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
+            TempData["test"] = _cookieManager.Get<CookieModel>("BIER.User").ToString();
             string language = HttpContext.Session.GetString("Culture");
             if (!string.IsNullOrEmpty(language))
             {
@@ -164,10 +174,15 @@ namespace Proftaakrepos.Controllers
                 SQLConnection.ExecuteNonSearchQuery(sqlquery);
 
                 // When an event has type "Verlof" it creates a new Absence request
+                string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0];
                 if (newmodel.themeColor.ToLower() == "verlof")
                 {
-                    string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0]; //Aanmaken van verlofverzoek
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Verlofaanvragen (UserID, EventID) VALUES ('{userId}', '{eventID}')");
+                }
+                else
+                {
+                    NotificationSettings settings = new NotificationSettings();
+                    settings.SendRoosterNotifcation(newmodel.userId, eventID);
                 }
             }
         }

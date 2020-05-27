@@ -545,7 +545,7 @@
   <data name="Zondag" xml:space="preserve">
     <value>Zondag</value>
   </data>
-  <data name="Filters" xml:space="preserve">
-    <value>Filters</value>
+  <data name="GeenVerlofAanvragen" xml:space="preserve">
+    <value>Geen actieve verlofaanvragen</value>
   </data>
 </root>

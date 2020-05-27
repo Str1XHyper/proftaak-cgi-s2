@@ -241,7 +241,7 @@
     <value>All day</value>
   </data>
   <data name="Herstel" xml:space="preserve">
-    <value>Reset</value>
+    <value>Recover</value>
   </data>
   <data name="HuidigWachtwoord" xml:space="preserve">
     <value>Current password</value>
@@ -549,7 +549,7 @@
   <data name="Direct" xml:space="preserve">
     <value>Immediately after scheduling</value>
   </data>
-  <data name="Filters" xml:space="preserve">
-    <value>Filters</value>
+  <data name="GeenVerlofAanvragen" xml:space="preserve">
+    <value>No active absence requests</value>
   </data>
 </root>
