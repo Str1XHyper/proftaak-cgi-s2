@@ -180,9 +180,6 @@
   <data name="Dagen" xml:space="preserve">
     <value>Day(s) ahead</value>
   </data>
-  <data name="Direct" xml:space="preserve">
-    <value>Immediately after scheduling</value>
-  </data>
   <data name="Dinsdag" xml:space="preserve">
     <value>Thuesday</value>
   </data>
@@ -548,5 +545,8 @@
   </data>
   <data name="Zondag" xml:space="preserve">
     <value>Sunday</value>
+  </data>
+  <data name="Direct" xml:space="preserve">
+    <value>Immediately after scheduling</value>
   </data>
 </root>

@@ -109,16 +109,16 @@
                 <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Notificaties</div>
                 <div class="card-body">
                     <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
+                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
                         <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
                     </div>
                     @*<br />*@
                     <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
+                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
                         <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
                     </div>
                     <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch3" asp-for="whatsappSetting">
+                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch3" asp-for="whatsappSetting">
 
                         <label class="custom-control-label" for="customSwitch3">@Proftaakrepos.Resources.lang.Whatsapp</label>
                     </div>
@@ -129,10 +129,10 @@
                             <input type="number" class="form-control" asp-for="ValueOfNoti" value="0" min="0" id="inputValue">
                         </div>
                         <select class="custom-select" id="ageSelect" asp-for="TypeOfAge" onchange="OnChange()">
-                                        <option value="0" selected>@Proftaakrepos.Resources.lang.Direct</option>
-                                        <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
-                                        <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
-                                        <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
+                            <option value="0" selected>@Proftaakrepos.Resources.lang.Direct</option>
+                            <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                            <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                            <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
 
                         </select>
                     </div>
