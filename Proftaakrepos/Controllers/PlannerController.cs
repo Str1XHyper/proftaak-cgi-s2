@@ -164,10 +164,15 @@ namespace Proftaakrepos.Controllers
                 SQLConnection.ExecuteNonSearchQuery(sqlquery);
 
                 // When an event has type "Verlof" it creates a new Absence request
+                string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0];
                 if (newmodel.themeColor.ToLower() == "verlof")
                 {
-                    string eventID = SQLConnection.ExecuteSearchQuery($"SELECT MAX(EventId) FROM Rooster")[0]; //Aanmaken van verlofverzoek
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Verlofaanvragen (UserID, EventID) VALUES ('{userId}', '{eventID}')");
+                }
+                else
+                {
+                    NotificationSettings settings = new NotificationSettings();
+                    settings.SendRoosterNotifcation(newmodel.userId, eventID);
                 }
             }
         }

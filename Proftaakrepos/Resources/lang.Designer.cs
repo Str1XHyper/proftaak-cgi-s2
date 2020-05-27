@@ -394,6 +394,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No active absence requests.
+        /// </summary>
+        public static string GeenVerlofAanvragen {
+            get {
+                return ResourceManager.GetString("GeenVerlofAanvragen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You do not have expired requests.
         /// </summary>
         public static string GeenVerlopenAanvragen {

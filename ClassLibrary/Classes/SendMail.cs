@@ -38,6 +38,17 @@ namespace ClassLibrary.Classes
             request.AddParameter("application/json", "{\"personalizations\":[{\"to\":[{\"email\":\"" + toEmail + "\",\"name\":\"" + toName + "\"}],\"dynamic_template_data\":{\"firstName\":\"" + firstName + "\",\"href\":\"https://bier-1.democgi.com/Account/PasswordChange?authCode=" + authCode + "&code=" + resetCode + "\"},\"subject\":\"Wachtwoord reset\"}],\"from\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"reply_to\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"template_id\":\"d-901d6b18be644d54864577cb680cd3be\"}", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
         }
+
+        public static void SendNotification(string toEmail, string toName, string firstName, string titel, string beschrijving, string functie)
+        {
+            var client = new RestClient("https://api.sendgrid.com/v3/mail/send");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", "Bearer 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");
+            request.AddParameter("application/json", "{\"personalizations\":[{\"to\":[{\"email\":\"" + toEmail + "\",\"name\":\"" + toName + "\"}],\"dynamic_template_data\":{\"firstName\":\"" + firstName + "\",\"titel\":\"" + titel + "\",\"beschrijving\":\"" + beschrijving + "\",\"functie\":\"" + functie + "\"},\"subject\":\"Wachtwoord reset\"}],\"from\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"reply_to\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"template_id\":\"d-3140b8fa87aa48dcb85e16694f841293\"}", ParameterType.RequestBody); ;
+            IRestResponse response = client.Execute(request);
+        }
+
         public static void SendKlantIncident(string toEmail, string toName, string incidentmsg, string incidentTitel)
         {
             var client = new RestClient("https://api.sendgrid.com/v3/mail/send");

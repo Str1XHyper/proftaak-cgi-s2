@@ -549,4 +549,7 @@
   <data name="Direct" xml:space="preserve">
     <value>Immediately after scheduling</value>
   </data>
+  <data name="GeenVerlofAanvragen" xml:space="preserve">
+    <value>No active absence requests</value>
+  </data>
 </root>
