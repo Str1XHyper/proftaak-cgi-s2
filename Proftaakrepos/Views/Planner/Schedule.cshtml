@@ -19,8 +19,6 @@
     string language = ViewData["language"] as string;
 }
 @*Hidden inputs*@
-<h1>@TempData["test"]</h1>
-
 <input type="hidden" id="eventIdField" />
 <input type="hidden" id="UserID" value="@loggedInUserID" />
 <input id="rol" type="hidden" value="@rol.ToLower()" />
