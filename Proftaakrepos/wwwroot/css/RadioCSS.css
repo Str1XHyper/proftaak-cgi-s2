@@ -1,4 +1,8 @@
-﻿/* The container */
+﻿body{
+    overflow-y: hidden;
+}
+
+/* The container */
 .container {
     display: block;
     position: relative;

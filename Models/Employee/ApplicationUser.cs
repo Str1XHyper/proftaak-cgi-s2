@@ -15,10 +15,11 @@
 
         public string emailsetting { get; set; }
         public string smssetting { get; set; }
+        public string whatsappSetting { get; set; }
         public string currentPassword { get; set; }
         public string newPassword { get; set; }
         public string ConfirmPassword { get; set; }
-        public string ValueOfNoti { get; set; }
+        public int ValueOfNoti { get; set; }
         public string TypeOfAge { get; set; }
     }
 }
