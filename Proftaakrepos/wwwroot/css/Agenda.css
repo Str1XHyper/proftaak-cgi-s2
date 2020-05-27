@@ -379,9 +379,9 @@ span {
     border-color: #76828e !important;
 }
 .token-input{
-    max-height: 44px !important;
 }
-
+.tokenfield {
+}
 @media only screen and (max-width: 725px) {
     .pop-up {
         z-index: 100 !important;
@@ -400,7 +400,7 @@ span {
     }
 
     .fc-title {
-        font-size: calc(9pt + 0.2vw) !important;
+        font-size: calc(7pt + 0.2vw) !important;
         max-width: 50px !important;
         min-width: 0px !important;
     }
@@ -498,4 +498,5 @@ span {
 
     .token-label {
     }
+    
 }

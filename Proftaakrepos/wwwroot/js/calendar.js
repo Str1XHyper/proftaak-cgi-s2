@@ -11,7 +11,7 @@ var origin;
 $(document).ready(async () => {
     modal = $("#eventModal")[0];
     await initTokenField();
-    initModalTokenField();
+    await initModalTokenField();
     SetUserIDs();
     initCalendar();
     handleAbsenceAlert();
@@ -21,9 +21,9 @@ $(document).ready(async () => {
 function initCalendar() {
     var wantedWeekends = true;
     // Set mobile view
-    if (window.innerWidth < 725) {
-        wantedWeekends = false;
-    }
+    //if (window.innerWidth < 725) {
+    //    wantedWeekends = false;
+    //}
     var calendarEl = $("#calendar")[0];
     calendar = new FullCalendar.Calendar(calendarEl, {
         // Set plugins for FullCalendar and set default params.
@@ -133,7 +133,7 @@ function initCalendar() {
         eventResize: (eventResizeInfo) => {
             resizeEvent(eventResizeInfo);
         },
-        
+
     });
 
     // Display calendar
@@ -194,13 +194,11 @@ function moveEvent(eventDropInfo) {
         endtime.setHours(endtime.getHours() + 1);
     }
     $.get("/Planner/UpdateEvent?start=" + eventDropInfo.event.start.toISOString() + "&end=" + endtime.toISOString() + "&eventid=" + eventDropInfo.event.id + "&allday=" + eventDropInfo.event.allDay, (data) => {
-        console.log("updated");
     })
 }
 function resizeEvent(eventResizeInfo) {
     // Execute when you finish dropping an event
     $.get("/Planner/UpdateEvent?start=" + eventResizeInfo.event.start.toISOString() + "&end=" + eventResizeInfo.event.end.toISOString() + "&eventid=" + eventResizeInfo.event.id + "&allday=" + eventResizeInfo.event.allDay, (data) => {
-        console.log("updated");
     })
 }
 function deleteEvent() {
@@ -214,7 +212,6 @@ function getEvents(info, succesCallback, failureCallback) {
     var soort = $("#eventType")[0].selectedOptions[0].value;
     var events;
     $.get('/Planner/FetchAllEvents?userIds=' + UserIDs + "&type=" + soort, (data) => {
-        console.log(data);
         events = data;
     }).done(() => {
         succesCallback(events);
@@ -234,12 +231,18 @@ function tradeEvent() {
 //View related functions
 function changeModalState() {
     //Change a modal's visibility
+    initModalTokenField();
     modal.style.display == "block" ? modal.style.display = "none" : modal.style.display = "block";
 }
 function setModalValues(info) {
+    console.log(info);
     // Set input fields in modal
     if (info != null) {
         $("#modalUserTokens").val(UserIDs);
+        if (origin == "click") {
+            $('#modalUserTokens').tokenfield('setTokens', uname[info.extendedProps.userId - 1]);
+            $("#modalUserTokens").val($('#UserID').val() + ",");
+        }
         typeof info.extendedProps !== 'undefined' ? $("#themeColorField").val(info.extendedProps.soort) : $("#themeColorField").val("Stand-by");
         typeof info.title !== 'undefined' ? $("#titleField").val($("#themeColorField")[0].selectedOptions[0].value) : $("#titleField").val("Stand-by");
         typeof info.extendedProps !== 'undefined' ? $("#descriptionField").val($("#themeColorField")[0].selectedOptions[0].value) : $("#descriptionField").val("Stand-by");
@@ -275,7 +278,8 @@ async function initModalTokenField() {
     })
 
     // Set user in tokenfield
-    $('#modalUserTokens').tokenfield('setTokens', $('#UIDTokenField').tokenfield('getTokens'));
+    if (origin != "click")
+        $('#modalUserTokens').tokenfield('setTokens', $('#UIDTokenField').tokenfield('getTokens'));
 }
 $("#modalUserTokens").on('tokenfield:createtoken', (event) => {
     // When token added to token field
@@ -316,6 +320,7 @@ async function initTokenField() {
         showAutocompleteOnFocus: true
     })
 
+    initModalTokenField();
     // Set user in tokenfield
     $('#UIDTokenField').tokenfield('setTokens', uname[$("#UserID")[0].value - 1]);
 }
@@ -346,7 +351,6 @@ $('#UIDTokenField').on('tokenfield:createdtoken', (event) => {
     SetUserIDs();
     if (calendar != null) {
         calendar.refetchEvents();
-        initModalTokenField();
     }
 });
 $('#UIDTokenField').on('tokenfield:removedtoken', (event) => {
@@ -358,7 +362,6 @@ $('#UIDTokenField').on('tokenfield:removedtoken', (event) => {
     }
     if (calendar != null) {
         calendar.refetchEvents();
-        initModalTokenField();
     }
 });
 $("#eventType").change((info) => {
