@@ -112,6 +112,7 @@ namespace Proftaakrepos.Controllers
             AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
             return View("ChangePassword");
         }
+        [Route("")]
         [HttpGet]
         public IActionResult LoginNew(string extra)
         {
@@ -130,11 +131,6 @@ namespace Proftaakrepos.Controllers
             }
             TempData["test"] = _cookieManager.Get<CookieModel>("BIER.User") != null;
             return View();
-        }
-        [Route("")]
-        public IActionResult Login()
-        {
-            return RedirectToAction("LoginNew");
         }
 
         [HttpPost]
