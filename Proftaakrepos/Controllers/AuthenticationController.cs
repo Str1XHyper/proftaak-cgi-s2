@@ -111,7 +111,7 @@ namespace Proftaakrepos.Controllers
             AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
             return View("ChangePassword");
         }
-        public IActionResult LoginNew(string extra)
+        public IActionResult LoginNew(string? extra)
         {
             if (HttpContext.Session.GetString("UserInfo") != null)
             {

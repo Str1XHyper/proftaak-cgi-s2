@@ -7,11 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using ClassLibrary.Classes;
 using ClassLibrary.Planner;
+using CookieManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using Models.Agenda;
+using Models.Authentication;
 using Ubiety.Dns.Core.Records.NotUsed;
 
 namespace Proftaakrepos.Controllers
@@ -19,11 +21,19 @@ namespace Proftaakrepos.Controllers
     public class PlannerController : Controller
     {
         private static string userId;
+        private readonly ICookieManager _cookieManager;
+        private readonly ICookie _cookie;
         private static string rol;
         private AgendaManager agendamanager = new AgendaManager();
+        public PlannerController(ICookieManager cookieManager, ICookie cookie)
+        {
+            this._cookieManager = cookieManager;
+            this._cookie = cookie;
+        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
+                TempData["test"] = _cookieManager.Get<CookieModel>("BIER.User").Identifier;
             string language = HttpContext.Session.GetString("Culture");
             if (!string.IsNullOrEmpty(language))
             {
