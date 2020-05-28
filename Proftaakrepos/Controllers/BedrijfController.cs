@@ -57,7 +57,7 @@ namespace Proftaakrepos.Controllers
         public IActionResult DeleteColours()
         {
             SQLConnection.ExecuteNonSearchQuery($"DELETE FROM ColorScheme");
-            return RedirectToAction("Agenda");
+            return RedirectToAction("AgendaSettings");
         }
 
         [UserAccess("", "Bedrijfsinstellingen")]

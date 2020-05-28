@@ -165,7 +165,10 @@ function createCalendarEvent() {
     // Called when dragging in the callendar is completed
     SetModalUserIDs();
     enableInputs();
-    $.post("/Planner/CreateEvent", $('#eventForm').serialize()).done(() => {
+    if ($("#themeColorField")[0].selectedOptions[0].value == "Verlof") {
+        $("#modalUserID").val($("#UserID").val());
+    }
+    $.post("/Planner/CreateEvent", $("#eventForm").serialize()).done(() => {
         changeModalState();
         calendar.refetchEvents();
     });

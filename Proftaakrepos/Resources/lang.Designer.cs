@@ -331,6 +331,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filters.
+        /// </summary>
+        public static string Filters {
+            get {
+                return ResourceManager.GetString("Filters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There has been an error in our database..
         /// </summary>
         public static string FoutDataBase {
@@ -448,7 +457,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recover.
+        ///   Looks up a localized string similar to Reset.
         /// </summary>
         public static string Herstel {
             get {

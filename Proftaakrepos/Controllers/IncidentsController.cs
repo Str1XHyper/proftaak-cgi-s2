@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
 using System.Globalization;
 using System.Threading;
+using Models.Incidenten;
 
 namespace Proftaakrepos.Controllers
 {
@@ -30,7 +31,7 @@ namespace Proftaakrepos.Controllers
 
         [UserAccess("","Incidenten")]
         [HttpGet]
-        public IActionResult Index(string? status, int? statusId)
+        public IActionResult Index(string? status, int? statusId, IncidentMailModel model)
         {
             if(status != null && statusId != null)
             {
@@ -42,7 +43,7 @@ namespace Proftaakrepos.Controllers
                 {
                     int i = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(`StatusIDIncident`) FROM  `IncidentUpdates` WHERE `IncidentID` = '{statusId}'")[0]);
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Afgehandeld')");
-                    NotificationsStandBy.NotifySolved();
+                    NotificationsStandBy.NotifySolved(model);
                 }
             }
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");

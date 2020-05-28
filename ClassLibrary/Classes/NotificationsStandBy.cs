@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Incidenten;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,6 @@ namespace ClassLibrary.Classes
     {
         public static bool NotifyStandyBy(AddIncidentModel model)
         {
-            string mailBody1 = $"<div div class='container mt-5'><div class='card'><div class='card-header bg-dark text-white'><div>Incident: {model.IncidentNaam}</div></div><div class='Card-body'><h5 class='card-title'>Er is een incident<br /> Omschrijving: {model.IncidentOmschrijving}</h5></div></div></div>";
             List<string[]> users = GetStandByEmployees();
             if(users.Count > 0)
             {
@@ -27,10 +27,10 @@ namespace ClassLibrary.Classes
             return true;
         }
 
-        public static void NotifySolved()
+        public static void NotifySolved(IncidentMailModel model)
         {
-            SendMail.SendEmployeeIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "msg", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
-            SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", "msg", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sagittis dolor quis tellus viverra, eu viverra erat vehicula. Aliquam mollis.");
+            SendMail.SendEmployeeIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", model.Beschrijving, model.Naam);
+            SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", model.Beschrijving, model.Naam);
         }
 
         public static List<string[]> GetStandByEmployees()
@@ -59,11 +59,14 @@ namespace ClassLibrary.Classes
                                         userInList = true;
                                         break;
                                     }
-                                    users.Add(userInfo);
                                 }
+
                                 if (userInList)
                                 {
                                     break;
+                                } else
+                                {
+                                    users.Add(userInfo);
                                 }
                             }
                             else
@@ -76,6 +79,24 @@ namespace ClassLibrary.Classes
             }
 
             return users;
+
+            //List<string[]> employeeData = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Start,End FROM Rooster");
+            //int standbyUserCount = 0;
+            //string sqlquery = ($"SELECT Distinct Email,Voornaam FROM Werknemers WHERE UserId='");
+            //foreach (string[] data in employeeData)
+            //{
+            //    if (DateTime.Now >= Convert.ToDateTime(data[1]) && Convert.ToDateTime(data[2]) >= DateTime.Now)
+            //    {
+            //        standbyUserCount++;
+            //        sqlquery += data[0] + "' OR UserId='";
+            //    }
+            //}
+            //if (standbyUserCount > 0)
+            //{
+            //    sqlquery.Substring(0, sqlquery.Length - 12);
+            //    return SQLConnection.ExecuteSearchQueryWithArrayReturn(sqlquery);
+            //}
+            //return new List<string[]>();
         }
     }
 }

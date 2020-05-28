@@ -90,13 +90,13 @@ namespace Proftaakrepos.Controllers
             {
                 colors = new List<string>();
                 // Standby
-                colors.Add("#3B5A6F");
+                colors.Add("3B5A6F");
                 // Incidenten
-                colors.Add("#353B45");
+                colors.Add("353B45");
                 // Pauze
-                colors.Add("#828A87");
+                colors.Add("828A87");
                 // Verlof
-                colors.Add("#830101");
+                colors.Add("830101");
             }
 
             // Put result into models
@@ -122,7 +122,7 @@ namespace Proftaakrepos.Controllers
                     title = title,
                     start = DateTime.Parse(row[4]),
                     end = DateTime.Parse(row[5]),
-                    backgroundColor = colors[index],
+                    backgroundColor = "#" + colors[index],
                     allDay = Convert.ToBoolean(Convert.ToInt32(row[7])),
                     description = row[3],
                     borderColor = "#010203",
@@ -149,7 +149,7 @@ namespace Proftaakrepos.Controllers
             // Update event
             SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set Start = '{startTime}',End = '{endTime}',IsFullDay = '{Convert.ToInt32(allday)}' Where EventId = '{eventid}'");
         }
-        [UserAccess("", "Rooster wijzigen")]
+        //[UserAccess("", "Rooster wijzigen")]
         [HttpPost]
         public void CreateEvent(EventModel newmodel)
         {
