@@ -165,7 +165,10 @@ function createCalendarEvent() {
     // Called when dragging in the callendar is completed
     SetModalUserIDs();
     enableInputs();
-    $.post("/Planner/CreateEvent", $('#eventForm').serialize()).done(() => {
+    if ($("#themeColorField")[0].selectedOptions[0].value == "Verlof") {
+        $("#modalUserID").val($("#UserID").val());
+    }
+    $.post("/Planner/CreateEvent", $("#eventForm").serialize()).done(() => {
         changeModalState();
         calendar.refetchEvents();
     });
@@ -458,7 +461,7 @@ $("#themeColorField").change(() => {
         $("#modalUserTokens").tokenfield('disable');
     }
 });
-$("#schedulerToolssubmitButtonHeader").click(slideTools);
+$("#schedulerToolsHeader").click(slideTools);
 $("#pop-up").click(() => {
     $('#pop-up').slideUp(100);
 });
