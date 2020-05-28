@@ -458,7 +458,7 @@ $("#themeColorField").change(() => {
         $("#modalUserTokens").tokenfield('disable');
     }
 });
-$("#schedulerToolsHeader").click(slideTools);
+$("#schedulerToolssubmitButtonHeader").click(slideTools);
 $("#pop-up").click(() => {
     $('#pop-up').slideUp(100);
 });
