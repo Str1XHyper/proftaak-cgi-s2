@@ -385,7 +385,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You do not have permission to access this page!.
+        ///   Looks up a localized string similar to No Access.
         /// </summary>
         public static string GeenToegang {
             get {

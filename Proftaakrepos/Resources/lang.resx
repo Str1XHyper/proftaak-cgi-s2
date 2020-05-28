@@ -223,7 +223,7 @@
     <value>There are no status updates at this time</value>
   </data>
   <data name="GeenToegang" xml:space="preserve">
-    <value>You do not have permission to access this page!</value>
+    <value>No Access</value>
   </data>
   <data name="GeenVerlopenAanvragen" xml:space="preserve">
     <value>You do not have expired requests</value>

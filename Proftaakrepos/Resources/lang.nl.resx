@@ -225,7 +225,7 @@
     <value>Geen incidenten</value>
   </data>
   <data name="GeenToegang" xml:space="preserve">
-    <value>U heeft geen toegang tot deze pagina!</value>
+    <value>Geen toegang</value>
   </data>
   <data name="GeenVerlopenAanvragen" xml:space="preserve">
     <value>U heeft nog geen verlopen aanvragen.</value>
