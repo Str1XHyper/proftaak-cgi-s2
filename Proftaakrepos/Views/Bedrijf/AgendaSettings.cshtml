@@ -12,8 +12,8 @@
 <div class="card-deck">
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Kleurenschema</div>
-        <div class="card-body">
-            <form asp-action="AgendaSettings" asp-controller="Bedrijf">
+        <form asp-action="AgendaSettings" asp-controller="Bedrijf">
+            <div class="card-body">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Standby:</span>
@@ -38,11 +38,13 @@
                     </div>
                     <input type="text" class="form-control jscolor" asp-for="model2.verlofKleur" value="@colours[3]" />
                 </div>
+    </div>
+            <div class="card-footer">
                 <input type="submit" id="submitButton" value="@Proftaakrepos.Resources.lang.Wijzig" class="btn btn-light additional-buttons" />
                 <input asp-action="DeleteColours" type="submit" value="@Proftaakrepos.Resources.lang.Herstel" class="btn btn-danger additional-buttons" style="background-color:#660000 !important" />
-            </form>
-        </div>
-    </div>
+            </div>
+    </form>
+</div>
     <br />
     <div class="card" style="width: 100%">
         @{ PasswordSettingsModel Pmodel = ViewBag.Password;}
@@ -170,6 +172,8 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="card-footer">
             <div style="width: 100% !important; float: left">
                 <input type="submit" value="@Proftaakrepos.Resources.lang.Bevestig" class="btn btn-light additional-buttons" />
             </div>
