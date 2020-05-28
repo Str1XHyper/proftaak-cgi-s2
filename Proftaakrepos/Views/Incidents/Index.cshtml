@@ -4,6 +4,7 @@
 @using System.Linq;
 @using System.Threading.Tasks;
 @using Microsoft.AspNetCore.Mvc;
+@using Models.Incidenten;
 
 @{
     ViewData["Title"] = "Incidenten";
@@ -15,6 +16,10 @@
 
         foreach (string[] incident in incidenten)
         {
+            IncidentMailModel incidentMailModel = new IncidentMailModel() 
+            { Naam = incident[3],
+             Beschrijving = incident[1]
+            };
             int statusCount = 0;
             if (incident[2] == "1")
             {
@@ -52,12 +57,12 @@
                 <div class="card-footer bg-white">
                     @{ if (incident[2] == "0")
                         {
-                            <a class=" btn btn-outline-secondary" asp-action="Index" asp-route-status="1" asp-route-statusId="@incident[0]">Starten</a>
+                            <a class=" btn btn-outline-secondary" asp-action="Index" asp-route-status="1" asp-route-statusId="@incident[0]" asp-route-model="@incidentMailModel">Starten</a>
                         }
                         else if (incident[2] == "1")
                         {
                             <a class=" btn btn-outline-secondary" asp-action="StatusUpdate" asp-route-incidentId="@incident[0]">Status aanpassen</a>
-                            <a class=" btn btn-danger" asp-action="Index" asp-route-status="2" asp-route-statusId="@incident[0]" method="Post">Afgehandeld</a>
+                            <a class=" btn btn-danger" asp-action="Index" asp-route-status="2" asp-route-statusId="@incident[0]" asp-route-model="@incidentMailModel" method="Post">Afgehandeld</a>
                         }
                     }
                 </div>
