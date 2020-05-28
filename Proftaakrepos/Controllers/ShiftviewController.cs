@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
 using Proftaakrepos.Authorize;
+using System;
 using System.Globalization;
 using System.Threading;
 
@@ -48,6 +49,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult CreateRequest(string EventID, string UserID)
         {
+            if (UserID.EndsWith(",")) UserID = UserID.Substring(0, UserID.Length - 1);
             if( EventID == "0")
             {
                 return RedirectToAction("CreateRequest", new { status = "Geen dienst geselecteerd"});
@@ -55,27 +57,12 @@ namespace Proftaakrepos.Controllers
 
             string[] roosterData = SQLConnection.ExecuteSearchQuery($"Select * from Rooster where EventId = {EventID}").ToArray();
 
-            string[] startDates = new string[3];
-            string startTime;
-            string[] endDates = new string[3];
-            string endTime;
+            DateTime start = DateTime.Parse(roosterData[4]);
+            DateTime end = DateTime.Parse(roosterData[5]);
+            DateTime startnew = new DateTime(start.Year, start.Month, start.Day, start.Hour, start.Minute, start.Second);
+            DateTime endnew = new DateTime(end.Year, end.Month, end.Day, end.Hour, end.Minute, end.Second);
 
-            if (roosterData[4].Split(" ")[0].Contains("/"))
-            {
-                startDates = roosterData[4].Split(" ")[0].Split("/");
-                startTime = roosterData[4].Split(" ")[1];
-                endDates = roosterData[5].Split(" ")[0].Split("/");
-                endTime = roosterData[5].Split(" ")[1];
-            }
-            else
-            {
-                startDates = roosterData[4].Split(" ")[0].Split("-");
-                startTime = roosterData[4].Split(" ")[1];
-                endDates = roosterData[5].Split(" ")[0].Split("-");
-                endTime = roosterData[5].Split(" ")[1];
-            }
-
-            SQLConnection.ExecuteNonSearchQuery($"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`,`EventID`) values({UserID}, 0, '{startDates[2]}-{startDates[1]}-{startDates[0]} {startTime}', '{endDates[2]}-{endDates[1]}-{endDates[0]} {endTime}', -1, 0, '{EventID}')");
+            SQLConnection.ExecuteNonSearchQuery($"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`,`EventID`) values({UserID}, 0, '{startnew.ToString("yyyy/MM/dd HH:mm")}', '{endnew.ToString("yyyy/MM/dd HH:mm")}', -1, 0, '{EventID}')");
             SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set IsPending = 1 where EventId = {EventID}");
 
             return RedirectToAction("CreateRequest");

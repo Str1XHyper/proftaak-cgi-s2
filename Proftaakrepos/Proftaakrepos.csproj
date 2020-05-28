@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\api.cshtml" />
     <Content Remove="wwwroot\js\Employees.js" />
   </ItemGroup>
 
@@ -36,8 +35,6 @@
 
   <ItemGroup>
     <None Include="Views\Account\AccessDenied.cshtml" />
-    <None Include="Views\AccountFix\Login.cshtml" />
-    <None Include="Views\AccountFix\Register.cshtml" />
     <None Include="wwwroot\favicon.ico" />
     <None Include="wwwroot\img\img_avatar.png" />
     <None Include="wwwroot\js\fullcalendar\bootstrap\main.esm.js" />
@@ -337,7 +334,7 @@
     <Content Update="wwwroot\js\moment.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\js\myCalendar.js">
+    <Content Update="wwwroot\js\myCalendar_backup.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\js\MySQLManager.js">
@@ -373,6 +370,13 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>lang.nl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\lang.ja.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploadedimages\" />
   </ItemGroup>
 
 

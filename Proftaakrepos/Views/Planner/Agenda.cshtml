@@ -30,7 +30,6 @@
 
 </head>
 <body>
-
     @{
         string[] verlofCount = ViewData["verlof"] as string[];
         string[] colours = ViewData["colours"] as string[];
@@ -201,9 +200,9 @@
                         }
                         else
                         {
-                            <input type="button" id="employee-func-btn-verlof" value="Verlof aanvragen" class="btn btn-outline-secondary" onclick="HandleRequest(); RemoveEvents;" style="display: none" />
+                            <input type="button" id="employee-func-btn-verlof" value="@Proftaakrepos.Resources.lang.VerlofAanvragen" class="btn btn-outline-secondary" onclick="HandleRequest(); RemoveEvents;" style="display: none" />
                         }
-                        <input type="button" id="employee-func-btn" value="Ruilverzoek aanmaken" class="btn btn-outline-secondary" onclick="TradeEvent(); RemoveEvents();" style="display: none" />
+                        <input type="button" id="employee-func-btn" value="@Proftaakrepos.Resources.lang.RuilverzoekenAanmaken" class="btn btn-outline-secondary" onclick="TradeEvent(); RemoveEvents();" style="display: none" />
                     </form>
 
                 </div>

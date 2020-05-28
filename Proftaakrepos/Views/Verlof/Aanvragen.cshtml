@@ -5,10 +5,10 @@
     List<string[]> stonkers = ViewData["events"] as List<string[]>;
 }
 
-<h1>Openstaande verlof aanvragen</h1>
+    <h1>@Proftaakrepos.Resources.lang.VerlofAanvragen</h1>
 
 <div class="card mb-4">
-    <div class="card-header bg-dark text-white">Verlofverzoeken accepteren</div>
+    <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.VerlofAanvragen</div>
     <div class="card-body">
         <div class="container-fluid">
             <ul class="list-group">
@@ -20,8 +20,8 @@
 
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="row">
-                                        <div class="column col-md-6"><label>Medewerker: <strong>@array[0]</strong></label></div>
-                                        <div class="column col-sm-6"><label>Van: <strong>@array[6]</strong>&nbsp;Tot: <strong>@array[7]</strong></label></div>
+                                        <div class="column col-md-6"><label>@Proftaakrepos.Resources.lang.Employee <strong>@array[0]</strong></label></div>
+                                        <div class="column col-sm-6"><label>@Proftaakrepos.Resources.lang.Van: <strong>@array[6]</strong>&nbsp;@Proftaakrepos.Resources.lang.Tot: <strong>@array[7]</strong></label></div>
                                         <div class="column col-md-6"><label>Reden: <strong>@array[5]</strong></label></div>
                                     </div>
                                     <div class="input-group-append">
@@ -37,9 +37,9 @@
                     }
                     if (!areThereRequests)
                     {
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                Er zijn geen verlofverzoeken.
-                        </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @Proftaakrepos.Resources.lang.GeenVerlofAanvragen
+            </li>
                     }
                 }
             </ul>

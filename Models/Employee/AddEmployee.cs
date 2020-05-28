@@ -15,6 +15,9 @@
 
         public string emailsetting { get; set; }
         public string smssetting { get; set; }
+        public string whatsappSetting { get; set; }
+        public int ValueOfNoti { get; set; }
+        public string TypeOfAge { get; set; }
 
     }
 }

@@ -1,0 +1,161 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "TestAgenda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/js/fullcalendar/core/main.css" rel="stylesheet" />
+<link href="~/js/fullcalendar/daygrid/main.css" rel="stylesheet" />
+<link href="~/js/fullcalendar/timegrid/main.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/Agenda.css" />
+<link href="~/css/main.min.css" rel="stylesheet" />
+<link href="~/css/bootstrap-tokenfield.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+@*Set variables*@
+@{
+    string[] verlofCount = ViewData["verlof"] as string[];
+    string rol = ViewData["rol"].ToString();
+    string loggedInUserID = Context.Session.GetInt32("UserInfo.ID").ToString();
+    string language = ViewData["language"] as string;
+}
+@*Hidden inputs*@
+<input type="hidden" id="eventIdField" />
+<input type="hidden" id="UserID" value="@loggedInUserID" />
+<input id="rol" type="hidden" value="@rol.ToLower()" />
+<input type="hidden" id="language" value="@language" />
+@*Scheduler Tools*@
+@{
+    if (rol.ToLower() == "roostermaker")
+    {
+        @*Furlough Alert*@
+        if (verlofCount[0] != "0")
+        {
+            if (verlofCount[0] == "1")
+            {
+                <div id="pop-up" class="alert alert-danger" role="alert">
+                    Er staat nog <a style="color: white" href="/Verlof/Aanvragen">@verlofCount[0] verlofaanvraag</a> open.
+                </div>
+            }
+            else
+            {
+                <div id="pop-up" class="alert alert-danger" role="alert">
+                    Er staan nog <a style="color: white" href="/Verlof/Aanvragen">@verlofCount[0] verlofaanvragen</a> open.
+                </div>
+            }
+        }
+        @*Selecting what/whose events to display*@
+        <div class="card mb-4">
+            <div id="schedulerToolsHeader" class="scheduler-tools card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">@Proftaakrepos.Resources.lang.Filters:</div>
+            <div id="scheduler-tools" class="card-body bg-white werknemer-header">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Employee:</span>
+                    </div>
+                    <input type="hidden" class="form-control" id="UIDTokenField" autocomplete="off" />
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Type:</span>
+                    </div>
+                    <select class="form-control" id="eventType">
+                        <option selected value="all">@Proftaakrepos.Resources.lang.Allemaal</option>
+                        <option value="Stand-by">Stand-by</option>
+                        <option value="Incidenten">@Proftaakrepos.Resources.lang.Incidenten</option>
+                        <option value="Pauze">@Proftaakrepos.Resources.lang.Pauze</option>
+                        <option value="Verlof">@Proftaakrepos.Resources.lang.Verlof</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <select style="display: none" class="form-control" id="eventType"><option selected value="all"></option></select>
+    }
+}
+@*Calendar*@
+<div class="card mb-4">
+    <div id="button-header" class="card-header bg-dark text-white" style="border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;">@Proftaakrepos.Resources.lang.Rooster:</div>
+    <div class="card-body bg-white">
+        <div id="calendar"></div>
+    </div>
+</div>
+
+@*Create/Edit/View Modal*@
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span onclick="changeModalState()" class="close">&times;</span>
+        <form id="eventForm" asp-action="CreateEvent" asp-controller="Planner" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @{EventModel newmodel = new EventModel();}
+            @{
+                @*Hidden inputs*@
+                <input type="hidden" asp-for="@newmodel.userId" id="modalUserID" value="@loggedInUserID" />
+                <input id="eventIdField" type="hidden" asp-for="@newmodel.eventId" />
+
+                @*Input fields*@
+                if (rol.ToLower() == "roostermaker")
+                {
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend"><span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.Werknemer: </span></div>
+                        <input type="hidden" class="form-control" id="modalUserTokens" value="" asp-for="@newmodel.voornaam" autocomplete="off" />
+                    </div>
+                }
+            }
+            <div class="input-group mb-3">
+                <div class="input-group-prepend"><span class="input-group-text" id="basic-addon3">Type: </span></div>
+                <select asp-for="@newmodel.themeColor" class="form-control" id="themeColorField">
+                    <option selected value="Stand-by">Stand-by</option>
+                    <option value="Incidenten">@Proftaakrepos.Resources.lang.Incidenten</option>
+                    <option value="Pauze">@Proftaakrepos.Resources.lang.Pauze</option>
+                    <option value="Verlof">@Proftaakrepos.Resources.lang.Verlof</option>
+                </select>
+                <span asp-validation-for="@newmodel.themeColor" class="text-danger"></span>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.Titel: </span>
+                </div>
+                <input id="titleField" asp-for="@newmodel.title" class="form-control" value="" />
+                <span asp-validation-for="@newmodel.title" class="text-danger"></span>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.Beschrijving: </span>
+                </div>
+                <input id="descriptionField" asp-for="@newmodel.description" class="form-control" value="" />
+                <span asp-validation-for="@newmodel.description" class="text-danger"></span>
+            </div>
+            <input type="hidden" id="startField" asp-for="@newmodel.startDate" class="form-control" />
+            <input type="hidden" id="endField" asp-for="@newmodel.endDate" class="form-control" />
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.HeleDag: </span>
+                </div>
+                <select asp-for="@newmodel.isFullDay" class="form-control" id="fullDayField">
+                    <option selected value="0">@Proftaakrepos.Resources.lang.Nee</option>
+                    <option value="1">@Proftaakrepos.Resources.lang.Ja</option>
+                </select>
+            </div>
+            @if (rol.ToLower() == "roostermaker")
+            {
+                <input type="button" id="deletebtn" value="@Proftaakrepos.Resources.lang.Verwijder" class="btn btn-danger additional-buttons" style="border-color: black; background-color:#660000 !important" />
+                <input type="button" id="submitButton" value="@Proftaakrepos.Resources.lang.Bevestig" class="btn btn-light additional-buttons" style="border-color: black !important" />
+            }
+            else
+            {
+                <input type="button" id="verlofbtn" value="Verlof aanvragen" class="btn btn-outline-secondary" style="display: none" />
+                <input type="button" id="tradebtn" value="Ruilverzoek aanmaken" onclick="tradeEvent()" class="btn btn-outline-secondary" style="display: none" />
+            }
+        </form>
+
+    </div>
+</div>
+
+<script src="~/js/fullcalendar/core/main.js"></script>
+<script src="~/js/fullcalendar/daygrid/main.js"></script>
+<script src="~/js/fullcalendar/timegrid/main.js"></script>
+<script src="~/js/fullcalendar/interaction/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js" integrity="sha256-l6+Sy1aRcXA+XZ/kFMXGnQcAEpB8Hlx4SCCpQ5TpyEs=" crossorigin="anonymous"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/js/calendar.js"></script>

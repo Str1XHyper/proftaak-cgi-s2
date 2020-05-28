@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Proftaakrepos
 {
@@ -64,11 +64,11 @@ namespace Proftaakrepos
             //    app.UseHsts();
             //}
             //app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+
             app.UseSession();
             //app.UseForwardedHeaders(new ForwardedHeadersOptions
             //{
@@ -81,7 +81,7 @@ namespace Proftaakrepos
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Authentication}/{action=LoginNew}/{id?}");
+                    pattern: "{controller=Authentication}/{action=Login}/{id?}");
             });
         }
     }

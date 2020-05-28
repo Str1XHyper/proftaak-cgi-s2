@@ -5,7 +5,7 @@
     "background_color": "grey",
     "display": "standalone",
     "scope": "/",
-    "start_url": "/Planner/Agenda",
+    "start_url": "/Planner/Schedule",
     "icons": [
         {
             "src": "img/cgi.png",

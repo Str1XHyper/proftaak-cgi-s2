@@ -187,20 +187,20 @@
                     <label asp-for="themeColor" class="control-label">Soort: </label>
                     <select asp-for="themeColor" class="form-control" id="themeColorField" name="themeColor" value="@_userData[6]">
                         <option selected="@(_userData[6] == "#E9967A")" value="#E9967A">Stand-by</option>
-                        <option selected="@(_userData[6] == "#98FB98")" value="#98FB98">Incidenten</option>
-                        <option selected="@(_userData[6] == "#FFFF99")" value="#FFFF99">Pauze</option>
-                        <option selected="@(_userData[6] == "#D8BFD8")" value="#D8BFD8">Verlof</option>
-                        <option selected="@(_userData[6] == "#87CEFA")" value="#87CEFA">Noodgevallen</option>
+                        <option selected="@(_userData[6] == "#98FB98")" value="#98FB98">@Proftaakrepos.Resources.lang.Incidenten</option>
+                        <option selected="@(_userData[6] == "#FFFF99")" value="#FFFF99">@Proftaakrepos.Resources.lang.Verlof</option>
+                        <option selected="@(_userData[6] == "#D8BFD8")" value="#D8BFD8">@Proftaakrepos.Resources.lang.Verlof</option>
+                        <option selected="@(_userData[6] == "#87CEFA")" value="#87CEFA">@Proftaakrepos.Resources.lang.Noodgevallen</option>
                     </select>
                     <span asp-validation-for="themeColor" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="isFullDay" class="control-label">Hele dag: </label>
+                    <label asp-for="isFullDay" class="control-label">@Proftaakrepos.Resources.lang.HeleDag: </label>
                     <input id="fullDayField" asp-for="isFullDay" class="form-control" value="@_userData[7]" />
                     <span asp-validation-for="isFullDay" class="text-danger"></span>
                 </div>
-                <input type="submit" value="Wijzig" class="btn btn-primary" formmethod="post" />
-                <input type="button" value="Verwijder" class="btn btn-primary" onclick="DeleteEvent(eventId)"/>
+                <input type="submit" value="@Proftaakrepos.Resources.lang.Wijzig" class="btn btn-primary" formmethod="post" />
+                <input type="button" value="@Proftaakrepos.Resources.lang.Verwijder" class="btn btn-primary" onclick="DeleteEvent(eventId)"/>
             </form>
             
 

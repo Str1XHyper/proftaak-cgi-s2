@@ -31,6 +31,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
+            TempData["test"] = (_cookieManager.Get<CookieModel>("BIER.User") != null).ToString() + " WHAT THE FUCK";
             CookieModel cookie = new CookieModel()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -49,20 +50,21 @@ namespace Proftaakrepos.Controllers
                     cookie.Role = GetAccessLevel.GetRol(authCode);
                     if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
                     SetSession(authCode);
-                    return RedirectToAction("Agenda", "Planner");
+                    return RedirectToAction("Schedule", "Planner");
                 case "wrongEntry":
                     ViewData["Error"] = "Verkeerde e-mail of wachtwoord combinatie.";
                     AddLogin(false, model.Username, model.IP);
-                    break;
+                    return View("LoginNew");
                 case "multipleEntries":
                     ViewData["Error"] = "Meerdere accounts gevonden met dit e-mail.";
-                    break;
+                    return View("LoginNew");
                 case "massiveError":
                     ViewData["Error"] = "Godverdomme Bart, hoe moeilijk is het?";
-                    break;
+                    return View("LoginNew");
+                default:
+                    return View("ChangePassword");
 
             }
-            return View("LoginNew");
         }
 
         private void SetSession(string authCode)
@@ -101,7 +103,6 @@ namespace Proftaakrepos.Controllers
 
         public IActionResult ChangePassword()
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
             return View();
         }
 
@@ -111,22 +112,27 @@ namespace Proftaakrepos.Controllers
             AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
             return View("ChangePassword");
         }
+        [HttpGet]
         public IActionResult LoginNew(string extra)
         {
             if (HttpContext.Session.GetString("UserInfo") != null)
             {
-                return RedirectToAction("Agenda", "Planner");
+                return RedirectToAction("Schedule", "Planner");
             }
             if (_cookieManager.Get<CookieModel>("BIER.User") != null)
             {
                 SetSession(_cookieManager.Get<CookieModel>("BIER.User").Identifier);
-                return RedirectToAction("Agenda", "Planner");
+                return RedirectToAction("Schedule", "Planner");
             }
             if (extra != null)
             {
                 ViewData["Error"] = "Succesvol uitgelogd.";
             }
             return View();
+        }
+        public IActionResult Login()
+        {
+            return RedirectToAction("LoginNew");
         }
 
         [HttpPost]

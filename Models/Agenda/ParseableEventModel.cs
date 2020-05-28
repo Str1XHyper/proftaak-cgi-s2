@@ -16,5 +16,6 @@ namespace Models.Agenda
         public string borderColor { get; set; }
         public string userId { get; set; }
         public string soort { get; set; }
+        public bool editable { get; set; }
     }
 }

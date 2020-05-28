@@ -14,7 +14,7 @@ namespace ClassLibrary.Planner
         }
         public string[] GetLoggedInUserData(string var)
         {
-            return SQLConnection.ExecuteSearchQuery($"Select Rol,UserId From Werknemers Where AuthCode = '{var}'").ToArray();
+            return SQLConnection.ExecuteSearchQuery($"Select Rol,UserId,ProfielFoto From Werknemers Where AuthCode = '{var}'").ToArray();
         }
         public List<EventModel> GetEvents()
         {

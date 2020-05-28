@@ -15,8 +15,17 @@
     {
         EmployeeInfo = new string[12];
     }
+    string[] employeeSettings;
+    if(EmployeeInfo[0] != null)
+    {
+        employeeSettings = ChangeSettings.getSettings(EmployeeInfo[0]);
+    }
+    else
+    {
+        employeeSettings = new string[6];
+    }
 }
-<p style="color: green; font-size: 20px;">@ViewData["msg"]</p>
+<p style="color: green; font-size: 20px;">@TempData["msg"]</p>
 <link rel="stylesheet" type="text/css" href="~/css/addEmployee.css">
 <div class="card mb-3">
     <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Werknemer:</div>
@@ -25,8 +34,8 @@
             <div class="input-group">
                 <select class="custom-select" id="inputGroupSelect04" name="employee" onchange="execForm()">
                     @{
-                        
-                    Employees employees = new Employees();
+
+                        Employees employees = new Employees();
                         List<string[]> Werknemers = employees.NamesTest();
                         foreach (string[] array in Werknemers)
                         {
@@ -100,7 +109,16 @@
                                 string[] roles = ViewData["roles"] as string[];
                                 for (int i = 0; i < roles.Length; i++)
                                 {
-                                    <option value="@roles[i]">@roles[i]</option>
+                                    if (@roles[i].ToLower() == "roostermaker")
+                                    {
+                                        <option value="@roles[i]">@Proftaakrepos.Resources.lang.Roostermaker</option>
+
+                                    }
+                                    else if (@roles[i].ToLower() == "medewerker")
+                                    {
+                                        <option value="@roles[i]">@Proftaakrepos.Resources.lang.Employee</option>
+
+                                    }
                                 }
                             }
                         }
@@ -154,78 +172,95 @@
             <div class="card-body">
                 <div class="custom-control custom-switch">
                     @{
-                        string[] employeeSettings;
-                        if (EmployeeInfo[0] != null)
+                        if (employeeSettings[1] == "True")
                         {
-                            employeeSettings = ChangeSettings.getSettings(EmployeeInfo[0]);
-                            if (employeeSettings.Length > 2)
-                            {
-                                if (employeeSettings[1].ToLower() == "true")
-                                {
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting" checked>
-                                        <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
-                                    </div>
-                                    <br />
-                                }
-                                else
-                                {
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
-                                        <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
-                                    </div>
-                                    <br />
-                                }
-                                if (employeeSettings[2].ToLower() == "true")
-                                {
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting" checked>
-                                        <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
-                                        <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
-                                    </div>
-                                }
-                            }
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting" checked>
                         }
                         else
                         {
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
-                                <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
-                            </div>
-                            <br />
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
-                                <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
-                            </div>
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch1" asp-for="emailsetting">
                         }
-                        <br />
-                        <label for="basic-url">Heads-up notificatie bij inplanning</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control">
-                            <select class="custom-select" id="inputGroupSelect01">
-                                <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
-                                <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
-                                <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
-                            </select>
-                        </div>
                     }
+                    <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
+                </div>
+                @*<br />*@
+                <div class="custom-control custom-switch">
+                    @{
+                        if (employeeSettings[2] == "True")
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting" checked>
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
+                        }
+                    }
+                    <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSNotificatie</label>
+                </div>
+                <div class="custom-control custom-switch">
+                    @{
+                        if (employeeSettings[3] == "True")
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch3" asp-for="whatsappSetting" checked>
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch3" asp-for="whatsappSetting">
+                        }
+                    }
+                    <label class="custom-control-label" for="customSwitch3">@Proftaakrepos.Resources.lang.Whatsapp</label>
+                </div>
+                <br />
+                <label for="basic-url">@Proftaakrepos.Resources.lang.HeadsUp</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <input type="number" class="form-control" asp-for="ValueOfNoti" value="@employeeSettings[4]" min="0" id="inputValue">
+                    </div>
+                    <select class="custom-select" id="ageSelect" asp-for="TypeOfAge" onchange="OnChange()">
+                        @{
+                            switch (employeeSettings[5])
+                            {
+                                case "0":
+                                    <option value="0" selected>@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
+                                    break;
+                                case "1":
+                                    <option value="0">@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1" selected>@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
+                                    break;
+                                case "2":
+                                    <option value="0">@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2" selected>@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
+                                    break;
+                                case "3":
+                                    <option value="0">@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3" selected>@Proftaakrepos.Resources.lang.Maanden</option>
+                                    break;
+                            }
+                        }
+                    </select>
                 </div>
                 <input type="hidden" name="oldEmail" value="@EmployeeInfo[4]" />
             </div>
-            <div class="row justify-content-end">
-                <div class="col-auto">
-                    <div class="input-group float-right">
-                        <button class="btn btn-outline-success mb-1 mr-1" method="post" type="submit">
-                            @Proftaakrepos.Resources.lang.WijzigGegevens
-                        </button>
+            <div class="card-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <div class="input-group float-right">
+                            <button class="btn btn-outline-success mb-1 mr-1" method="post" type="submit">
+                                @Proftaakrepos.Resources.lang.WijzigGegevens
+                            </button>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -235,4 +270,15 @@
     function execForm() {
         document.getElementById("getEmployee").submit();
     }
+</script>
+
+<script>
+    function OnChange() {
+        if ($("#ageSelect").val() == 0) {
+            $("#inputValue").hide()
+        } else {
+            $("#inputValue").show()
+        }
+    }
+    OnChange()
 </script>

@@ -134,6 +134,7 @@
 .fc-widget-header, fc-unthemed {
     background-color: white !important;
     border-color: black !important;
+    font-size: calc(5pt + 0.4vw);
 }
 
 .fc-divider {
@@ -194,6 +195,7 @@
     font-size: 20px !important;
     font-weight: bold;
     line-height: 1em !important;
+    cursor: pointer;
 }
 
 .alert {
@@ -204,6 +206,16 @@
     z-index: 100;
     width: 100%;
 }
+
+#pop-up {
+    cursor: pointer;
+    background-color: #8c000e;
+    color: white;
+    border-color: #8c000e;
+}
+    #pop-up:hover {
+        background-color: #72010c;
+    }
 
 /*moving the closebutton right/up a bit.
 modal-content {
@@ -329,18 +341,15 @@ span {
 }
 
 .fc-dayGridMonth {
-    width: calc(60px + 11%) !important;
+    width: calc(60px + 11%);
 }
 
 .form-control {
-    font-size: calc(7pt + 0.3vw) !important;
+    font-size: calc(7pt + 0.3vw);
     box-shadow: inherit;
 }
 
 .fontawesome-i2svg-active {
-}
-
-.tokenfield {
 }
 
 .card-header {
@@ -369,7 +378,10 @@ span {
     background-color: #76828e !important;
     border-color: #76828e !important;
 }
-
+.token-input{
+}
+.tokenfield {
+}
 @media only screen and (max-width: 725px) {
     .pop-up {
         z-index: 100 !important;
@@ -388,7 +400,7 @@ span {
     }
 
     .fc-title {
-        font-size: calc(9pt + 0.2vw) !important;
+        font-size: calc(7pt + 0.2vw) !important;
         max-width: 50px !important;
         min-width: 0px !important;
     }
@@ -486,4 +498,5 @@ span {
 
     .token-label {
     }
+    
 }

@@ -11,7 +11,7 @@
 @{string[] colours = ViewData["colours"] as string[];}
 <div class="card-deck">
     <div class="card" style="width: 100%">
-        <div class="card-header bg-dark text-white">Kleurenschema</div>
+        <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Kleurenschema</div>
         <div class="card-body">
             <form asp-action="AgendaSettings" asp-controller="Bedrijf">
                 <div class="input-group mb-3">
@@ -22,179 +22,157 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Pauze:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Pauze:</span>
                     </div>
                     <input type="text" class="form-control jscolor" asp-for="model2.pauzeKleur" value="@colours[1]" />
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Incidenten:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Incidenten:</span>
                     </div>
                     <input type="text" class="form-control jscolor" asp-for="model2.incidentKleur" value="@colours[2]" />
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Verlof:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Verlof:</span>
                     </div>
                     <input type="text" class="form-control jscolor" asp-for="model2.verlofKleur" value="@colours[3]" />
                 </div>
-                <input type="submit" id="submitButton" value="Wijzig" class="btn btn-light additional-buttons" />
-                <input asp-action="DeleteColours" type="submit" value="Herstel" class="btn btn-danger additional-buttons" style="background-color:#660000 !important" />
+                <input type="submit" id="submitButton" value="@Proftaakrepos.Resources.lang.Wijzig" class="btn btn-light additional-buttons" />
+                <input asp-action="DeleteColours" type="submit" value="@Proftaakrepos.Resources.lang.Herstel" class="btn btn-danger additional-buttons" style="background-color:#660000 !important" />
             </form>
         </div>
     </div>
     <br />
-    <div class="card">
-        <div class="card-header bg-dark text-white">Wachtwoord vereisten</div>
+    <div class="card" style="width: 100%">
+        @{ PasswordSettingsModel Pmodel = ViewBag.Password;}
+        <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.MinKarakters</div>
         <div class="card-body">
             <form asp-action="PasswordSettings" asp-controller="Bedrijf">
-                <div class="row">
-                    @{
-                        PasswordSettingsModel Pmodel = ViewBag.Password;
-                        <div class="column mb-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" id="basic-addon1" style="width: 175px">Min. karakters</label>
-                                </div>
-                            </div>
+                <div class="password-setting-container">
+                    <div class="input-group mb-3 password-setting">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.MinKarakters:</span>
                         </div>
-                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                            <div>
-                                <input type="number" style="width: 68px; border: none;" asp-for="model1.Karakters" value="@Pmodel.Karakters"/>
-                            </div>
+                        <input type="text" class="form-control password-setting-field pl-3" asp-for="model1.Karakters" value="@Pmodel.Karakters" />
+                    </div>
+                    <div class="input-group mb-3 password-setting">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Nummer:</span>
                         </div>
-
-                        <div class="column mb-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" id="basic-addon1" style="width: 150px">Nummer</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                            <div>
-                                <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
-                                    @{
-                                        if (Pmodel.Nummer == true)
-                                        {
-                                            <input type="checkbox" class="pl-3" checked asp-for="model1.Nummer" />
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" class="pl-3" asp-for="model1.Nummer" />
-                                        }
+                        <div class="pl-3">
+                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                @{
+                                    if (Pmodel.Nummer == true)
+                                    {
+                                        <input type="checkbox" class="pl-3 password-setting-field" checked asp-for="model1.Nummer" />
                                     }
-                                    <div class="state p-on">
-                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="green" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
-                                        <label class="ml-1">Wel</label>
-                                    </div>
-                                    <div class="state p-off">
-                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="red" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="red" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
-                                        <label class="ml-1">Niet</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="column mb-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" id="basic-addon1" style="width: 150px">Speciaal karakter</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                            <div>
-                                <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
-                                    @{
-                                        if (Pmodel.Speciaal == true)
-                                        {
-                                            <input type="checkbox" class="pl-3" checked asp-for="model1.Speciaal" />
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" class="pl-3" asp-for="model1.Speciaal" />
-                                        }
+                                    else
+                                    {
+                                        <input type="checkbox" class="pl-3 password-setting-field" asp-for="model1.Nummer" />
                                     }
-                                    <div class="state p-on">
-                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="green" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
-                                        <label class="ml-1">Wel</label>
-                                    </div>
-                                    <div class="state p-off">
-                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="red" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="red" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
-                                        <label class="ml-1">Niet</label>
-                                    </div>
+                                }
+                                <div class="state p-on">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="green" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                    <label class="ml-1">@Proftaakrepos.Resources.lang.Wel</label>
+                                </div>
+                                <div class="state p-off">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="red" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="red" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                    <label class="ml-1">@Proftaakrepos.Resources.lang.Niet</label>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="column mb-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" id="basic-addon1" style="width: 150px">Hoofdletter</label>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="password-setting-container">
+                    <div class="input-group mb-3 password-setting">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.SpecKarakter:</span>
                         </div>
-                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                            <div>
-                                <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
-                                    @{
-                                        if (Pmodel.Hoofdletter == true)
-                                        {
-                                            <input type="checkbox" class="pl-3" checked asp-for="model1.Hoofdletter" />
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" class="pl-3" asp-for="model1.Hoofdletter" />
-                                        }
+                        <div class="pl-3">
+                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                @{
+                                    if (Pmodel.Speciaal == true)
+                                    {
+                                        <input type="checkbox" class="pl-3 password-setting-field" checked asp-for="model1.Speciaal" />
                                     }
-                                    <div class="state p-on">
-                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="green" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
-                                        <label class="ml-1">Wel</label>
-                                    </div>
-                                    <div class="state p-off">
-                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="red" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="red" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
-                                        <label class="ml-1">Niet</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="column mb-1">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" id="basic-addon1" style="width: 150px">Kleine letter</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="column pt-1 pl-1 mr-2 mb-1 border rounded-right border-dark" style="width: 75px">
-                            <div>
-                                <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
-                                    @{
-                                        if (Pmodel.KleineLetter == true)
-                                        {
-                                            <input type="checkbox" class="pl-3" checked asp-for="model1.KleineLetter" />
-                                        }
-                                        else
-                                        {
-                                            <input type="checkbox" class="pl-3" asp-for="model1.KleineLetter" />
-                                        }
+                                    else
+                                    {
+                                        <input type="checkbox" class="pl-3 password-setting-field" asp-for="model1.Speciaal" />
                                     }
-                                    <div class="state p-on">
-                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="green" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
-                                        <label class="ml-1">Wel</label>
-                                    </div>
-                                    <div class="state p-off">
-                                        <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="red" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="red" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
-                                        <label class="ml-1">Niet</label>
-                                    </div>
+                                }
+                                <div class="state p-on">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="green" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                    <label class="ml-1">@Proftaakrepos.Resources.lang.Wel</label>
+                                </div>
+                                <div class="state p-off">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="red" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="red" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                    <label class="ml-1">@Proftaakrepos.Resources.lang.Niet</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="column"><button type="submit" class="btn btn-success" style="width:250px">Pas instellingen aan</button></div>
-                    }
+                    </div>
+                    <div class="input-group mb-3 password-setting">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Hoofdletter:</span>
+                        </div>
+                        <div class="pl-3">
+                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                @{
+                                    if (Pmodel.Hoofdletter == true)
+                                    {
+                                        <input type="checkbox" class="pl-3 password-setting-field" checked asp-for="model1.Hoofdletter" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" class="pl-3 password-setting-field" asp-for="model1.Hoofdletter" />
+                                    }
+                                }
+                                <div class="state p-on">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="green" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                    <label class="ml-1">Wel</label>
+                                </div>
+                                <div class="state p-off">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="red" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="red" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                    <label class="ml-1">Niet</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="password-setting-container">
+                    <div class="input-group mb-3 password-setting">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Kleine letter:</span>
+                        </div>
+                        <div class="pl-3">
+                            <div class="pretty p-svg p-toggle p-bigger p-plain pb-0">
+                                @{
+                                    if (Pmodel.KleineLetter == true)
+                                    {
+                                        <input type="checkbox" class="pl-3 password-setting-field" checked asp-for="model1.KleineLetter" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" class="pl-3 password-setting-field" asp-for="model1.KleineLetter" />
+                                    }
+                                }
+                                <div class="state p-on">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="check"><polyline fill="none" stroke="green" stroke-width="2.1" points="4,10 8,15 17,4"></polyline></svg>
+                                    <label class="ml-1">Wel</label>
+                                </div>
+                                <div class="state p-off">
+                                    <svg class="svg svg-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="close"><path fill="none" stroke="red" stroke-width="2.06" d="M16,16 L4,4"></path><path fill="none" stroke="red" stroke-width="1.06" d="M16,4 L4,16"></path></svg>
+                                    <label class="ml-1">Niet</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
+            <div style="width: 100% !important; float: left">
+                <input type="submit" value="@Proftaakrepos.Resources.lang.Bevestig" class="btn btn-light additional-buttons" />
+            </div>
         </div>
     </div>
 </div>

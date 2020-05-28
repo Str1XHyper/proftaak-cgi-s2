@@ -18,19 +18,19 @@
     <input type="hidden" asp-for="StatusIdIncident" value="@Model.StatusIdIncident" />
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3" style="width:175px">Status Naam: </span>
+            <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.StatusNaam: </span>
         </div>
         <input type="text" class="form-control" asp-for="StatusNaam" value="@Model.StatusNaam">
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Status Omschrijving: </span>
+            <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.StatusOmschrijving: </span>
         </div>
         <input type="text" class="form-control" asp-for="StatusOmschrijving" value="@Model.StatusOmschrijving">
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Start datum en tijd: </span>
+            <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.StartDatumEnTijd: </span>
         </div>
         <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Parse(Model.Start).ToString("yyyy/MM/dd HH:mm")">
         <script>
@@ -44,7 +44,7 @@
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3">Eind datum en tijd: </span>
+            <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.EindDatumEnTijd: </span>
         </div>
         <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Parse(Model.End).ToString("yyyy/MM/dd HH:mm")">
         <script>
@@ -55,6 +55,6 @@
             $.datetimepicker.setLocale('nl');
         </script>
     </div>
-    <input type="submit" class="btn btn-outline-secondary" value="Wijzig">
+    <input type="submit" class="btn btn-outline-secondary" value="@Proftaakrepos.Resources.lang.Wijzig">
     <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@Model.IncidentID">Cancel</a>
 </form>
