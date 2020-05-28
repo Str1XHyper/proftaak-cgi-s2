@@ -15,25 +15,18 @@ using Models;
 using Models.Agenda;
 using Models.Authentication;
 using Ubiety.Dns.Core.Records.NotUsed;
+using Proftaakrepos.Authorize;
 
 namespace Proftaakrepos.Controllers
 {
     public class PlannerController : Controller
     {
         private static string userId;
-        private readonly ICookieManager _cookieManager;
-        private readonly ICookie _cookie;
         private static string rol;
         private AgendaManager agendamanager = new AgendaManager();
-        public PlannerController(ICookieManager cookieManager, ICookie cookie)
-        {
-            this._cookieManager = cookieManager;
-            this._cookie = cookie;
-        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
-            TempData["test"] = _cookieManager.Get<CookieModel>("BIER.User").ToString();
             string language = HttpContext.Session.GetString("Culture");
             if (!string.IsNullOrEmpty(language))
             {
@@ -41,6 +34,7 @@ namespace Proftaakrepos.Controllers
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
             }
         }
+        [UserAccess("","Rooster")]
         public IActionResult Schedule()
         {
             string var = HttpContext.Session.GetString("UserInfo");
@@ -57,6 +51,7 @@ namespace Proftaakrepos.Controllers
                 ViewData["language"] = HttpContext.Session.GetString("Culture");
             return View();
         }
+        [UserAccess("", "Rooster")]
         public List<ParseableEventModel> FetchAllEvents(string userIds, string type)
         {
             string[] uids = SterilizeInput(userIds);
@@ -141,6 +136,7 @@ namespace Proftaakrepos.Controllers
             // return parsable model for Full Calendar
             return returnList;
         }
+        [UserAccess("", "Rooster wijzigen")]
         public void UpdateEvent(DateTime start, DateTime end, string eventid, bool allday)
         {
             // Encode to prevent SQL Injection
@@ -153,6 +149,7 @@ namespace Proftaakrepos.Controllers
             // Update event
             SQLConnection.ExecuteNonSearchQuery($"Update Rooster Set Start = '{startTime}',End = '{endTime}',IsFullDay = '{Convert.ToInt32(allday)}' Where EventId = '{eventid}'");
         }
+        [UserAccess("", "Rooster wijzigen")]
         [HttpPost]
         public void CreateEvent(EventModel newmodel)
         {
@@ -186,7 +183,7 @@ namespace Proftaakrepos.Controllers
                 }
             }
         }
-
+        [UserAccess("", "Rooster wijzigen")]
         public string[] GetUsers()
         {
             // Get names from database

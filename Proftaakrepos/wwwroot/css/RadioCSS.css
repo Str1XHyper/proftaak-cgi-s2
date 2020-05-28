@@ -1,6 +1,10 @@
-﻿body{
-    overflow-y: hidden;
+﻿body {
+    overflow-y: scroll; /* Add the ability to scroll */
+    -ms-overflow-style: none;
 }
+    body::-webkit-scrollbar {
+        display: none;
+    }
 
 /* The container */
 .container {
