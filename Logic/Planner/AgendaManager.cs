@@ -1,62 +1,151 @@
 ﻿using ClassLibrary.Classes;
+using DAL.Agenda;
 using Models;
+using Models.Agenda;
+using Org.BouncyCastle.Asn1;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
-namespace ClassLibrary.Planner
+namespace Logic.Planner
 {
     public class AgendaManager
     {
-        public string[] GetThemeColours()
+        private readonly AgendaHandler agendahandler;
+        public AgendaManager()
         {
-            return SQLConnection.ExecuteSearchQuery($"select * from ColorScheme").ToArray();
+            if (agendahandler == null) agendahandler = new AgendaHandler();
         }
-        public string[] GetLoggedInUserData(string var)
+        public List<EventModel> GetEvents() => agendahandler.GetEvents();
+        public string[] GetVerlofCount() => agendahandler.GetVerlofCount();
+        public string[] GetThemeColours() => agendahandler.GetThemeColours();
+        public List<UserViewModel> GetAllUserData() => agendahandler.GetAllUserData();
+        public string[] GetLoggedInUserData(string var) => agendahandler.GetLoggedInUserData(var);
+        public void DeleteEvent(int eventId) => agendahandler.DeleteEvent(eventId);
+        public AgendaViewModel SetAgendaViewModel(string loggedUser) => agendahandler.SetAgendaViewModel(loggedUser);
+        public void UpdateEvent(DateTime start, DateTime end, string eventid, bool allday) => agendahandler.UpdateEvent(start.ToString("yyyy/MM/dd HH:mm"), end.ToString("yyyy/MM/dd HH:mm"), eventid, Convert.ToInt32(allday));
+        public string[] GetUsers()
         {
-            return SQLConnection.ExecuteSearchQuery($"Select Rol,UserId,ProfielFoto From Werknemers Where AuthCode = '{var}'").ToArray();
-        }
-        public List<EventModel> GetEvents()
-        {
-            List<EventModel> eventList = new List<EventModel>();
-            string[] roosterData = SQLConnection.ExecuteSearchQuery($"Select Rooster.*, Werknemers.Voornaam From Rooster INNER JOIN Werknemers ON Werknemers.UserId = Rooster.UserId").ToArray();
-            for (int i = 0; i < roosterData.Length; i += 10)
+            // Get names from database
+            List<string[]> names = agendahandler.GetUsers();
+
+            // Put names in correct format
+            string[] parsedNames = new string[names.Count];
+            for (int i = 0; i < names.Count; i++)
             {
-                EventModel model = new EventModel();
-                model.eventId = Convert.ToInt32(roosterData[i]);
-                model.userId = roosterData[i + 1];
-                model.title = roosterData[i + 2];
-                model.description = roosterData[i + 3];
-                model.startDate = Convert.ToDateTime(roosterData[i + 4]);
-                model.endDate = Convert.ToDateTime(roosterData[i + 5]);
-                model.themeColor = roosterData[i + 6];
-                model.isFullDay = Convert.ToInt32(roosterData[i + 7]);
-                model.voornaam = roosterData[i + 9];
-                eventList.Add(model);
+                string completeName = "";
+                foreach (string namePiece in names[i])
+                {
+                    completeName += namePiece + " ";
+                }
+                completeName.Trim();
+                parsedNames[i] = completeName;
             }
-            return eventList;
+
+            // Return name array.
+            return parsedNames;
         }
-        public List<UserViewModel> GetAllUserData()
+        private string[] ConvertUserIDs(string input)
         {
-            List<UserViewModel> userList = new List<UserViewModel>();
-            string[] userData = SQLConnection.ExecuteSearchQuery($"Select UserId, Voornaam, Tussenvoegsel, Achternaam, Rol From Werknemers").ToArray();
-            for (int i = 0; i < userData.Length; i += 5)
+            // Check if input is not empty
+            if (input == "" || input == null)
             {
-                UserViewModel usermodel = new UserViewModel(userData[i], userData[i + 1], userData[i + 2], userData[i + 3], userData[i + 4]);
-                userList.Add(usermodel);
+                throw new ArgumentNullException();
             }
-            return userList;
+
+            // Encode to prevent SQL Injection
+            string[] cleanData = new string[input.Split(',').Length];
+            for (int i = 0; i < input.Split(",").Length; i++)
+            {
+                cleanData[i] = input.Split(',')[i];
+            }
+            return cleanData;
         }
-        public AgendaViewModel SetAgendaViewModel(string loggedUser)
+        private string BuildTitle(string[] row, string rol, List<string[]> names)
         {
-            AgendaViewModel viewdata = new AgendaViewModel(loggedUser);
-            viewdata.eventList = GetEvents();
-            viewdata.userList = GetAllUserData();
-            return viewdata;
+            string title = row[2];
+            if (rol.ToLower() == "roostermaker")
+            {
+                foreach (string[] name in names)
+                {
+                    if (row[1] == name[3])
+                        title = name[0] + " - " + title;
+                }
+            }
+            return title;
         }
-        public string[] GetVerlofCount()
+        public List<ParseableEventModel> FetchAllEvents(string userIds, string type, string rol)
         {
-                return SQLConnection.ExecuteSearchQuery($"Select Count(*) From Verlofaanvragen where Geaccepteerd = '-1'").ToArray();
+            string[] uids = ConvertUserIDs(userIds);
+
+            // Get required data
+            List<string[]> names = agendahandler.GetNames();
+            List<string[]> result = agendahandler.GetEventData(type, uids);
+            List<string> colors = agendahandler.GetColours();
+
+            // Set default colours
+            if (colors.Count < 1)
+            {
+                colors = new List<string>();
+                // Standby
+                colors.Add("3B5A6F");
+                // Incidenten
+                colors.Add("353B45");
+                // Pauze
+                colors.Add("828A87");
+                // Verlof
+                colors.Add("830101");
+            }
+
+            // Put result into models
+            String[] c = { "Stand-by", "Incidenten", "Pauze", "Verlof" };
+            List<ParseableEventModel> returnList = new List<ParseableEventModel>();
+            foreach (string[] row in result)
+            {
+                int index = Array.IndexOf(c, row[6]);
+                string title = BuildTitle(row, rol, names);
+                bool editable = rol.ToLower() == "roostermaker";
+                returnList.Add(BuildEventModel(row, title, editable, colors, index));
+            }
+
+            // return parsable model for Full Calendar
+            return returnList;
+        }
+        private ParseableEventModel BuildEventModel(string[] row, string title, bool editable, List<string> colors, int index)
+        {
+            return new ParseableEventModel
+            {
+                id = Convert.ToInt32(row[0]),
+                title = title,
+                start = DateTime.Parse(row[4]),
+                end = DateTime.Parse(row[5]),
+                backgroundColor = "#" + colors[index],
+                allDay = Convert.ToBoolean(Convert.ToInt32(row[7])),
+                description = row[3],
+                borderColor = "#010203",
+                soort = row[6],
+                userId = row[1],
+                editable = editable,
+            };
+        }
+        public void CreateEvent(EventModel newmodel, string loggedUserID)
+        {
+            if (!string.IsNullOrEmpty(newmodel.userId))
+            {
+                // Cut off the comma at the end
+                if (newmodel.userId.EndsWith(",")) newmodel.userId = newmodel.userId.Substring(0, newmodel.userId.Length - 1);
+
+                // Convert userid string to string[]
+                string[] uids = ConvertUserIDs(newmodel.userId);
+
+                // Insert new event into database
+                agendahandler.CreateEvent(uids, newmodel);
+
+                // When an event has type "Verlof" it creates a new Absence request
+                string eventID = agendahandler.GetLatestEventID();
+                agendahandler.CreateAbsenceRequest(eventID, newmodel, loggedUserID);
+            }
         }
     }
 }
