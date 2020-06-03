@@ -14,11 +14,13 @@ using System.Globalization;
 using System.Threading;
 using Models.Incidenten;
 using Logic;
+using Logic.Incidenten;
 
 namespace Proftaakrepos.Controllers
 {
     public class IncidentsController : Controller
     {
+        IncidentenManager incidentenManager = new IncidentenManager();
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
@@ -32,24 +34,21 @@ namespace Proftaakrepos.Controllers
 
         [UserAccess("","Incidenten")]
         [HttpGet]
-        public IActionResult Index(string? status, int? statusId, IncidentMailModel model)
+        public IActionResult Index(string status, int? statusId, IncidentMailModel model)
         {
             if(status != null && statusId != null)
             {
-                SQLConnection.ExecuteNonSearchQuery($"UPDATE `Incidenten` SET `Afgehandeld`= '{status}' WHERE `IncidentID` = '{statusId}'");
                 if(status == "1")
                 {
-                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','0','Begonnen aan het incident','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Begonnen')");
-                } else if (status == "2")
+                    incidentenManager.StartIncident(Convert.ToInt32(statusId));
+                }
+                else if (status == "2")
                 {
-                    int i = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(`StatusIDIncident`) FROM  `IncidentUpdates` WHERE `IncidentID` = '{statusId}'")[0]);
-                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Afgehandeld')");
-                    NotificationManager notificaties = new NotificationManager();
-                    notificaties.NotifySolved(model);
+                    incidentenManager.FinishIncident(Convert.ToInt32(statusId), model);
                 }
             }
-            var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
-            ViewBag.Incidents = incidents;
+            ViewBag.Incidents = incidentenManager.GetIncidents();
+            ViewBag.IncidentUpdateCount = incidentenManager.GetIncidentUpdates();
             return View();
         }
 
@@ -61,7 +60,7 @@ namespace Proftaakrepos.Controllers
             {
                 if(updateId != null)
                 {
-                    SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `IncidentUpdates` WHERE `StatusId` = '{updateId}'");
+                    incidentenManager.DeleteStatusUpdate(Convert.ToInt32(updateId));
                 }
             }
             var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}' ORDER BY `StatusIdIncident` ASC");

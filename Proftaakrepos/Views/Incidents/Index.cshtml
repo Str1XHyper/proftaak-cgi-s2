@@ -9,6 +9,7 @@
 @{
     ViewData["Title"] = "Incidenten";
     List<string[]> incidenten = ViewBag.Incidents;
+    List<string[]> incidentUpdateCount = ViewBag.IncidentUpdateCount;
 }
 @{
     if (incidenten.Count != 0)
@@ -16,15 +17,21 @@
 
         foreach (string[] incident in incidenten)
         {
-            IncidentMailModel incidentMailModel = new IncidentMailModel() 
-            { Naam = incident[3],
-             Beschrijving = incident[1]
+            IncidentMailModel incidentMailModel = new IncidentMailModel()
+            { 
+                Naam = incident[3],
+                Beschrijving = incident[1]
             };
+
             int statusCount = 0;
-            if (incident[2] == "1")
+            foreach(string[] incidentCount in incidentUpdateCount)
             {
-                statusCount = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(StatusIdIncident) FROM IncidentUpdates WHERE IncidentId = '{incident[0]}'; ")[0]);
+                if(incidentCount[0] == incident[0])
+                {
+                    statusCount = Convert.ToInt32(incidentCount[1]);
+                }
             }
+
             <div class="card mb-3">
                 <div class="card-header bg-dark text-white">
                     Incident: @incident[3]
