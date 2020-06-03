@@ -64,5 +64,15 @@ namespace DAL.Employees
         {
             return SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Email,Voornaam FROM Werknemers");
         }
+
+        public string[] GetEmployeeNotificationsSettings(string userID) => SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Settings` WHERE `UserId` = {userID}").ToArray();
+        public void SetPasswordSettings(List<string> values) => SQLConnection.ExecuteNonSearchQuery($"UPDATE `PasswordRequirements` SET `NumberRequired` = '{values[0]}', `SpecialCharRequired` = '{values[1]}', `UpperRequired` = '{values[2]}', `LowerRequired` = '{values[3]}', `MinimumLength` = '{values[4]}'");
+        public int SetSettingsAndReturnUserID(string email, int emailSetting, int smssSetting, int whatsAppSetting)
+        {
+            List<string> userIDlist = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{email}'");
+            int userID = Convert.ToInt32(userIDlist[0]);
+            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `ReceiveMail`='{emailSetting}',`ReceiveSMS`='{smssSetting}',`ReceiveWhatsApp`='{whatsAppSetting}' WHERE `UserId` = {userID}");
+            return userID;
+        }
     }
 }

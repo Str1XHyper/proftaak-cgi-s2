@@ -1,5 +1,6 @@
 ﻿using ClassLibrary.Classes;
 using CookieManager;
+using Logic.Employees;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -64,14 +65,14 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult PasswordSettings(SettingsPageModel model)
         {
-            ChangeSettings changeSettings = new ChangeSettings();
+            EmployeesManager employeesManager = new EmployeesManager();
             List<string> values = new List<string>();
             values.Add(Convert.ToInt32(model.model1.Nummer).ToString());
             values.Add(Convert.ToInt32(model.model1.Speciaal).ToString());
             values.Add(Convert.ToInt32(model.model1.Hoofdletter).ToString());
             values.Add(Convert.ToInt32(model.model1.KleineLetter).ToString());
             values.Add(model.model1.Karakters.ToString());
-            changeSettings.SetPasswordSettings(values);
+            employeesManager.SetPasswordSettings(values);
             return RedirectToAction("AgendaSettings");
         }
     }
