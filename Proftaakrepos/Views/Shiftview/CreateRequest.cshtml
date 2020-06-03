@@ -5,11 +5,10 @@
 @{
     ViewData["Title"] = "Create a Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string authCode = TempData["Cookie"].ToString();
-    string currentId = ShiftView.GetLoggedInUserId(authCode);
-    List<string[]> dienstInfo = ShiftView.GetDiensten(Convert.ToInt32(currentId));
-    List<string[]> tradeRequests = ShiftView.GetRequests();
-    List<string[]> users = ShiftView.GetUsers();
+    string currentId = ViewData["CurrentID"].ToString();
+    List<string[]> dienstInfo = ViewData["dienstInfo"] as List<string[]>;
+    List<string[]> tradeRequests = ViewData["tradeRequests"] as List<string[]>;
+    List<string[]> users = ViewData["users"] as List<string[]>;
 }
 <script src="~/js/ShiftView.js"></script>
 

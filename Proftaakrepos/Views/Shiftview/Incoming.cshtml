@@ -1,14 +1,12 @@
 ﻿@using MySql.Data.MySqlClient;
 @using Microsoft.AspNetCore.Http;
-@using ClassLibrary.Classes;
 
 @{
     ViewData["Title"] = "Inkomende Aanvragen";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string authCode = TempData["Cookie"].ToString();
-    string currentId = ShiftView.GetLoggedInUserId(authCode);
-    List<string[]> tradeRequests = ShiftView.GetRequests();
-    List<string[]> users = ShiftView.GetUsers();
+    string currentId = ViewData["CurrentID"].ToString();
+    List<string[]> tradeRequests = ViewData["TradeRequests"] as List<string[]>;
+    List<string[]> users = ViewData["TradeRequests"] as List<string[]>;
 }
 <script src="~/js/ShiftView.js"></script>
 
@@ -38,7 +36,7 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         @request[2] - @request[3] - @name
                         <div class="input-group-append">
-                            <a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Shiftview" asp-action="HandleRequest" asp-route-UserID="@currentId" asp-route-TradeID="@request[5]" asp-route-EventID="@request[7]" method="Post">
+                            <a class="btn btn-outline-success mr-1" style="width: 50px" asp-controller="Shiftview" asp-action="AcceptRequest" asp-route-UserID="@currentId" asp-route-TradeID="@request[5]" asp-route-EventID="@request[7]" method="Post">
                                 <i class="fas fa-check"></i>
                             </a>
                             <a class="btn btn-outline-danger" style="width: 50px" asp-controller="Shiftview" asp-action="Block" asp-route-UserID="@currentId" asp-route-TradeID="@request[5]" asp-route-DisabledIds="@request[6]" method="Post">
