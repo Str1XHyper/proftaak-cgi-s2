@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ClassLibrary.Classes
 {
-    public class GetUserData
+    public class GetUserData : IGetUserData
     {
         public string RoleNameAuth(string authcode)
         {
@@ -23,7 +23,7 @@ namespace ClassLibrary.Classes
 
         public string RoleNameID(string userID)
         {
-            if(userID != null)
+            if (userID != null)
             {
                 string[] idResponse;
                 idResponse = SQLConnection.ExecuteSearchQuery($"SELECT `Rol` FROM `Werknemers` WHERE `UserId` = '{userID}'").ToArray();
@@ -38,7 +38,7 @@ namespace ClassLibrary.Classes
 
         public string UserIDAuth(string authcode)
         {
-            if(authcode != null)
+            if (authcode != null)
             {
                 string[] authResponse;
                 authResponse = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `AuthCode` = '{authcode}'").ToArray();
@@ -53,7 +53,7 @@ namespace ClassLibrary.Classes
 
         public static string UserNameAuth(string authCode)
         {
-            
+
             if (authCode != null)
             {
                 List<string> names = SQLConnection.ExecuteSearchQuery($"SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam` FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");

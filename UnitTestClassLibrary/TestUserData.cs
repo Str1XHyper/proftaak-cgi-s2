@@ -17,7 +17,7 @@ namespace UnitTestClassLibrary
             userData = new GetUserData();
 
             //Assert
-            Assert.AreEqual(userData, typeof(GetUserData));
+            Assert.AreEqual(typeof(GetUserData), userData.GetType());
         }
         #endregion
 
