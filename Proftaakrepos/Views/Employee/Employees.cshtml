@@ -1,6 +1,7 @@
 ﻿@model AddEmployee
 @using Models
 @using ClassLibrary.Classes;
+@using Logic.Employees;
 @{
     ViewData["Title"] = "Werknemers";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,7 +19,8 @@
     string[] employeeSettings;
     if(EmployeeInfo[0] != null)
     {
-        employeeSettings = ChangeSettings.getSettings(EmployeeInfo[0]);
+        EmployeesManager employeesManager = new EmployeesManager();
+        employeeSettings = employeesManager.GetEmployeeNotificationsSettings(EmployeeInfo[0]);
     }
     else
     {

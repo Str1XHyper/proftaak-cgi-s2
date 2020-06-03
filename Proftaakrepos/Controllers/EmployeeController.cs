@@ -1,5 +1,7 @@
 ﻿using ClassLibrary.Classes;
 using CookieManager;
+using Logic.Employees;
+using Logic.Login;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -52,10 +54,12 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
+            LoginManager loginManager = new LoginManager();
+            EmployeesManager employeeManager = new EmployeesManager();
             string authToken = GenerateAuthToken.GetUniqueKey(10);
             string newEmail = addEmployeeModel.eMail.ToLower();
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{newEmail}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
-            AddLoginAccount.AddLogin(addEmployeeModel.naam, ChangeSettings.InitSettings(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting, addEmployeeModel.whatsappSetting).ToString(), addEmployeeModel.eMail);
+            loginManager.CreateNewLogin(addEmployeeModel.naam, employeeManager.SetSettingsAndReturnUserID(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting, addEmployeeModel.whatsappSetting).ToString(), addEmployeeModel.eMail);
             ViewData["result"] = "Werknemer " + addEmployeeModel.naam + " toegevoegd!";
             return View(addEmployeeModel);
         }
