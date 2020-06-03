@@ -79,24 +79,6 @@ namespace ClassLibrary.Classes
             }
 
             return users;
-
-            //List<string[]> employeeData = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Start,End FROM Rooster");
-            //int standbyUserCount = 0;
-            //string sqlquery = ($"SELECT Distinct Email,Voornaam FROM Werknemers WHERE UserId='");
-            //foreach (string[] data in employeeData)
-            //{
-            //    if (DateTime.Now >= Convert.ToDateTime(data[1]) && Convert.ToDateTime(data[2]) >= DateTime.Now)
-            //    {
-            //        standbyUserCount++;
-            //        sqlquery += data[0] + "' OR UserId='";
-            //    }
-            //}
-            //if (standbyUserCount > 0)
-            //{
-            //    sqlquery.Substring(0, sqlquery.Length - 12);
-            //    return SQLConnection.ExecuteSearchQueryWithArrayReturn(sqlquery);
-            //}
-            //return new List<string[]>();
         }
     }
 }
