@@ -1,6 +1,6 @@
 ﻿@using MySql.Data.MySqlClient;
 @using Microsoft.AspNetCore.Http;
-@using ClassLibrary.Classes;
+@using DAL;
 
 @{
     ViewData["Title"] = "Create a Request";
@@ -16,9 +16,9 @@
 
     @if (ViewData["Status"].ToString() != string.Empty)
     {
-    <div class="alert alert-danger fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
-        @ViewData["STatus"]
-    </div>
+        <div class="alert alert-danger fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
+            @ViewData["STatus"]
+        </div>
     }
     <div class="card mb-4">
         <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.RuilverzoekenAanmaken</div>
@@ -32,16 +32,16 @@
                             @{
                                 foreach (string[] dienst in dienstInfo)
                                 {
-                                DateTime dateTime = DateTime.Parse(dienst[4]);
-                                DateTime now = DateTime.Now;
-                                int compareResult = DateTime.Compare(dateTime, now);
-                                if (dienst[4] != null && compareResult > 0)
-                                {
-                                if (dienst[8].ToLower() == "false")
-                                {
-                                <option value="@dienst[0]">@dienst[2] | @dienst[4] - @dienst[5]</option>
-                                }
-                                }
+                                    DateTime dateTime = DateTime.Parse(dienst[4]);
+                                    DateTime now = DateTime.Now;
+                                    int compareResult = DateTime.Compare(dateTime, now);
+                                    if (dienst[4] != null && compareResult > 0)
+                                    {
+                                        if (dienst[8].ToLower() == "false")
+                                        {
+                                            <option value="@dienst[0]">@dienst[2] | @dienst[4] - @dienst[5]</option>
+                                        }
+                                    }
                                 }
                             }
                         </select>
@@ -76,32 +76,32 @@
                             bool hasRequests1 = false;
                             foreach (string[] dienst in dienstInfo)
                             {
-                            DateTime dateTime = DateTime.Parse(dienst[4]);
-                            DateTime now = DateTime.Now;
-                            int compareResult = DateTime.Compare(dateTime, now);
-                            if (dienst[1] == currentId && compareResult > 0)
-                            {
-                            if (dienst[8].ToLower() == "true")
-                            {
-                            hasRequests1 = true;
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @dienst[2] | @dienst[4] - @dienst[5]
-                                <div class="input-group-append">
-                                    <form asp-action="Cancel" method="post">
-                                        <input type="hidden" name="EventID" value="@dienst[0]" />
-                                        <button type="submit" class="btn btn-outline-danger" style="width: 50px"><i class="fas fa-times"></i></button>
-                                    </form>
-                                </div>
-                            </li>
-                            }
-                            }
+                                DateTime dateTime = DateTime.Parse(dienst[4]);
+                                DateTime now = DateTime.Now;
+                                int compareResult = DateTime.Compare(dateTime, now);
+                                if (dienst[1] == currentId && compareResult > 0)
+                                {
+                                    if (dienst[8].ToLower() == "true")
+                                    {
+                                        hasRequests1 = true;
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            @dienst[2] | @dienst[4] - @dienst[5]
+                                            <div class="input-group-append">
+                                                <form asp-action="Cancel" method="post">
+                                                    <input type="hidden" name="EventID" value="@dienst[0]" />
+                                                    <button type="submit" class="btn btn-outline-danger" style="width: 50px"><i class="fas fa-times"></i></button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    }
+                                }
                             }
                         }
                     </ul>
                     @{
                         if (!hasRequests1)
                         {
-                        <h5 class="float-left">@Proftaakrepos.Resources.lang.GeenActieveAanvragen</h5>
+                            <h5 class="float-left">@Proftaakrepos.Resources.lang.GeenActieveAanvragen</h5>
                         }
                     }
                 </div>
@@ -111,21 +111,21 @@
                             bool hasRequests2 = false;
                             foreach (string[] request in tradeRequests)
                             {
-                            if (request[0] == currentId && Convert.ToInt32(request[4]) != -1)
-                            {
-                            hasRequests2 = true;
-                            string name = "";
-                            foreach (string[] user in users)
-                            {
-                            if (user[0] == request[4])
-                            {
-                            name = user[1] + " " + user[2] + " " + user[3];
-                            }
-                            }
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @request[2] - @request[3] | @Proftaakrepos.Resources.lang.GeaccepteerdDoor @name
-                            </li>
-                            }
+                                if (request[0] == currentId && Convert.ToInt32(request[4]) != -1)
+                                {
+                                    hasRequests2 = true;
+                                    string name = "";
+                                    foreach (string[] user in users)
+                                    {
+                                        if (user[0] == request[4])
+                                        {
+                                            name = user[1] + " " + user[2] + " " + user[3];
+                                        }
+                                    }
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        @request[2] - @request[3] | @Proftaakrepos.Resources.lang.GeaccepteerdDoor @name
+                                    </li>
+                                }
 
                             }
                         }
@@ -133,7 +133,7 @@
                     @{
                         if (!hasRequests2)
                         {
-                        <h5 class="float-left">@Proftaakrepos.Resources.lang.UHeeftNogGeenAanvragenGeaccepteerd</h5>
+                            <h5 class="float-left">@Proftaakrepos.Resources.lang.UHeeftNogGeenAanvragenGeaccepteerd</h5>
                         }
                     }
                 </div>
@@ -143,26 +143,26 @@
                             bool hasRequests3 = false;
                             foreach (string[] dienst in dienstInfo)
                             {
-                            DateTime dateTime = DateTime.Parse(dienst[4]);
-                            DateTime now = DateTime.Now;
-                            int compareResult = DateTime.Compare(dateTime, now);
-                            if (dienst[1] == currentId && compareResult <= 0)
-                            {
-                            if (dienst[8].ToLower() == "true")
-                            {
-                            hasRequests3 = true;
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @dienst[2] | @dienst[4] - @dienst[5]
-                            </li>
-                            }
-                            }
+                                DateTime dateTime = DateTime.Parse(dienst[4]);
+                                DateTime now = DateTime.Now;
+                                int compareResult = DateTime.Compare(dateTime, now);
+                                if (dienst[1] == currentId && compareResult <= 0)
+                                {
+                                    if (dienst[8].ToLower() == "true")
+                                    {
+                                        hasRequests3 = true;
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            @dienst[2] | @dienst[4] - @dienst[5]
+                                        </li>
+                                    }
+                                }
                             }
                         }
                     </ul>
                     @{
                         if (!hasRequests3)
                         {
-                        <h5 class="float-left">@Proftaakrepos.Resources.lang.GeenVerlopenAanvragen</h5>
+                            <h5 class="float-left">@Proftaakrepos.Resources.lang.GeenVerlopenAanvragen</h5>
                         }
                     }
                 </div>

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
-using ClassLibrary.Classes;
+using DAL;
 
 namespace Proftaakrepos.Controllers
 {

@@ -1,5 +1,4 @@
-﻿using ClassLibrary.Classes;
-using CookieManager;
+﻿using CookieManager;
 using Logic.Authentication.Access;
 using Logic.Employees;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using DAL;
 
 namespace Proftaakrepos.Controllers
 {

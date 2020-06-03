@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Http;
-using ClassLibrary.Classes;
+using DAL;
 
 namespace Proftaakrepos.Controllers
 {

@@ -1,6 +1,4 @@
-﻿using ClassLibrary;
-using ClassLibrary.Classes;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Authentication;
 using Models;
@@ -18,6 +16,7 @@ using Logic.Authentication.Login;
 using Logic.Employees;
 using Logic.Authentication.Password;
 using Logic.Authentication;
+using DAL;
 
 namespace Proftaakrepos.Controllers
 {

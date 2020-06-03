@@ -1,5 +1,4 @@
-﻿using ClassLibrary.Classes;
-using CookieManager;
+﻿using CookieManager;
 using DAL;
 using Logic;
 using Logic.Authentication.Login;

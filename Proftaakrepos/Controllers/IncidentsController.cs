@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Models;
 using Proftaakrepos.Authorize;
@@ -15,6 +14,7 @@ using System.Threading;
 using Models.Incidenten;
 using Logic;
 
+using DAL;
 namespace Proftaakrepos.Controllers
 {
     public class IncidentsController : Controller

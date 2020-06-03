@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ClassLibrary.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Proftaakrepos.Authorize;
@@ -10,6 +9,7 @@ using CookieManager;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
 using Logic.API;
+using DAL;
 
 namespace Proftaakrepos.Controllers
 {

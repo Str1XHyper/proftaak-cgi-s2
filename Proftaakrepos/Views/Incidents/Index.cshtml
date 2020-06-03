@@ -1,4 +1,4 @@
-﻿@using ClassLibrary.Classes
+﻿@using DAL;
 @using System;
 @using System.Collections.Generic;
 @using System.Linq;
@@ -16,9 +16,10 @@
 
         foreach (string[] incident in incidenten)
         {
-            IncidentMailModel incidentMailModel = new IncidentMailModel() 
-            { Naam = incident[3],
-             Beschrijving = incident[1]
+            IncidentMailModel incidentMailModel = new IncidentMailModel()
+            {
+                Naam = incident[3],
+                Beschrijving = incident[1]
             };
             int statusCount = 0;
             if (incident[2] == "1")
@@ -81,5 +82,5 @@
         </div>
     }
 
-<a class=" btn btn-outline-secondary" asp-action="VoegIncidentToe">@Proftaakrepos.Resources.lang.VoegToe</a>
+    <a class=" btn btn-outline-secondary" asp-action="VoegIncidentToe">@Proftaakrepos.Resources.lang.VoegToe</a>
 }

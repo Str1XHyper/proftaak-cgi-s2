@@ -1,4 +1,4 @@
-﻿using ClassLibrary.Classes;
+﻿using DAL;
 using CookieManager;
 using FullCalendar;
 using Logic.Ruilverzoeken;

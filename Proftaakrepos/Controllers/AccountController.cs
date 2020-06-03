@@ -1,6 +1,4 @@
-﻿using ClassLibrary;
-using ClassLibrary.Classes;
-using CookieManager;
+﻿using CookieManager;
 using Logic.Authentication.Login;
 using Logic.Employees;
 using Logic.Reset;
