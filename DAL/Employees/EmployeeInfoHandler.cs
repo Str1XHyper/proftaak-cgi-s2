@@ -51,5 +51,7 @@ namespace DAL.Employees
             if (authResponse.Length > 0) return Convert.ToInt32(authResponse[0]);
             else return 0;
         }
+
+        public List<string> EmployeeInfo(string authCode) => SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
     }
 }

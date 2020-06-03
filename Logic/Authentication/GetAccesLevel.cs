@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Logic.Authentication
 {
-    class GetAccesLevel
+    public class GetAccesLevel
     {
         private GetUserAccess getUserAccess;
         public GetAccesLevel()

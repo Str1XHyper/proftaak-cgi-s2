@@ -1,7 +1,8 @@
 ﻿using ClassLibrary;
 using ClassLibrary.Classes;
 using CookieManager;
-using Logic.Login;
+using Logic.Authentication.Login;
+using Logic.Employees;
 using Logic.Reset;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using DAL;
 
 namespace Proftaakrepos.Controllers
 {
@@ -82,8 +84,8 @@ namespace Proftaakrepos.Controllers
                 if (model.newPassword == model.ConfirmPassword)
                 {
                     LoginManager loginManager = new LoginManager();
-                    GetUserData userData = new GetUserData();
-                    bool success = loginManager.ChangePassword(model.currentPassword, model.newPassword, userData.UserIDAuth(HttpContext.Session.GetString("UserInfo")));
+                    EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
+                    bool success = loginManager.ChangePassword(model.currentPassword, model.newPassword, employeeInfo.IDFromAuth(HttpContext.Session.GetString("UserInfo")).ToString());
                     if (!success)
                     {
                         TempData["Error"] = "Uw wachtwoord is niet juist.";
