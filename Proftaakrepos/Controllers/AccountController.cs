@@ -1,6 +1,8 @@
 ﻿using ClassLibrary;
 using ClassLibrary.Classes;
 using CookieManager;
+using Logic.Login;
+using Logic.Reset;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +13,7 @@ using Models.Authentication;
 using Proftaakrepos.Authorize;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Proftaakrepos.Controllers
@@ -78,9 +81,9 @@ namespace Proftaakrepos.Controllers
             {
                 if (model.newPassword == model.ConfirmPassword)
                 {
-                    ChangePasswordFunc changePasswordFunc = new ChangePasswordFunc();
+                    LoginManager loginManager = new LoginManager();
                     GetUserData userData = new GetUserData();
-                    bool success = changePasswordFunc.ChangePass(model.currentPassword, model.newPassword, userData.UserIDAuth(HttpContext.Session.GetString("UserInfo")));
+                    bool success = loginManager.ChangePassword(model.currentPassword, model.newPassword, userData.UserIDAuth(HttpContext.Session.GetString("UserInfo")));
                     if (!success)
                     {
                         TempData["Error"] = "Uw wachtwoord is niet juist.";
@@ -138,8 +141,8 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult ChangePassword(RestorePasswordModel model)
         {
-            ChangePasswordFunc changePassword = new ChangePasswordFunc();
-            if(changePassword.ChangePassAuthCode(model.ConfirmPassword, model.NewPassword, model.HiddenEmail, model.PasswordCode))
+            ResetManager resetManager = new ResetManager();
+            if (resetManager.ChangeResetPassword(model.ConfirmPassword, model.NewPassword, model.HiddenEmail, model.PasswordCode))
             {
                 TempData["success"] = "Wachtwoord is aangepast, u kunt nu inloggen.";
                 return RedirectToAction("LoginNew", "Authentication");

@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading;
 using System.Globalization;
 using Models.Language;
+using Logic.Login;
+using Logic.Employees;
 
 namespace Proftaakrepos.Controllers
 {
@@ -41,10 +43,11 @@ namespace Proftaakrepos.Controllers
             };
 
             string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
+            EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
             switch (response)
             {
                 case "redirectHome":
-                    string authCode = CreateLoginCookie.getAuthToken(model.Username);
+                    string authCode = employeeInfo.getAuthToken(model.Username);
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
                     cookie.Role = GetAccessLevel.GetRol(authCode);
@@ -87,16 +90,17 @@ namespace Proftaakrepos.Controllers
 
         public void AddLogin(bool success, string username, string ip)
         {
-            AddLoginLog addLoginLog = new AddLoginLog();
-            string authCode = CreateLoginCookie.getAuthToken(username);
-            string timeNow = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-            addLoginLog.NewLogin(authCode, success, ip,  timeNow);
+            EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
+            string authCode = employeeInfo.getAuthToken(username);
+            LoginManager loginManager = new LoginManager();
+            loginManager.AddLoginRecord(authCode, success, ip, DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
         }
 
         [HttpPost]
         public IActionResult ChangePassword(ChangePassword changePassword)
         {
-            AddLoginAccount.ChangeLoginAdmin(changePassword.email, changePassword.password);
+            LoginManager loginManager = new LoginManager();
+            loginManager.ChangePasswordAdmin(changePassword.email, changePassword.password);
             ViewData["msg"] = "Wachtwoord aangepast";
             return View("Employees");
         }
@@ -107,9 +111,10 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangePasswordPost(ChangePassword weirdflex)
+        public IActionResult ChangePasswordPost(ChangePassword model)
         {
-            AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
+            LoginManager loginManager = new LoginManager();
+            loginManager.ChangePasswordAdmin(model.email, model.password);
             return View("ChangePassword");
         }
         [HttpGet]

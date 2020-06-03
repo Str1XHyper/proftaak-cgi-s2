@@ -1,54 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MySql.Data.MySqlClient;
-using ClassLibrary.Classes;
 
-namespace ClassLibrary.Classes
+namespace DAL.Ruilverzoeken
 {
-    public class ShiftView
+    public class GetRuilverzoekData
     {
-
-        public static string GetLoggedInUserId(string authCode)
+        public string GetLoggedInUserId(string authCode)
         {
             return SQLConnection.ExecuteSearchQuery($"Select `UserId` From `Werknemers` where AuthCode = '{authCode}'")[0];
         }
 
-        public static bool HasCorrectInfo(List<string> QueryResult)
+        public bool HasCorrectInfo(List<string> QueryResult)
         {
             return QueryResult.Count > 0;
         }
 
-        public static List<string[]> GetDiensten(int UserID)
+        public List<string[]> GetDiensten(int UserID)
         {
-            List<string[]> returns = new List<string[]>();
             try
             {
                 return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Rooster Where UserId = {UserID} AND NOT ThemeColor='Verlof' ORDER BY `Start` ASC");
             }
             catch (Exception ex)
             {
-                return returns;
+                return new List<string[]>();
             }
         }
 
 
-        public static List<string> GetNameByUIDs(int UserID)
+        public List<string> GetNameByUIDs(int UserID)
         {
-            List<string> returns = new List<string>();
             try
             {
                 return SQLConnection.ExecuteSearchQuery($"Select * From Werknemers Where UserId = {UserID}");
             }
             catch (Exception ex)
             {
-                return returns;
+                return new List<string>();
             }
         }
 
-        public static int EntryCount(string column, string table)
+        public int EntryCount(string column, string table)
         {
-            List<string> returns = new List<string>();
             try
             {
                 return Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"Select count({column}) From {table}")[0]);
@@ -59,33 +53,36 @@ namespace ClassLibrary.Classes
             }
         }
 
-        public static List<string[]> GetRequests()
+        public List<string[]> GetRequests()
         {
-            List<string[]> returns = new List<string[]>();
             try
             {
                 return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From TradeRequest ORDER BY `Start` DESC");
             }
             catch (Exception ex)
             {
-                return returns;
+                return new List<string[]>();
             }
         }
 
-        public static List<string[]> GetUsers()
+        public List<string[]> GetUsers()
         {
-            List<string[]> returns = new List<string[]>();
             try
             {
                 return SQLConnection.ExecuteSearchQueryWithArrayReturn($"Select * From Werknemers");
             }
             catch (Exception ex)
             {
-                return returns;
+                return new List<string[]>();
             }
         }
 
-        public static string[] FixTimeStamp(string[] requestOutput)
+        public string[] GetRoosterData(string eventID)
+        {
+            return SQLConnection.ExecuteGetStringQuery($"Select * from Rooster where EventId = '{eventID}'").ToArray();
+        }
+
+        public string[] FixTimeStamp(string[] requestOutput)
         {
             string date = requestOutput[2].Split(" ")[0];
             string[] startTimes = requestOutput[2].Split(" ")[1].Split(":");
@@ -103,7 +100,7 @@ namespace ClassLibrary.Classes
                 endTime += $" {endUSTimeStamp}";
             }
 
-            return new string[] {date, startTime, endTime};
+            return new string[] { date, startTime, endTime };
         }
     }
 }

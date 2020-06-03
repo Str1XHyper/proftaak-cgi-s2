@@ -1,6 +1,7 @@
 ﻿@model AddEmployee
 @using Models
 @using ClassLibrary.Classes;
+@using Logic.Employees;
 @{
     ViewData["Title"] = "Werknemers";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,7 +19,8 @@
     string[] employeeSettings;
     if(EmployeeInfo[0] != null)
     {
-        employeeSettings = ChangeSettings.getSettings(EmployeeInfo[0]);
+        EmployeeInfoManager employeesManager = new EmployeeInfoManager();
+        employeeSettings = employeesManager.GetEmployeeNotificationsSettings(EmployeeInfo[0]);
     }
     else
     {
@@ -35,8 +37,8 @@
                 <select class="custom-select" id="inputGroupSelect04" name="employee" onchange="execForm()">
                     @{
 
-                        Employees employees = new Employees();
-                        List<string[]> Werknemers = employees.NamesTest();
+                        EmployeesManager employees = new EmployeesManager();
+                        List<string[]> Werknemers = employees.GetNamesAndUserIDs();
                         foreach (string[] array in Werknemers)
                         {
                             if (array[3] == EmployeeInfo[0])

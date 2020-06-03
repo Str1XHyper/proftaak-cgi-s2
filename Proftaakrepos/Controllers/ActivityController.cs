@@ -9,6 +9,7 @@ using Proftaakrepos.Authorize;
 using CookieManager;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
+using Logic.API;
 
 namespace Proftaakrepos.Controllers
 {
@@ -24,8 +25,8 @@ namespace Proftaakrepos.Controllers
             string authcode = HttpContext.Session.GetString("UserInfo");
             List<string[]> responseRecords = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `Logins` WHERE `AuthCode` = '{authcode}'");
             ViewData["records"] = responseRecords;
-            AddLoginLog addLoginLog = new AddLoginLog();
-            ViewData["ip"] = addLoginLog.CallUrl("https://api.ipify.org/");
+            APICalls calls = new APICalls();
+            ViewData["ip"] = calls.APICall("https://api.ipify.org/");
             return View();
         }
     }

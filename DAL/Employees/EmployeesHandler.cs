@@ -1,6 +1,7 @@
 ﻿using DAL.Agenda;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Text;
 
 namespace DAL.Employees
@@ -24,9 +25,9 @@ namespace DAL.Employees
                 DateTime end = DateTime.Parse(roosterEvent[2]);
                 if (DateTime.Compare(start, DateTime.Now) < 0 && DateTime.Compare(end, DateTime.Now) > 0)
                 {
-                    bool userInList = false;
                     foreach (string[] userInfo in userData)
                     {
+                        bool userInList = false;
                         if (userInfo[0] == roosterEvent[0])
                         {
                             if (users.Count > 0)
@@ -39,17 +40,8 @@ namespace DAL.Employees
                                         break;
                                     }
                                 }
-
-                                if (userInList)
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    users.Add(userInfo);
-                                }
                             }
-                            else
+                            if (!userInList)
                             {
                                 users.Add(userInfo);
                             }
@@ -57,12 +49,17 @@ namespace DAL.Employees
                     }
                 }
             }
-
             return users;
         }
+
         public List<string[]> GetAllEmployees()
         {
             return SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Email,Voornaam FROM Werknemers");
         }
+
+        public int GetAmountOfEmployees() => SQLConnection.ExecuteSearchQuery("SELECT `UserId` FROM `Werknemers`").ToArray().Length;
+        public string[] GetEmployeeNames() => SQLConnection.ExecuteSearchQuery("SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam` FROM `Werknemers`").ToArray();
+        public List<string[]> GetNamesAndUserIDs() => SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam`, `UserId` FROM `Werknemers`");
+        public string[] EmployeeInfo(string naam) => SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `VOORNAAM` = {naam}").ToArray();
     }
 }
