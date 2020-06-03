@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.Login
+namespace DAL.Authentication.Login
 {
     public class LoginHandler
     {

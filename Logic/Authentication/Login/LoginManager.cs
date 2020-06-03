@@ -1,9 +1,9 @@
-﻿using DAL.Login;
+﻿using DAL.Authentication.Login;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Logic.Login
+namespace Logic.Authentication.Login
 {
     public class LoginManager
     {
