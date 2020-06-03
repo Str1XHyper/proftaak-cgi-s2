@@ -31,6 +31,12 @@ namespace Logic.Employees
             if (authCode != null) return employeeHandler.IDFromAuth(authCode);
             else return 0;
         }
+
+        public List<string> EmployeeInfo(string authCode)
+        {
+            if (authCode != null) return employeeHandler.EmployeeInfo(authCode);
+            else return new List<string>();
+        }
     
     }
 }

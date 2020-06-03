@@ -14,8 +14,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading;
 using System.Globalization;
 using Models.Language;
-using Logic.Login;
+using Logic.Authentication.Login;
 using Logic.Employees;
+using Logic.Authentication.Password;
+using Logic.Authentication;
 
 namespace Proftaakrepos.Controllers
 {
@@ -44,13 +46,14 @@ namespace Proftaakrepos.Controllers
 
             string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
             EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
+            GetAccesLevel accessLevel = new GetAccesLevel();
             switch (response)
             {
                 case "redirectHome":
                     string authCode = employeeInfo.getAuthToken(model.Username);
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
-                    cookie.Role = GetAccessLevel.GetRol(authCode);
+                    cookie.Role = accessLevel.GetRol(authCode);
                     if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
                     SetSession(authCode);
                     return RedirectToAction("Schedule", "Planner");
@@ -72,8 +75,9 @@ namespace Proftaakrepos.Controllers
 
         private void SetSession(string authCode)
         {
+            EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
             HttpContext.Session.SetString("UserInfo", authCode);
-            List<string> UInfo = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
+            List<string> UInfo = employeeInfo.EmployeeInfo(authCode);
             string UserID = UInfo[0];
             string Name = string.Empty;
             string rol = UInfo[11];
@@ -143,9 +147,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public ActionResult<CheckPasswordModel> CheckPassword(string password)
         {
-            List<string> result = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `PasswordRequirements`");
-            CheckPasswordModel cpm = new CheckPasswordModel(Convert.ToBoolean(Convert.ToInt16(result[0])), Convert.ToBoolean(Convert.ToInt16(result[1])), Convert.ToBoolean(Convert.ToInt16(result[2])), Convert.ToBoolean(Convert.ToInt16(result[3])), Convert.ToInt32(result[4]));
-            PasswordCheck passwordCheck = new PasswordCheck(cpm, HttpContext.Session.GetString("UserInfo"));
+            PasswordRequirements passwordCheck = new PasswordRequirements();
             return passwordCheck.CheckPassword(password);
         }
     }
