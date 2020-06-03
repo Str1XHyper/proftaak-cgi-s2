@@ -15,7 +15,7 @@ namespace DAL.Employees
         public List<string[]> GetStandByEmployees()
         {
             List<string[]> roosterData = agendaHandler.GetAllRoosterData();
-            List<string[]> userData = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Email,Voornaam FROM Werknemers");
+            List<string[]> userData = GetAllEmployees();
             List<string[]> users = new List<string[]>();
 
             foreach (string[] roosterEvent in roosterData)
@@ -59,6 +59,10 @@ namespace DAL.Employees
             }
 
             return users;
+        }
+        public List<string[]> GetAllEmployees()
+        {
+            return SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT UserId,Email,Voornaam FROM Werknemers");
         }
     }
 }

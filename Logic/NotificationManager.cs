@@ -1,6 +1,7 @@
 ﻿using ClassLibrary.Classes;
 using DAL.Employees;
 using Models;
+using Models.Incidenten;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,9 +22,9 @@ namespace Logic
             {
                 foreach (string[] user in users)
                 {
-                    var email = user[0];
-                    SendMail.SendEmployeeIncident("bartdgp@outlook.com", "Bart Vermeulen", model.IncidentOmschrijving, model.IncidentNaam);
-                    SendMail.SendKlantIncident("bartdgp@outlook.com", "Bart Vermeulen", model.IncidentOmschrijving, model.IncidentNaam);
+                    string email = user[0];
+                    //SendMail.SendEmployeeIncident("bartdgp@outlook.com", "Bart Vermeulen", model.IncidentOmschrijving, model.IncidentNaam);
+                    //SendMail.SendKlantIncident("bartdgp@outlook.com", "Bart Vermeulen", model.IncidentOmschrijving, model.IncidentNaam);
                 }
             }
             else
@@ -31,6 +32,12 @@ namespace Logic
                 return false;
             }
             return true;
+        }
+
+        public void NotifySolved(IncidentMailModel model)
+        {
+            //SendMail.SendEmployeeIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", model.Beschrijving, model.Naam);
+            //SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", model.Beschrijving, model.Naam);
         }
     }
 }

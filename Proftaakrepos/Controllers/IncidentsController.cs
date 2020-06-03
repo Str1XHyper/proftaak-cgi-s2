@@ -13,6 +13,7 @@ using Models.Authentication;
 using System.Globalization;
 using System.Threading;
 using Models.Incidenten;
+using Logic;
 
 namespace Proftaakrepos.Controllers
 {
@@ -122,8 +123,9 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public ActionResult VoegIncidentToe(AddIncidentModel model)
         {
+            NotificationManager notifications = new NotificationManager();
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
-            bool succeeded = NotificationsStandBy.NotifyStandyBy(model);
+            bool succeeded = notifications.NotifyStandBy(model);
             if (succeeded)
             {
                 Console.WriteLine("Mail has been sent");
