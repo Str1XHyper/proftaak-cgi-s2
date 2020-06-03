@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace ClassLibrary.Classes
+namespace Logic.Authentication
 {
-    public class GenerateAuthToken
+    class GenerateAuthToken
     {
         internal static readonly char[] chars =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
