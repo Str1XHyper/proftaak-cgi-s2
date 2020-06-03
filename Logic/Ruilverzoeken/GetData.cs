@@ -7,11 +7,11 @@ namespace Logic.Ruilverzoeken
 {
     public class GetData
     {
-        private GetUserData getData;
+        private GetRuilverzoekData getData;
 
         public GetData()
         {
-            getData = new GetUserData();
+            getData = new GetRuilverzoekData();
         }
 
         public string GetLoggedInUserId(string authCode) => getData.GetLoggedInUserId(authCode);

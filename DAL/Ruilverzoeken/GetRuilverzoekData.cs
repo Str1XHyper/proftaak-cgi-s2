@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL.Ruilverzoeken
 {
-    public class GetUserData
+    public class GetRuilverzoekData
     {
         public string GetLoggedInUserId(string authCode)
         {
