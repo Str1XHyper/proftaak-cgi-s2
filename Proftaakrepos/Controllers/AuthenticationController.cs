@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading;
 using System.Globalization;
 using Models.Language;
+using Logic.Login;
 
 namespace Proftaakrepos.Controllers
 {
@@ -87,16 +88,16 @@ namespace Proftaakrepos.Controllers
 
         public void AddLogin(bool success, string username, string ip)
         {
-            AddLoginLog addLoginLog = new AddLoginLog();
             string authCode = CreateLoginCookie.getAuthToken(username);
-            string timeNow = DateTime.Now.ToString("yyyy/MM/dd HH:mm");
-            addLoginLog.NewLogin(authCode, success, ip,  timeNow);
+            LoginManager loginManager = new LoginManager();
+            loginManager.AddLoginRecord(authCode, success, ip, DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
         }
 
         [HttpPost]
         public IActionResult ChangePassword(ChangePassword changePassword)
         {
-            AddLoginAccount.ChangeLoginAdmin(changePassword.email, changePassword.password);
+            LoginManager loginManager = new LoginManager();
+            loginManager.ChangePasswordAdmin(changePassword.email, changePassword.password);
             ViewData["msg"] = "Wachtwoord aangepast";
             return View("Employees");
         }
@@ -107,9 +108,10 @@ namespace Proftaakrepos.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangePasswordPost(ChangePassword weirdflex)
+        public IActionResult ChangePasswordPost(ChangePassword model)
         {
-            AddLoginAccount.ChangeLoginAdmin(weirdflex.email, weirdflex.password);
+            LoginManager loginManager = new LoginManager();
+            loginManager.ChangePasswordAdmin(model.email, model.password);
             return View("ChangePassword");
         }
         [HttpGet]

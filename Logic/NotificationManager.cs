@@ -1,10 +1,7 @@
-﻿using ClassLibrary.Classes;
-using DAL.Employees;
+﻿using DAL.Employees;
 using Models;
 using Models.Incidenten;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Logic
 {
