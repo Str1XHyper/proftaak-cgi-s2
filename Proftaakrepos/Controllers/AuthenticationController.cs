@@ -1,6 +1,4 @@
-﻿using ClassLibrary;
-using ClassLibrary.Classes;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Authentication;
 using Models;
@@ -15,6 +13,10 @@ using System.Threading;
 using System.Globalization;
 using Models.Language;
 using Logic.Login;
+using Logic.Authentication.Password;
+using ClassLibrary.Classes;
+using DAL;
+using ClassLibrary;
 
 namespace Proftaakrepos.Controllers
 {
@@ -140,9 +142,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public ActionResult<CheckPasswordModel> CheckPassword(string password)
         {
-            List<string> result = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `PasswordRequirements`");
-            CheckPasswordModel cpm = new CheckPasswordModel(Convert.ToBoolean(Convert.ToInt16(result[0])), Convert.ToBoolean(Convert.ToInt16(result[1])), Convert.ToBoolean(Convert.ToInt16(result[2])), Convert.ToBoolean(Convert.ToInt16(result[3])), Convert.ToInt32(result[4]));
-            PasswordCheck passwordCheck = new PasswordCheck(cpm, HttpContext.Session.GetString("UserInfo"));
+            PasswordRequirements passwordCheck = new PasswordRequirements();
             return passwordCheck.CheckPassword(password);
         }
     }

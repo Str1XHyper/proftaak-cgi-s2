@@ -6,12 +6,6 @@ namespace DAL.Ruilverzoeken
 {
     public class AddRuilvezoekData
     {
-        private SQLConnection MySql;
-        public AddRuilvezoekData()
-        {
-            MySql = new SQLConnection();
-        }
-
         public void AddRuilvezoek(string UserID, DateTime start, DateTime end, string EventID)
         {
             SQLConnection.ExecuteNonSearchQuery($"Insert Into `TradeRequest`(`UserIdIssuer`, `Status`, `Start`, `End`, `UserIdAcceptor`, `DisabledIDs`,`EventID`) values({UserID}, 0, '{start:yyyy/MM/dd HH:mm}', '{end:yyyy/MM/dd HH:mm}', -1, 0, '{EventID}')");
