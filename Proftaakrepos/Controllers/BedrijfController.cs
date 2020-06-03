@@ -12,12 +12,17 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
-using DAL;
+using Logic.Bedrijf;
 
 namespace Proftaakrepos.Controllers
 {
     public class BedrijfController : Controller
     {
+        private readonly BedrijfManager bedrijfManager;
+        public BedrijfController()
+        {
+            bedrijfManager = new BedrijfManager();
+        }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
@@ -31,7 +36,7 @@ namespace Proftaakrepos.Controllers
         [UserAccess("", "Bedrijfsinstellingen")]
         public IActionResult AgendaSettings()
         {
-            string[] colours = SQLConnection.ExecuteSearchQuery($"SELECT * FROM ColorScheme").ToArray();
+            string[] colours = bedrijfManager.GetColors();
             if (colours.Length == 0)
             {
                 //Default colours to display if none are selected by company
@@ -42,7 +47,7 @@ namespace Proftaakrepos.Controllers
                 colours[3] = "830101";
             }
             ViewData["colours"] = colours;
-            Logic.Authentication.Access.AccessManager accessManager = new Logic.Authentication.Access.AccessManager();
+            AccessManager accessManager = new AccessManager();
             ViewBag.Password = accessManager.GetSettings();
             return View();
         }
@@ -51,14 +56,14 @@ namespace Proftaakrepos.Controllers
         public IActionResult AgendaSettings(SettingsPageModel model)
         {
             AgendaSettings settings = model.model2;
-            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM ColorScheme");
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO ColorScheme (StandBy,Incidenten,Pauze,Verlof) VALUES ('{settings.standbyKleur}','{settings.incidentKleur}','{settings.pauzeKleur}','{settings.verlofKleur}')");
+            bedrijfManager.DeleteColours();
+            bedrijfManager.AddColours(settings.standbyKleur, settings.incidentKleur, settings.pauzeKleur, settings.verlofKleur);
             return RedirectToAction("AgendaSettings");
         }
 
         public IActionResult DeleteColours()
         {
-            SQLConnection.ExecuteNonSearchQuery($"DELETE FROM ColorScheme");
+            bedrijfManager.DeleteColours();
             return RedirectToAction("AgendaSettings");
         }
 
