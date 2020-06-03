@@ -37,6 +37,8 @@ namespace Logic.Employees
             if (authCode != null) return employeeHandler.EmployeeInfo(authCode);
             else return new List<string>();
         }
+
+        public int IDFromMail(string mail) => employeeHandler.UserIDFromMail(mail);
     
     }
 }

@@ -53,5 +53,11 @@ namespace DAL.Employees
         }
 
         public List<string> EmployeeInfo(string authCode) => SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
+        public int UserIDFromMail(string mail)
+        {
+            List<string> userIDs = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `email`='{mail}'");
+            if (userIDs.Count > 0) return Convert.ToInt32(userIDs[0]);
+            else return 0;
+        }
     }
 }

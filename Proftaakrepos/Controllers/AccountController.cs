@@ -128,8 +128,8 @@ namespace Proftaakrepos.Controllers
         {
             ViewData["conf"] = "good";
             ViewData["email"] = email;
-            PasswordResetHandler resetHandler = new PasswordResetHandler();
-            resetHandler.AddPasswordReset(email);
+            ResetManager reset = new ResetManager();
+            reset.SendReset(email);
             return View("ChangePassword");
         }
 
