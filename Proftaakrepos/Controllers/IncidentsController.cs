@@ -13,6 +13,7 @@ using Models.Authentication;
 using System.Globalization;
 using System.Threading;
 using Models.Incidenten;
+using Logic;
 
 namespace Proftaakrepos.Controllers
 {
@@ -43,7 +44,8 @@ namespace Proftaakrepos.Controllers
                 {
                     int i = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(`StatusIDIncident`) FROM  `IncidentUpdates` WHERE `IncidentID` = '{statusId}'")[0]);
                     SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Afgehandeld')");
-                    NotificationsStandBy.NotifySolved(model);
+                    NotificationManager notificaties = new NotificationManager();
+                    notificaties.NotifySolved(model);
                 }
             }
             var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
@@ -122,8 +124,9 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public ActionResult VoegIncidentToe(AddIncidentModel model)
         {
+            NotificationManager notifications = new NotificationManager();
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
-            bool succeeded = NotificationsStandBy.NotifyStandyBy(model);
+            bool succeeded = notifications.NotifyStandBy(model);
             if (succeeded)
             {
                 Console.WriteLine("Mail has been sent");
