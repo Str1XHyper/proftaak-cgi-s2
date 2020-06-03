@@ -1,5 +1,6 @@
 ﻿using ClassLibrary.Classes;
 using CookieManager;
+using Logic.Authentication.Access;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -16,11 +17,11 @@ namespace Proftaakrepos.Controllers
     public class RoleController : Controller
     {
         private readonly ICookieManager _cookieManager;
-        private GetPageInformation getPage;
+        private AccessManager accessManager;
         public RoleController(ICookieManager cookiemanager)
         {
             _cookieManager = cookiemanager;
-            getPage = new GetPageInformation();
+            accessManager = new AccessManager();
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -35,7 +36,7 @@ namespace Proftaakrepos.Controllers
         [UserAccess("", "Toegang")]
         public IActionResult Index()
         {
-            ViewBag.Rollen = getPage.GetRoles();
+            ViewBag.Rollen = accessManager.GetRoles();
             return View();
         }
         [UserAccess("", "Toegang")]
@@ -53,16 +54,16 @@ namespace Proftaakrepos.Controllers
             {
                 permissions.Add(Convert.ToInt32(Convert.ToBoolean(perm)));
             }
-            getPage.InsertNewPermissions(model.Rol, permissions, model.Pages);
-            ViewBag.Rollen = getPage.GetRoles();
+            accessManager.InsertNewPermissions(model.Rol, permissions, model.Pages);
+            ViewBag.Rollen = accessManager.GetRoles();
             return View("Index");
         }
         [UserAccess("", "Toegang")]
         [Route("/Role/GetPermissions/{rol}")]
         public IActionResult GetPermissions(string rol)
         {
-            ViewBag.Pages = getPage.GetPages(rol);
-            ViewBag.Rollen = getPage.GetRoles();
+            ViewBag.Pages = accessManager.GetPages(rol);
+            ViewBag.Rollen = accessManager.GetRoles();
             return View("Index");
         }
     }

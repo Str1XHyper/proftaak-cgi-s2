@@ -1,34 +1,12 @@
-﻿using System;
-using SendGrid;
-using SendGrid.Helpers.Mail;
-using System.Threading.Tasks;
-using System.Net.Http;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using RestSharp;
-using RestSharp.Authenticators;
+using System.Text;
 
-namespace ClassLibrary.Classes
+namespace DAL.API
 {
     public class SendMail
     {
-        public static async Task<bool> Execute(string subject, string toEmail, string htmlContent, string plainTextContent)
-        {
-            try
-            {
-                var client = new SendGridClient("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");
-                var from = new EmailAddress("noreply@cgi.com", "CGI");
-                var to = new EmailAddress(toEmail, toEmail);
-                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-                await client.SendEmailAsync(msg);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public static void SendReset(string toEmail, string toName, string firstName, string authCode, string resetCode)
         {
             var client = new RestClient("https://api.sendgrid.com/v3/mail/send");

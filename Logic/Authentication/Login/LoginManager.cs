@@ -21,7 +21,18 @@ namespace Logic.Authentication.Login
         {
             if (currentPassword == null || newPassword == null) return false;
             else return loginHandler.ChangePassword(currentPassword, newPassword, userID);
+        }
 
+
+        public LoginHandler.responses LoginUser(string username, string password)
+        {
+            if (username != null)
+            {
+                string unencryptedPassword = loginHandler.UnencryptedPassword(username);
+                if (unencryptedPassword == password) return LoginHandler.responses.redirectHome;
+                else return LoginHandler.responses.wrongEntry;
+            }
+            else return LoginHandler.responses.wrongEntry;
         }
     }
 }

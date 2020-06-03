@@ -98,17 +98,14 @@ namespace DAL.Agenda
             }
             SQLConnection.ExecuteNonSearchQuery(sqlquery);
         }
-        public void CreateAbsenceRequest(string eventID, EventModel newmodel, string loggedUserID)
+        public bool CreateAbsenceRequest(string eventID, EventModel newmodel, string loggedUserID)
         {
             if (newmodel.themeColor.ToLower() == "verlof")
             {
                 SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Verlofaanvragen (UserID, EventID) VALUES ('{loggedUserID}', '{eventID}')");
+                return true;
             }
-            else
-            {
-                NotificationSettings settings = new NotificationSettings();
-                settings.SendRoosterNotifcation(newmodel.userId, eventID);
-            }
+            else return false;
         }
     }
 }

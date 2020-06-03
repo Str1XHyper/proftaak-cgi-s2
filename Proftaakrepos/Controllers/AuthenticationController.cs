@@ -43,8 +43,8 @@ namespace Proftaakrepos.Controllers
                 Date = DateTime.Now,
                 Role = null
             };
-
-            string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
+            LoginManager loginManager = new LoginManager();
+            string response = loginManager.LoginUser(model.Username, model.Password).ToString();
             EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
             GetAccesLevel accessLevel = new GetAccesLevel();
             switch (response)

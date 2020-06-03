@@ -6,6 +6,8 @@ namespace DAL.Authentication.Login
 {
     public class LoginHandler
     {
+        public enum responses { redirectHome, wrongEntry, multipleEntries, massiveError };
+
         public void AddLogin(string naam, string ID, string email)
         {
             string password = naam + "WW";
@@ -31,6 +33,13 @@ namespace DAL.Authentication.Login
                 return true;
             }
             return false;
+        }
+
+        public string UnencryptedPassword(string username)
+        {
+            List<string> passwords = SQLConnection.ExecuteGetStringQuery($"SELECT AES_DECRYPT(Password,'CGIKey')  FROM `Login` WHERE Username='{username.ToLower()}'");
+            if (passwords.Count > 0) return passwords[0];
+            else return string.Empty;
         }
     }
 }

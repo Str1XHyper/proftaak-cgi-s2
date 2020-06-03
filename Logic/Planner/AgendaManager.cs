@@ -13,9 +13,11 @@ namespace Logic.Planner
     public class AgendaManager
     {
         private readonly AgendaHandler agendahandler;
+        private readonly NotificationManager notificaties;
         public AgendaManager()
         {
             if (agendahandler == null) agendahandler = new AgendaHandler();
+            notificaties = new NotificationManager();
         }
         public List<EventModel> GetEvents() => agendahandler.GetEvents();
         public string[] GetVerlofCount() => agendahandler.GetVerlofCount();
@@ -144,7 +146,8 @@ namespace Logic.Planner
 
                 // When an event has type "Verlof" it creates a new Absence request
                 string eventID = agendahandler.GetLatestEventID();
-                agendahandler.CreateAbsenceRequest(eventID, newmodel, loggedUserID);
+                bool isVerlof = agendahandler.CreateAbsenceRequest(eventID, newmodel, loggedUserID);
+                if (!isVerlof) notificaties.NotifyPlanned(loggedUserID, eventID);
             }
         }
     }

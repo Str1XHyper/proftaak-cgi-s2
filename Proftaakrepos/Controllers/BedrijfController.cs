@@ -1,5 +1,6 @@
 ﻿using ClassLibrary.Classes;
 using CookieManager;
+using Logic.Authentication.Access;
 using Logic.Employees;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,8 +42,8 @@ namespace Proftaakrepos.Controllers
                 colours[3] = "830101";
             }
             ViewData["colours"] = colours;
-            GetPageInformation getInformation = new GetPageInformation();
-            ViewBag.Password = getInformation.GetSettings();
+            Logic.Authentication.Access.AccessManager accessManager = new Logic.Authentication.Access.AccessManager();
+            ViewBag.Password = accessManager.GetSettings();
             return View();
         }
         [UserAccess("", "Bedrijfsinstellingen")]

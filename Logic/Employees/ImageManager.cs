@@ -1,4 +1,5 @@
 ﻿using ClassLibrary.Classes;
+using Logic.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;

@@ -1,7 +1,9 @@
 ﻿using ClassLibrary.Classes;
 using CookieManager;
+using DAL;
+using Logic;
+using Logic.Authentication.Login;
 using Logic.Employees;
-using Logic.Login;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -12,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
+using Logic.Authentication;
 
 namespace Proftaakrepos.Controllers
 {
@@ -74,8 +77,8 @@ namespace Proftaakrepos.Controllers
                 SQLConnection.ExecuteNonSearchQuery($"UPDATE `Werknemers` SET `Voornaam`='{addEmployeeModel.naam}',`Tussenvoegsel`='{addEmployeeModel.tussenvoegsel}',`Achternaam`='{addEmployeeModel.achternaam}',`Email`='{addEmployeeModel.eMail.ToLower()}',`Telefoonnummer`='{addEmployeeModel.phoneNumber}',`Straatnaam`='{addEmployeeModel.straatnaam}',`Huisnummer`='{addEmployeeModel.huisNummer}',`Postcode`='{addEmployeeModel.postcode}',`Woonplaats`='{addEmployeeModel.woonplaats}',`Rol`='{addEmployeeModel.role}' WHERE `UserId` = {userID}");
                 SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(addEmployeeModel.emailsetting) ? 1 : 0)}',`ReceiveSMS`='{(Convert.ToBoolean(addEmployeeModel.smssetting) ? 1 : 0)}',`ReceiveWhatsApp`='{(Convert.ToBoolean(addEmployeeModel.whatsappSetting) ? 1 : 0)}' WHERE `UserId` = {userID}");
                 SQLConnection.ExecuteNonSearchQuery($"UPDATE `Login` SET `Username` = '{addEmployeeModel.eMail}' WHERE `UserId` = '{userID}'");
-                NotificationSettings settings = new NotificationSettings();
-                settings.PasSettingsAan(addEmployeeModel.TypeOfAge, addEmployeeModel.ValueOfNoti, userID);
+                NotificationManager notificaties = new NotificationManager();
+                notificaties.PasInstellingenAan(addEmployeeModel.TypeOfAge, addEmployeeModel.ValueOfNoti, userID);
                 TempData["msg"] = "Werknemer " + addEmployeeModel.naam + " is aangepast.";
             }
             return RedirectToAction("GetEmployeeInfo");

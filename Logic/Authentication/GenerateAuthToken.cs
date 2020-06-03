@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Logic.Authentication
 {
-    class GenerateAuthToken
+    public class GenerateAuthToken
     {
         internal static readonly char[] chars =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
