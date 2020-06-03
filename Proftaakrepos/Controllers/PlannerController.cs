@@ -6,7 +6,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using ClassLibrary.Classes;
-using ClassLibrary.Planner;
+//using ClassLibrary.Planner;
 using CookieManager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ using Models.Agenda;
 using Models.Authentication;
 using Ubiety.Dns.Core.Records.NotUsed;
 using Proftaakrepos.Authorize;
-
+using Logic.Planner;
 namespace Proftaakrepos.Controllers
 {
     public class PlannerController : Controller

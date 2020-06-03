@@ -13,7 +13,8 @@ using Proftaakrepos.Authorize;
 using Models.Authentication;
 using Microsoft.AspNetCore.Mvc.Filters;
 using CookieManager;
-using ClassLibrary.Planner;
+// using ClassLibrary.Planner;
+using Logic.Planner;
 using System.Threading;
 using System.Globalization;
 
