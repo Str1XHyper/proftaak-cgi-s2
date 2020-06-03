@@ -15,6 +15,7 @@ using System.Threading;
 using System.Globalization;
 using Models.Language;
 using Logic.Login;
+using Logic.Employees;
 
 namespace Proftaakrepos.Controllers
 {
@@ -42,10 +43,11 @@ namespace Proftaakrepos.Controllers
             };
 
             string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
+            EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
             switch (response)
             {
                 case "redirectHome":
-                    string authCode = CreateLoginCookie.getAuthToken(model.Username);
+                    string authCode = employeeInfo.getAuthToken(model.Username);
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
                     cookie.Role = GetAccessLevel.GetRol(authCode);
@@ -88,7 +90,8 @@ namespace Proftaakrepos.Controllers
 
         public void AddLogin(bool success, string username, string ip)
         {
-            string authCode = CreateLoginCookie.getAuthToken(username);
+            EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
+            string authCode = employeeInfo.getAuthToken(username);
             LoginManager loginManager = new LoginManager();
             loginManager.AddLoginRecord(authCode, success, ip, DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
         }

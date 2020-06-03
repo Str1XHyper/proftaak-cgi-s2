@@ -65,7 +65,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult PasswordSettings(SettingsPageModel model)
         {
-            EmployeesManager employeesManager = new EmployeesManager();
+            EmployeeInfoManager employeesManager = new EmployeeInfoManager();
             List<string> values = new List<string>();
             values.Add(Convert.ToInt32(model.model1.Nummer).ToString());
             values.Add(Convert.ToInt32(model.model1.Speciaal).ToString());

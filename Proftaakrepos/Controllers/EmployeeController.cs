@@ -55,7 +55,7 @@ namespace Proftaakrepos.Controllers
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
             LoginManager loginManager = new LoginManager();
-            EmployeesManager employeeManager = new EmployeesManager();
+            EmployeeInfoManager employeeManager = new EmployeeInfoManager();
             string authToken = GenerateAuthToken.GetUniqueKey(10);
             string newEmail = addEmployeeModel.eMail.ToLower();
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{newEmail}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
