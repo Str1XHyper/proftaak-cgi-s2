@@ -37,8 +37,8 @@
         }
         @{ <div class="card-body">
                 <form asp-action="ChangePermissions" asp-controller="Role">
-                    if (ViewBag.Pages != null)
-                    {
+                     @{ if (ViewBag.Pages != null)
+                         {
                     <div class="row">
                         @{
                             PageModel pModel = ViewBag.Pages;
@@ -85,6 +85,8 @@
                         }
                         <input type="hidden" asp-for="Rol" value="@pModel.Role" />
                     </div>
+                    }
+                    }
                 </form>
             </div>
             <div class="card-footer">
@@ -93,6 +95,6 @@
                 </button>
             </div>
         }
-        }
+        
     </div>
 </div>

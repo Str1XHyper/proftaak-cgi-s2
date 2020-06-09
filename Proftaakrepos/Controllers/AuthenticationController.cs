@@ -132,9 +132,11 @@ namespace Proftaakrepos.Controllers
                 SetSession(_cookieManager.Get<CookieModel>("BIER.User").Identifier);
                 return RedirectToAction("Schedule", "Planner");
             }
+            if (_cookieManager.Get<LanguageCookieModel>("BIER.User.Culture") != null) HttpContext.Session.SetString("Culture", _cookieManager.Get<LanguageCookieModel>("BIER.User.Culture").Language);
+            else HttpContext.Session.SetString("Culture", "en");
             if (extra != null)
             {
-                ViewData["Error"] = "Succesvol uitgelogd.";
+                ViewData["Error"] = extra;
             }
             return View();
         }

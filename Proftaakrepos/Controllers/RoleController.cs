@@ -1,11 +1,8 @@
-﻿
-using DAL;
-using CookieManager;
+﻿using CookieManager;
 using Logic.Authentication.Access;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Models.Authentication;
 using Models.Settings;
 using Proftaakrepos.Authorize;
 using System;

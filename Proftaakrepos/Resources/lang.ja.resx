@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Aangevraagd" xml:space="preserve">
+    <value>If an account exists with email: -, then an resetmail will be sent.</value>
+  </data>
+  <data name="Aanvragen" xml:space="preserve">
+    <value>Weqwest</value>
+  </data>
   <data name="Achternaam" xml:space="preserve">
     <value>Siwname</value>
   </data>
@@ -147,6 +153,9 @@
   <data name="Dagen" xml:space="preserve">
     <value>Days</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Ewail</value>
+  </data>
   <data name="EmailNotificaties" xml:space="preserve">
     <value>Weiceive e-maiw notifications</value>
   </data>
@@ -170,6 +179,9 @@
   </data>
   <data name="Inkomend" xml:space="preserve">
     <value>Incoming</value>
+  </data>
+  <data name="Inloggen" xml:space="preserve">
+    <value>Log in</value>
   </data>
   <data name="Instellingen" xml:space="preserve">
     <value>Adjust settings</value>
@@ -215,6 +227,9 @@
   </data>
   <data name="Postcode" xml:space="preserve">
     <value>Postawcode</value>
+  </data>
+  <data name="Request" xml:space="preserve">
+    <value>Weqwest</value>
   </data>
   <data name="Rol" xml:space="preserve">
     <value>Wowe</value>
@@ -270,6 +285,9 @@
   <data name="Uitgaand" xml:space="preserve">
     <value>Outgoing</value>
   </data>
+  <data name="Uitgelogd" xml:space="preserve">
+    <value>Mae Wa Mou Shindeiru</value>
+  </data>
   <data name="Verlof" xml:space="preserve">
     <value>Absence</value>
   </data>
@@ -284,6 +302,9 @@
   </data>
   <data name="Voornaam" xml:space="preserve">
     <value>Nawme</value>
+  </data>
+  <data name="Wachtwoord" xml:space="preserve">
+    <value>Password</value>
   </data>
   <data name="WachtwoordVereisten" xml:space="preserve">
     <value>Passwowd wequiwements</value>
