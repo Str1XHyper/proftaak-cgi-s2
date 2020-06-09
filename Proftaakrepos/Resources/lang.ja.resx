@@ -213,6 +213,9 @@
   <data name="Niet" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="NieuwIncident" xml:space="preserve">
+    <value>Add new update *snuzzles*</value>
+  </data>
   <data name="NoActiveIncidents" xml:space="preserve">
     <value>Thewe awe no active incidents at thiws time</value>
   </data>
@@ -287,6 +290,9 @@
   </data>
   <data name="Uitgelogd" xml:space="preserve">
     <value>Mae Wa Mou Shindeiru</value>
+  </data>
+  <data name="UpdateToevoegen" xml:space="preserve">
+    <value>Add uwudate</value>
   </data>
   <data name="Verlof" xml:space="preserve">
     <value>Absence</value>

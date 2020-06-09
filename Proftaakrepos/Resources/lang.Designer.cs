@@ -700,6 +700,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add a new incident.
+        /// </summary>
+        public static string NieuwIncident {
+            get {
+                return ResourceManager.GetString("NieuwIncident", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New password.
         /// </summary>
         public static string NieuwWachtwoord {
@@ -1119,6 +1128,15 @@ namespace Proftaakrepos.Resources {
         public static string Uitgelogd {
             get {
                 return ResourceManager.GetString("Uitgelogd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add update.
+        /// </summary>
+        public static string UpdateToevoegen {
+            get {
+                return ResourceManager.GetString("UpdateToevoegen", resourceCulture);
             }
         }
         

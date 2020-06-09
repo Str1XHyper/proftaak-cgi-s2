@@ -566,4 +566,10 @@
   <data name="Inloggen" xml:space="preserve">
     <value>Inloggen</value>
   </data>
+  <data name="NieuwIncident" xml:space="preserve">
+    <value>Nieuw incident aanmaken</value>
+  </data>
+  <data name="UpdateToevoegen" xml:space="preserve">
+    <value>Update toevoegen</value>
+  </data>
 </root>
