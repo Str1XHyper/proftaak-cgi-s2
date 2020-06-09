@@ -129,6 +129,9 @@
   <data name="ActieveAanvragen" xml:space="preserve">
     <value>Active wequests</value>
   </data>
+  <data name="Afbeelding" xml:space="preserve">
+    <value>Image</value>
+  </data>
   <data name="Allemaal" xml:space="preserve">
     <value>Aww</value>
   </data>

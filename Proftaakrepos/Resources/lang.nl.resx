@@ -572,4 +572,7 @@
   <data name="UpdateToevoegen" xml:space="preserve">
     <value>Update toevoegen</value>
   </data>
+  <data name="Afbeelding" xml:space="preserve">
+    <value>Afbeelding</value>
+  </data>
 </root>

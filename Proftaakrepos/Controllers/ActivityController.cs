@@ -15,10 +15,6 @@ namespace Proftaakrepos.Controllers
 {
     public class ActivityController : Controller
     {
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
-        }
         [UserAccess("LoggedIn", "")]
         public IActionResult Index()
         {
@@ -27,6 +23,7 @@ namespace Proftaakrepos.Controllers
             ViewData["records"] = responseRecords;
             APICalls calls = new APICalls();
             ViewData["ip"] = calls.APICall("https://api.ipify.org/");
+            ViewData["language"] = HttpContext.Session.GetString("Culture");
             return View();
         }
     }

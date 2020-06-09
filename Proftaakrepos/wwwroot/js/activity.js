@@ -2,6 +2,6 @@
 
 $(document).ready(() => {
     $.get("https://freegeoip.app/json/", (data) => {
-        alert.html("<center>Uw IP adres is: <b>" + data["ip"] + "</b></center>");
+        alert.html("<center>IP: <b>" + data["ip"] + "</b></center>");
     })
 })
