@@ -114,7 +114,7 @@ namespace DAL
             return values;
         }
 
-        public static void ExecuteNonSearchQuery(string query)
+        public static bool ExecuteNonSearchQuery(string query)
         {
             MySqlConnection cnn = CreateConnection();
 
@@ -122,11 +122,19 @@ namespace DAL
             cmd.CommandText = query;
             cmd.Connection = cnn;
             cnn.Open();
-            cmd.ExecuteNonQuery();
+            try
+            {
+                cmd.ExecuteNonQuery();
+            } 
+            catch
+            {
+                return false;
+            }
             cnn.Close();
+            return true;
         }
 
-        public static void ExecuteNonSearchQueryArray(string[] query)
+        public static bool ExecuteNonSearchQueryArray(string[] query)
         {
             MySqlConnection cnn = CreateConnection();
 
@@ -138,11 +146,19 @@ namespace DAL
                 cmd[i].Connection = cnn;
             }
             cnn.Open();
-            for (int i = 0; i < cmd.Length; i++)
+            try
             {
-                cmd[i].ExecuteNonQuery();
+                for (int i = 0; i < cmd.Length; i++)
+                {
+                    cmd[i].ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                return false;
             }
             cnn.Close();
+            return true;
         }
 
         public static List<string> ExecuteGetStringQuery(string query)

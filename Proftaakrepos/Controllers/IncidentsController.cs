@@ -13,12 +13,14 @@ using System.Globalization;
 using System.Threading;
 using Models.Incidenten;
 using Logic;
+using Logic.Incidenten;
 
 using DAL;
 namespace Proftaakrepos.Controllers
 {
     public class IncidentsController : Controller
     {
+        IncidentenManager incidentenManager = new IncidentenManager();
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
@@ -32,39 +34,36 @@ namespace Proftaakrepos.Controllers
 
         [UserAccess("","Incidenten")]
         [HttpGet]
-        public IActionResult Index(string? status, int? statusId, IncidentMailModel model)
+        public IActionResult Index(string status, int? statusId, IncidentMailModel model)
         {
             if(status != null && statusId != null)
             {
-                SQLConnection.ExecuteNonSearchQuery($"UPDATE `Incidenten` SET `Afgehandeld`= '{status}' WHERE `IncidentID` = '{statusId}'");
                 if(status == "1")
                 {
-                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','0','Begonnen aan het incident','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Begonnen')");
-                } else if (status == "2")
+                    incidentenManager.StartIncident(Convert.ToInt32(statusId));
+                }
+                else if (status == "2")
                 {
-                    int i = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(`StatusIDIncident`) FROM  `IncidentUpdates` WHERE `IncidentID` = '{statusId}'")[0]);
-                    SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{statusId}','{i}','Incident is afgehandled','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}','{DateTime.Now.ToString("yyyy/MM/dd HH:mm")}', 'Afgehandeld')");
-                    NotificationManager notificaties = new NotificationManager();
-                    notificaties.NotifySolved(model);
+                    incidentenManager.FinishIncident(Convert.ToInt32(statusId), model);
                 }
             }
-            var incidents = SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT * FROM `Incidenten` WHERE `Afgehandeld` = '0' OR `Afgehandeld` = '1'");
-            ViewBag.Incidents = incidents;
+            ViewBag.Incidents = incidentenManager.GetIncidents();
+            ViewBag.IncidentUpdateCount = incidentenManager.GetIncidentUpdateCount();
             return View();
         }
 
         [UserAccess("", "Incidenten")]
         [HttpGet]
-        public IActionResult StatusUpdate(int? incidentId, bool delete, int? updateId)
+        public IActionResult StatusUpdate(int incidentId, bool delete, int? updateId)
         {
             if (delete)
             {
                 if(updateId != null)
                 {
-                    SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `IncidentUpdates` WHERE `StatusId` = '{updateId}'");
+                    incidentenManager.DeleteStatusUpdate(Convert.ToInt32(updateId));
                 }
             }
-            var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}' ORDER BY `StatusIdIncident` ASC");
+            var statusUpdates = incidentenManager.GetIncidentUpdates(incidentId);
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
             return View();
@@ -73,7 +72,7 @@ namespace Proftaakrepos.Controllers
         [UserAccess("", "Incidenten")]
         public IActionResult AddUpdate(int incidentId)
         {
-            var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}'");
+            var statusUpdates = incidentenManager.GetIncidentUpdates(incidentId);
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
             return View();
@@ -83,8 +82,8 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult AddUpdate(int incidentId, AddStatusUpdateModel model)
         {
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{model.IncidentID}','{model.StatusIdIncident}','{model.StatusOmschrijving}','{DateTime.Parse(model.Start).ToString("yyyy/MM/dd HH:mm")}','{DateTime.Parse(model.End).ToString("yyyy/MM/dd HH:mm")}', '{model.StatusNaam}')");
-            var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}'");
+            incidentenManager.AddStatusUpdate(model);
+            var statusUpdates = incidentenManager.GetIncidentUpdates(incidentId);
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
             return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = incidentId });
@@ -109,8 +108,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult EditUpdate(AddStatusUpdateModel model)
         {
-           
-            SQLConnection.ExecuteNonSearchQuery($" UPDATE `IncidentUpdates` SET `StatusOmschrijving`='{model.StatusOmschrijving}',`Start`='{DateTime.Parse(model.Start).ToString("yyyy/MM/dd HH:mm")}',`End`='{DateTime.Parse(model.End).ToString("yyyy/MM/dd HH:mm")}' WHERE `IncidentId` = '{model.IncidentID}' AND `StatusIdIncident` = '{model.StatusIdIncident}'");
+            incidentenManager.EditStatusUpdate(model);
             return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = model.IncidentID });
         }
 
@@ -125,7 +123,7 @@ namespace Proftaakrepos.Controllers
         public ActionResult VoegIncidentToe(AddIncidentModel model)
         {
             NotificationManager notifications = new NotificationManager();
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
+            incidentenManager.AddIncident(model);
             bool succeeded = notifications.NotifyStandBy(model);
             if (succeeded)
             {

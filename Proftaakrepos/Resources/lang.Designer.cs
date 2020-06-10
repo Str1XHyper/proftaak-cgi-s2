@@ -97,11 +97,29 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If an account exists with email: -, then an resetmail will be sent..
+        /// </summary>
+        public static string Aangevraagd {
+            get {
+                return ResourceManager.GetString("Aangevraagd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of updates.
         /// </summary>
         public static string AantalUpdates {
             get {
                 return ResourceManager.GetString("AantalUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request.
+        /// </summary>
+        public static string Aanvragen {
+            get {
+                return ResourceManager.GetString("Aanvragen", resourceCulture);
             }
         }
         
@@ -120,6 +138,15 @@ namespace Proftaakrepos.Resources {
         public static string ActieveAanvragen {
             get {
                 return ResourceManager.GetString("ActieveAanvragen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string Afbeelding {
+            get {
+                return ResourceManager.GetString("Afbeelding", resourceCulture);
             }
         }
         
@@ -295,6 +322,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to E-mail.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Receive E-mail notifications.
         /// </summary>
         public static string EmailNotificaties {
@@ -327,15 +363,6 @@ namespace Proftaakrepos.Resources {
         public static string ErZijnNogGeenRuilaanvragen {
             get {
                 return ResourceManager.GetString("ErZijnNogGeenRuilaanvragen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Filters.
-        /// </summary>
-        public static string Filters {
-            get {
-                return ResourceManager.GetString("Filters", resourceCulture);
             }
         }
         
@@ -457,7 +484,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reset.
+        ///   Looks up a localized string similar to Recover.
         /// </summary>
         public static string Herstel {
             get {
@@ -525,6 +552,15 @@ namespace Proftaakrepos.Resources {
         public static string Inkomend {
             get {
                 return ResourceManager.GetString("Inkomend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Inloggen {
+            get {
+                return ResourceManager.GetString("Inloggen", resourceCulture);
             }
         }
         
@@ -669,6 +705,15 @@ namespace Proftaakrepos.Resources {
         public static string Niet {
             get {
                 return ResourceManager.GetString("Niet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add a new incident.
+        /// </summary>
+        public static string NieuwIncident {
+            get {
+                return ResourceManager.GetString("NieuwIncident", resourceCulture);
             }
         }
         
@@ -1087,6 +1132,24 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to U have been logged out successfully.
+        /// </summary>
+        public static string Uitgelogd {
+            get {
+                return ResourceManager.GetString("Uitgelogd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add update.
+        /// </summary>
+        public static string UpdateToevoegen {
+            get {
+                return ResourceManager.GetString("UpdateToevoegen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to From.
         /// </summary>
         public static string Van {
@@ -1164,6 +1227,15 @@ namespace Proftaakrepos.Resources {
         public static string Vrijdag {
             get {
                 return ResourceManager.GetString("Vrijdag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Wachtwoord {
+            get {
+                return ResourceManager.GetString("Wachtwoord", resourceCulture);
             }
         }
         

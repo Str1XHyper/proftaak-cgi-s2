@@ -56,7 +56,7 @@ namespace Proftaakrepos.Controllers
         {
             _cookieManager.Remove("BIER.User");
             HttpContext.Session.Remove("UserInfo");
-            return RedirectToAction("LoginNew", "Authentication", new {extra = "uitgelogd" });
+            return RedirectToAction("LoginNew", "Authentication", new {extra = Proftaakrepos.Resources.lang.Uitgelogd });
         }
         [UserAccess("LoggedIn", "")]
         [HttpPost]
@@ -134,6 +134,8 @@ namespace Proftaakrepos.Controllers
         public IActionResult ChangePas(string email)
         {
             ViewData["conf"] = "good";
+            string[] values = Proftaakrepos.Resources.lang.Aangevraagd.Split('-');
+            ViewData["msg"] = values[0] + email + values[1];
             ViewData["email"] = email;
             ResetManager reset = new ResetManager();
             reset.SendReset(email);
