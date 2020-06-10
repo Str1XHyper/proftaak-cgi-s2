@@ -17,6 +17,7 @@ using Logic.Employees;
 using Logic.Authentication.Password;
 using Logic.Authentication;
 using DAL;
+using Logic;
 
 namespace Proftaakrepos.Controllers
 {
@@ -34,7 +35,6 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            TempData["test"] = (_cookieManager.Get<CookieModel>("BIER.User") != null).ToString() + " WHAT THE FUCK";
             CookieModel cookie = new CookieModel()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -74,6 +74,8 @@ namespace Proftaakrepos.Controllers
 
         private void SetSession(string authCode)
         {
+            NotificationManager nm = new NotificationManager();
+            nm.SendNotifications();
             EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
             HttpContext.Session.SetString("UserInfo", authCode);
             List<string> UInfo = employeeInfo.EmployeeInfo(authCode);
