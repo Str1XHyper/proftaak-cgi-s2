@@ -46,30 +46,6 @@ namespace Logic
             //SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", model.Beschrijving, model.Naam);
         }
 
-        public void NotifyPlanned(string userID, string eventID)
-        {
-            List<string> response = SQLConnection.ExecuteSearchQuery($"SELECT ReceiveMail, ReceiveSMS, ReceiveWhatsApp, Type, Hoeveelheid FROM Settings WHERE UserId='{userID}'");
-            if (response.Count > 0)
-            {
-                List<string> eventGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Start, End, IsFullDay, Subject, ThemeColor, Description FROM Rooster WHERE EventId='{eventID}'");
-                List<string> werknemersGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Voornaam, Email, Telefoonnummer FROM Werknemers WHERE UserId='{userID}'");
-                if (response[0].ToLower() == "true")
-                {
-                    //wilt email ontvangen
-
-                    SendMail.SendNotification(werknemersGegevens[1], werknemersGegevens[0], werknemersGegevens[0], eventGegevens[3], eventGegevens[5], eventGegevens[4]);
-                }
-                if(response[2].ToLower() == "true")
-                {
-                    Twilio.SendWhatsapp($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}","+" + werknemersGegevens[2]);
-                }
-                if (response[1].ToLower() == "true")
-                {
-                    Twilio.SendSMS($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+" + werknemersGegevens[2]);
-                }
-            }
-        }
-
         public void PasInstellingenAan(string TypeOfAge, int ValueOfNoti, string userID)
         {
             switch (Convert.ToInt32(TypeOfAge))
