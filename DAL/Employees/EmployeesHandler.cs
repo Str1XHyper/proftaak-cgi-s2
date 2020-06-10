@@ -61,5 +61,11 @@ namespace DAL.Employees
         public string[] GetEmployeeNames() => SQLConnection.ExecuteSearchQuery("SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam` FROM `Werknemers`").ToArray();
         public List<string[]> GetNamesAndUserIDs() => SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam`, `UserId` FROM `Werknemers`");
         public string[] EmployeeInfo(string naam) => SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `VOORNAAM` = {naam}").ToArray();
+        public List<string[]> EmployeesInfoWithEmailSetting(string userID)
+        {
+            List<string[]> response = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT Werknemers.Email, Werknemers.Voornaam FROM Werknemers INNER JOIN Settings ON Werknemers.UserId=Settings.UserID where Settings.ReceiveMail=1 and not Werknemers.UserID='{userID}'");
+            if (response.Count > 0) return response;
+            else return new List<string[]>();
+        }
     }
 }

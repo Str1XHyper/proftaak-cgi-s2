@@ -32,7 +32,12 @@ namespace Logic.Ruilverzoeken
 
         public string[] GetRoosterData(string eventID) => getData.GetRoosterData(eventID);
 
-        public void AddRequest(string EventID, string UserID) => addData.AddRequest(EventID, UserID);
+        public void AddRequest(string EventID, string UserID)
+        {
+            NotificationManager notification = new NotificationManager();
+            notification.SendRuilverzoek(UserID);
+            addData.AddRequest(EventID, UserID);
+        }
 
         public void BlockRequest(string UserID, int TradeID, string DisabledIds) => addData.BlockRequest(UserID, TradeID, DisabledIds);
 
