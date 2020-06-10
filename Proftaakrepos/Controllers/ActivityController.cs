@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;
 using Logic.API;
 using DAL;
+using System.Threading;
+using System.Globalization;
 
 namespace Proftaakrepos.Controllers
 {
@@ -18,6 +20,12 @@ namespace Proftaakrepos.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
+            string language = HttpContext.Session.GetString("Culture");
+            if (!string.IsNullOrEmpty(language))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+            }
         }
         [UserAccess("LoggedIn", "")]
         public IActionResult Index()

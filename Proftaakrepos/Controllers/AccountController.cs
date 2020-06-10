@@ -16,6 +16,8 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using DAL;
 using Logic;
+using System.Threading;
+using System.Globalization;
 
 namespace Proftaakrepos.Controllers
 {
@@ -31,6 +33,12 @@ namespace Proftaakrepos.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
+            string language = HttpContext.Session.GetString("Culture");
+            if (!string.IsNullOrEmpty(language))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+            }
         }
         [UserAccess("LoggedIn", "")]
         public IActionResult ChangeSettings()
