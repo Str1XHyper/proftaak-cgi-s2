@@ -15,6 +15,7 @@
         <label class="bg-dark text-white p-2">Please select a date:</label>
         <input onchange="UpdateTable()" type="date" name="date" id="date"/>
     </div>
+    @*Hours worked week view*@
     <div class="card m-3 h-75 float-left" style="width: 75%">
         <table class="table">
             <thead class="thead-dark">
@@ -54,7 +55,6 @@
                     <td id="at" class="bg-secondary text-white"></td>
                 </tr>
                 <tr>
-                    @*TODO MAKE IT THAT TOTAL DOESN'T INCLUDE FURLOUGH*@
                     <th scope="row" class="bg-dark text-white">Leave</th>
                     <td id="f1"></td>
                     <td id="f2"></td>
