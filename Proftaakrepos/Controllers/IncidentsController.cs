@@ -48,13 +48,13 @@ namespace Proftaakrepos.Controllers
                 }
             }
             ViewBag.Incidents = incidentenManager.GetIncidents();
-            ViewBag.IncidentUpdateCount = incidentenManager.GetIncidentUpdates();
+            ViewBag.IncidentUpdateCount = incidentenManager.GetIncidentUpdateCount();
             return View();
         }
 
         [UserAccess("", "Incidenten")]
         [HttpGet]
-        public IActionResult StatusUpdate(int? incidentId, bool delete, int? updateId)
+        public IActionResult StatusUpdate(int incidentId, bool delete, int? updateId)
         {
             if (delete)
             {
@@ -63,7 +63,7 @@ namespace Proftaakrepos.Controllers
                     incidentenManager.DeleteStatusUpdate(Convert.ToInt32(updateId));
                 }
             }
-            var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}' ORDER BY `StatusIdIncident` ASC");
+            var statusUpdates = incidentenManager.GetIncidentUpdates(incidentId);
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
             return View();
@@ -72,7 +72,7 @@ namespace Proftaakrepos.Controllers
         [UserAccess("", "Incidenten")]
         public IActionResult AddUpdate(int incidentId)
         {
-            var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}'");
+            var statusUpdates = incidentenManager.GetIncidentUpdates(incidentId);
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
             return View();
@@ -82,8 +82,8 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult AddUpdate(int incidentId, AddStatusUpdateModel model)
         {
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `IncidentUpdates`(`IncidentID`, `StatusIDIncident`, `StatusOmschrijving`, `Start`, `End`, `StatusNaam`) VALUES ('{model.IncidentID}','{model.StatusIdIncident}','{model.StatusOmschrijving}','{DateTime.Parse(model.Start).ToString("yyyy/MM/dd HH:mm")}','{DateTime.Parse(model.End).ToString("yyyy/MM/dd HH:mm")}', '{model.StatusNaam}')");
-            var statusUpdates = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}'");
+            incidentenManager.AddStatusUpdate(model);
+            var statusUpdates = incidentenManager.GetIncidentUpdates(incidentId);
             ViewBag.StatusUpdates = statusUpdates;
             ViewBag.IncidentId = incidentId;
             return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = incidentId });
@@ -108,8 +108,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult EditUpdate(AddStatusUpdateModel model)
         {
-           
-            SQLConnection.ExecuteNonSearchQuery($" UPDATE `IncidentUpdates` SET `StatusOmschrijving`='{model.StatusOmschrijving}',`Start`='{DateTime.Parse(model.Start).ToString("yyyy/MM/dd HH:mm")}',`End`='{DateTime.Parse(model.End).ToString("yyyy/MM/dd HH:mm")}' WHERE `IncidentId` = '{model.IncidentID}' AND `StatusIdIncident` = '{model.StatusIdIncident}'");
+            incidentenManager.EditStatusUpdate(model);
             return RedirectToAction("StatusUpdate", "Incidents", new { incidentId = model.IncidentID });
         }
 
@@ -124,7 +123,7 @@ namespace Proftaakrepos.Controllers
         public ActionResult VoegIncidentToe(AddIncidentModel model)
         {
             NotificationManager notifications = new NotificationManager();
-            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
+            incidentenManager.AddIncident(model);
             bool succeeded = notifications.NotifyStandBy(model);
             if (succeeded)
             {
