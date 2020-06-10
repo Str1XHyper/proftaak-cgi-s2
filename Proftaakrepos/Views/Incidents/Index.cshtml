@@ -18,15 +18,15 @@
         foreach (string[] incident in incidenten)
         {
             IncidentMailModel incidentMailModel = new IncidentMailModel()
-            { 
+            {
                 Naam = incident[3],
                 Beschrijving = incident[1]
             };
 
             int statusCount = 0;
-            foreach(string[] incidentCount in incidentUpdateCount)
+            foreach (string[] incidentCount in incidentUpdateCount)
             {
-                if(incidentCount[0] == incident[0])
+                if (incidentCount[0] == incident[0])
                 {
                     statusCount = Convert.ToInt32(incidentCount[1]);
                 }
@@ -45,31 +45,31 @@
                             switch (incident[2])
                             {
                                 case "0":
-                                    <a>Nog niet begonnen</a>
+                                    <a>@Proftaakrepos.Resources.lang.Nog_niet_begonnen</a>
                                     break;
                                 case "1":
-                                    <a>Wordt aangewerkt</a>
+                                    <a>@Proftaakrepos.Resources.lang.WordtAanGewerkt</a>
                                     break;
                                 default:
-                                    <a>Er is een fout opgetreden in de database</a>
+                                    <a>@Proftaakrepos.Resources.lang.FoutDataBase</a>
                                     break;
 
                             }
                         }
                         <br />
-                        Aantal updates: @statusCount
+                        @Proftaakrepos.Resources.lang.AantalUpdates: @statusCount
                     </h5>
 
                 </div>
                 <div class="card-footer bg-white">
                     @{ if (incident[2] == "0")
                         {
-                            <a class=" btn btn-outline-secondary" asp-action="Index" asp-route-status="1" asp-route-statusId="@incident[0]" asp-route-model="@incidentMailModel">Starten</a>
+                            <a class=" btn btn-outline-secondary" asp-action="Index" asp-route-status="1" asp-route-statusId="@incident[0]" asp-route-model="@incidentMailModel">@Proftaakrepos.Resources.lang.Starten</a>
                         }
                         else if (incident[2] == "1")
                         {
-                            <a class=" btn btn-outline-secondary" asp-action="StatusUpdate" asp-route-incidentId="@incident[0]">Status aanpassen</a>
-                            <a class=" btn btn-danger" asp-action="Index" asp-route-status="2" asp-route-statusId="@incident[0]" asp-route-model="@incidentMailModel" method="Post">Afgehandeld</a>
+                            <a class=" btn btn-outline-secondary" asp-action="StatusUpdate" asp-route-incidentId="@incident[0]">@Proftaakrepos.Resources.lang.StatusAanpassen</a>
+                            <a class=" btn btn-danger" asp-action="Index" asp-route-status="2" asp-route-statusId="@incident[0]" asp-route-model="@incidentMailModel" method="Post">@Proftaakrepos.Resources.lang.Afgehandeld</a>
                         }
                     }
                 </div>
@@ -88,5 +88,5 @@
         </div>
     }
 
-<a class=" btn btn-outline-secondary" asp-action="VoegIncidentToe">@Proftaakrepos.Resources.lang.VoegToe</a>
+    <a class=" btn btn-outline-secondary" asp-action="VoegIncidentToe">@Proftaakrepos.Resources.lang.VoegToe</a>
 }
