@@ -1,4 +1,4 @@
-﻿@using DAL;
+﻿@using ClassLibrary.Classes
 @using System;
 @using System.Collections.Generic;
 @using System.Linq;
@@ -9,6 +9,7 @@
 @{
     ViewData["Title"] = "Incidenten";
     List<string[]> incidenten = ViewBag.Incidents;
+    List<string[]> incidentUpdateCount = ViewBag.IncidentUpdateCount;
 }
 @{
     if (incidenten.Count != 0)
@@ -21,33 +22,20 @@
                 Naam = incident[3],
                 Beschrijving = incident[1]
             };
-            int statusCount = 0;
-            if (incident[2] == "1")
-            {
-                statusCount = Convert.ToInt32(SQLConnection.ExecuteSearchQuery($"SELECT COUNT(StatusIdIncident) FROM IncidentUpdates WHERE IncidentId = '{incident[0]}'; ")[0]);
-            }
-            <div class="card mb-3">
-                @{
-                    switch (incident[2])
-                    {
-                        case "0":
-                            <div class="card-header bg-danger text-white">
-                                Incident: @incident[3]
-                            </div>
-                            break;
-                        case "1":
-                            <div class="card-header bg-dark text-white">
-                                Incident: @incident[3]
-                            </div>
-                            break;
-                        default:
-                            <div class="card-header bg-info text-white">
-                                Incident: @incident[3]
-                            </div>
-                            break;
 
-                    }
+            int statusCount = 0;
+            foreach (string[] incidentCount in incidentUpdateCount)
+            {
+                if (incidentCount[0] == incident[0])
+                {
+                    statusCount = Convert.ToInt32(incidentCount[1]);
                 }
+            }
+
+            <div class="card mb-3">
+                <div class="card-header bg-dark text-white">
+                    Incident: @incident[3]
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">
                         @incident[1]
