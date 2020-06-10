@@ -552,4 +552,31 @@
   <data name="GeenVerlofAanvragen" xml:space="preserve">
     <value>No active absence requests</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Uitgelogd" xml:space="preserve">
+    <value>U have been logged out successfully</value>
+  </data>
+  <data name="Wachtwoord" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Aangevraagd" xml:space="preserve">
+    <value>If an account exists with email: -, then an resetmail will be sent.</value>
+  </data>
+  <data name="Aanvragen" xml:space="preserve">
+    <value>Request</value>
+  </data>
+  <data name="Inloggen" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="NieuwIncident" xml:space="preserve">
+    <value>Add a new incident</value>
+  </data>
+  <data name="UpdateToevoegen" xml:space="preserve">
+    <value>Add update</value>
+  </data>
+  <data name="Afbeelding" xml:space="preserve">
+    <value>Image</value>
+  </data>
 </root>

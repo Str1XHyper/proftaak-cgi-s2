@@ -3,11 +3,16 @@
     width: 125px; 
     margin-right: 10px;
 }
+
 .password-setting{
     min-width: 100%;
     border: solid;
     border-width: 1px;
     border-color: black;
+}
+
+.password-setting-field{
+    padding-top: 10px;
 }
 
 .password-setting-container{
@@ -16,6 +21,11 @@
     float: left;
     margin-right: 5px;
 }
+
+.test{
+    float: initial;
+}
+
 @media only screen and (max-width: 1375px) {
     .password-setting-container {
         width: 100%;

@@ -548,4 +548,31 @@
   <data name="GeenVerlofAanvragen" xml:space="preserve">
     <value>Geen actieve verlofaanvragen</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Uitgelogd" xml:space="preserve">
+    <value>U bent successvol uitgelogd</value>
+  </data>
+  <data name="Wachtwoord" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="Aangevraagd" xml:space="preserve">
+    <value>Als er een account is gevonden met het e-mail: -, dan is er een mail verstuurd met instructies.</value>
+  </data>
+  <data name="Aanvragen" xml:space="preserve">
+    <value>Aanvragen</value>
+  </data>
+  <data name="Inloggen" xml:space="preserve">
+    <value>Inloggen</value>
+  </data>
+  <data name="NieuwIncident" xml:space="preserve">
+    <value>Nieuw incident aanmaken</value>
+  </data>
+  <data name="UpdateToevoegen" xml:space="preserve">
+    <value>Update toevoegen</value>
+  </data>
+  <data name="Afbeelding" xml:space="preserve">
+    <value>Afbeelding</value>
+  </data>
 </root>

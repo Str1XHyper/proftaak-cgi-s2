@@ -1,4 +1,4 @@
-﻿using ClassLibrary.Classes;
+﻿using Logic.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary
+namespace Logic
 {
     public class ImageManager
     {

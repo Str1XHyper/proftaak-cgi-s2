@@ -1,9 +1,9 @@
-﻿using DAL.Login;
+﻿using DAL.Authentication.Login;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Logic.Login
+namespace Logic.Authentication.Login
 {
     public class LoginManager
     {
@@ -21,7 +21,18 @@ namespace Logic.Login
         {
             if (currentPassword == null || newPassword == null) return false;
             else return loginHandler.ChangePassword(currentPassword, newPassword, userID);
+        }
 
+
+        public LoginHandler.responses LoginUser(string username, string password)
+        {
+            if (username != null)
+            {
+                string unencryptedPassword = loginHandler.UnencryptedPassword(username);
+                if (unencryptedPassword == password) return LoginHandler.responses.redirectHome;
+                else return LoginHandler.responses.wrongEntry;
+            }
+            else return LoginHandler.responses.wrongEntry;
         }
     }
 }

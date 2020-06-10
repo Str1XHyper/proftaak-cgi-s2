@@ -26,7 +26,7 @@
         setting = new string[3];
     }
 }
-<h1>Instellingen</h1>
+<h1>@Proftaakrepos.Resources.lang.Instellingen</h1>
 @if (TempData["Error"] as string != null)
 {
     <div class="alert alert-danger fade show" data-dismiss="alert" aria-label="Close" role="alert" style="cursor: pointer">
@@ -42,96 +42,96 @@
 <form asp-action="ChangeLeSetting" asp-controller="Account" enctype="multipart/form-data">
     <div class="card-deck">
         <div class="card">
-            <div class="card-header bg-dark text-white">Basisinformatie</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Basisinformatie</div>
             <div class="card-body">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Voornaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Voornaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="naam" value="@test[1]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Tussenvoegsel:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Tussenvoegsel:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="tussenvoegsel" value="@test[2]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">Achternaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 140px">@Proftaakrepos.Resources.lang.Achternaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="achternaam" value="@test[3]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">Image: </span>
+                        <span class="input-group-text" id="basic-addon3">@Proftaakrepos.Resources.lang.Afbeelding: </span>
                     </div>
                     <input class="form-control" type="file" id="image" name="image"/>
                 </div>
                 <div class="border-top my-3"></div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Huidige wachtwoord:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">@Proftaakrepos.Resources.lang.HuidigWachtwoord:</span>
                     </div>
-                    <input type="password" id="CurrentPass" class="form-control" asp-for="currentPassword">
+                    <input type="password" id="CurrentPassW" class="form-control" asp-for="currentPassword">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Nieuw wachtwoord:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">@Proftaakrepos.Resources.lang.NieuwWachtwoord:</span>
                     </div>
                     <input type="password" id="newpass1" class="form-control" asp-for="newPassword">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">Wachtwoord herhalen:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 180px">@Proftaakrepos.Resources.lang.WachtwoordHerhalen:</span>
                     </div>
                     <input type="password" id="newpass2" class="form-control" asp-for="ConfirmPassword">
                 </div>
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-dark text-white">Contactgegevens</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Contactgegevens</div>
             <div class="card-body">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">E-mail:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Email:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="eMail" value="@test[4]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Telefoonnummer:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Telefoonnummer:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="phoneNumber" value="@test[5]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Straatnaam:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Straatnaam:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="straatnaam" value="@test[6]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Huisnummer:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Huisnummer:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="huisNummer" value="@test[7]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Postcode:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Postcode:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="postcode" value="@test[8]">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">Woonplaats:</span>
+                        <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">@Proftaakrepos.Resources.lang.Woonplaats:</span>
                     </div>
                     <input type="text" class="form-control" asp-for="woonplaats" value="@test[9]">
                 </div>
             </div>
         </div>
         <div class="card">
-            <div class="card-header bg-dark text-white">Notificaties</div>
+            <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.Notificaties</div>
             <div class="card-body">
                 <div class="custom-control custom-switch">
                     @{
@@ -145,7 +145,7 @@
                         }
                     }
 
-                    <label class="custom-control-label" for="customSwitch1">E-mail notificaties ontvangen</label>
+                <label class="custom-control-label" for="customSwitch1">@Proftaakrepos.Resources.lang.EmailNotificaties</label>
                 </div>
                 @*<br />*@
                 <div class="custom-control custom-switch">
@@ -159,7 +159,7 @@
                             <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch2" asp-for="smssetting">
                         }
                     }
-                    <label class="custom-control-label" for="customSwitch2">SMS bericht ontvangen</label>
+                <label class="custom-control-label" for="customSwitch2">@Proftaakrepos.Resources.lang.SMSBerichtOntvangen</label>
                 </div>
                 <div class="custom-control custom-switch">
                     @{
@@ -172,7 +172,7 @@
                             <input type="checkbox" class="custom-control-input checkbox-lg" id="customSwitch3" asp-for="whatsappSetting">
                         }
                     }
-                    <label class="custom-control-label" for="customSwitch3">Whatsapp bericht ontvangen</label>
+                <label class="custom-control-label" for="customSwitch3">@Proftaakrepos.Resources.lang.Whatsapp</label>
                 </div>
                 <br />
                 <label for="basic-url">Heads-up notificatie bij inplanning</label>
@@ -185,28 +185,28 @@
                             switch (setting[5])
                             {
                                 case "0":
-                                    <option value="0" selected>Direct bij inplanning</option>
-                                    <option value="1">Dag(en) vantevoren</option>
-                                    <option value="2">Week(en) vantevoren</option>
-                                    <option value="3">Maand(en) vantevoren</option>
+                                    <option value="0" selected>@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
                                     break;
                                 case "1":
-                                    <option value="0">Direct bij inplanning</option>
-                                    <option value="1" selected>Dag(en) vantevoren</option>
-                                    <option value="2">Week(en) vantevoren</option>
-                                    <option value="3">Maand(en) vantevoren</option>
+                                    <option value="0">@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1" selected>@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
                                     break;
                                 case "2":
-                                    <option value="0">Direct bij inplanning</option>
-                                    <option value="1">Dag(en) vantevoren</option>
-                                    <option value="2" selected>Week(en) vantevoren</option>
-                                    <option value="3">Maand(en) vantevoren</option>
+                                    <option value="0">@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2" selected>@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
                                     break;
                                 case "3":
-                                    <option value="0">Direct bij inplanning</option>
-                                    <option value="1">Dag(en) vantevoren</option>
-                                    <option value="2">Week(en) vantevoren</option>
-                                    <option value="3" selected>Maand(en) vantevoren</option>
+                                    <option value="0">@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3" selected>@Proftaakrepos.Resources.lang.Maanden</option>
                                     break;
                             }
                         }

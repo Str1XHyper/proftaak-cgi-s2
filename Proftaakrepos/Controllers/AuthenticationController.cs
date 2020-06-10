@@ -1,6 +1,4 @@
-﻿using ClassLibrary;
-using ClassLibrary.Classes;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Authentication;
 using Models;
@@ -14,7 +12,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading;
 using System.Globalization;
 using Models.Language;
-using Logic.Login;
+using Logic.Authentication.Login;
+using Logic.Employees;
+using Logic.Authentication.Password;
+using Logic.Authentication;
+using DAL;
 
 namespace Proftaakrepos.Controllers
 {
@@ -40,15 +42,17 @@ namespace Proftaakrepos.Controllers
                 Date = DateTime.Now,
                 Role = null
             };
-
-            string response = LoginClass.LoginUserFunction(model.Username, model.Password).ToString();
+            LoginManager loginManager = new LoginManager();
+            string response = loginManager.LoginUser(model.Username, model.Password).ToString();
+            EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
+            GetAccesLevel accessLevel = new GetAccesLevel();
             switch (response)
             {
                 case "redirectHome":
-                    string authCode = CreateLoginCookie.getAuthToken(model.Username);
+                    string authCode = employeeInfo.getAuthToken(model.Username);
                     AddLogin(true, model.Username, model.IP);
                     cookie.Identifier = authCode;
-                    cookie.Role = GetAccessLevel.GetRol(authCode);
+                    cookie.Role = accessLevel.GetRol(authCode);
                     if (model.Remember) _cookieManager.Set("BIER.User", cookie, 30 * 1440);
                     SetSession(authCode);
                     return RedirectToAction("Schedule", "Planner");
@@ -70,8 +74,9 @@ namespace Proftaakrepos.Controllers
 
         private void SetSession(string authCode)
         {
+            EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
             HttpContext.Session.SetString("UserInfo", authCode);
-            List<string> UInfo = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `Werknemers` WHERE `AuthCode` = '{authCode}'");
+            List<string> UInfo = employeeInfo.EmployeeInfo(authCode);
             string UserID = UInfo[0];
             string Name = string.Empty;
             string rol = UInfo[11];
@@ -88,7 +93,8 @@ namespace Proftaakrepos.Controllers
 
         public void AddLogin(bool success, string username, string ip)
         {
-            string authCode = CreateLoginCookie.getAuthToken(username);
+            EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
+            string authCode = employeeInfo.getAuthToken(username);
             LoginManager loginManager = new LoginManager();
             loginManager.AddLoginRecord(authCode, success, ip, DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
         }
@@ -126,9 +132,11 @@ namespace Proftaakrepos.Controllers
                 SetSession(_cookieManager.Get<CookieModel>("BIER.User").Identifier);
                 return RedirectToAction("Schedule", "Planner");
             }
+            if (_cookieManager.Get<LanguageCookieModel>("BIER.User.Culture") != null) HttpContext.Session.SetString("Culture", _cookieManager.Get<LanguageCookieModel>("BIER.User.Culture").Language);
+            else HttpContext.Session.SetString("Culture", "en");
             if (extra != null)
             {
-                ViewData["Error"] = "Succesvol uitgelogd.";
+                ViewData["Error"] = extra;
             }
             return View();
         }
@@ -140,9 +148,7 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public ActionResult<CheckPasswordModel> CheckPassword(string password)
         {
-            List<string> result = SQLConnection.ExecuteSearchQuery($"SELECT * FROM `PasswordRequirements`");
-            CheckPasswordModel cpm = new CheckPasswordModel(Convert.ToBoolean(Convert.ToInt16(result[0])), Convert.ToBoolean(Convert.ToInt16(result[1])), Convert.ToBoolean(Convert.ToInt16(result[2])), Convert.ToBoolean(Convert.ToInt16(result[3])), Convert.ToInt32(result[4]));
-            PasswordCheck passwordCheck = new PasswordCheck(cpm, HttpContext.Session.GetString("UserInfo"));
+            PasswordRequirements passwordCheck = new PasswordRequirements();
             return passwordCheck.CheckPassword(password);
         }
     }

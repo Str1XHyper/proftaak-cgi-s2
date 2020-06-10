@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.API;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -29,6 +30,15 @@ namespace DAL.Reset
                 }
             }
             return false;
+        }
+
+        public void SendReset(string email, string customCode, int userID)
+        {
+            string datumPlusVijf = DateTime.Now.AddMinutes(5).ToString("yyyy-MM-dd HH:mm:ss");
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `ResetRequest` VALUES ('{userID}', '{datumPlusVijf}', '{customCode}')");
+            List<string[]> response = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT `Voornaam`, `Tussenvoegsel`, `Achternaam`, `AuthCode` FROM `Werknemers` WHERE `Email`='{email.ToLower()}'");
+            string name = $"{response[0][0]} {response[0][1]} {response[0][2]}";
+            SendMail.SendReset(email, name, response[0][0], response[0][3], customCode);
         }
     }
 }

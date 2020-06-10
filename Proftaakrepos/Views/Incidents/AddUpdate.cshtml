@@ -39,52 +39,59 @@
     <script src="~/js/Datepicker.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha256-kIxwtDqhOVbQysWu0OpR9QfijdXCfqvXgAUJuv7Uxmg=" crossorigin="anonymous" />
 </head>
-<h1>Status update toevoegen</h1>
-<form method="post">
-    <div asp-validation-summary="All"></div>
-    <input type="hidden" asp-for="IncidentID" value="@ViewBag.IncidentId" />
-    <input type="hidden" asp-for="StatusIdIncident" value="@activeStatusID" />
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.StatusNaam: </span>
-        </div>
-        <input type="text" class="form-control" asp-for="StatusNaam">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.StatusOmschrijving: </span>
-        </div>
-        <input type="text" class="form-control" asp-for="StatusOmschrijving">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.StartDatumEnTijd: </span>
-        </div>
-        <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Now.ToString("yyyy/MM/dd HH:mm")">
-        <script>
-            jQuery('#startInput').datetimepicker({
-                format: 'Y/m/d H:i',
-                step: 15,
-            });
-            $.datetimepicker.setLocale('nl');
-        </script>
-    </div>
+<div class="card">
+    <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.UpdateToevoegen</div>
+    <form method="post">
+        <div class="card-body">
+            <div asp-validation-summary="All"></div>
+            <input type="hidden" asp-for="IncidentID" value="@ViewBag.IncidentId" />
+            <input type="hidden" asp-for="StatusIdIncident" value="@activeStatusID" />
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.StatusNaam: </span>
+                </div>
+                <input type="text" class="form-control" asp-for="StatusNaam">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.StatusOmschrijving: </span>
+                </div>
+                <input type="text" class="form-control" asp-for="StatusOmschrijving">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.StartDatumEnTijd: </span>
+                </div>
+                <input type="text" id="startInput" class="form-control" asp-for="Start" value="@DateTime.Now.ToString("yyyy/MM/dd HH:mm")">
+                <script>
+                    jQuery('#startInput').datetimepicker({
+                        format: 'Y/m/d H:i',
+                        step: 15,
+                    });
+                    $.datetimepicker.setLocale('nl');
+                </script>
+            </div>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.EindDatumEnTijd: </span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3" style="width:175px">@Proftaakrepos.Resources.lang.EindDatumEnTijd: </span>
+                </div>
+                <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Now.AddHours(1).ToString("yyyy/MM/dd HH:mm")">
+                <script>
+                    jQuery('#endInput').datetimepicker({
+                        format: 'Y/m/d H:i',
+                        step: 15,
+                    });
+                    $.datetimepicker.setLocale('nl');
+                </script>
+            </div>
         </div>
-        <input type="text" id="endInput" class="form-control" asp-for="End" value="@DateTime.Now.AddHours(1).ToString("yyyy/MM/dd HH:mm")">
-        <script>
-            jQuery('#endInput').datetimepicker({
-                format: 'Y/m/d H:i',
-                step: 15,
-            });
-            $.datetimepicker.setLocale('nl');
-        </script>
-    </div>
-    <input type="submit" class="btn btn-outline-secondary" value="@Proftaakrepos.Resources.lang.VoegToe">
-    <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId">Cancel</a>
-</form>
+        <div class="card-footer">
+            <input type="submit" class="btn btn-outline-secondary" value="@Proftaakrepos.Resources.lang.VoegToe">
+            <a class="btn btn-danger" asp-action="StatusUpdate" asp-route-incidentId="@ViewBag.IncidentId">Cancel</a>
+        </div>
+    </form>
+
+</div>
 
 

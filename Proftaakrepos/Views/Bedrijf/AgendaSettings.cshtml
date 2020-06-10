@@ -50,7 +50,7 @@
         @{ PasswordSettingsModel Pmodel = ViewBag.Password;}
         <div class="card-header bg-dark text-white">@Proftaakrepos.Resources.lang.MinKarakters</div>
         <form asp-action="PasswordSettings" asp-controller="Bedrijf">
-            <div class="card-body">
+            <div class="card-body" style="display: inline-block">
                 <div class="password-setting-container">
                     <div class="input-group mb-3 password-setting">
                         <div class="input-group-prepend">
@@ -171,9 +171,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="test"><br /></div>
             </div>
             <div class="card-footer">
-                <input type="submit" id="submitButton" value="@Proftaakrepos.Resources.lang.Wijzig" class="btn btn-light additional-buttons" />
+                <input type="submit" id="submitButton" value="@Proftaakrepos.Resources.lang.Wijzig" class="btn btn-secondary" />
             </div>
         </form>
     </div>

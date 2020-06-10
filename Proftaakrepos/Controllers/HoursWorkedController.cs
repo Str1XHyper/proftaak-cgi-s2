@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 using MySql.Data.MySqlClient;
 using Microsoft.AspNetCore.Http;
-using ClassLibrary.Classes;
+using DAL;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models.Authentication;

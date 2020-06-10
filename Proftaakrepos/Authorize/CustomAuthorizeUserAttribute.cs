@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using ClassLibrary.Classes;
 using CookieManager;
 using Models.Authentication;
+using DAL;
 
 namespace Proftaakrepos.Authorize
 {
