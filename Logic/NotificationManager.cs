@@ -114,7 +114,7 @@ namespace Logic
             }
         }
 
-        public void SendRuilverzoek(string userID, string verzoekID)
+        public void SendRuilverzoek(string userID)
         {
             List<string[]> users = employeesHandler.EmployeesInfoWithEmailSetting(userID);
             foreach (string[] info in users)
