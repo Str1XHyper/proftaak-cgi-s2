@@ -106,5 +106,11 @@ namespace DAL.Agenda
             }
             else return false;
         }
+        public DateTime GetEventDate(string eventID)
+        {
+            List<string[]> response = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT Start from Rooster WHERE EventID='{eventID}'");
+            if (response.Count > 0) return DateTime.Parse(response[0][0]);
+            else return DateTime.Now;
+        }
     }
 }
