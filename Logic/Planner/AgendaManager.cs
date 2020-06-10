@@ -146,7 +146,7 @@ namespace Logic.Planner
                 // When an event has type "Verlof" it creates a new Absence request
                 string eventID = agendahandler.GetLatestEventID();
                 bool isVerlof = agendahandler.CreateAbsenceRequest(eventID, newmodel, loggedUserID);
-                if (!isVerlof) notificaties.NotifyPlanned(loggedUserID, eventID);
+                if (!isVerlof) notificaties.SendInplanning(loggedUserID, eventID);
             }
         }
     }

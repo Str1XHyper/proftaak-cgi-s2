@@ -5,15 +5,21 @@ using Models;
 using Models.Incidenten;
 using System;
 using System.Collections.Generic;
+using DAL.Notificatie;
+using DAL.Agenda;
 
 namespace Logic
 {
     public class NotificationManager
     {
         private readonly EmployeesHandler employeesHandler;
+        private readonly NotificatieHandler notificatieHandler;
+        private readonly AgendaHandler agendaHandler;
         public NotificationManager()
         {
             employeesHandler = new EmployeesHandler();
+            notificatieHandler = new NotificatieHandler();
+            agendaHandler = new AgendaHandler();
         }
         public bool NotifyStandBy(AddIncidentModel model)
         {
@@ -74,6 +80,46 @@ namespace Logic
                     break;
                 default: //waduhek
                     throw new System.ArgumentException("waduhek", "bananaman");
+            }
+        }
+
+        public void SendInplanning(string userID, string eventID)
+        {
+            int[] wiltOntvangen = notificatieHandler.GetAgeOfNotification(userID);
+            DateTime eventDate = agendaHandler.GetEventDate(eventID);
+            if (wiltOntvangen.Length > 0)
+            {
+                DateTime datum = DateTime.Now;
+                bool isntDirect = true;
+                switch (wiltOntvangen[1])
+                {
+                    case 0:
+                        notificatieHandler.VerstuurAfspraakNotificatie(userID, eventID);
+                        isntDirect = false;
+                        break;
+                    case 1:
+                        datum = eventDate.AddDays(-wiltOntvangen[0]);
+                        break;
+                    case 2:
+                        datum = eventDate.AddDays(-wiltOntvangen[0]*7);
+                        break;
+                    case 3:
+                        datum = eventDate.AddDays(-wiltOntvangen[0]*7*4);
+                        break;
+                    default:
+                        datum = eventDate.AddDays(-wiltOntvangen[0]);
+                        break;
+                }
+                if(isntDirect) notificatieHandler.PlanAfspraakNotificatie(userID, eventID, datum);
+            }
+        }
+
+        public void SendRuilverzoek(string userID, string verzoekID)
+        {
+            List<string[]> users = employeesHandler.EmployeesInfoWithEmailSetting(userID);
+            foreach (string[] info in users)
+            {
+                SendMail.SendNieuwRuilverzoek(info[0], info[1]);
             }
         }
     }
