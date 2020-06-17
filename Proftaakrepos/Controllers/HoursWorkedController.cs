@@ -1,26 +1,16 @@
-﻿using System;
+﻿using DAL;
+using Logic.Planner;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models;
+using Models.HoursWorked;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Models;
-using MySql.Data.MySqlClient;
-using Microsoft.AspNetCore.Http;
-using DAL;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Models.Authentication;
-using CookieManager;
 using System.Globalization;
 using System.Threading;
-using Logic.Planner;
-using Models.HoursWorked;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using FullCalendar;
-using Newtonsoft.Json;
-using System.Reflection.Metadata;
 
 namespace Proftaakrepos.Controllers
 {
@@ -28,17 +18,14 @@ namespace Proftaakrepos.Controllers
     {
         private HoursWorkedModel _overview;
         private List<HoursWorkedModel> _overviewCollection = new List<HoursWorkedModel>();
-        private readonly ICookieManager _cookieManager;
         private readonly AgendaManager agendaManager;
         private static string loggedInUserID;
-        public HoursWorkedController(ICookieManager cookiemanager)
+        public HoursWorkedController()
         {
-            _cookieManager = cookiemanager;
             agendaManager = new AgendaManager();
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
             string language = HttpContext.Session.GetString("Culture");
             if (!string.IsNullOrEmpty(language))
             {
