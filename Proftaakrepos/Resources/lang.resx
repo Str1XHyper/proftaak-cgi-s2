@@ -579,4 +579,10 @@
   <data name="Afbeelding" xml:space="preserve">
     <value>Image</value>
   </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Ziek" xml:space="preserve">
+    <value>Ziek</value>
+  </data>
 </root>

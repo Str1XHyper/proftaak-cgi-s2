@@ -267,6 +267,9 @@
   <data name="SMSNotificatie" xml:space="preserve">
     <value>Weceive textmessages</value>
   </data>
+  <data name="Start" xml:space="preserve">
+    <value>UwU</value>
+  </data>
   <data name="Straatnaam" xml:space="preserve">
     <value>Stweet</value>
   </data>
@@ -338,5 +341,8 @@
   </data>
   <data name="WerknemerToevoegen" xml:space="preserve">
     <value>Add empwoyee</value>
+  </data>
+  <data name="Ziek" xml:space="preserve">
+    <value>Sick</value>
   </data>
 </root>

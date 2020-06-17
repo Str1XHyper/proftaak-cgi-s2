@@ -4,44 +4,30 @@
     ViewData["Title"] = "Hours Worked";
     var data = ViewData["Collection"] as List<HoursWorkedModel>;
 }
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="~/css/hoursworked.css" runat="server">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="~/js/hoursworked.js"></script>
-    <title>Gewerkte uren</title>
-</head>
-<body>
-<div id="filter-project">
-    <form id="searchbar">
-    <input type="search" id="search" name="projectId" placeholder="@Proftaakrepos.Resources.lang.ZoekProject">
-    <input type="submit" id="submit" asp-action="Overview" >
-    </form>
-    <div id="display-options">
-        <p>Display: </p>
-        <select id="display-filter">
-            <option value="1week">1 week</option>
-            <option value="2weeks">2 weken</option>
-            <option value="1month">1 maand</option>
-            <option value="1year">1 jaar</option>
-            <option value="allTime">Altijd</option>
-        </select>
-    </div><br/>
-    <hr/>
-</div>
-    
-    @await Html.PartialAsync("OverviewTable")
-    
-    <table class="total-table">
-        <tr>
-            <th class="table-header" id="total-header">Totaal van @HoursWorkedModel.EmployeeName</th>
-        </tr>
-        <tr class="table-body"><td>Totale tijd</td></tr>
-        <tr class="table-body"><td>Gewerkte uren</td></tr>
-        <tr class="table-body"><td>Overuren</td></tr>
+<p id="error" style="color: red"></p>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="width: 200px;">@Proftaakrepos.Resources.lang.Dag</th>
+                <th scope="col" style="width: 150px;">@Proftaakrepos.Resources.lang.Start</th>
+                <th scope="col" style="width: 150px;">@Proftaakrepos.Resources.lang.Einde</th>
+                <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Pauze</th>
+                <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.TotaleTijd</th>
+                <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Overuren</th>
+                <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Ziek</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
     </table>
-</body>
-</html>
+    <input type="hidden" id="amount" value="1"/>
+    <div class="float-right">
+        <button onclick="addRow()" class="btn btn-outline-dark mr-1" style="border-radius: 100%; width: 40px; height: 40px;">
+            <i class="fas fa-plus mt-1"></i>
+        </button>
+        <button class="btn btn-outline-success" id="sendTimeSheet" style="border-radius: 100%; width: 40px; height: 40px;">
+            <i class="far fa-paper-plane ml-n1"></i>
+        </button>
+    </div>
+
+    <script src="../../js/OverzichtHandler.js"></script>

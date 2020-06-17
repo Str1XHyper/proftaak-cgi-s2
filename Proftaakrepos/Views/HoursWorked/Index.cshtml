@@ -7,13 +7,12 @@
     <link href="~/css/hoursworked.css" rel="stylesheet" />
 </head>
 
-
-<div class="card m-3 h-75 float-left" style="width: 15%">
+<div class="card m-3 h-75 float-left border-0 mt-n1" style="width: 15%; padding-top: 4px;">
     <label class="bg-dark text-white p-2">Please select a date:</label>
-    <input onchange="UpdateTable()" type="date" name="date" id="date" />
+    <input onchange="UpdateTable()" class="form-control mt-n2" type="date" name="date" id="date"/>
 </div>
 @*Hours worked week view*@
-<div class="card m-3 h-75 float-left" style="width: 75%">
+<div class="card h-75 float-left border-0" style="width: 75%;">
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -30,7 +29,7 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row" class="bg-dark text-white">Stand-by</th>
+                <th scope="row" class="bg-dark text-white">Stand-By</th>
                 <td id="sb1"></td>
                 <td id="sb2"></td>
                 <td id="sb3"></td>
@@ -41,7 +40,7 @@
                 <td id="sbt" class="bg-secondary text-white"></td>
             </tr>
             <tr>
-                <th scope="row" class="bg-dark text-white">Active</th>
+                <th scope="row" class="bg-dark text-white">@Proftaakrepos.Resources.lang.Incidenten</th>
                 <td id="a1"></td>
                 <td id="a2"></td>
                 <td id="a3"></td>
@@ -52,7 +51,7 @@
                 <td id="at" class="bg-secondary text-white"></td>
             </tr>
             <tr>
-                <th scope="row" class="bg-dark text-white">Leave</th>
+                <th scope="row" class="bg-dark text-white">@Proftaakrepos.Resources.lang.Verlof</th>
                 <td id="f1"></td>
                 <td id="f2"></td>
                 <td id="f3"></td>
@@ -63,7 +62,7 @@
                 <td id="ft" class="bg-secondary text-white"></td>
             </tr>
             <tr class="bg-secondary text-white">
-                <th scope="row" class="bg-dark text-white">Total</th>
+                <th scope="row" class="bg-dark text-white">@Proftaakrepos.Resources.lang.TotaleTijd</th>
                 <td id="t1"></td>
                 <td id="t2"></td>
                 <td id="t3"></td>
@@ -77,8 +76,35 @@
     </table>
 </div>
 
+<div style="margin-top: 28vh"></div>
+<hr />
 
 <script src="~/js/hoursworked.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/js/moment.js"></script>
 
+<p id="error" style="color: red"></p>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" style="width: 200px;">@Proftaakrepos.Resources.lang.Dag</th>
+            <th scope="col" style="width: 150px;">@Proftaakrepos.Resources.lang.Start</th>
+            <th scope="col" style="width: 150px;">@Proftaakrepos.Resources.lang.Einde</th>
+            <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Pauze</th>
+            <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.TotaleTijd</th>
+            <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Overuren</th>
+            <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Ziek</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+</table>
+<input type="hidden" id="amount" value="1" />
+<div class="float-right">
+    <button onclick="addRow()" class="btn btn-outline-dark mr-1" style="border-radius: 100%; width: 40px; height: 40px;">
+        <i class="fas fa-plus mt-1"></i>
+    </button>
+    <button class="btn btn-outline-success" id="sendTimeSheet" style="border-radius: 100%; width: 40px; height: 40px;"><i class="far fa-paper-plane ml-n1"></i></button>
+</div>
+
+<script src="../../js/OverzichtHandler.js"></script>
