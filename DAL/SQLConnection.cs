@@ -126,8 +126,9 @@ namespace DAL
             {
                 cmd.ExecuteNonQuery();
             } 
-            catch
+            catch(Exception ex)
             {
+                string test = ex.ToString();
                 return false;
             }
             cnn.Close();

@@ -1,4 +1,5 @@
 ﻿using DAL;
+using Logic.HoursWorked;
 using Logic.Planner;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using Models.HoursWorked;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Cms;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,12 +19,14 @@ namespace Proftaakrepos.Controllers
     public class HoursWorkedController : Controller
     {
         private HoursWorkedModel _overview;
+        private readonly TimeSheetManager timeSheetManager;
         private List<HoursWorkedModel> _overviewCollection = new List<HoursWorkedModel>();
         private readonly AgendaManager agendaManager;
         private static string loggedInUserID;
         public HoursWorkedController()
         {
             agendaManager = new AgendaManager();
+            timeSheetManager = new TimeSheetManager();
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -93,8 +97,6 @@ namespace Proftaakrepos.Controllers
                     {
                         if (eventmodel.themeColor == "Stand-by")
                             week = AddHours(eventmodel.startDate.DayOfWeek, week, eventmodel.endDate.Hour - eventmodel.startDate.Hour, "standby");
-                        else if (eventmodel.themeColor == "Incidenten")
-                            week = AddHours(eventmodel.startDate.DayOfWeek, week, eventmodel.endDate.Hour - eventmodel.startDate.Hour, "incident");
                         else if (eventmodel.themeColor == "Verlof")
                             week = AddHours(eventmodel.startDate.DayOfWeek, week, eventmodel.endDate.Hour - eventmodel.startDate.Hour, "leave");
                     }
@@ -104,11 +106,6 @@ namespace Proftaakrepos.Controllers
                         {
                             week = AddHours(eventmodel.startDate.DayOfWeek, week, 24 - eventmodel.startDate.Hour, "standby");
                             week = AddHours(eventmodel.endDate.DayOfWeek, week, eventmodel.endDate.Hour, "standby");
-                        }
-                        else if (eventmodel.themeColor == "Incidenten")
-                        {
-                            week = AddHours(eventmodel.startDate.DayOfWeek, week, 24 - eventmodel.startDate.Hour, "incident");
-                            week = AddHours(eventmodel.endDate.DayOfWeek, week, eventmodel.endDate.Hour, "incident");
                         }
                         else if (eventmodel.themeColor == "Verlof")
                         {
@@ -175,7 +172,20 @@ namespace Proftaakrepos.Controllers
         }
 
 
-
+        public IActionResult UpdateIncidents(TimeSheet model)
+        {
+            List<ParsedTimeSheetRow> timeRows = new List<ParsedTimeSheetRow>();
+            for(int i = 0; i < model.Dates.Count; i++)
+            {
+                ParsedTimeSheetRow row = new ParsedTimeSheetRow();
+                row.Start = DateTime.Parse(model.Dates[i]).Add(new TimeSpan(Convert.ToInt32(model.Start[i].Split(':')[0]), Convert.ToInt32(model.Start[i].Split(':')[1]), 0));
+                row.Eind = DateTime.Parse(model.Dates[i]).Add(new TimeSpan(Convert.ToInt32(model.End[i].Split(':')[0]), Convert.ToInt32(model.End[i].Split(':')[1]), 0));
+                row.Overuren = new TimeSpan(Convert.ToInt32(model.OverTime[i].Split(':')[0]), Convert.ToInt32(model.OverTime[i].Split(':')[1]), 0);
+                timeRows.Add(row);
+            }
+            timeSheetManager.AddNewTimeSheet(timeRows, HttpContext.Session.GetInt32("UserInfo.ID").ToString());
+            return RedirectToAction("Index");
+        }
 
 
 
