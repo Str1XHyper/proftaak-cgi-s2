@@ -28,17 +28,14 @@ namespace Proftaakrepos.Controllers
     {
         private HoursWorkedModel _overview;
         private List<HoursWorkedModel> _overviewCollection = new List<HoursWorkedModel>();
-        private readonly ICookieManager _cookieManager;
         private readonly AgendaManager agendaManager;
-        private static string loggedInUserID;
-        public HoursWorkedController(ICookieManager cookiemanager)
+        private string loggedInUserID;
+        public HoursWorkedController()
         {
-            _cookieManager = cookiemanager;
             agendaManager = new AgendaManager();
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            TempData["CookieMonster"] = _cookieManager.Get<CookieModel>("BIER.User");
             string language = HttpContext.Session.GetString("Culture");
             if (!string.IsNullOrEmpty(language))
             {
@@ -49,10 +46,6 @@ namespace Proftaakrepos.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            string var = HttpContext.Session.GetString("UserInfo");
-            string[] loggedUserData = agendaManager.GetLoggedInUserData(var);
-            string rol = loggedUserData[0];
-            loggedInUserID = loggedUserData[1];
             return View();
         }
         public string UpdateTable(DateTime Date, string filter)
@@ -74,6 +67,9 @@ namespace Proftaakrepos.Controllers
         }
         public Week GetWeekData(DateTime Date)
         {
+            string var = HttpContext.Session.GetString("UserInfo");
+            string[] loggedUserData = agendaManager.GetLoggedInUserData(var);
+            loggedInUserID = loggedUserData[1];
             if (Date.Year==0001) Date = DateTime.Now;
             int selectedWeek = GetIso8601WeekOfYear(Date);
             ViewData["weeknr"] = selectedWeek;

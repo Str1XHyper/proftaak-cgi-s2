@@ -1,84 +1,79 @@
-﻿@model Models.EventModel
-@{
-    ViewData["Title"] = "CreateEvent";
+﻿@{
+    ViewData["Title"] = "Overview";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <head>
-        <link href="~/css/hoursworked.css" rel="stylesheet" />
-        <script src="~/js/hoursworked.js"></script>
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/js/moment.js"></script>
-    </head>
-<body>
+<link href="~/css/hoursworked.css" rel="stylesheet" />
 
-    <div class="card m-3 h-75 float-left" style="width: 15%">
-        <label class="bg-dark text-white p-2">Please select a date:</label>
-        <input onchange="UpdateTable()" type="date" name="date" id="date"/>
-    </div>
-    @*Hours worked week view*@
-    <div class="card m-3 h-75 float-left" style="width: 75%">
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Monday</th>
-                    <th scope="col">Tuesday</th>
-                    <th scope="col">Wednesday</th>
-                    <th scope="col">Thursday</th>
-                    <th scope="col">Friday</th>
-                    <th scope="col">Saturday</th>
-                    <th scope="col">Sunday</th>
-                    <th scope="col">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" class="bg-dark text-white">Stand-by</th>
-                    <td id="sb1"></td>
-                    <td id="sb2"></td>
-                    <td id="sb3"></td>
-                    <td id="sb4"></td>
-                    <td id="sb5"></td>
-                    <td id="sb6"></td>
-                    <td id="sb7"></td>
-                    <td id="sbt" class="bg-secondary text-white"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="bg-dark text-white">Active</th>
-                    <td id="a1"></td>
-                    <td id="a2"></td>
-                    <td id="a3"></td>
-                    <td id="a4"></td>
-                    <td id="a5"></td>
-                    <td id="a6"></td>
-                    <td id="a7"></td>
-                    <td id="at" class="bg-secondary text-white"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="bg-dark text-white">Leave</th>
-                    <td id="f1"></td>
-                    <td id="f2"></td>
-                    <td id="f3"></td>
-                    <td id="f4"></td>
-                    <td id="f5"></td>
-                    <td id="f6"></td>
-                    <td id="f7"></td>
-                    <td id="ft" class="bg-secondary text-white"></td>
-                </tr>
-                <tr class="bg-secondary text-white">
-                    <th scope="row" class="bg-dark text-white">Total</th>
-                    <td id="t1"></td>
-                    <td id="t2"></td>
-                    <td id="t3"></td>
-                    <td id="t4"></td>
-                    <td id="t5"></td>
-                    <td id="t6"></td>
-                    <td id="t7"></td>
-                    <td id="tt" class="bg-secondary text-white"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</body>
+<div class="card m-3 h-75 float-left" style="width: 15%">
+    <label class="bg-dark text-white p-2">Please select a date:</label>
+    <input onchange="UpdateTable()" type="date" name="date" id="date" />
+</div>
+@*Hours worked week view*@
+<div class="card m-3 h-75 float-left" style="width: 75%">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Monday</th>
+                <th scope="col">Tuesday</th>
+                <th scope="col">Wednesday</th>
+                <th scope="col">Thursday</th>
+                <th scope="col">Friday</th>
+                <th scope="col">Saturday</th>
+                <th scope="col">Sunday</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row" class="bg-dark text-white">Stand-by</th>
+                <td id="sb1"></td>
+                <td id="sb2"></td>
+                <td id="sb3"></td>
+                <td id="sb4"></td>
+                <td id="sb5"></td>
+                <td id="sb6"></td>
+                <td id="sb7"></td>
+                <td id="sbt" class="bg-secondary text-white"></td>
+            </tr>
+            <tr>
+                <th scope="row" class="bg-dark text-white">Active</th>
+                <td id="a1"></td>
+                <td id="a2"></td>
+                <td id="a3"></td>
+                <td id="a4"></td>
+                <td id="a5"></td>
+                <td id="a6"></td>
+                <td id="a7"></td>
+                <td id="at" class="bg-secondary text-white"></td>
+            </tr>
+            <tr>
+                <th scope="row" class="bg-dark text-white">Leave</th>
+                <td id="f1"></td>
+                <td id="f2"></td>
+                <td id="f3"></td>
+                <td id="f4"></td>
+                <td id="f5"></td>
+                <td id="f6"></td>
+                <td id="f7"></td>
+                <td id="ft" class="bg-secondary text-white"></td>
+            </tr>
+            <tr class="bg-secondary text-white">
+                <th scope="row" class="bg-dark text-white">Total</th>
+                <td id="t1"></td>
+                <td id="t2"></td>
+                <td id="t3"></td>
+                <td id="t4"></td>
+                <td id="t5"></td>
+                <td id="t6"></td>
+                <td id="t7"></td>
+                <td id="tt" class="bg-secondary text-white"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 
+<script src="~/js/hoursworked.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/moment.js"></script>
