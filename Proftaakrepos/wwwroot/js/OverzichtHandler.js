@@ -6,9 +6,11 @@
                 <td><input onchange="CalcTotalTime(${count})" id="eind-${count}" class="form-control" type="time" name="End" /></td>
                 <td><input id="totaal-${count}" disabled class="form-control" type="time" value="00:00" /></td>
                 <td><input id="overuren-${count}" class="form-control" type="time" value="00:00" name="OverTime" /></td>
+                <td><select id="incidentname-${count}"></select></td>
                 <td><div class="float-right mr-2"><button class="btn btn-outline-danger" id="sendTimeSheet" onclick="removeRow(${count})" style="border-radius: 100%; width: 35px; height: 35px;"><i class="fas fa-times ml-0"></i></button></div></td>
 </tr>`;
     $("#tableBody").append(newRowContent);
+    getIncidentIDthingy(count)
     var help = parseInt($("#amount").val());
     $("#amount").val(help + 1);
 }
@@ -43,7 +45,19 @@ function CalcTotalTime(id) {
         }
     }
 }
-
+function getIncidentIDthingy(id) {
+    $.get("Controller/Action", function (data) {
+        populateIncidentNameSelect(data, id
+    });
+}
+function populateIncidentNameSelect(data, id) {
+    var $el = $("#incidentname-" + id);
+    $el.empty();
+    $.each(data, function (value, key) {
+        $el.append($("<option></option>")
+            .attr("value", key).text(key));
+    });
+}
 function removeRow(id) {
     $("#" + id).remove();
 }

@@ -1,4 +1,5 @@
 ﻿using DAL;
+using FullCalendar.Infrastructure.PropertyParsers;
 using Logic.HoursWorked;
 using Logic.Planner;
 using Microsoft.AspNetCore.Http;
@@ -170,8 +171,6 @@ namespace Proftaakrepos.Controllers
             }
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
-
-
         public IActionResult UpdateIncidents(TimeSheet model)
         {
             List<ParsedTimeSheetRow> timeRows = new List<ParsedTimeSheetRow>();
@@ -186,16 +185,6 @@ namespace Proftaakrepos.Controllers
             timeSheetManager.AddNewTimeSheet(timeRows, HttpContext.Session.GetInt32("UserInfo.ID").ToString());
             return RedirectToAction("Index");
         }
-
-
-
-
-
-
-
-
-
-
 
         public IActionResult Overview(int? projectId)
         {
