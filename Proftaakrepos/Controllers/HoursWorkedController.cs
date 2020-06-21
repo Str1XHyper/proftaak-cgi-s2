@@ -1,38 +1,32 @@
-﻿using System;
+﻿using DAL;
+using Logic.HoursWorked;
+using Logic.Planner;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Models;
+using Models.HoursWorked;
+using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Cms;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Models;
-using MySql.Data.MySqlClient;
-using Microsoft.AspNetCore.Http;
-using DAL;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Models.Authentication;
-using CookieManager;
 using System.Globalization;
 using System.Threading;
-using Logic.Planner;
-using Models.HoursWorked;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using FullCalendar;
-using Newtonsoft.Json;
-using System.Reflection.Metadata;
 
 namespace Proftaakrepos.Controllers
 {
     public class HoursWorkedController : Controller
     {
         private HoursWorkedModel _overview;
+        private readonly TimeSheetManager timeSheetManager;
         private List<HoursWorkedModel> _overviewCollection = new List<HoursWorkedModel>();
         private readonly AgendaManager agendaManager;
-        private string loggedInUserID;
+        private static string loggedInUserID;
         public HoursWorkedController()
         {
             agendaManager = new AgendaManager();
+            timeSheetManager = new TimeSheetManager();
         }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -46,6 +40,10 @@ namespace Proftaakrepos.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            string var = HttpContext.Session.GetString("UserInfo");
+            string[] loggedUserData = agendaManager.GetLoggedInUserData(var);
+            string rol = loggedUserData[0];
+            loggedInUserID = loggedUserData[1];
             return View();
         }
         public string UpdateTable(DateTime Date, string filter)
@@ -67,9 +65,6 @@ namespace Proftaakrepos.Controllers
         }
         public Week GetWeekData(DateTime Date)
         {
-            string var = HttpContext.Session.GetString("UserInfo");
-            string[] loggedUserData = agendaManager.GetLoggedInUserData(var);
-            loggedInUserID = loggedUserData[1];
             if (Date.Year==0001) Date = DateTime.Now;
             int selectedWeek = GetIso8601WeekOfYear(Date);
             ViewData["weeknr"] = selectedWeek;
@@ -102,8 +97,6 @@ namespace Proftaakrepos.Controllers
                     {
                         if (eventmodel.themeColor == "Stand-by")
                             week = AddHours(eventmodel.startDate.DayOfWeek, week, eventmodel.endDate.Hour - eventmodel.startDate.Hour, "standby");
-                        else if (eventmodel.themeColor == "Incidenten")
-                            week = AddHours(eventmodel.startDate.DayOfWeek, week, eventmodel.endDate.Hour - eventmodel.startDate.Hour, "incident");
                         else if (eventmodel.themeColor == "Verlof")
                             week = AddHours(eventmodel.startDate.DayOfWeek, week, eventmodel.endDate.Hour - eventmodel.startDate.Hour, "leave");
                     }
@@ -113,11 +106,6 @@ namespace Proftaakrepos.Controllers
                         {
                             week = AddHours(eventmodel.startDate.DayOfWeek, week, 24 - eventmodel.startDate.Hour, "standby");
                             week = AddHours(eventmodel.endDate.DayOfWeek, week, eventmodel.endDate.Hour, "standby");
-                        }
-                        else if (eventmodel.themeColor == "Incidenten")
-                        {
-                            week = AddHours(eventmodel.startDate.DayOfWeek, week, 24 - eventmodel.startDate.Hour, "incident");
-                            week = AddHours(eventmodel.endDate.DayOfWeek, week, eventmodel.endDate.Hour, "incident");
                         }
                         else if (eventmodel.themeColor == "Verlof")
                         {
@@ -184,7 +172,20 @@ namespace Proftaakrepos.Controllers
         }
 
 
-
+        public IActionResult UpdateIncidents(TimeSheet model)
+        {
+            List<ParsedTimeSheetRow> timeRows = new List<ParsedTimeSheetRow>();
+            for(int i = 0; i < model.Dates.Count; i++)
+            {
+                ParsedTimeSheetRow row = new ParsedTimeSheetRow();
+                row.Start = DateTime.Parse(model.Dates[i]).Add(new TimeSpan(Convert.ToInt32(model.Start[i].Split(':')[0]), Convert.ToInt32(model.Start[i].Split(':')[1]), 0));
+                row.Eind = DateTime.Parse(model.Dates[i]).Add(new TimeSpan(Convert.ToInt32(model.End[i].Split(':')[0]), Convert.ToInt32(model.End[i].Split(':')[1]), 0));
+                row.Overuren = new TimeSpan(Convert.ToInt32(model.OverTime[i].Split(':')[0]), Convert.ToInt32(model.OverTime[i].Split(':')[1]), 0);
+                timeRows.Add(row);
+            }
+            timeSheetManager.AddNewTimeSheet(timeRows, HttpContext.Session.GetInt32("UserInfo.ID").ToString());
+            return RedirectToAction("Index");
+        }
 
 
 

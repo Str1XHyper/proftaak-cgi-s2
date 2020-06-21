@@ -32,9 +32,27 @@
             }
 
             <div class="card mb-3">
-                <div class="card-header bg-dark text-white">
-                    Incident: @incident[3]
-                </div>
+                @{
+                    switch (incident[2])
+                    {
+                        case "0":
+                            <div class="card-header bg-danger text-white">
+                                Incident: @incident[3]
+                            </div>
+                            break;
+                        case "1":
+                            <div class="card-header bg-dark text-white">
+                                Incident: @incident[3]
+                            </div>
+                            break;
+                        default:
+                            <div class="card-header bg-info text-white">
+                                Incident: @incident[3]
+                            </div>
+                            break;
+
+                    }
+                }
                 <div class="card-body">
                     <h5 class="card-title">
                         @incident[1]

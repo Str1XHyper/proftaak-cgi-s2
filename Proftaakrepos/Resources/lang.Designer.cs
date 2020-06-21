@@ -934,6 +934,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start date and time.
         /// </summary>
         public static string StartDatumEnTijd {
@@ -1425,6 +1434,15 @@ namespace Proftaakrepos.Resources {
         public static string Zaterdag {
             get {
                 return ResourceManager.GetString("Zaterdag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ziek.
+        /// </summary>
+        public static string Ziek {
+            get {
+                return ResourceManager.GetString("Ziek", resourceCulture);
             }
         }
         

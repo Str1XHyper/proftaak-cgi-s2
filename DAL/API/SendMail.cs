@@ -73,7 +73,7 @@ namespace DAL.API
             var request = new RestRequest(Method.POST);
             request.AddHeader("content-type", "application/json");
             request.AddHeader("authorization", "Bearer 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");
-            request.AddParameter("application/json", "{\"personalizations\":[{\"to\":[{\"email\":\"" + toEmail + "\",\"name\":\"" + toName + "\"}],\"dynamic_template_data\":{\"firstName\":\"" + toName + "\",\"href\":\"https://www.bier-1.democgi.com/Shiftview/Incoming \",\"href2\":\"https://www.bier-1.democgi.com/Account/ChangeSettings \"},\"subject\":\"Incident gemeld\"}],\"from\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"reply_to\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"template_id\":\"d-0f207b88059c4c3fa696c0f099dda9ae\"}", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{\"personalizations\":[{\"to\":[{\"email\":\"" + toEmail + "\",\"name\":\"" + toName + "\"}],\"dynamic_template_data\":{\"firstName\":\"" + toName + "\",\"href\":\"https://bier-1.democgi.com/Shiftview/Incoming \",\"href2\":\"https://bier-1.democgi.com/Account/ChangeSettings \"},\"subject\":\"Incident gemeld\"}],\"from\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"reply_to\":{\"email\":\"noreply@cgi.com\",\"name\":\"CGI\"},\"template_id\":\"d-0f207b88059c4c3fa696c0f099dda9ae\"}", ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
         }
     }

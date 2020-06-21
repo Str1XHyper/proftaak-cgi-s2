@@ -1,22 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CookieManager;
+using Logic;
+using Logic.Authentication;
+using Logic.Authentication.Login;
+using Logic.Authentication.Password;
+using Logic.Employees;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Models.Authentication;
 using Models;
-using Proftaakrepos.Authorize;
+using Models.Authentication;
+using Models.Language;
 using System;
 using System.Collections.Generic;
-using System.Net;
-using CookieManager;
-using System.Data.Common;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System.Threading;
-using System.Globalization;
-using Models.Language;
-using Logic.Authentication.Login;
-using Logic.Employees;
-using Logic.Authentication.Password;
-using Logic.Authentication;
-using DAL;
 
 namespace Proftaakrepos.Controllers
 {
@@ -34,7 +28,6 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult Login(LoginModel model)
         {
-            TempData["test"] = (_cookieManager.Get<CookieModel>("BIER.User") != null).ToString() + " WHAT THE FUCK";
             CookieModel cookie = new CookieModel()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -74,6 +67,8 @@ namespace Proftaakrepos.Controllers
 
         private void SetSession(string authCode)
         {
+            NotificationManager nm = new NotificationManager();
+            nm.SendNotifications();
             EmployeeInfoManager employeeInfo = new EmployeeInfoManager();
             HttpContext.Session.SetString("UserInfo", authCode);
             List<string> UInfo = employeeInfo.EmployeeInfo(authCode);

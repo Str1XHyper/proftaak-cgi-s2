@@ -46,22 +46,6 @@ namespace Logic
             //SendMail.SendKlantIncidentSolved("BartDGP@outlook.com", "Bart Vermeulen", model.Beschrijving, model.Naam);
         }
 
-        public void NotifyPlanned(string userID, string eventID)
-        {
-            List<string> response = SQLConnection.ExecuteSearchQuery($"SELECT ReceiveMail, ReceiveSMS, ReceiveWhatsApp, Type, Hoeveelheid FROM Settings WHERE UserId='{userID}'");
-            if (response.Count > 0)
-            {
-                if (response[0].ToLower() == "true")
-                {
-                    //wilt email ontvangen
-
-                    List<string> eventGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Start, End, IsFullDay, Subject, ThemeColor, Description FROM Rooster WHERE EventId='{eventID}'");
-                    List<string> werknemersGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Voornaam, Email FROM Werknemers WHERE UserId='{userID}'");
-                    SendMail.SendNotification(werknemersGegevens[1], werknemersGegevens[0], werknemersGegevens[0], eventGegevens[3], eventGegevens[5], eventGegevens[4]);
-                }
-            }
-        }
-
         public void PasInstellingenAan(string TypeOfAge, int ValueOfNoti, string userID)
         {
             switch (Convert.ToInt32(TypeOfAge))
@@ -85,41 +69,84 @@ namespace Logic
 
         public void SendInplanning(string userID, string eventID)
         {
-            int[] wiltOntvangen = notificatieHandler.GetAgeOfNotification(userID);
+            List<int[]> data = new List<int[]>();
+            data.Add(notificatieHandler.GetAgeOfNotification(userID, "ReceiveMail"));
+            data.Add(notificatieHandler.GetAgeOfNotification(userID, "ReceiveSMS"));
+            data.Add(notificatieHandler.GetAgeOfNotification(userID, "ReceiveWhatsApp"));
+            SetDate(data, userID, eventID);
+
+        }
+
+        public void SetDate(List<int[]> data, string userID, string eventID)
+        {
+            DateTime datum = DateTime.Now;
             DateTime eventDate = agendaHandler.GetEventDate(eventID);
-            if (wiltOntvangen.Length > 0)
+            bool isntDirect = true;
+            for (int i = 0; i<data.Count;i++)
             {
-                DateTime datum = DateTime.Now;
-                bool isntDirect = true;
-                switch (wiltOntvangen[1])
+                switch (data[i][1])
                 {
                     case 0:
-                        notificatieHandler.VerstuurAfspraakNotificatie(userID, eventID);
+                        notificatieHandler.VerstuurAfspraakNotificatie(userID, eventID, i+1);
                         isntDirect = false;
                         break;
                     case 1:
-                        datum = eventDate.AddDays(-wiltOntvangen[0]);
+                        datum = eventDate.AddDays(-data[i][0]);
                         break;
                     case 2:
-                        datum = eventDate.AddDays(-wiltOntvangen[0]*7);
+                        datum = eventDate.AddDays(-data[i][0] * 7);
                         break;
                     case 3:
-                        datum = eventDate.AddDays(-wiltOntvangen[0]*7*4);
+                        datum = eventDate.AddDays(-data[i][0] * 7 * 4);
                         break;
                     default:
-                        datum = eventDate.AddDays(-wiltOntvangen[0]);
+                        datum = eventDate.AddDays(-data[i][0]);
                         break;
                 }
-                if(isntDirect) notificatieHandler.PlanAfspraakNotificatie(userID, eventID, datum);
+                if (isntDirect) notificatieHandler.PlanAfspraakNotificatie(userID, eventID, datum, i + 1);
             }
         }
 
-        public void SendRuilverzoek(string userID, string verzoekID)
+
+        public void SendRuilverzoek(string userID)
         {
-            List<string[]> users = employeesHandler.EmployeesInfoWithEmailSetting(userID);
-            foreach (string[] info in users)
+            List<string[]> usersThatWantEmail = employeesHandler.EmployeesInfoWithEmailSetting(userID);
+            foreach (string[] info in usersThatWantEmail)
             {
                 SendMail.SendNieuwRuilverzoek(info[0], info[1]);
+            }
+        }
+
+        public void SendNotifications()
+        {
+            string vandaag = DateTime.Now.ToString("yyyy-MM-dd");
+            List<string[]> todo = notificatieHandler.TeVersturenNotificaties(vandaag);
+            if(todo.Count > 0)
+            {
+                foreach(string[] array in todo)
+                {
+                    List<string> eventGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Start, End, IsFullDay, Subject, ThemeColor, Description FROM Rooster WHERE EventId='{array[2]}'");
+                    List<string> werknemersGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Voornaam, Email, Telefoonnummer FROM Werknemers WHERE UserId='{array[1]}'");
+                    switch (Convert.ToInt32(array[0]))
+                    {
+                        case 1:
+                            //Send Email
+                            notificatieHandler.VerstuurAfspraakNotificatie(array[1], array[2], 0);
+                            break;
+                        case 2:
+                            //Send SMS
+
+                            Twilio.SendSMS($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+" + werknemersGegevens[2]);
+                            break;
+                        case 3:
+                            //Send Whatsapp
+                            Twilio.SendWhatsapp($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+" + werknemersGegevens[2]);
+                            break;
+                        default:
+                            break;
+                    }
+                    notificatieHandler.DeleteTask(array[3]);
+                }
             }
         }
     }
