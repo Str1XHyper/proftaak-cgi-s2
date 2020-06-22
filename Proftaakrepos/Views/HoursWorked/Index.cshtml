@@ -76,15 +76,11 @@
             </tr>
         </tbody>
     </table>
-    
+
 </div>
 
 <div style="margin-top: 30vh"></div>
 <hr />
-
-<script src="~/js/hoursworked.js"></script>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/js/moment.js"></script>
 
 <p id="error" style="color: red"></p>
 <form asp-action="UpdateIncidents" asp-controller="HoursWorked" method="post">
@@ -97,10 +93,19 @@
                 <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.TotaleTijd</th>
                 <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Overuren</th>
                 <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.IncidentNaam</th>
-                <th scope="col" style="width: 100px;"></th>
+                <th scope="col" style="width: 30px;"></th>
             </tr>
         </thead>
         <tbody id="tableBody">
+            <tr id="0">
+                <th><input id="datum--1" class="form-control" type="date" name="Dates" /></th>
+                <td><input onchange="CalcTotalTime(-1)" id="start--1" class="form-control" type="time" name="Start" /></td>
+                <td><input onchange="CalcTotalTime(-1)" id="eind--1" class="form-control" type="time" name="End" /></td>
+                <td><input id="totaal--1" disabled class="form-control" type="time" value="00:00" /></td>
+                <td><input id="overuren--1" class="form-control" type="time" value="00:00" name="OverTime" /></td>
+                <td><select class="custom-select" id="incidentname--1"></select></td>
+                <td><div class="float-right mr-2"><button class="btn btn-outline-danger" id="sendTimeSheet" onclick="removeRow(-1)" style="border-radius: 100%; width: 35px; height: 35px;" type="button"><i class="fas fa-times ml-0"></i></button></div></td>
+            </tr>
         </tbody>
     </table>
     <div class="float-right">
@@ -113,3 +118,6 @@
 <input type="hidden" id="amount" value="0" />
 
 <script src="../../js/OverzichtHandler.js"></script>
+<script src="~/js/hoursworked.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/moment.js"></script>

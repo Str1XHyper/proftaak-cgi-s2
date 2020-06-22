@@ -6,8 +6,8 @@
                 <td><input onchange="CalcTotalTime(${count})" id="eind-${count}" class="form-control" type="time" name="End" /></td>
                 <td><input id="totaal-${count}" disabled class="form-control" type="time" value="00:00" /></td>
                 <td><input id="overuren-${count}" class="form-control" type="time" value="00:00" name="OverTime" /></td>
-                <td><select id="incidentname-${count}"></select></td>
-                <td><div class="float-right mr-2"><button class="btn btn-outline-danger" id="sendTimeSheet" onclick="removeRow(${count})" style="border-radius: 100%; width: 35px; height: 35px;"><i class="fas fa-times ml-0"></i></button></div></td>
+                <td><select class="custom-select" id="incidentname-${count}"></select></td>
+                <td><div class="float-right mr-2"><button class="btn btn-outline-danger" id="sendTimeSheet" onclick="removeRow(${count})" style="border-radius: 100%; width: 35px; height: 35px;" type="button"><i class="fas fa-times ml-0"></i></button></div></td>
 </tr>`;
     $("#tableBody").append(newRowContent);
     getIncidentIDthingy(count)
@@ -46,8 +46,8 @@ function CalcTotalTime(id) {
     }
 }
 function getIncidentIDthingy(id) {
-    $.get("Controller/Action", function (data) {
-        populateIncidentNameSelect(data, id
+    $.get("../api/incidenten", function (data) {
+        populateIncidentNameSelect(data, id)
     });
 }
 function populateIncidentNameSelect(data, id) {
@@ -61,3 +61,5 @@ function populateIncidentNameSelect(data, id) {
 function removeRow(id) {
     $("#" + id).remove();
 }
+
+window.onload = getIncidentIDthingy(-1);

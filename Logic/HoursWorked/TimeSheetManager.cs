@@ -1,4 +1,5 @@
-﻿using DAL.HoursWorked;
+﻿using DAL.Agenda;
+using DAL.HoursWorked;
 using DAL.Incidenten;
 using Models;
 using Models.HoursWorked;
@@ -16,6 +17,7 @@ namespace Logic.HoursWorked
         public TimeSheetManager()
         {
             timeSheetHandler = new TimeSheetHandler();
+            incidentenHandler = new IncidentenHelper();
         }
         public void AddNewTimeSheet(List<ParsedTimeSheetRow> timeRows, string userID)
         {
@@ -28,23 +30,41 @@ namespace Logic.HoursWorked
                 timeSheetHandler.AddNewTimeSheet(timeRows, userID);
             }
         }
-        public List<string> GetUsersIncidentIDs(string UserID, List<EventModel> eventlist)
+        public string[] GetUsersIncidentIDs(string userID)
         {
+            List<string> ids = new List<string>();
             List<string[]> incidentids = incidentenHandler.GetAllIncidentIDs();
+            List<EventModel> events = new AgendaHandler().GetStandByEvents(new string[] { userID});
             List<string> usersincidentids = new List<string>();
             foreach(string[] row in incidentids)
             {
-                foreach(EventModel model in eventlist)
+                foreach (EventModel Event in events)
                 {
-                    if(model.startDate >= Convert.ToDateTime(row[1]) && model.endDate <= Convert.ToDateTime(row[1]))
-                        usersincidentids.Add(row[0]);
-                    else if(model.startDate >= Convert.ToDateTime(row[2]) && model.endDate <= Convert.ToDateTime(row[2]))
-                        usersincidentids.Add(row[0]);
-                    else if(model.startDate >= Convert.ToDateTime(row[1]) && model.endDate <= Convert.ToDateTime(row[2]))
-                        usersincidentids.Add(row[0]);
+                    if (Convert.ToDateTime(row[1]) >= Event.startDate && Convert.ToDateTime(row[1]) <= Event.endDate) //Start datum zit tussen start en eind van stand-by
+                        AddID(row[0], row[3], ids, usersincidentids);
+                    else if (Convert.ToDateTime(row[2]) >= Event.startDate && Convert.ToDateTime(row[2]) <= Event.endDate) //Eind zit tussen start en eind van stand-by
+                        AddID(row[0], row[3], ids, usersincidentids);
+                    else if (Convert.ToDateTime(row[1]) >= Event.startDate && Convert.ToDateTime(row[2]) <= Event.endDate) //Incident tussen start en eind van stand-by
+                        AddID(row[0], row[3], ids, usersincidentids);
+                    else if (Convert.ToDateTime(row[1]) <= Event.startDate && Convert.ToDateTime(row[2]) >= Event.endDate) //Incident buiten start en eind van stand-by
+                        AddID(row[0], row[3], ids ,usersincidentids);
                 }
             }
-            return usersincidentids;
+            return usersincidentids.ToArray();
+        }
+
+        private void AddID(string id, string name, List<string> ids, List<string> incidenten)
+        {
+            bool duplicate = false;
+            foreach(string iID in ids)
+            {
+                if (iID == id) duplicate = true;
+            }
+            if (!duplicate)
+            {
+                ids.Add(id);
+                incidenten.Add(name);
+            }
         }
     }
 }

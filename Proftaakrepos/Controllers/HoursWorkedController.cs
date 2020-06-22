@@ -177,9 +177,16 @@ namespace Proftaakrepos.Controllers
             for(int i = 0; i < model.Dates.Count; i++)
             {
                 ParsedTimeSheetRow row = new ParsedTimeSheetRow();
-                row.Start = DateTime.Parse(model.Dates[i]).Add(new TimeSpan(Convert.ToInt32(model.Start[i].Split(':')[0]), Convert.ToInt32(model.Start[i].Split(':')[1]), 0));
-                row.Eind = DateTime.Parse(model.Dates[i]).Add(new TimeSpan(Convert.ToInt32(model.End[i].Split(':')[0]), Convert.ToInt32(model.End[i].Split(':')[1]), 0));
-                row.Overuren = new TimeSpan(Convert.ToInt32(model.OverTime[i].Split(':')[0]), Convert.ToInt32(model.OverTime[i].Split(':')[1]), 0);
+                try
+                {
+                    row.Start = DateTime.Parse(model.Dates[i]).Add(new TimeSpan(Convert.ToInt32(model.Start[i].Split(':')[0]), Convert.ToInt32(model.Start[i].Split(':')[1]), 0));
+                    row.Eind = DateTime.Parse(model.Dates[i]).Add(new TimeSpan(Convert.ToInt32(model.End[i].Split(':')[0]), Convert.ToInt32(model.End[i].Split(':')[1]), 0));
+                    row.Overuren = new TimeSpan(Convert.ToInt32(model.OverTime[i].Split(':')[0]), Convert.ToInt32(model.OverTime[i].Split(':')[1]), 0);
+                }
+                catch
+                {
+                    return RedirectToAction("Index");
+                }
                 timeRows.Add(row);
             }
             timeSheetManager.AddNewTimeSheet(timeRows, HttpContext.Session.GetInt32("UserInfo.ID").ToString());

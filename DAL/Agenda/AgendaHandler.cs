@@ -112,5 +112,41 @@ namespace DAL.Agenda
             if (response.Count > 0) return DateTime.Parse(response[0][0]);
             else return DateTime.Now;
         }
+
+        public List<EventModel> GetStandByEvents(string[] uids)
+        {
+            string type = "Stand-by";
+            string sqlQuery = $"Select * from `Rooster` WHERE `UserId` = '{uids[0]}'";
+            if (type != "all")
+            {
+                sqlQuery += $"AND `ThemeColor` = '{type}'";
+            }
+            if (uids.Length > 1)
+            {
+                for (int i = 1; i < uids.Length; i++)
+                {
+                    if (!string.IsNullOrEmpty(uids[i]))
+                    {
+                        sqlQuery += $"OR `UserId` = '{uids[i]}' ";
+                        if (type != "all")
+                        {
+                            sqlQuery += $"AND `ThemeColor` = '{type}'";
+                        }
+                    }
+                }
+            }
+            List<string[]> response = SQLConnection.ExecuteSearchQueryWithArrayReturn(sqlQuery);
+            List<EventModel> eventModels = new List<EventModel>();
+            foreach(string[] Event in response)
+            {
+                EventModel model = new EventModel();
+                model.eventId = Convert.ToInt32(Event[0]);
+                model.userId = Event[1];
+                model.startDate = DateTime.Parse(Event[4]);
+                model.endDate = DateTime.Parse(Event[5]);
+                eventModels.Add(model);
+            }
+            return eventModels;
+        }
     }
 }

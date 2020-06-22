@@ -16,7 +16,7 @@ namespace DAL.Incidenten
         public List<string[]> GetIncidentUpdatesFromDatabase(int incidentId) => SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM `IncidentUpdates` WHERE `IncidentID` = '{incidentId}' ORDER BY `StatusIdIncident` ASC");
         public bool DeleteStatusUpdate(int UpdateID) => SQLConnection.ExecuteNonSearchQuery($"DELETE FROM `IncidentUpdates` WHERE `StatusId` = '{UpdateID}'");
         public bool AddIncident(AddIncidentModel model) => SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Incidenten`(`Omschrijving`, `Naam`) VALUES ('{model.IncidentOmschrijving}', '{model.IncidentNaam}')");
-        public List<string[]> GetAllIncidentIDs() => SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT IncidentID, Start, End  FROM IncidentUpdates");
+        public List<string[]> GetAllIncidentIDs() => SQLConnection.ExecuteSearchQueryWithArrayReturn("SELECT IncidentUpdates.IncidentID, IncidentUpdates.Start, IncidentUpdates.End, Incidenten.Naam  FROM IncidentUpdates INNER JOIN Incidenten ON Incidenten.IncidentID=IncidentUpdates.IncidentID");
 
     }
 }
