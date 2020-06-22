@@ -24,8 +24,8 @@ namespace Proftaakrepos.Controllers
     public class AccountController : Controller
     {
         private readonly ICookieManager _cookieManager;
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public AccountController(ICookieManager cookieManager, IHostingEnvironment _hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public AccountController(ICookieManager cookieManager, IWebHostEnvironment _hostingEnvironment)
         {
             _cookieManager = cookieManager;
             this._hostingEnvironment = _hostingEnvironment;

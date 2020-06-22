@@ -50,20 +50,20 @@ namespace Logic
         {
             switch (Convert.ToInt32(TypeOfAge))
             {
-                case 0: //DIRECT
+                case 0: //Direct
                     SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `Hoeveelheid`='0', `Type`='0' WHERE `UserId`='{userID}'");
                     break;
-                case 1: //DAGEN
+                case 1: //Dagen
                     SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `Hoeveelheid`='{ValueOfNoti}', `Type`='1' WHERE `UserId`='{userID}'");
                     break;
-                case 2: //WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEKEN
+                case 2: //Weken
                     SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `Hoeveelheid`='{ValueOfNoti}', `Type`='2' WHERE `UserId`='{userID}'");
                     break;
-                case 3: //MAANDEN
+                case 3: //Maanden
                     SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `Hoeveelheid`='{ValueOfNoti}', `Type`='3' WHERE `UserId`='{userID}'");
                     break;
-                default: //waduhek
-                    throw new System.ArgumentException("waduhek", "bananaman");
+                default: //Error in TypeOfAge
+                    throw new ArgumentException("TypeOfAge does not have a usable value", "TypeOfAge");
             }
         }
 
