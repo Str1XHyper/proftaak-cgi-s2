@@ -11,8 +11,9 @@ namespace DAL.HoursWorked
         {
             foreach(ParsedTimeSheetRow model in timeRows)
             {
-                SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Timesheet (UserID, StartDatum, EindDatum, OverUren) VALUES ({userID}, '{model.Start.ToString("yyyy-MM-dd hh:mm:ss")}', '{model.Eind.ToString("yyyy-MM-dd hh:mm:ss")}', '{model.Overuren}');");
+                SQLConnection.ExecuteNonSearchQuery($"INSERT INTO Timesheet (UserID, StartDatum, EindDatum, OverUren, Type) VALUES ({userID}, '{model.Start.ToString("yyyy-MM-dd hh:mm:ss")}', '{model.Eind.ToString("yyyy-MM-dd hh:mm:ss")}', '{model.Overuren}', '{model.Type}');");
             }
         }
+
     }
 }

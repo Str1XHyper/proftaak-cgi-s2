@@ -6,13 +6,25 @@
                 <td><input onchange="CalcTotalTime(${count})" id="eind-${count}" class="form-control" type="time" name="End" /></td>
                 <td><input id="totaal-${count}" disabled class="form-control" type="time" value="00:00" /></td>
                 <td><input id="overuren-${count}" class="form-control" type="time" value="00:00" name="OverTime" /></td>
-                <td><select class="custom-select" id="incidentname-${count}"></select></td>
+                <td><label class="switch"><input name="Type" id="incidentswitch-${count}" onchange="UpdateIncidentState(${count})" type="checkbox"><span class="slider round"></span></label><input type="hidden" value="off" name="Type" id="hiddenswitch-${count}" /></td>
+                <td><select class="custom-select" disabled id="incidentname-${count}"></select></td>
                 <td><div class="float-right mr-2"><button class="btn btn-outline-danger" id="sendTimeSheet" onclick="removeRow(${count})" style="border-radius: 100%; width: 35px; height: 35px;" type="button"><i class="fas fa-times ml-0"></i></button></div></td>
 </tr>`;
     $("#tableBody").append(newRowContent);
     getIncidentIDthingy(count)
     var help = parseInt($("#amount").val());
     $("#amount").val(help + 1);
+}
+
+function UpdateIncidentState(id) {
+    if ($("#incidentswitch-" + id).prop("checked")) {
+        $("#incidentname-" + id).prop("disabled", false);
+        $("#hiddenswitch-" + id).prop("disabled", true);
+    }
+    else {
+        $("#incidentname-" + id).prop("disabled", true);
+        $("#hiddenswitch-" + id).prop("disabled", false);
+    }
 }
 
 function CalcTotalTime(id) {
@@ -46,11 +58,13 @@ function CalcTotalTime(id) {
     }
 }
 function getIncidentIDthingy(id) {
+    console.log(id);
     $.get("../api/incidenten", function (data) {
         populateIncidentNameSelect(data, id)
     });
 }
 function populateIncidentNameSelect(data, id) {
+    console.log(data);
     var $el = $("#incidentname-" + id);
     $el.empty();
     $.each(data, function (value, key) {

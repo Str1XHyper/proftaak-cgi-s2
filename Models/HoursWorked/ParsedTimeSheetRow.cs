@@ -9,5 +9,6 @@ namespace Models.HoursWorked
         public DateTime Start { get; set; }
         public DateTime Eind { get; set; }
         public TimeSpan Overuren { get; set; }
+        public string Type { get; set; }
     }
 }
