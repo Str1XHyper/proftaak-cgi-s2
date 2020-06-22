@@ -13,7 +13,6 @@
     </div>
     <input onchange="UpdateTable()" class="form-control pb-1" style="max-width: 200px" type="date" name="date" id="date" />
 </div>
-
 @*Hours worked week view*@
 <div class="card h-75 float-left border-0" style="width: 100%;">
     <table class="table">
@@ -93,21 +92,18 @@
                 <th scope="col" style="width: 150px;">@Proftaakrepos.Resources.lang.Einde</th>
                 <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.TotaleTijd</th>
                 <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Overuren</th>
-                <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.Incidenten</th>
                 <th scope="col" style="width: 100px;">@Proftaakrepos.Resources.lang.IncidentNaam</th>
                 <th scope="col" style="width: 30px;"></th>
             </tr>
         </thead>
         <tbody id="tableBody">
-            <tr id="0">
+            <tr id="-1">
                 <th><input id="datum--1" class="form-control" type="date" name="Dates" /></th>
-                <td><input onchange="CalcTotalTime(-1)" id="start--1" class="form-control" type="time" name="Start" /></td>
-                <td><input onchange="CalcTotalTime(-1)" id="eind--1" class="form-control" type="time" name="End" /></td>
-                <td><input id="totaal--1" disabled class="form-control" type="time" value="00:00" /></td>
-                <td><input id="overuren--1" class="form-control" type="time" value="00:00" name="OverTime" /></td>
-                <td><label class="switch"><input name="Type" id="incidentswitch--1" onchange="UpdateIncidentState(-1)" type="checkbox"><span class="slider round"></span></label><input type="hidden" value="off" name="Type" id="hiddenswitch--1" /></td>
-                <td><select class="custom-select" disabled id="incidentname--1"></select></td>
-                
+                <td><input onchange="CalcTotalTime(-1)" id="start--1" class="form-control" type="text" data-mask="00:00" name="Start" /></td>
+                <td><input onchange="CalcTotalTime(-1)" id="eind--1" class="form-control" type="text" data-mask="00:00" name="End" /></td>
+                <td><input id="totaal--1" disabled class="form-control" type="text" value="00:00" /></td>
+                <td><input id="overuren--1" class="form-control" type="text" data-mask="00:00" value="00:00" name="OverTime" /></td>
+                <td><select class="custom-select" id="incidentname--1"></select></td>
                 <td><div class="float-right mr-2"><button class="btn btn-outline-danger" id="sendTimeSheet" onclick="removeRow(-1)" style="border-radius: 100%; width: 35px; height: 35px;" type="button"><i class="fas fa-times ml-0"></i></button></div></td>
             </tr>
         </tbody>
@@ -124,4 +120,5 @@
 <script src="../../js/OverzichtHandler.js"></script>
 <script src="~/js/hoursworked.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.mask.js"></script>
 <script src="~/js/moment.js"></script>
