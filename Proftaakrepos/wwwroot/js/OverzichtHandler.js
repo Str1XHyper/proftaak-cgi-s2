@@ -2,10 +2,10 @@
     var count = parseInt($("#amount").val());
     var newRowContent = `<tr id="${count}">
 <th><input id="datum-${count}" class="form-control" type="date" name="Dates" /></th>
-                <td><input onchange="CalcTotalTime(${count})" id="start-${count}" class="form-control" type="time" name="Start" /></td>
-                <td><input onchange="CalcTotalTime(${count})" id="eind-${count}" class="form-control" type="time" name="End" /></td>
-                <td><input id="totaal-${count}" disabled class="form-control" type="time" value="00:00" /></td>
-                <td><input id="overuren-${count}" class="form-control" type="time" value="00:00" name="OverTime" /></td>
+                <td><input onchange="CalcTotalTime(${count})" id="start-${count}" class="form-control" type="text" data-mask="00:00" name="Start" /></td>
+                <td><input onchange="CalcTotalTime(${count})" id="eind-${count}" class="form-control" type="text" data-mask="00:00" name="End" /></td>
+                <td><input id="totaal-${count}" disabled class="form-control" type="text" data-mask="00:00" value="00:00" /></td>
+                <td><input id="overuren-${count}" class="form-control" type="text" data-mask="00:00" value="00:00" name="OverTime" /></td>
                 <td><select class="custom-select" id="incidentname-${count}"></select></td>
                 <td><div class="float-right mr-2"><button class="btn btn-outline-danger" id="sendTimeSheet" onclick="removeRow(${count})" style="border-radius: 100%; width: 35px; height: 35px;" type="button"><i class="fas fa-times ml-0"></i></button></div></td>
 </tr>`;
@@ -16,6 +16,7 @@
 }
 
 function CalcTotalTime(id) {
+    console.log($("#eind-" + id).val())
     $("#sendTimeSheet").prop("disabled", false);
     $("#error").html("");
     if ($("#start-" + id).val() != "" && $("#eind-" + id).val() != "") {
