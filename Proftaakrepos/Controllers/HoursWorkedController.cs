@@ -103,7 +103,8 @@ namespace Proftaakrepos.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Overview(int? projectId)
+        
+        /*public IActionResult Overview(int? projectId)
         {
             ViewData["UserInfo"] = HttpContext.Session.GetString("UserInfo");
             if (projectId != null)
@@ -137,7 +138,7 @@ namespace Proftaakrepos.Controllers
             }
 
 
-        }
+        }*/
 
 
     }

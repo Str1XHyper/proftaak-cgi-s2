@@ -19,6 +19,7 @@ function UpdateTable() {
 }
 function calcTotal(data) {
     var total = 0;
+    
     data.forEach(day => {
         total += day;
     });
