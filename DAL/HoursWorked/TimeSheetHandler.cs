@@ -15,18 +15,5 @@ namespace DAL.HoursWorked
             }
         }
 
-        public List<string[]> GetDataFromTimeSheet(string userId)
-        {
-            List<string[]> result =  SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM Timesheet WHERE UserID = {userId}");
-            return result;
-        }
-
-        public List<string[]> GetDataFromTimeSheetByWeek(string userId, int week)
-        {
-            List<string[]> result = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM Timesheet WHERE UserID = {userId} AND ");
-            return result;
-        }
-
-
     }
 }

@@ -49,8 +49,7 @@ namespace Proftaakrepos.Controllers
             string[] loggedUserData = agendaManager.GetLoggedInUserData(var);
             string rol = loggedUserData[0];
             loggedInUserID = loggedUserData[1];
-            List<TimesheetCollection> list = timeSheetManager.GetOverviewTimes(loggedInUserID);
-            return View(list);
+            return View();
         }
         public string UpdateTable(DateTime Date, string filter)
         {
@@ -103,7 +102,6 @@ namespace Proftaakrepos.Controllers
             timeSheetManager.AddNewTimeSheet(timeRows, HttpContext.Session.GetInt32("UserInfo.ID").ToString());
             return RedirectToAction("Index");
         }
-
 
         
         /*public IActionResult Overview(int? projectId)
