@@ -21,7 +21,6 @@ namespace Proftaakrepos.Controllers
     {
         private HoursWorkedModel _overview;
         private readonly TimeSheetManager timeSheetManager;
-        private List<HoursWorkedModel> _overviewCollection = new List<HoursWorkedModel>();
         private readonly AgendaManager agendaManager;
         private readonly EventManager eventmanger;
         private readonly OverviewTableManager tablemanager;
@@ -49,7 +48,8 @@ namespace Proftaakrepos.Controllers
             string[] loggedUserData = agendaManager.GetLoggedInUserData(var);
             string rol = loggedUserData[0];
             loggedInUserID = loggedUserData[1];
-            return View();
+            List<TimesheetCollection> list = timeSheetManager.GetOverviewTimes(loggedInUserID);
+            return View(list);
         }
         public string UpdateTable(DateTime Date, string filter)
         {

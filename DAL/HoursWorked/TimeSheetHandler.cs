@@ -15,5 +15,11 @@ namespace DAL.HoursWorked
             }
         }
 
+        public List<string[]> GetDataFromTimeSheet(string userId)
+        {
+            List<string[]> result = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT * FROM Timesheet WHERE UserID = {userId}");
+            return result;
+        }
+
     }
 }
