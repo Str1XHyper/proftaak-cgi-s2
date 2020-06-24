@@ -73,5 +73,29 @@ namespace Logic.Planner
             }
             return eventList;
         }
+        public List<string[]> GetEventsByWeek(int week) => new DAL.Agenda.EventHandler().GetEventsByWeek(week);
+        public List<EventModel> ConvertStringArrayToEventList(List<string[]> eventData, string userID)
+        {
+            List<EventModel> eventList = new List<EventModel>();
+            foreach (string[] row in eventData)
+            {
+                if (row[1] == userID)
+                {
+                    EventModel newEvent = new EventModel()
+                    {
+                        eventId = Convert.ToInt32(row[0]),
+                        userId = row[1],
+                        title = row[2],
+                        description = row[3],
+                        startDate = Convert.ToDateTime(row[4]),
+                        endDate = Convert.ToDateTime(row[5]),
+                        themeColor = row[6],
+                        isFullDay = Convert.ToInt32(row[7]),
+                    };
+                    eventList.Add(newEvent);
+                }
+            }
+            return eventList;
+        }
     }
 }

@@ -53,6 +53,39 @@ namespace Logic.HoursWorked
             return usersincidentids.ToArray();
         }
 
+        public List<TimesheetCollection> GetOverviewTimes(string userId)
+        {
+            List<string[]> result = timeSheetHandler.GetDataFromTimeSheet(userId);
+            List<TimesheetCollection> collection = new List<TimesheetCollection>();
+            TimesheetCollection sheet;
+            foreach (var row in result)
+            {
+                sheet = new TimesheetCollection()
+                {
+                    Dates = Convert.ToDateTime(row[2]),
+                    Start = GetHoursFromDateString(row[2]),
+                    End = GetHoursFromDateString(row[3]),
+                    OverTime = row[4],
+                    Type = row[5],
+                };
+                collection.Add(sheet);
+            }
+
+            return collection;
+        }
+
+        public string GetHoursFromDateString(string date)
+        {
+            DateTime datetime = DateTime.Parse(date);
+            string hours = datetime.Hour.ToString();
+            string minutes = datetime.Minute.ToString();
+            if (9 >= datetime.Hour && datetime.Hour >= 0)
+                hours = "0" + hours;
+            if (9 >= datetime.Minute && datetime.Minute >= 0)
+                minutes = "0" + minutes;
+            return hours + ":" + minutes;
+        }
+
         private void AddID(string id, string name, List<string> ids, List<string> incidenten)
         {
             bool duplicate = false;
