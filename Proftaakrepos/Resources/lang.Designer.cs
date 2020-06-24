@@ -889,6 +889,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select a date.
+        /// </summary>
+        public static string SelecteerDatum {
+            get {
+                return ResourceManager.GetString("SelecteerDatum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {

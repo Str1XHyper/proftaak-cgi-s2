@@ -14,10 +14,12 @@ namespace Logic.HoursWorked
     {
         private readonly TimeSheetHandler timeSheetHandler;
         private readonly IncidentenHelper incidentenHandler;
+        private readonly OverviewTableManager tablemanager;
         public TimeSheetManager()
         {
             timeSheetHandler = new TimeSheetHandler();
             incidentenHandler = new IncidentenHelper();
+            tablemanager = new OverviewTableManager();
         }
         public void AddNewTimeSheet(List<ParsedTimeSheetRow> timeRows, string userID)
         {
@@ -53,27 +55,40 @@ namespace Logic.HoursWorked
             return usersincidentids.ToArray();
         }
 
-        public List<TimesheetCollection> GetOverviewTimes(string userId)
+        public List<TimesheetCollection> GetOverviewTimes(string userId, DateTime date)
         {
-            List<string[]> result = timeSheetHandler.GetDataFromTimeSheet(userId);
+            int week = tablemanager.GetIso8601WeekOfYear(date);
+            List<string[]> result = timeSheetHandler.GetDataFromTimeSheet(userId, week);
             List<TimesheetCollection> collection = new List<TimesheetCollection>();
             TimesheetCollection sheet;
             foreach (var row in result)
             {
                 sheet = new TimesheetCollection()
                 {
-                    Dates = Convert.ToDateTime(row[2]),
+                    Dates = DateTime.Parse(row[2]).ToString("yyyy-MM-dd"),
                     Start = GetHoursFromDateString(row[2]),
                     End = GetHoursFromDateString(row[3]),
-                    OverTime = row[4],
+                    OverTime = row[4].Substring(0,5),
+                    TotalTime = CalcTotalTime(row[2], row[3]),
                     Type = row[5],
                 };
                 collection.Add(sheet);
             }
-
             return collection;
         }
-
+        public string CalcTotalTime(string startstring, string endstring)
+        {
+            DateTime start = DateTime.Parse(startstring);
+            DateTime end = DateTime.Parse(endstring);
+            TimeSpan total = end - start;
+            string hours = total.Hours.ToString();
+            string minutes = total.Minutes.ToString();
+            if (9 >= total.Hours && total.Hours >= 0)
+                hours = "0" + hours;
+            if (9 >= total.Minutes && total.Minutes >= 0)
+                minutes = "0" + minutes;
+            return hours + ":" + minutes;
+        }
         public string GetHoursFromDateString(string date)
         {
             DateTime datetime = DateTime.Parse(date);
