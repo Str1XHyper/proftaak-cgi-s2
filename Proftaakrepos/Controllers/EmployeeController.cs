@@ -56,8 +56,13 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
-            LoginManager loginManager = new LoginManager();
             EmployeeInfoManager employeeManager = new EmployeeInfoManager();
+            if (employeeManager.IsDistinctEmail(addEmployeeModel.eMail))
+            {
+                ViewData["result"] = "Email is niet uniek!";
+                return View(addEmployeeModel);
+            }
+            LoginManager loginManager = new LoginManager();
             string authToken = GenerateAuthToken.GetUniqueKey(10);
             string newEmail = addEmployeeModel.eMail.ToLower();
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{newEmail}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");

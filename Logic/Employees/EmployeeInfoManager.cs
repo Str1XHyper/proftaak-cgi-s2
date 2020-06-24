@@ -39,6 +39,7 @@ namespace Logic.Employees
         }
 
         public int IDFromMail(string mail) => employeeHandler.UserIDFromMail(mail);
-    
+
+        public bool IsDistinctEmail(string eMail) => employeeHandler.UniqueEmail(eMail);
     }
 }

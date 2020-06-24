@@ -59,5 +59,14 @@ namespace DAL.Employees
             if (userIDs.Count > 0) return Convert.ToInt32(userIDs[0]);
             else return 0;
         }
+        public bool UniqueEmail(string email)
+        {
+            List<string[]> response = SQLConnection.ExecuteSearchQueryWithArrayReturn($"SELECT Email FROM Werknemers WHERE Email='{email}'");
+            if (response.Count > 0)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
