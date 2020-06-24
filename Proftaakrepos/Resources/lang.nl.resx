@@ -581,4 +581,7 @@
   <data name="Ziek" xml:space="preserve">
     <value>Ziek</value>
   </data>
+  <data name="SelecteerDatum" xml:space="preserve">
+    <value>Selecteer een datum</value>
+  </data>
 </root>

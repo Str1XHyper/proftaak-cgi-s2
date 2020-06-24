@@ -46,10 +46,14 @@ namespace Proftaakrepos.Controllers
         {
             string var = HttpContext.Session.GetString("UserInfo");
             string[] loggedUserData = agendaManager.GetLoggedInUserData(var);
-            string rol = loggedUserData[0];
             loggedInUserID = loggedUserData[1];
-            List<TimesheetCollection> list = timeSheetManager.GetOverviewTimes(loggedInUserID);
+            List<TimesheetCollection> list = timeSheetManager.GetOverviewTimes(loggedInUserID, DateTime.Now);
             return View(list);
+        }
+        public string UpdateRows(DateTime date)
+        {
+            List<TimesheetCollection> list = timeSheetManager.GetOverviewTimes(loggedInUserID, date);
+            return JsonConvert.SerializeObject(list);
         }
         public string UpdateTable(DateTime Date, string filter)
         {

@@ -74,20 +74,23 @@ namespace Logic
             data.Add(notificatieHandler.GetAgeOfNotification(userID, "ReceiveSMS"));
             data.Add(notificatieHandler.GetAgeOfNotification(userID, "ReceiveWhatsApp"));
             SetDate(data, userID, eventID);
-
         }
 
         public void SetDate(List<int[]> data, string userID, string eventID)
         {
+            for (int i = 0; i < data.Count; i++)
+            {
+                if (!(data[i].Length > 0)) return;
+            }
             DateTime datum = DateTime.Now;
             DateTime eventDate = agendaHandler.GetEventDate(eventID);
             bool isntDirect = true;
-            for (int i = 0; i<data.Count;i++)
+            for (int i = 0; i < data.Count; i++)
             {
                 switch (data[i][1])
                 {
                     case 0:
-                        notificatieHandler.VerstuurAfspraakNotificatie(userID, eventID, i+1);
+                        notificatieHandler.VerstuurAfspraakNotificatie(userID, eventID, i + 1);
                         isntDirect = false;
                         break;
                     case 1:
@@ -121,9 +124,9 @@ namespace Logic
         {
             string vandaag = DateTime.Now.ToString("yyyy-MM-dd");
             List<string[]> todo = notificatieHandler.TeVersturenNotificaties(vandaag);
-            if(todo.Count > 0)
+            if (todo.Count > 0)
             {
-                foreach(string[] array in todo)
+                foreach (string[] array in todo)
                 {
                     List<string> eventGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Start, End, IsFullDay, Subject, ThemeColor, Description FROM Rooster WHERE EventId='{array[2]}'");
                     List<string> werknemersGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Voornaam, Email, Telefoonnummer FROM Werknemers WHERE UserId='{array[1]}'");
