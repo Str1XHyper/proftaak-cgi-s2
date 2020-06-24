@@ -584,4 +584,7 @@
   <data name="SelecteerDatum" xml:space="preserve">
     <value>Selecteer een datum</value>
   </data>
+  <data name="DubbeleEmail" xml:space="preserve">
+    <value>E-mail is niet uniek!</value>
+  </data>
 </root>

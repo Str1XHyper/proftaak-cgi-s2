@@ -583,9 +583,12 @@
     <value>Start</value>
   </data>
   <data name="Ziek" xml:space="preserve">
-    <value>Ziek</value>
+    <value>Sick</value>
   </data>
   <data name="SelecteerDatum" xml:space="preserve">
     <value>Please select a date</value>
+  </data>
+  <data name="DubbeleEmail" xml:space="preserve">
+    <value>E-mail is not unique!</value>
   </data>
 </root>

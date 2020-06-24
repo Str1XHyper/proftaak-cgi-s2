@@ -304,6 +304,15 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to E-mail is not unique!.
+        /// </summary>
+        public static string DubbeleEmail {
+            get {
+                return ResourceManager.GetString("DubbeleEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End date and time.
         /// </summary>
         public static string EindDatumEnTijd {
@@ -1447,7 +1456,7 @@ namespace Proftaakrepos.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ziek.
+        ///   Looks up a localized string similar to Sick.
         /// </summary>
         public static string Ziek {
             get {

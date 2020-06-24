@@ -156,6 +156,9 @@
   <data name="Dagen" xml:space="preserve">
     <value>Days</value>
   </data>
+  <data name="DubbeleEmail" xml:space="preserve">
+    <value>Ewail not uniwue</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Ewail</value>
   </data>

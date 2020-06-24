@@ -19,6 +19,7 @@ namespace Proftaakrepos.Controllers
 {
     public class EmployeeController : Controller
     {
+        EmployeeInfoManager employeeInfoManager = new EmployeeInfoManager();
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             TempData["Cookie"] = HttpContext.Session.GetString("UserInfo");
@@ -56,17 +57,16 @@ namespace Proftaakrepos.Controllers
         [HttpPost]
         public IActionResult AddEmployee(AddEmployee addEmployeeModel)
         {
-            EmployeeInfoManager employeeManager = new EmployeeInfoManager();
-            if (employeeManager.IsDistinctEmail(addEmployeeModel.eMail))
+            if (!employeeInfoManager.IsDistinctEmail(addEmployeeModel.eMail))
             {
-                ViewData["result"] = "Email is niet uniek!";
+                ViewData["result"] = Proftaakrepos.Resources.lang.DubbeleEmail;
                 return View(addEmployeeModel);
             }
             LoginManager loginManager = new LoginManager();
             string authToken = GenerateAuthToken.GetUniqueKey(10);
             string newEmail = addEmployeeModel.eMail.ToLower();
             SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Werknemers`(`Voornaam`, `Tussenvoegsel`, `Achternaam`, `Email`, `Telefoonnummer`, `Straatnaam`, `Huisnummer`, `Postcode`, `Woonplaats`, `AuthCode`, `Rol`) VALUES ('{addEmployeeModel.naam}','{addEmployeeModel.tussenvoegsel}','{addEmployeeModel.achternaam}','{newEmail}','{addEmployeeModel.phoneNumber}','{addEmployeeModel.straatnaam}','{addEmployeeModel.huisNummer}','{addEmployeeModel.postcode}','{addEmployeeModel.woonplaats}','{authToken}','{addEmployeeModel.role}')");
-            loginManager.CreateNewLogin(addEmployeeModel.naam, employeeManager.SetSettingsAndReturnUserID(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting, addEmployeeModel.whatsappSetting).ToString(), addEmployeeModel.eMail);
+            loginManager.CreateNewLogin(addEmployeeModel.naam, employeeInfoManager.SetSettingsAndReturnUserID(addEmployeeModel.eMail, addEmployeeModel.emailsetting, addEmployeeModel.smssetting, addEmployeeModel.whatsappSetting).ToString(), addEmployeeModel.eMail);
             ViewData["result"] = "Werknemer " + addEmployeeModel.naam + " toegevoegd!";
             return View(addEmployeeModel);
         }
@@ -77,6 +77,11 @@ namespace Proftaakrepos.Controllers
         {
             if(addEmployeeModel.naam != null)
             {
+                if (!employeeInfoManager.IsDistinctEmail(addEmployeeModel.eMail))
+                {
+                    TempData["msg"] = Proftaakrepos.Resources.lang.DubbeleEmail;
+                    return RedirectToAction("GetEmployeeInfo");
+                }
                 string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{oldEmail.ToLower()}'")[0];
                 SQLConnection.ExecuteNonSearchQuery($"UPDATE `Werknemers` SET `Voornaam`='{addEmployeeModel.naam}',`Tussenvoegsel`='{addEmployeeModel.tussenvoegsel}',`Achternaam`='{addEmployeeModel.achternaam}',`Email`='{addEmployeeModel.eMail.ToLower()}',`Telefoonnummer`='{addEmployeeModel.phoneNumber}',`Straatnaam`='{addEmployeeModel.straatnaam}',`Huisnummer`='{addEmployeeModel.huisNummer}',`Postcode`='{addEmployeeModel.postcode}',`Woonplaats`='{addEmployeeModel.woonplaats}',`Rol`='{addEmployeeModel.role}' WHERE `UserId` = {userID}");
                 SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `ReceiveMail`='{(Convert.ToBoolean(addEmployeeModel.emailsetting) ? 1 : 0)}',`ReceiveSMS`='{(Convert.ToBoolean(addEmployeeModel.smssetting) ? 1 : 0)}',`ReceiveWhatsApp`='{(Convert.ToBoolean(addEmployeeModel.whatsappSetting) ? 1 : 0)}' WHERE `UserId` = {userID}");
