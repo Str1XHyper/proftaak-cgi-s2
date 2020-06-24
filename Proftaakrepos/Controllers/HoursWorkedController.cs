@@ -9,6 +9,7 @@ using Models;
 using Models.HoursWorked;
 using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Cms;
+using Proftaakrepos.Authorize;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,6 +18,7 @@ using System.Threading;
 
 namespace Proftaakrepos.Controllers
 {
+    [UserAccess("LoggedIn", "")]
     public class HoursWorkedController : Controller
     {
         private HoursWorkedModel _overview;
