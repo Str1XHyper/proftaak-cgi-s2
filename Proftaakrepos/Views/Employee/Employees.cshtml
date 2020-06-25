@@ -20,6 +20,7 @@
     {
         EmployeeInfoManager employeesManager = new EmployeeInfoManager();
         employeeSettings = employeesManager.GetEmployeeNotificationsSettings(EmployeeInfo[0]);
+        if (employeeSettings.Length == 0) employeeSettings = new string[6];
     }
     else
     {
@@ -245,6 +246,12 @@
                                     <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
                                     <option value="3" selected>@Proftaakrepos.Resources.lang.Maanden</option>
                                     break;
+                                default:
+                                    <option value="0" selected>@Proftaakrepos.Resources.lang.Direct</option>
+                                    <option value="1">@Proftaakrepos.Resources.lang.Dagen</option>
+                                    <option value="2">@Proftaakrepos.Resources.lang.Weken</option>
+                                    <option value="3">@Proftaakrepos.Resources.lang.Maanden</option>
+                                    break;
                             }
                         }
                     </select>
@@ -269,17 +276,17 @@
 
 <script>
     function execForm() {
-        document.getElementById("getEmployee").submit();
-    }
+                                document.getElementById("getEmployee").submit();
+                            }
 </script>
 
 <script>
     function OnChange() {
-        if ($("#ageSelect").val() == 0) {
+                                if ($("#ageSelect").val() == 0) {
             $("#inputValue").hide()
-        } else {
+                                } else {
             $("#inputValue").show()
         }
-    }
-    OnChange()
+                            }
+                            OnChange()
 </script>

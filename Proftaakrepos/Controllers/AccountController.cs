@@ -1,23 +1,20 @@
 ﻿using CookieManager;
+using DAL;
+using Logic;
 using Logic.Authentication.Login;
 using Logic.Employees;
 using Logic.Reset;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
-using Models.Authentication;
 using Proftaakrepos.Authorize;
 using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using DAL;
-using Logic;
-using System.Threading;
 using System.Globalization;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Proftaakrepos.Controllers
 {

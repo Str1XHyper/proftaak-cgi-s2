@@ -27,7 +27,7 @@ namespace DAL.Employees
         {
             List<string> userIDlist = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{email}'");
             int userID = Convert.ToInt32(userIDlist[0]);
-            SQLConnection.ExecuteNonSearchQuery($"UPDATE `Settings` SET `ReceiveMail`='{emailSetting}',`ReceiveSMS`='{smssSetting}',`ReceiveWhatsApp`='{whatsAppSetting}' WHERE `UserId` = {userID}");
+            SQLConnection.ExecuteNonSearchQuery($"INSERT INTO `Settings` (ReceiveMail, ReceiveSMS, ReceiveWhatsApp, UserID) VALUES('{emailSetting}', '{smssSetting}', '{whatsAppSetting}', {userID}) " );
             return userID;
         }
         
