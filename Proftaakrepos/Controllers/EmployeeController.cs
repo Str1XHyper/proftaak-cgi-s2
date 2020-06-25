@@ -75,10 +75,13 @@ namespace Proftaakrepos.Controllers
         {
             if(addEmployeeModel.naam != null)
             {
-                if (!employeeInfoManager.IsDistinctEmail(addEmployeeModel.eMail))
+                if(addEmployeeModel.eMail != oldEmail)
                 {
-                    TempData["msg"] = Proftaakrepos.Resources.lang.DubbeleEmail;
-                    return RedirectToAction("GetEmployeeInfo");
+                    if (!employeeInfoManager.IsDistinctEmail(addEmployeeModel.eMail))
+                    {
+                        TempData["msg"] = Proftaakrepos.Resources.lang.DubbeleEmail;
+                        return RedirectToAction("GetEmployeeInfo");
+                    }
                 }
                 string userID = SQLConnection.ExecuteSearchQuery($"SELECT `UserId` FROM `Werknemers` WHERE `Email` = '{oldEmail.ToLower()}'")[0];
                 SQLConnection.ExecuteNonSearchQuery($"UPDATE `Werknemers` SET `Voornaam`='{addEmployeeModel.naam}',`Tussenvoegsel`='{addEmployeeModel.tussenvoegsel}',`Achternaam`='{addEmployeeModel.achternaam}',`Email`='{addEmployeeModel.eMail.ToLower()}',`Telefoonnummer`='{addEmployeeModel.phoneNumber}',`Straatnaam`='{addEmployeeModel.straatnaam}',`Huisnummer`='{addEmployeeModel.huisNummer}',`Postcode`='{addEmployeeModel.postcode}',`Woonplaats`='{addEmployeeModel.woonplaats}',`Rol`='{addEmployeeModel.role}' WHERE `UserId` = {userID}");
