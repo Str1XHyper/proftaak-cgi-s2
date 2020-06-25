@@ -108,6 +108,7 @@ namespace Logic
                 }
                 if (isntDirect) notificatieHandler.PlanAfspraakNotificatie(userID, eventID, datum, i + 1);
             }
+                if (!isntDirect) SendNotificationsDirect(userID, eventID);
         }
 
 
@@ -139,11 +140,11 @@ namespace Logic
                         case 2:
                             //Send SMS
 
-                            Twilio.SendSMS($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+" + werknemersGegevens[2]);
+                            Twilio.SendSMS($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+31648539715");
                             break;
                         case 3:
                             //Send Whatsapp
-                            Twilio.SendWhatsapp($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+" + werknemersGegevens[2]);
+                            Twilio.SendWhatsapp($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+31648539715");
                             break;
                         default:
                             break;
@@ -151,6 +152,23 @@ namespace Logic
                     notificatieHandler.DeleteTask(array[3]);
                 }
             }
+        }
+
+
+        public void SendNotificationsDirect(string userID, string eventID)
+        {
+            List<string> eventGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Start, End, IsFullDay, Subject, ThemeColor, Description FROM Rooster WHERE EventId='{eventID}'");
+            List<string> werknemersGegevens = SQLConnection.ExecuteSearchQuery($"SELECT Voornaam, Email, Telefoonnummer FROM Werknemers WHERE UserId='{userID}'");
+            List<string> userSettings = SQLConnection.ExecuteSearchQuery($"SELECT ReceiveMail, ReceiveSMS, ReceiveWhatsApp FROM Settings WHERE UserId='{userID}'");
+            //Send Mail
+            if (userSettings[0] == "True")
+                notificatieHandler.VerstuurAfspraakNotificatie(userID, eventID, 0);
+            //Send SMS
+            if (userSettings[1] == "True")
+                Twilio.SendSMS($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+31612549032");
+            //Send Whatsapp
+            if (userSettings[2] == "True")
+                Twilio.SendWhatsapp($"Subject: {eventGegevens[3]}\nDescription: {eventGegevens[5]}", "+31612549032");
         }
     }
 }
